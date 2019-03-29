@@ -7,3 +7,21 @@
 //
 
 import Foundation
+import Moya
+
+@objc public class RequestCanceller: NSObject {
+    var cancellable: Cancellable
+
+    public init(cancellable: Cancellable) {
+        self.cancellable = cancellable
+        super.init()
+    }
+
+    @objc public func cancel() {
+        cancellable.cancel()
+    }
+
+    @objc public var isCancelled: Bool {
+        return cancellable.isCancelled
+    }
+}

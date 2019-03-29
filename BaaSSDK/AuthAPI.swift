@@ -9,48 +9,51 @@
 import Foundation
 import Moya
 
-let AuthProvider = MoyaProvider<AuthAPIManager>()
+let AuthProvider = MoyaProvider<AuthAPI>()
 
-enum AuthAPIManager {
-    case register([String:Any])
-    case login([String:Any])
+enum AuthAPI {
+    case register(AuthType, [String: Any])
+    case login(AuthType, [String: Any])
+    case logout
 }
 
-extension AuthAPIManager: TargetType {
+extension AuthAPI: TargetType {
     var baseURL: URL {
-        return URL(string: "https://viac2-p.eng-vm.can.corp.ifanr.com")!
+        return URL(string: Config.baseURL)!
     }
-    
+
     var path: String {
         switch self {
-        case .register(_):
-            return "/hserve/v2.0/register/"
-        case .login(_):
-            return "/hserve/v2.0/login/"
+        case .register(let authType, _):
+            return Config.Auth.register(authType: authType)
+        case .login(let authType, _):
+            return Config.Auth.login(authType: authType)
+        case .logout:
+            return Config.Auth.logout
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
-        case .register(_), .login(_):
+        case .register, .login, .logout:
             return .post
         }
     }
-    
+
     var sampleData: Data {
         return "{}".data(using: String.Encoding.utf8)!
     }
-    
+
     var task: Task {
         switch self {
-        case .register(let parameters):
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.httpBody)
-        case .login(let parameters):
-            return .requestParameters(parameters: parameters, encoding: URLEncoding.httpBody)
+        case .register(_, let parameters), .login(_, let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .logout:
+            return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
         }
     }
-    
-    var headers: [String : String]? {
-        return ["Content-Type":"application/json", "X-Hydrogen-Client-ID":"f86c122f10f45d1152a1", "X-Hydrogen-Client-SDK-Type":"ios", "X-Hydrogen-Client-Version": "1.0.0"]
+
+    var headers: [String: String]? {
+        return Config.HTTPHeaders
     }
 }

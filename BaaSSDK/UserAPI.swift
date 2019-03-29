@@ -7,3 +7,68 @@
 //
 
 import Foundation
+import Moya
+
+let UserProvider = MoyaProvider<UserAPI>()
+
+enum UserAPI {
+    case getUserInfo(userId: Int)
+    case updateAccount(parameters: [String: Any])
+    case updateUserInfo(parameters: [String: Any])
+    case resetPassword(parameters: [String: Any])
+    case requestEmailVerify
+    case getUserList(parameters: [String: Any])
+}
+
+extension UserAPI: TargetType {
+    var baseURL: URL {
+        return URL(string: Config.baseURL)!
+    }
+
+    var path: String {
+        switch self {
+        case .getUserInfo(let userId):
+            return Config.User.getUserInfo(userId: userId)
+        case .updateAccount:
+            return Config.User.updateAccount
+        case .updateUserInfo:
+            return Config.User.updateUserInfo
+        case .resetPassword:
+            return Config.User.resetPassword
+        case .requestEmailVerify:
+            return Config.User.requestEmailVerify
+        case .getUserList:
+            return Config.User.getUserList
+        }
+    }
+
+    var method: Moya.Method {
+        switch self {
+        case .getUserInfo, .getUserList:
+            return .get
+        case .resetPassword, .requestEmailVerify:
+            return .post
+        case .updateAccount, .updateUserInfo:
+            return .put
+        }
+    }
+
+    var sampleData: Data {
+        return "{}".data(using: String.Encoding.utf8)!
+    }
+
+    var task: Task {
+        switch self {
+        case .getUserInfo, .requestEmailVerify:
+            return .requestPlain
+        case .updateAccount(let parameters), .resetPassword(let parameters), .updateUserInfo(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getUserList(let parameters):
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
+        }
+    }
+
+    var headers: [String: String]? {
+        return Config.HTTPHeaders
+    }
+}

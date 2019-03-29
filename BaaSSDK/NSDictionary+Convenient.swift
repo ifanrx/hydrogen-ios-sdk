@@ -171,4 +171,27 @@ public extension Dictionary where Key == String {
         }
         return []
     }
+
+    /// Merges the dictionary with dictionaries passed. The latter dictionaries will override
+    /// values of the keys that are already set
+    ///
+    /// :param dictionaries A comma seperated list of dictionaries
+    public mutating func merge<K, V>(_ dictionaries: Dictionary<K, V>...) {
+        for dict in dictionaries {
+            for (key, value) in dict {
+                if let v = value as? Value, let k = key as? Key {
+                    self.updateValue(v, forKey: k)
+                }
+            }
+        }
+    }
+
+    public var toJsonString: String {
+        if let jsonData = try? JSONSerialization.data(withJSONObject: self, options: .prettyPrinted) {
+            if let jsonString = String(data: jsonData, encoding: .utf8) {
+                return jsonString
+            }
+        }
+        return "{}"
+    }
 }

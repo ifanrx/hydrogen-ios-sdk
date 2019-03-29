@@ -7,3 +7,10 @@
 //
 
 import Foundation
+
+@objc open class ContentCategory: BaseQuery {
+    @objc open var categoryId: String!
+    @objc open var name: String!
+    @objc open var haveChildren: Bool = false
+    @objc open var children: [ContentCategory]!
+}

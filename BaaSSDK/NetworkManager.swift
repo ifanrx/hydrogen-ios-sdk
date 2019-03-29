@@ -7,3 +7,8 @@
 //
 
 import Foundation
+import Moya
+
+class NetworkManager {
+
+}

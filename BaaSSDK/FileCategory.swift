@@ -7,3 +7,11 @@
 //
 
 import Foundation
+import Moya
+import Result
+
+open class FileCategory {
+    open var categoryId: String!
+    open var name: String!
+    open var files: Int!
+}
