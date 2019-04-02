@@ -8,34 +8,31 @@
 
 import Foundation
 
-public class BaseRecord: NSObject, RecordClearer {
+@objc(BAASRecord)
+open class BaseRecord: NSObject, RecordClearer {
 
-    var recordId: String?
+    @objc var recordId: String?
 
-    var record: [String: Any] = [:]
+    @objc var record: [String: Any] = [:]
 
-    public init(recordId: String?) {
+    @objc public init(recordId: String?) {
         self.recordId = recordId
         super.init()
     }
 
-    public func set(key: String, value: Any) {
-        record["$set"] = [key: value]
+    @objc public func set(key: String, value: Any) {
+        record[key] = value
     }
 
-    public func cancelSet() {
-
-    }
-
-    public func set(record: [String: Any]) {
+    @objc public func set(record: [String: Any]) {
         self.record["$set"] = record
     }
 
-    public func unset(key: String) {
+    @objc public func unset(key: String) {
         record["$unset"] = [key: ""]
     }
 
-    public func unset(keys: [String]) {
+    @objc public func unset(keys: [String]) {
         var keyDict: [String: Any] = [:]
         for key in keys {
             keyDict[key] = ""
@@ -43,23 +40,23 @@ public class BaseRecord: NSObject, RecordClearer {
         record["$unset"] = keyDict
     }
 
-    public func incrementBy(key: String, value: NSNumber) {
+    @objc public func incrementBy(key: String, value: NSNumber) {
         record[key] = ["$incr_by": value]
     }
 
-    public func append(key: String, value: [Any]) {
+    @objc public func append(key: String, value: [Any]) {
         record[key] = ["$append": value]
     }
 
-    public func uAppend(key: String, value: [Any]) {
+    @objc public func uAppend(key: String, value: [Any]) {
         record[key] = ["$append_unique": value]
     }
 
-    public func remove(key: String, value: [Any]) {
+    @objc public func remove(key: String, value: [Any]) {
         record[key] = ["$remove": value]
     }
 
-    public func updateObject(key: String, value: [String: Any]) {
+    @objc public func updateObject(key: String, value: [String: Any]) {
         record[key] = ["$update": value]
     }
 

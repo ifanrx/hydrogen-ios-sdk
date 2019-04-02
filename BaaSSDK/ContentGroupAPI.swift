@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 
-let CcontentGroupProvider = MoyaProvider<ContentGroupAPI>()
+let ContentGroupProvider = MoyaProvider<ContentGroupAPI>()
 
 enum ContentGroupAPI {
     case conentDetail(id: String)

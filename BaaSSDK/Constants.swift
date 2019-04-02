@@ -8,6 +8,16 @@
 
 import Foundation
 
+@objc(BAASOperator)
+public enum Operator: Int {
+    case equalTo = 0
+    case notEqualTo = 1
+    case greaterThan
+    case greaterThanOrEqualTo
+    case lessThan
+    case lessThanOrEqualTo
+}
+
 public typealias BOOLResultCompletion = (_ success: Bool, _ error: Error?) -> Void
 public typealias COUNTResultCompletion = (_ count: Int?, _ error: Error?) -> Void
 public typealias OBJECTResultCompletion = (_ object: NSDictionary?, _ error: Error?) -> Void

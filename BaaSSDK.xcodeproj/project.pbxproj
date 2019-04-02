@@ -38,8 +38,7 @@
 		4C8312262249B3FF00B4B33E /* BaaSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312252249B3FF00B4B33E /* BaaSAPI.swift */; };
 		4CBD3C7B224C5D0100F0E0F2 /* ResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */; };
 		4CE2BCF922422A960008211C /* NSDictionary+Convenient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */; };
-		4CEEBC0A224CC94C007511E0 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC09224CC94C007511E0 /* Filter.swift */; };
-		4CEEBC0C224CD087007511E0 /* FileTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileTable.swift */; };
+		4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileManager.swift */; };
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
 		4CEEBC10224DB1EC007511E0 /* RequestCanceller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0F224DB1EC007511E0 /* RequestCanceller.swift */; };
 		4CF1BACC224B81720000CF54 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1BACB224B81720000CF54 /* Content.swift */; };
@@ -92,8 +91,7 @@
 		4C8312252249B3FF00B4B33E /* BaaSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaaSAPI.swift; sourceTree = "<group>"; };
 		4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultHandler.swift; sourceTree = "<group>"; };
 		4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+Convenient.swift"; sourceTree = "<group>"; };
-		4CEEBC09224CC94C007511E0 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
-		4CEEBC0B224CD087007511E0 /* FileTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTable.swift; sourceTree = "<group>"; };
+		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
 		4CEEBC0F224DB1EC007511E0 /* RequestCanceller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCanceller.swift; sourceTree = "<group>"; };
 		4CF1BACB224B81720000CF54 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -241,7 +239,6 @@
 				4C33A5EF2240E77A0001C1A7 /* BaseQuery.swift */,
 				4C33A5F12240E7A40001C1A7 /* Query.swift */,
 				4C33A5F32240E8A30001C1A7 /* BaseRecord.swift */,
-				4CEEBC09224CC94C007511E0 /* Filter.swift */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -278,7 +275,7 @@
 		4C33A5FF224135EA0001C1A7 /* File */ = {
 			isa = PBXGroup;
 			children = (
-				4CEEBC0B224CD087007511E0 /* FileTable.swift */,
+				4CEEBC0B224CD087007511E0 /* FileManager.swift */,
 				4C8312162245D70100B4B33E /* File.swift */,
 				4C8312222248EB2900B4B33E /* FileCategory.swift */,
 			);
@@ -559,12 +556,11 @@
 				4C33A5E4223FA9BE0001C1A7 /* HError.swift in Sources */,
 				4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */,
 				4C8312262249B3FF00B4B33E /* BaaSAPI.swift in Sources */,
-				4CEEBC0A224CC94C007511E0 /* Filter.swift in Sources */,
 				4C33A5F02240E77A0001C1A7 /* BaseQuery.swift in Sources */,
 				4C83121F2245E1C500B4B33E /* ContentGroupAPI.swift in Sources */,
 				4C33A5E2223FA8B10001C1A7 /* Constants.swift in Sources */,
 				4C33A5F42240E8A30001C1A7 /* BaseRecord.swift in Sources */,
-				4CEEBC0C224CD087007511E0 /* FileTable.swift in Sources */,
+				4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */,
 				4CE2BCF922422A960008211C /* NSDictionary+Convenient.swift in Sources */,
 				4C83121C2245E0FC00B4B33E /* ContentGroup.swift in Sources */,
 				4CEEBC10224DB1EC007511E0 /* RequestCanceller.swift in Sources */,

@@ -9,8 +9,8 @@
 import Foundation
 
 @objc open class ContentCategory: BaseQuery {
-    @objc open var categoryId: String!
-    @objc open var name: String!
-    @objc open var haveChildren: Bool = false
-    @objc open var children: [ContentCategory]!
+    @objc public var categoryId: String!
+    @objc public var name: String!
+    @objc public var haveChildren: Bool = false
+    @objc public var children: [ContentCategory]!
 }

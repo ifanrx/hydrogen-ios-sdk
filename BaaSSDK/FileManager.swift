@@ -8,12 +8,19 @@
 
 import Foundation
 
-public class FileTable: BaseQuery {
+@objc(BAASFileManager)
+open class FileManager: BaseQuery {
 
     // MARK: File
 
-    public func get(fileId: String, completion:@escaping FileResultCompletion) {
-        FileProvider.request(.getFile(fileId: fileId)) { result in
+   @objc open func get(fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = FileProvider.request(.getFile(fileId: fileId)) { result in
             let (fileInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
                 completion(nil, error)
@@ -22,10 +29,16 @@ public class FileTable: BaseQuery {
                 completion(file, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    public func find(_ completion:@escaping FilesResultCompletion) {
-        FileProvider.request(.findFiles(parameters: queryArgs)) { [weak self] result in
+    @objc open func find(_ completion:@escaping FilesResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = FileProvider.request(.findFiles(parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (filesInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -35,11 +48,17 @@ public class FileTable: BaseQuery {
                 completion(files, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    public func delete(fileIds: [String], completion:@escaping BOOLResultCompletion) {
+    @objc open func delete(fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         queryArgs["id__in"] = fileIds
-        FileProvider.request(.deleteFiles(parameters: queryArgs)) { [weak self] result in
+        let request = FileProvider.request(.deleteFiles(parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -48,10 +67,16 @@ public class FileTable: BaseQuery {
                 completion(true, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    public func upload(filename: String, localPath: String, categoryName: String, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) {
-        FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName])) { result in
+    @objc open func upload(filename: String, localPath: String, categoryName: String, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName])) { result in
             let (fileInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
                 completion(nil, error)
@@ -79,10 +104,16 @@ public class FileTable: BaseQuery {
                 })
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    public func findCategoryList(_ completion:@escaping FileCategorysResultCompletion) {
-        FileProvider.request(.findCategories(parameters: queryArgs)) { [weak self] result in
+    @objc open func getCategoryList(_ completion:@escaping FileCategorysResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = FileProvider.request(.findCategories(parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (categorysInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -92,12 +123,18 @@ public class FileTable: BaseQuery {
                 completion(categorys, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
     // MARK: FileCategory
 
-    public func getCategory(Id: String, completion:@escaping FileCategoryResultCompletion) {
-        FileProvider.request(.getCategory(categoryId: Id)) { result in
+    @objc open func getCategory(Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = FileProvider.request(.getCategory(categoryId: Id)) { result in
             let (categoryInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
                 completion(nil, error)
@@ -106,11 +143,17 @@ public class FileTable: BaseQuery {
                 completion(category, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    public func getFileList(categoryId: String, completion:@escaping FilesResultCompletion) {
+    @objc open func getFileList(categoryId: String, completion:@escaping FilesResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
         queryArgs["category_id"] = categoryId
-        FileProvider.request(.findFilesInCategory(parameters: queryArgs)) { [weak self] result in
+        let request = FileProvider.request(.findFilesInCategory(parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (filesInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -120,5 +163,6 @@ public class FileTable: BaseQuery {
                 completion(files, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 }

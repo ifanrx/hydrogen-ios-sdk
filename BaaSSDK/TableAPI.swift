@@ -61,10 +61,10 @@ extension TableAPI: TargetType {
         case .get(_, _, let parameters), .find(_, let parameters), .delete(tableId: _, let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         case .createRecords(_, let records):
-            if let jsonDate = try? JSONSerialization.data(withJSONObject: records, options: .sortedKeys) {
+            if let jsonDate = try? JSONSerialization.data(withJSONObject: records, options: .prettyPrinted) {
                 return .requestData(jsonDate)
             }
-            // TODO: 抛出异常时如何处理？
+            // TODO: 抛出异常
             return .requestPlain
         case .update(_, let urlParameters, let bodyParametes):
             return .requestCompositeParameters(bodyParameters: bodyParametes, bodyEncoding: JSONEncoding.default, urlParameters: urlParameters)

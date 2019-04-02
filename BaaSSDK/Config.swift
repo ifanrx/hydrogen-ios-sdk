@@ -20,7 +20,7 @@ enum AuthType: String {
 }
 
 struct Config {
-    static let environment: NetworkEnvironment = .qa
+    static let environment: NetworkEnvironment = .production
     static var clientID: String!
     static var baseURL: String {
         if environment == .qa {
@@ -30,7 +30,7 @@ struct Config {
         guard clientID != nil else {
             fatalError("请注册 clientID")
         }
-        return "https://\(clientID!).viac2-p.eng-vm.can.corp.ifanr.com" // TODO: baseurl
+        return "https://\(clientID!).myminapp.com"
     }
 
     static var HTTPHeaders: [String: String] {

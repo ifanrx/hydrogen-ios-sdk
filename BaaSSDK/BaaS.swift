@@ -18,7 +18,7 @@ import Result
     @objc public static var isDebug: Bool = false
 
     @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) {
-        baasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
+        BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
             if case let .success(response) = result {
                 let data = try? response.mapJSON()
                 print("response = \(String(describing: data))")

@@ -10,25 +10,31 @@ import UIKit
 import Moya
 import Result
 
+@objc(BAASTableRecord)
 public class TableRecord: BaseRecord {
-    var tableIdentify: String
-    public var recordInfo: [String: Any] = [:]
+    @objc public var tableIdentify: String
+    @objc public var recordInfo: [String: Any] = [:]
 
-    public init(tableIdentify: String, recordId: String?) {
+    @objc public init(tableIdentify: String, recordId: String?) {
         self.tableIdentify = tableIdentify
         super.init(recordId: recordId)
     }
 
-    public convenience init(tableIdentify: String) {
+    @objc public convenience init(tableIdentify: String) {
         self.init(tableIdentify: tableIdentify, recordId: nil)
     }
 
-    public func get(key: String) -> Any? {
+    @objc public func get(key: String) -> Any? {
         return recordInfo[key]
     }
 
-    public func save(_ completion:@escaping BOOLResultCompletion) {
-        TableRecordProvider.request(.save(tableId: tableIdentify, parameters: record)) { [weak self] result in
+    @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
+        let request = TableRecordProvider.request(.save(tableId: tableIdentify, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (recordInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -41,15 +47,22 @@ public class TableRecord: BaseRecord {
                 completion(true, nil)
             }
         }
+
+        return RequestCanceller(cancellable: request)
     }
 
-    public func update(_ completion:@escaping BOOLResultCompletion) {
-        guard recordId != nil else {
-            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
-            return
+    @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
         }
 
-        TableRecordProvider.request(.update(tableId: tableIdentify, recordId: recordId!, parameters: record)) { [weak self] result in
+        guard recordId != nil else {
+            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
+            return nil
+        }
+
+        let request = TableRecordProvider.request(.update(tableId: tableIdentify, recordId: recordId!, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (recordInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -62,15 +75,21 @@ public class TableRecord: BaseRecord {
                 completion(true, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    public func delete(completion:@escaping BOOLResultCompletion) {
-        guard recordId != nil else {
-            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
-            return
+    @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
         }
 
-        TableRecordProvider.request(.delete(tableId: tableIdentify, recordId: recordId!)) { [weak self] result in
+        guard recordId != nil else {
+            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
+            return nil
+        }
+
+        let request = TableRecordProvider.request(.delete(tableId: tableIdentify, recordId: recordId!)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -81,5 +100,6 @@ public class TableRecord: BaseRecord {
                 completion(true, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 }

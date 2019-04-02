@@ -11,12 +11,17 @@ import Moya
 import Result
 
 class ResultHandler {
-    static func handleResult(clearer: RecordClearer? = nil, result: Result<Moya.Response, MoyaError>) -> ([String: Any]?, Error?) {
+    static func handleResult(clearer: RecordClearer? = nil,
+                             result: Result<Moya.Response, MoyaError>) -> ([String: Any]?, Error?) {
         if let clearer = clearer {
             clearer.clear()
         }
         switch result {
         case .success(let response):
+            if response.statusCode == 401 {
+                User.currentUser = nil
+            }
+
             if response.statusCode >= 200 && response.statusCode <= 299 {
                 if let data = try? response.mapJSON(), let dict = data as? [String: Any] {
                     printDebugInfo(dict)
@@ -46,13 +51,26 @@ class ResultHandler {
     static func dictToUser(dict: [String: Any]?) -> User? {
         if let dict = dict {
             let user = User()
-            user.userId = dict.getInt("user_id")
+            user.userId = dict.getInt("id")
             user.token = dict.getString("token")
-            user.expiresIn = dict.getDouble("expires_in")
+            user.expiresIn = dict.getDouble("expires_in") + Date().timeIntervalSince1970
             user.email = dict.getString("_email")
             user.avatar = dict.getString("avatar")
             user.isAuthorized = dict.getBool("is_authorized")
             user.username = dict.getString("_username")
+            user.nickname = dict.getString("nickname")
+            user.gender = dict.getInt("gender")
+            user.country = dict.getString("country")
+            user.province = dict.getString("province")
+            user.city = dict.getString("city")
+            user.language = dict.getString("language")
+            user.openid = dict.getString("openid")
+            user.unionid = dict.getString("unionid")
+            user.emailVerified = dict.getBool("_email_verified")
+            user.provider = dict.getDict("_provider") as? [String: Any]
+            user.createdBy = dict.getInt("crreated_by")
+            user.createdAt = dict.getDouble("created_at")
+            user.updatedAt = dict.getDouble("created_at")
             user.userInfo = dict
             User.currentUser = user
             return user
@@ -66,13 +84,23 @@ class ResultHandler {
             users = []
             for userDict in objects {
                 let user = User()
-                user.userId = userDict.getInt("user_id")
-                user.token = userDict.getString("token")
-                user.expiresIn = userDict.getDouble("expires_in")
-                user.email = userDict.getString("_email")
+                user.userId = userDict.getInt("id")
                 user.avatar = userDict.getString("avatar")
                 user.isAuthorized = userDict.getBool("is_authorized")
                 user.username = userDict.getString("_username")
+                user.email = dict.getString("_email")
+                user.avatar = dict.getString("avatar")
+                user.nickname = dict.getString("nickname")
+                user.gender = dict.getInt("gender")
+                user.country = dict.getString("country")
+                user.province = dict.getString("province")
+                user.city = dict.getString("city")
+                user.language = dict.getString("language")
+                user.openid = dict.getString("openid")
+                user.unionid = dict.getString("unionid")
+                user.emailVerified = dict.getBool("_email_verified")
+                user.provider = dict.getDict("_provider") as? [String: Any]
+                user.createdBy = dict.getInt("crreated_by")
                 user.userInfo = userDict
                 users.append(user)
             }

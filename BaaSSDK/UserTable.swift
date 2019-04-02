@@ -11,10 +11,15 @@ import Moya
 import Result
 
 @objc(BAASUserTable)
-public class UserTable: BaseQuery {
+open class UserTable: BaseQuery {
 
     @discardableResult
-    @objc open func find(_ completion:@escaping UsersResultCompletion) -> RequestCanceller {
+    @objc open func find(_ completion:@escaping UsersResultCompletion) -> RequestCanceller? {
+        guard User.currentUser != nil else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.getUserList(parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (usersInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
@@ -29,7 +34,12 @@ public class UserTable: BaseQuery {
     }
 
     @discardableResult
-    @objc open func get(userId: Int, completion:@escaping UserResultCompletion) -> RequestCanceller {
+    @objc open func get(userId: Int, completion:@escaping UserResultCompletion) -> RequestCanceller? {
+        guard User.currentUser != nil else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.getUserInfo(userId: userId)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (userInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)

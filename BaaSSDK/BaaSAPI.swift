@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 
-let baasProvider = MoyaProvider<BaaSAPI>()
+let BaasProvider = MoyaProvider<BaaSAPI>()
 
 enum BaaSAPI {
     case invokeFunction(parameters: [String: Any])
@@ -19,33 +19,33 @@ extension BaaSAPI: TargetType {
     var baseURL: URL {
         return URL(string: Config.baseURL)!
     }
-    
+
     var path: String {
         switch self {
         case .invokeFunction:
             return Config.cloudFunction
         }
     }
-    
+
     var method: Moya.Method {
         switch self {
         case .invokeFunction:
             return .post
         }
     }
-    
+
     var sampleData: Data {
         return "{}".data(using: String.Encoding.utf8)!
     }
-    
+
     var task: Task {
         switch self {
         case .invokeFunction(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
-    
-    var headers: [String : String]? {
+
+    var headers: [String: String]? {
         return Config.HTTPHeaders
     }
 }
