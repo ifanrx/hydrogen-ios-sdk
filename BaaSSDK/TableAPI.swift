@@ -15,7 +15,7 @@ enum TableAPI {
     case get(tableId: String, recordId: String, parameters: [String: Any])
     case find(tableId: String, parameters: [String: Any])
     case delete(tableId: String, parameters: [String: Any])
-    case createRecords(tableId: String, records: [[String: Any]])
+    case createRecords(tableId: String, recordData: Data)
     case update(tableId: String, urlParameters: [String: Any], bodyParameters: [String: Any])
 }
 
@@ -60,12 +60,8 @@ extension TableAPI: TargetType {
         switch self {
         case .get(_, _, let parameters), .find(_, let parameters), .delete(tableId: _, let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
-        case .createRecords(_, let records):
-            if let jsonDate = try? JSONSerialization.data(withJSONObject: records, options: .prettyPrinted) {
-                return .requestData(jsonDate)
-            }
-            // TODO: 抛出异常
-            return .requestPlain
+        case .createRecords(_, let recordData):
+                return .requestData(recordData)
         case .update(_, let urlParameters, let bodyParametes):
             return .requestCompositeParameters(bodyParameters: bodyParametes, bodyEncoding: JSONEncoding.default, urlParameters: urlParameters)
         }

@@ -30,15 +30,15 @@ class ResultHandler {
                 return (nil, nil)
             } else if let data = try? response.mapJSON(), let dict = data as? [String: Any] { // 内部定义网络错误
                 let errorMsg = dict.getString("error_msg")
-                let error = HError(code: response.statusCode, errorDescription: errorMsg)
+                let error = HError(code: response.statusCode, description: errorMsg)
                 printErrorInfo(error)
                 return (nil, error)
             } else if let message = try? response.mapString() {
-                let error = HError(code: response.statusCode, errorDescription: message)
+                let error = HError(code: response.statusCode, description: message)
                 printErrorInfo(error)
                 return (nil, error)
             } else {
-                let error = HError(code: response.statusCode, errorDescription: nil)
+                let error = HError(code: response.statusCode, description: nil)
                 printErrorInfo(error)
                 return (nil, error)
             }
@@ -47,7 +47,11 @@ class ResultHandler {
             return (nil, error)
         }
     }
+}
 
+// MARK: UserResult
+
+extension ResultHandler {
     static func dictToUser(dict: [String: Any]?) -> User? {
         if let dict = dict {
             let user = User()
@@ -68,7 +72,11 @@ class ResultHandler {
             user.unionid = dict.getString("unionid")
             user.emailVerified = dict.getBool("_email_verified")
             user.provider = dict.getDict("_provider") as? [String: Any]
-            user.createdBy = dict.getInt("crreated_by")
+            if let createdBy = dict.getDict("created_by") as? [String: Any] {
+                user.createdBy = createdBy
+            } else {
+                user.createdById = dict.getInt("created_by")
+            }
             user.createdAt = dict.getDouble("created_at")
             user.updatedAt = dict.getDouble("created_at")
             user.userInfo = dict
@@ -100,18 +108,34 @@ class ResultHandler {
                 user.unionid = dict.getString("unionid")
                 user.emailVerified = dict.getBool("_email_verified")
                 user.provider = dict.getDict("_provider") as? [String: Any]
-                user.createdBy = dict.getInt("crreated_by")
+                if let createdBy = dict.getDict("created_by") as? [String: Any] {
+                    user.createdBy = createdBy
+                } else {
+                    user.createdById = dict.getInt("created_by")
+                }
                 user.userInfo = userDict
                 users.append(user)
             }
         }
         return users
     }
+}
 
+// MARK: TableResult
+
+extension ResultHandler {
     static func dictToRecord(identify: String, dict: [String: Any]?) -> TableRecord? {
         if let dict = dict {
             let recordId = dict.getString("_id")
             let record = TableRecord(tableIdentify: identify, recordId: recordId)
+            if let createdBy = dict.getDict("created_by") as? [String: Any] {
+                record.createBy = createdBy
+            } else {
+                record.createById = dict.getInt("created_by")
+            }
+            record.createdAt = dict.getDouble("created_at")
+            record.updatedAt = dict.getDouble("updated_at")
+            record.acl = dict.getString("acl")
             record.recordInfo = dict
             return record
         }
@@ -125,13 +149,25 @@ class ResultHandler {
             for fileDict in objects {
                 let recordId = fileDict.getString("_id")
                 let record = TableRecord(tableIdentify: identify, recordId: recordId)
+                if let createdBy = dict.getDict("created_by") as? [String: Any] {
+                    record.createBy = createdBy
+                } else {
+                    record.createById = dict.getInt("created_by")
+                }
+                record.createdAt = dict.getDouble("created_at")
+                record.updatedAt = dict.getDouble("updated_at")
+                record.acl = dict.getString("acl")
                 record.recordInfo = fileDict
                 records.append(record)
             }
         }
         return records
     }
+}
 
+// MARK: FileResult
+
+extension ResultHandler {
     static func dictToFile(dict: [String: Any]?) -> File? {
         var file: File!
         if let fileDict = dict {
@@ -141,6 +177,7 @@ class ResultHandler {
             file.mimeType = fileDict.getString("mime_type")
             file.size = fileDict.getInt("size")
             file.cdnPath = fileDict.getString("path")
+            file.createdAt = fileDict.getDouble("created_at")
             let category = FileCategory()
             category.categoryId = fileDict.getDict("category")?.getString("id")
             category.name = fileDict.getDict("category")?.getString("name")
@@ -160,6 +197,7 @@ class ResultHandler {
                 file.mimeType = fileDict.getString("mime_type")
                 file.size = fileDict.getInt("size")
                 file.cdnPath = fileDict.getString("path")
+                file.createdAt = fileDict.getDouble("created_at")
                 let category = FileCategory()
                 category.categoryId = fileDict.getDict("category")?.getString("id")
                 category.name = fileDict.getDict("category")?.getString("name")
@@ -195,7 +233,11 @@ class ResultHandler {
         }
         return categorys
     }
+}
 
+// MARK: ContentResult
+
+extension ResultHandler {
     static func dictToContent(dict: [String: Any]?) -> Content? {
         var content: Content!
         if let contentDict = dict {
@@ -207,6 +249,13 @@ class ResultHandler {
             content.categories = contentDict.getArray("categories", type: Int.self)
             content.groupId = contentDict.getInt("group_id")
             content.content = contentDict.getString("content")
+            if let createdBy = contentDict.getDict("created_by") as? [String: Any] {
+                content.createdBy = createdBy
+            } else {
+                content.createdById = contentDict.getInt("created_by")
+            }
+            content.createdAt = contentDict.getDouble("created_at")
+            content.updatedAt = contentDict.getDouble("created_at")
         }
         return content
     }
@@ -224,6 +273,13 @@ class ResultHandler {
                 content.categories = contentDict.getArray("categories", type: Int.self)
                 content.groupId = contentDict.getInt("group_id")
                 content.content = contentDict.getString("content")
+                if let createdBy = dict.getDict("created_by") as? [String: Any] {
+                    content.createdBy = createdBy
+                } else {
+                    content.createdById = dict.getInt("created_by")
+                }
+                content.createdAt = dict.getDouble("created_at")
+                content.updatedAt = dict.getDouble("created_at")
                 contents.append(content)
             }
         }

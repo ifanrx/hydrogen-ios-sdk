@@ -11,7 +11,17 @@ import Foundation
 @objc(BAASRecord)
 open class BaseRecord: NSObject, RecordClearer {
 
-    @objc var recordId: String?
+    @objc public var recordId: String?
+
+    @objc public var createById: Int = -1
+
+    @objc public var createBy: [String: Any]?
+
+    @objc public var createdAt: TimeInterval = 0
+
+    @objc public var updatedAt: TimeInterval = 0
+
+    @objc public var acl: String?
 
     @objc var record: [String: Any] = [:]
 
@@ -25,7 +35,7 @@ open class BaseRecord: NSObject, RecordClearer {
     }
 
     @objc public func set(record: [String: Any]) {
-        self.record["$set"] = record
+        self.record.merge(record)
     }
 
     @objc public func unset(key: String) {
@@ -63,5 +73,4 @@ open class BaseRecord: NSObject, RecordClearer {
     func clear() {
         record = [:]
     }
-
 }

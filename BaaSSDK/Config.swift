@@ -71,7 +71,7 @@ struct Config {
         static func contentDetail(contentId: String) -> String { return "/hserve/v1.3/content/detail/\(contentId)/" }
         static let groupDetail = "/hserve/v1/content/category/"
         static let categoryList = "/hserve/v1/content/category/"
-        static func categoryDetail(categoryID: String) -> String { return "/hserve/v1/content/category/\(categoryID)/" }
+        static func categoryDetail(categoryId: String) -> String { return "/hserve/v1/content/category/\(categoryId)/" }
     }
 
     struct File {

@@ -28,6 +28,7 @@ public class TableRecord: BaseRecord {
         return recordInfo[key]
     }
 
+    @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
@@ -51,6 +52,7 @@ public class TableRecord: BaseRecord {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
@@ -58,7 +60,7 @@ public class TableRecord: BaseRecord {
         }
 
         guard recordId != nil else {
-            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
+            completion(false, HError.init(code: 400, description: "recordId invalid!"))
             return nil
         }
 
@@ -78,6 +80,7 @@ public class TableRecord: BaseRecord {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
@@ -85,7 +88,7 @@ public class TableRecord: BaseRecord {
         }
 
         guard recordId != nil else {
-            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
+            completion(false, HError.init(code: 400, description: "recordId invalid!"))
             return nil
         }
 

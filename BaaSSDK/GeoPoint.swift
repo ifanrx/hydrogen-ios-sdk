@@ -7,18 +7,19 @@
 //
 
 import Foundation
+import CoreLocation
 
 // 坐标点
 @objc(BAASGeoPoint)
 open class GeoPoint: NSObject {
-    @objc public var longitude: Double
-    @objc public var latitude: Double
+    @objc public var longitude: CLLocationDegrees
+    @objc public var latitude: CLLocationDegrees
 
     @objc public var geoJson: [String: Any] {
         return ["type": "Point", "coordinates": [longitude, latitude]]
     }
 
-    @objc public init(longitude: Double, latitude: Double) {
+    @objc public init(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         self.longitude = longitude
         self.latitude = latitude
         super.init()
@@ -28,20 +29,22 @@ open class GeoPoint: NSObject {
 // 地理形状
 @objc(BAASGeoPolygon)
 public class GeoPolygon: NSObject {
-    var coordinates: [[Double]] = []
-    @objc public init?(points: [Any]) {
+    var coordinates: [[CLLocationDegrees]]
+
+    @objc public init(points: [GeoPoint]) {
+        coordinates = []
         for point in points {
-            if let point = point as? GeoPoint {
-                coordinates.append([point.longitude, point.latitude])
-            } else if let point = point as? [Double], point.count == 2 {
-                coordinates.append(point)
-            } else {
-                return nil
-            }
+            coordinates.append([point.longitude, point.latitude])
         }
         super.init()
     }
+
+    @objc public init(coordinates: [[CLLocationDegrees]]) {
+        self.coordinates = coordinates
+        super.init()
+    }
+
     @objc public var geoJson: [String: Any] {
-        return ["type": "Polygon", "coordinates": coordinates]
+        return ["type": "Polygon", "coordinates": [coordinates]]
     }
 }

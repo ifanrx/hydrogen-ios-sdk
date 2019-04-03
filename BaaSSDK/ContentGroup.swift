@@ -20,6 +20,7 @@ open class ContentGroup: BaseQuery {
         super.init()
     }
 
+    @discardableResult
     @objc open func get(contentId: String, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -38,6 +39,7 @@ open class ContentGroup: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func find(_ completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -58,6 +60,7 @@ open class ContentGroup: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func find(categoryId: String, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -78,13 +81,14 @@ open class ContentGroup: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func getCategoryList(_ completion: @escaping ContentCategorysResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = ContentGroupProvider.request(.categoryList(bodyParameters: ["content_group_id": contentGroupId], urlParameters: queryArgs)) { [weak self] result in
+        let request = ContentGroupProvider.request(.categoryList(parameters: ["content_group_id": contentGroupId])) { [weak self] result in
             guard let strongSelf = self else { return }
             let (categorysInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -97,6 +101,7 @@ open class ContentGroup: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func getCategory(Id: String, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))

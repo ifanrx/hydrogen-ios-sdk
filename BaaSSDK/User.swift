@@ -143,9 +143,14 @@ open class User: NSObject, NSCoding {
     @objc public var provider: [String: Any]?
 
     /**
-     *  创建者
+     *  创建者的 ID
      */
-    @objc public var createdBy: Int = 0
+    @objc public var createdById: Int = 0
+
+    /**
+     *  创建者的信息
+     */
+    @objc public var createdBy: [String: Any]?
 
     /**
      *  创建时间

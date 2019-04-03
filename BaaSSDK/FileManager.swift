@@ -13,7 +13,8 @@ open class FileManager: BaseQuery {
 
     // MARK: File
 
-   @objc open func get(fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @discardableResult
+    @objc open func get(fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -32,6 +33,7 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func find(_ completion:@escaping FilesResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -51,6 +53,7 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func delete(fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
@@ -70,13 +73,14 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
-    @objc open func upload(filename: String, localPath: String, categoryName: String, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @discardableResult
+    @objc open func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName])) { result in
+        let request = FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName as Any])) { result in
             let (fileInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
                 completion(nil, error)
@@ -107,6 +111,7 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func getCategoryList(_ completion:@escaping FileCategorysResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -128,6 +133,7 @@ open class FileManager: BaseQuery {
 
     // MARK: FileCategory
 
+    @discardableResult
     @objc open func getCategory(Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -146,6 +152,7 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc open func getFileList(categoryId: String, completion:@escaping FilesResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))

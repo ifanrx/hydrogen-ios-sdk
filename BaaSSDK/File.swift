@@ -26,6 +26,7 @@ open class File: NSObject {
         return ["id": fileId, "name": name, "created_at": createdAt, "mime_type": mimeType, "cdn_path": cdnPath, "size": size]
     }
 
+    @discardableResult
     @objc open func delete(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
@@ -33,7 +34,7 @@ open class File: NSObject {
         }
 
         guard fileId != nil else {
-            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
+            completion(false, HError.init(code: 400, description: "recordId invalid!"))
             return nil
         }
 

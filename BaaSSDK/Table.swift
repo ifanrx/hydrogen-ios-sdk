@@ -34,13 +34,22 @@ public class Table: BaseQuery {
         return TableRecord(tableIdentify: identify, recordId: recordId)
     }
 
+    @discardableResult
     @objc public func create(records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
             return nil
         }
 
-        let request = TableProvider.request(.createRecords(tableId: identify, records: records)) { [weak self] result in
+        var jsonData: Data?
+        do {
+            jsonData = try JSONSerialization.data(withJSONObject: records, options: .prettyPrinted)
+        } catch let error {
+            completion(false, HError.init(code: 400, description: error.localizedDescription))
+            return nil
+        }
+
+        let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -52,6 +61,7 @@ public class Table: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc public func delete(enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
@@ -71,6 +81,7 @@ public class Table: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc public func get(recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -90,6 +101,7 @@ public class Table: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc public func update(record: BaseRecord, enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
@@ -109,6 +121,7 @@ public class Table: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
     @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
