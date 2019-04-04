@@ -11,7 +11,7 @@ import Moya
 import Result
 
 @objc(BAASAuth)
-public class Auth: NSObject {
+open class Auth: NSObject {
     // MARK: - 注册
 
     /// 用户名注册

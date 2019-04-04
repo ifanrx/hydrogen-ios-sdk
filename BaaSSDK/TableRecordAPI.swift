@@ -50,16 +50,14 @@ extension TableRecordAPI: TargetType {
 
     var task: Task {
         switch self {
-        case .update(_ , _, let parameters), .save(_, let parameters):
+        case .update(_, _, let parameters), .save(_, let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .delete:
             return .requestPlain
         }
     }
 
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         return Config.HTTPHeaders
     }
-
-
 }

@@ -10,7 +10,8 @@ import Foundation
 import Moya
 import Result
 
-public class File: NSObject {
+@objc(BAASFile)
+open class File: NSObject {
 
     public var fileId: String!
     public var mimeType: String!
@@ -21,17 +22,23 @@ public class File: NSObject {
     public var localPath: String!
     public var createdAt: TimeInterval!
 
-    public var fileInfo: [String: Any] {
+    @objc public var fileInfo: [String: Any] {
         return ["id": fileId, "name": name, "created_at": createdAt, "mime_type": mimeType, "cdn_path": cdnPath, "size": size]
     }
 
-    public func delete(_ completion:@escaping BOOLResultCompletion) {
-        guard fileId != nil else {
-            completion(false, HError.init(code: 400, errorDescription: "recordId invalid!"))
-            return
+    @discardableResult
+    @objc open func delete(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
         }
 
-        FileProvider.request(.deleteFile(fileId: fileId!)) { result in
+        guard fileId != nil else {
+            completion(false, HError.init(code: 400, description: "recordId invalid!"))
+            return nil
+        }
+
+        let request = FileProvider.request(.deleteFile(fileId: fileId!)) { result in
             let (_, error) = ResultHandler.handleResult(result: result)
             if error != nil {
                 completion(false, error)
@@ -39,5 +46,6 @@ public class File: NSObject {
                 completion(true, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 }

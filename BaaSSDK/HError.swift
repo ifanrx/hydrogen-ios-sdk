@@ -11,10 +11,10 @@ import Foundation
 public struct HError: CustomNSError {
 
     var code: Int
-    var internalErrorCode: InternalErrorCode!
-    var errorDescription: String?
+    var kind: ErrorKind!
+    var description: String?
 
-    enum InternalErrorCode: Int {
+    enum ErrorKind: Int {
         case badRequest             = 400
         case unauthorized           = 401
         case paymentRequired        = 402
@@ -31,15 +31,15 @@ public struct HError: CustomNSError {
         case paymentFailed          = 608
     }
 
-    init(code: Int, errorDescription: String? = nil) {
+    init(code: Int, description: String? = nil) {
         self.code = code
-        self.internalErrorCode = HError.InternalErrorCode(rawValue: code)
-        self.errorDescription = errorDescription
+        self.kind = HError.ErrorKind(rawValue: code)
+        self.description = description
     }
 
     public static var errorDomain: String = "baas.ifanr.error.domain"
     public var errorCode: Int {
-        switch self.internalErrorCode {
+        switch self.kind {
         case .badRequest?:
             return 400
         case .unauthorized?:
@@ -74,36 +74,36 @@ public struct HError: CustomNSError {
     }
 
     public var errorUserInfo: [String: Any] {
-        var description: String = self.errorDescription ?? ""
-        switch self.internalErrorCode {
+        var description: String = self.description ?? "unknown"
+        switch self.kind {
         case .badRequest?:
-            description = self.errorDescription ?? "bad request"
+            description = self.description ?? "bad request"
         case .unauthorized?:
-            description = self.errorDescription ?? "unauthorized"
+            description = self.description ?? "unauthorized"
         case .paymentRequired?:
-            description = self.errorDescription ?? "payment required"
+            description = self.description ?? "payment required"
         case .forbidden?:
-            description = self.errorDescription ?? "forbidden"
+            description = self.description ?? "forbidden"
         case .notFound?:
-            description = self.errorDescription ?? "not found"
+            description = self.description ?? "not found"
         case .internalServerError?:
-            description = self.errorDescription ?? "internal server error"
+            description = self.description ?? "internal server error"
         case .networkDisconnected?:
-            description = self.errorDescription ?? "network disconnected"
+            description = self.description ?? "network disconnected"
         case .requestTimeout?:
-            description = self.errorDescription ?? "request timeout"
+            description = self.description ?? "request timeout"
         case .unintialized?:
-            description = self.errorDescription ?? "unintialized"
+            description = self.description ?? "unintialized"
         case .userUnauthorized?:
-            description = self.errorDescription ?? "user unauthorized"
+            description = self.description ?? "user unauthorized"
         case .sessionMissing?:
-            description = self.errorDescription ?? "session missing"
+            description = self.description ?? "session missing"
         case .incorrectParameterType?:
-            description = self.errorDescription ?? "incorrect parameter type"
+            description = self.description ?? "incorrect parameter type"
         case .paymentCancelled?:
-            description = self.errorDescription ?? "payment cancelled"
+            description = self.description ?? "payment cancelled"
         case .paymentFailed?:
-            description = self.errorDescription ?? "payment failed"
+            description = self.description ?? "payment failed"
         default:
             break
         }

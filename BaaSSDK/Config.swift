@@ -20,7 +20,7 @@ enum AuthType: String {
 }
 
 struct Config {
-    static let environment: NetworkEnvironment = .qa
+    static let environment: NetworkEnvironment = .production
     static var clientID: String!
     static var baseURL: String {
         if environment == .qa {
@@ -30,7 +30,7 @@ struct Config {
         guard clientID != nil else {
             fatalError("请注册 clientID")
         }
-        return "https://\(clientID!).viac2-p.eng-vm.can.corp.ifanr.com" // TODO: baseurl
+        return "https://\(clientID!).myminapp.com"
     }
 
     static var HTTPHeaders: [String: String] {
@@ -71,7 +71,7 @@ struct Config {
         static func contentDetail(contentId: String) -> String { return "/hserve/v1.3/content/detail/\(contentId)/" }
         static let groupDetail = "/hserve/v1/content/category/"
         static let categoryList = "/hserve/v1/content/category/"
-        static func categoryDetail(categoryID: String) -> String { return "/hserve/v1/content/category/\(categoryID)/" }
+        static func categoryDetail(categoryId: String) -> String { return "/hserve/v1/content/category/\(categoryId)/" }
     }
 
     struct File {

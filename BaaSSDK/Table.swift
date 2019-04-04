@@ -10,27 +10,46 @@ import UIKit
 import Moya
 import Result
 
-open class Table: BaseQuery {
-    var tableId: Int?
-    var tableName: String?
+@objc(BAASTable)
+public class Table: BaseQuery {
+    public var tableId: Int?
+    public var tableName: String?
     fileprivate var identify: String
 
-    public init(tableId: Int) {
+    @objc public init(tableId: Int) {
         self.identify = String(tableId)
         super.init()
     }
 
-    public init(tableName: String) {
+    @objc public init(tableName: String) {
         self.identify = tableName
         super.init()
     }
 
-    open func createRecord() -> TableRecord {
+    @objc public func createRecord() -> TableRecord {
         return TableRecord(tableIdentify: identify)
     }
 
-    open func create(records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) {
-        TableProvider.request(.createRecords(tableId: identify, records: records)) { [weak self] result in
+    @objc public func getWithoutData(recordId: String) -> TableRecord {
+        return TableRecord(tableIdentify: identify, recordId: recordId)
+    }
+
+    @discardableResult
+    @objc public func create(records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
+        var jsonData: Data?
+        do {
+            jsonData = try JSONSerialization.data(withJSONObject: records, options: .prettyPrinted)
+        } catch let error {
+            completion(false, HError.init(code: 400, description: error.localizedDescription))
+            return nil
+        }
+
+        let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -39,11 +58,18 @@ open class Table: BaseQuery {
                 completion(true, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    open func delete(enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) {
+    @discardableResult
+    @objc public func delete(enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
-        TableProvider.request(.delete(tableId: identify, parameters: queryArgs)) { [weak self] result in
+        let request = TableProvider.request(.delete(tableId: identify, parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -52,10 +78,17 @@ open class Table: BaseQuery {
                 completion(true, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    open func get(recordId: String, completion:@escaping RecordResultCompletion) {
-        TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: queryArgs)) { [weak self] result in
+    @discardableResult
+    @objc public func get(recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (recordInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -65,11 +98,18 @@ open class Table: BaseQuery {
                 completion(record, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    open func update(record: BaseRecord, enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) {
+    @discardableResult
+    @objc public func update(record: BaseRecord, enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
-        TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.record)) { [weak self] result in
+        let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.record)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -78,10 +118,17 @@ open class Table: BaseQuery {
                 completion(true, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 
-    open func find(_ completion:@escaping RecordsResultCompletion) {
-        TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { [weak self] result in
+    @discardableResult
+    @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (recordsInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -91,5 +138,6 @@ open class Table: BaseQuery {
                 completion(records, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
     }
 }

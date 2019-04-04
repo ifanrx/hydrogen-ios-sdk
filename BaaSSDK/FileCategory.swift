@@ -10,8 +10,9 @@ import Foundation
 import Moya
 import Result
 
-open class FileCategory {
-    open var categoryId: String!
-    open var name: String!
-    open var files: Int!
+@objc(BAASFileCategory)
+open class FileCategory: NSObject {
+    @objc public var categoryId: String!
+    @objc public var name: String!
+    @objc public var files: Int = 0
 }

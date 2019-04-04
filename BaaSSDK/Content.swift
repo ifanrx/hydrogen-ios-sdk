@@ -8,14 +8,33 @@
 
 import Foundation
 
+@objc(BAASContent)
 open class Content: NSObject {
-    public var contentId: Int?
-    public var title: String?
-    public var desc: String?
-    public var cover: String?
-    public var content: String?
-    public var groupId: Int?
-    public var categories: [Int]?
-    public var readCount: Int?
+    @objc public var contentId: Int = -1
+    @objc public var title: String?
+    @objc public var desc: String?
+    @objc public var cover: String?
+    @objc public var content: String?
+    @objc public var groupId: Int = -1
+    @objc public var categories: [Int]?
+    @objc public var readCount: Int = 0
 
-}
+    /**
+     *  创建者的 ID
+     */
+    @objc public var createdById: Int = 0
+
+    /**
+     *  创建者的信息
+     */
+    @objc public var createdBy: [String: Any]?
+
+    /**
+     *  创建时间
+     */
+    @objc public var createdAt: TimeInterval = 0
+
+    /**
+     *  更新时间
+     */
+    @objc public var updatedAt: TimeInterval = 0}

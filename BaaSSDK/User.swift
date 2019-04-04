@@ -12,16 +12,51 @@ import Result
 
 @objc(BAASUser)
 open class User: NSObject, NSCoding {
-    @objc public static var currentUser: User?
+
+    private static var _internalUser: User?
+
+    @objc public static var currentUser: User? {
+        get {
+            if User._internalUser != nil {
+                return User._internalUser
+            } else {
+                let userDefaults = UserDefaults.standard
+                if let userData = userDefaults.object(forKey: "com.ifanr.current.user") as? Data {
+                    if let user = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(userData) as? User {
+                        User._internalUser = user
+                        return user
+                    }
+                }
+            }
+            return nil
+        }
+
+        set {
+            User._internalUser = newValue
+            let userDefaults = UserDefaults.standard
+            if let user = newValue {
+                if #available(iOS 11.0, *) {
+                    let userData = try? NSKeyedArchiver.archivedData(withRootObject: user, requiringSecureCoding: false)
+                    userDefaults.set(userData, forKey: "com.ifanr.current.user")
+                } else {
+                    let userData = NSKeyedArchiver.archivedData(withRootObject: user)
+                    userDefaults.set(userData, forKey: "com.ifanr.current.user")
+                }
+            } else {
+                userDefaults.set(nil, forKey: "com.ifanr.current.user")
+            }
+        }
+    }
+
     /**
      *  用户 ID
      */
-    @objc open var userId: Int = -1
+    @objc public var userId: Int = -1
 
     /**
      *  用户昵称
      */
-    @objc open var nickname: String?
+    @objc public var nickname: String?
 
     /**
      *  性别
@@ -29,123 +64,150 @@ open class User: NSObject, NSCoding {
      *   0: 男
      *   1: 女
      */
-    @objc open var gender: Int = -1
+    @objc public var gender: Int = -1
 
     /**
      *  国家
      */
-    @objc open var country: String?
+    @objc public var country: String?
 
     /**
      *  省
      */
-    @objc open var province: String?
+    @objc public var province: String?
 
     /**
      *  城市
      */
-    @objc open var city: String?
+    @objc public var city: String?
 
     /**
      *  语言
      */
-    @objc open var language: String?
+    @objc public var language: String?
 
     /**
      *  openid
      */
-    @objc open var openid: String?
+    @objc public var openid: String?
 
     /**
      *  unionid
      */
-    @objc open var unionid: String?
+    @objc public var unionid: String?
 
     /**
      *  用户头像 URL
      */
-    @objc open var avatar: String?
+    @objc public var avatar: String?
 
     /**
      *  用户信息
      */
-    @objc open var userInfo: [String: Any] = [:]
+    @objc public var userInfo: [String: Any] = [:]
 
     /**
      *  是否授权
      */
 
-    @objc open var isAuthorized: Bool = false
+    @objc public var isAuthorized: Bool = false
 
     /**
      *  用户名
      */
-    @objc open var username: String?
+    @objc public var username: String?
 
     /**
      *  用户手机号
      */
-    @objc open var phone: String?
+    @objc public var phone: String?
 
     /**
      *  用户邮箱
      */
-    @objc open var email: String?
+    @objc public var email: String?
 
     /**
      *  用户 Token
      */
-    @objc open var token: String?
+    @objc public var token: String?
 
     /**
      *  邮箱是否验证
      */
-    @objc open var emailVerified: Bool = false
+    @objc public var emailVerified: Bool = false
 
     /**
      *
      */
-    @objc open var provider: [String: Any]?
+    @objc public var provider: [String: Any]?
 
     /**
-     *  创建者
+     *  创建者的 ID
      */
-    @objc open var createdBy: Int = -1
+    @objc public var createdById: Int = 0
+
+    /**
+     *  创建者的信息
+     */
+    @objc public var createdBy: [String: Any]?
 
     /**
      *  创建时间
      */
-    @objc open var createdAt: TimeInterval = -1
+    @objc public var createdAt: TimeInterval = 0
 
     /**
      *  更新时间
      */
-    @objc open var updatedAt: TimeInterval = -1
+    @objc public var updatedAt: TimeInterval = 0
 
     /**
      *  Token 过期时间
      */
-    @objc open var expiresIn: TimeInterval = -1
+    @objc public var expiresIn: TimeInterval = 0
 
     @objc open var hadLogin: Bool {
+
+        if let user = User.currentUser, user.token != nil, user.expiresIn > Date().timeIntervalSince1970 {
+            return true
+        }
         return false
     }
 
     convenience required public init?(coder aDecoder: NSCoder) {
         self.init()
 
-        for child in Mirror(reflecting: self).children {
-            if let key = child.label {
-                setValue(aDecoder.decodeObject(forKey: key), forKey: key)
-            }
+        forEachChildOfMirror(reflecting: self) { key in
+            setValue(aDecoder.decodeObject(forKey: key), forKey: key)
         }
     }
 
-    public func encode(with aCoder: NSCoder) {
-        for child in Mirror(reflecting: self).children {
-            if let key = child.label {
-                aCoder.encode(value(forKey: key))
+    open func encode(with aCoder: NSCoder) {
+        forEachChildOfMirror(reflecting: self) { key in
+            aCoder.encode(value(forKey: key), forKey: key)
+        }
+    }
+
+    func forEachChildOfMirror(reflecting subject: Any, handler: (String) -> Void) {
+        var mirror: Mirror? = Mirror(reflecting: subject)
+        while mirror != nil {
+            for child in mirror!.children {
+                if let key = child.label {
+                    handler(key)
+                }
             }
+
+            // Get super class's properties.
+            mirror = mirror!.superclassMirror
+        }
+    }
+
+    override open func setNilValueForKey(_ key: String) {
+        if value(forKey: key) is Int || value(forKey: key) is Bool || value(forKey: key) is Double {
+            self.setValue(NSNumber.init(value: 0), forKey: key)
+        } else {
+            super.setNilValueForKey(key)
         }
     }
 
@@ -155,7 +217,12 @@ open class User: NSObject, NSCoding {
 
     // 获取当前用户
     @discardableResult
-    func getCurrentUserInfo(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+    func getCurrentUserInfo(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.getUserInfo(userId: User.currentUser!.userId)) { result in
             let (userInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
@@ -174,7 +241,12 @@ open class User: NSObject, NSCoding {
     ///   - email: 用户已验证的邮箱地址
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func resetPassword(email: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+    @objc open func resetPassword(email: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.resetPassword(parameters: ["email": email])) { result in
             let (_, error) = ResultHandler.handleResult(result: result)
             if error != nil {
@@ -192,7 +264,12 @@ open class User: NSObject, NSCoding {
     ///   - username: 新的用户名，不能和旧用户一样
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateUsername(username: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+    @objc open func updateUsername(_ username: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.updateAccount(parameters: ["username": username])) { result in
             let (userInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
@@ -212,7 +289,12 @@ open class User: NSObject, NSCoding {
     ///   - sendVerification: 是否发送邮箱认证
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateEmail(email: String, sendVerification: Bool = false, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+    @objc open func updateEmail(_ email: String, sendVerification: Bool = false, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.updateAccount(parameters: ["email": email])) { result in
             let (userInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
@@ -232,7 +314,12 @@ open class User: NSObject, NSCoding {
     ///   - newPassword: 新的用户密码
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updatePassword(password: String, newPassword: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+    @objc open func updatePassword(_ password: String, newPassword: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.updateAccount(parameters: ["password": password, "new_password": newPassword])) { result in
             let (_, error) = ResultHandler.handleResult(result: result)
             if error != nil {
@@ -250,7 +337,12 @@ open class User: NSObject, NSCoding {
     ///   - userInfo: 用户信息
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateUserInfo(userInfo: [String: Any], completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+    @objc open func updateUserInfo(_ userInfo: [String: Any], completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.updateUserInfo(parameters: userInfo)) { result in
             let (userInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
@@ -267,7 +359,12 @@ open class User: NSObject, NSCoding {
     ///
     /// - Parameter completion: 结果回调
     @discardableResult
-    @objc open func requestEmailVerification(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+    @objc open func requestEmailVerification(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard (User.currentUser?.hadLogin)! else {
+            completion(false, HError.init(code: 604))
+            return nil
+        }
+
         let request = UserProvider.request(.requestEmailVerify) { result in
             let (_, error) = ResultHandler.handleResult(result: result)
             if error != nil {
