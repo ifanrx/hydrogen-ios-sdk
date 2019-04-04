@@ -58,6 +58,18 @@ open class Query: NSObject {
         return Query(conditon: [key: ["$\(op)": value]])
     }
 
+    @objc static public func matches(key: String, regx: String) -> Query {
+        let results = regx.split(separator: "/")
+        assert(results.count == 1 || results.count == 2, "the regx does not match the schema.")
+
+        var regxCondition: [String: Any] = ["$regex": results[0]]
+
+        if results.count == 2 {
+            regxCondition["$options"] = results[1]
+        }
+        return Query(conditon: [key: regxCondition])
+    }
+
     @objc static public func range(key: String, start: Double, end: Double) -> Query {
         return Query(conditon: [key: ["$range": [start, end]]])
     }
