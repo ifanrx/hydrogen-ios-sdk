@@ -1,13 +1,13 @@
 Pod::Spec.new do |s|
   s.name             = 'BaaSSDK'
-  s.version          = '0.0.1'
+  s.version          = '0.0.4'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
 知晓云是一个实时的后端云服务。使用它后，开发人员只需简单地在 App 中接入 SDK，而无需管理服务器或编写后端代码，即可轻松构建功能丰富的 App。
                        DESC
  
-  s.swift_version    = '4.2'
+  s.swift_version    = '5'
   s.homepage         = 'https://github.com/ifanrx/hydrogen-ios-sdk'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'pengquanhua' => 'pengquanhua@ifanr.com' }
