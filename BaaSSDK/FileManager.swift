@@ -14,7 +14,7 @@ open class FileManager: BaseQuery {
     // MARK: File
 
     @discardableResult
-    @objc open func get(fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
@@ -54,7 +54,7 @@ open class FileManager: BaseQuery {
     }
 
     @discardableResult
-    @objc open func delete(fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc open func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
             return nil
@@ -96,13 +96,16 @@ open class FileManager: BaseQuery {
                     if error != nil {
                         completion(nil, error)
                     } else {
-                        let file = File()
-                        file.fileId = id
-                        file.createdAt = fileInfo?.getDouble("time")
-                        file.mimeType = fileInfo?.getString("mimetype")
-                        file.name = filename
-                        file.size = fileInfo?.getInt("file_size")
-                        file.cdnPath = path
+                        var file: File!
+                        if let fileInfo = fileInfo {
+                            file = File()
+                            file.Id = id
+                            file.createdAt = fileInfo.getDouble("time")
+                            file.mimeType = fileInfo.getString("mimetype")
+                            file.name = filename
+                            file.size = fileInfo.getInt("file_size")
+                            file.cdnPath = path
+                        }
                         completion(file, nil)
                     }
                 })

@@ -20,7 +20,7 @@ public enum Operator: Int {
 
 public typealias BOOLResultCompletion = (_ success: Bool, _ error: Error?) -> Void
 public typealias COUNTResultCompletion = (_ count: Int?, _ error: Error?) -> Void
-public typealias OBJECTResultCompletion = (_ object: NSDictionary?, _ error: Error?) -> Void
+public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: Error?) -> Void
 
 public typealias UserResultCompletion = (_ user: User?, _ error: Error?) -> Void
 public typealias UsersResultCompletion = (_ users: [User]?, _ error: Error?) -> Void

@@ -23,7 +23,7 @@ import Result
                 let data = try? response.mapJSON()
                 print("response = \(String(describing: data))")
                 if response.statusCode >= 200 && response.statusCode <= 299 {
-                    let dict = data as? NSDictionary
+                    let dict = data as? [String: Any]
                     completion(dict, nil)
                 } else {
                     let dict = data as? NSDictionary

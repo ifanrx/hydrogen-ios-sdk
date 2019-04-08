@@ -12,8 +12,8 @@ import Result
 
 @objc(BAASTable)
 public class Table: BaseQuery {
-    public var tableId: Int?
-    public var tableName: String?
+    public var Id: Int?
+    public var name: String?
     fileprivate var identify: String
 
     @objc public init(tableId: Int) {
@@ -21,23 +21,37 @@ public class Table: BaseQuery {
         super.init()
     }
 
-    @objc public init(tableName: String) {
-        self.identify = tableName
+    @objc public init(name: String) {
+        self.identify = name
         super.init()
     }
 
+    /// 创建一条空记录
+    ///
+    /// - Returns:
     @objc public func createRecord() -> TableRecord {
         return TableRecord(tableIdentify: identify)
     }
 
+    /// 示例化一条记录
+    ///
+    /// - Parameter recordId: 记录 Id
+    /// - Returns:
     @objc public func getWithoutData(recordId: String) -> TableRecord {
         return TableRecord(tableIdentify: identify, recordId: recordId)
     }
 
+    /// 批量新建记录
+    ///
+    /// - Parameters:
+    ///   - records: 记录值
+    ///   - enableTrigger: 是否触发触发器
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
-    @objc public func create(records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func create(_ records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
-            completion(false, HError.init(code: 604))
+            completion(nil, HError.init(code: 604))
             return nil
         }
 
@@ -45,44 +59,56 @@ public class Table: BaseQuery {
         do {
             jsonData = try JSONSerialization.data(withJSONObject: records, options: .prettyPrinted)
         } catch let error {
-            completion(false, HError.init(code: 400, description: error.localizedDescription))
+            completion(nil, HError.init(code: 400, description: error.localizedDescription))
             return nil
         }
 
         let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!)) { [weak self] result in
             guard let strongSelf = self else { return }
-            let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (resultInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
-                completion(false, error)
+                completion(nil, error)
             } else {
-                completion(true, nil)
+                completion(resultInfo, nil)
             }
         }
         return RequestCanceller(cancellable: request)
     }
 
+    /// 批量删除记录
+    ///
+    /// - Parameters:
+    ///   - enableTrigger: 是否触发触发器
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
-    @objc public func delete(enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func delete(enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
-            completion(false, HError.init(code: 604))
+            completion(nil, HError.init(code: 604))
             return nil
         }
 
         queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
         let request = TableProvider.request(.delete(tableId: identify, parameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
-            let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (resultInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
-                completion(false, error)
+                completion(nil, error)
             } else {
-                completion(true, nil)
+                completion(resultInfo, nil)
             }
         }
         return RequestCanceller(cancellable: request)
     }
 
+    /// 获取记录详情
+    ///
+    /// - Parameters:
+    ///   - recordId: 记录 Id
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
-    @objc public func get(recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
+    @objc public func get(_ recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -102,20 +128,20 @@ public class Table: BaseQuery {
     }
 
     @discardableResult
-    @objc public func update(record: BaseRecord, enableTrigger: Bool = true, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func update(_ record: BaseRecord, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
-            completion(false, HError.init(code: 604))
+            completion(nil, HError.init(code: 604))
             return nil
         }
 
         queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
         let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.record)) { [weak self] result in
             guard let strongSelf = self else { return }
-            let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (resultInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
-                completion(false, error)
+                completion(nil, error)
             } else {
-                completion(true, nil)
+                completion(resultInfo, nil)
             }
         }
         return RequestCanceller(cancellable: request)
