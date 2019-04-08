@@ -27,7 +27,7 @@ class ResultHandler {
                     printDebugInfo(dict)
                     return (dict, nil)
                 }
-                return (nil, nil)
+                return (["code": response.statusCode], nil)
             } else if let data = try? response.mapJSON(), let dict = data as? [String: Any] { // 内部定义网络错误
                 let errorMsg = dict.getString("error_msg")
                 let error = HError(code: response.statusCode, description: errorMsg)
@@ -55,7 +55,7 @@ extension ResultHandler {
     static func dictToUser(dict: [String: Any]?) -> User? {
         if let dict = dict {
             let user = User()
-            user.userId = dict.getInt("id")
+            user.Id = dict.getInt("id")
             user.token = dict.getString("token")
             user.expiresIn = dict.getDouble("expires_in") + Date().timeIntervalSince1970
             user.email = dict.getString("_email")
@@ -92,7 +92,7 @@ extension ResultHandler {
             users = []
             for userDict in objects {
                 let user = User()
-                user.userId = userDict.getInt("id")
+                user.Id = userDict.getInt("id")
                 user.avatar = userDict.getString("avatar")
                 user.isAuthorized = userDict.getBool("is_authorized")
                 user.username = userDict.getString("_username")
@@ -172,7 +172,7 @@ extension ResultHandler {
         var file: File!
         if let fileDict = dict {
             file = File()
-            file.fileId = fileDict.getString("id")
+            file.Id = fileDict.getString("id")
             file.name = fileDict.getString("name")
             file.mimeType = fileDict.getString("mime_type")
             file.size = fileDict.getInt("size")
@@ -192,7 +192,7 @@ extension ResultHandler {
             files = []
             for fileDict in objects {
                 let file = File()
-                file.fileId = fileDict.getString("id")
+                file.Id = fileDict.getString("id")
                 file.name = fileDict.getString("name")
                 file.mimeType = fileDict.getString("mime_type")
                 file.size = fileDict.getInt("size")

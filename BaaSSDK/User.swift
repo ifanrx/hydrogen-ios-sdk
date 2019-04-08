@@ -51,7 +51,7 @@ open class User: NSObject, NSCoding {
     /**
      *  用户 ID
      */
-    @objc public var userId: Int = -1
+    @objc public var Id: Int = -1
 
     /**
      *  用户昵称
@@ -217,13 +217,13 @@ open class User: NSObject, NSCoding {
 
     // 获取当前用户
     @discardableResult
-    func getCurrentUserInfo(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc open func getCurrentUserInfo(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(false, HError.init(code: 604))
             return nil
         }
 
-        let request = UserProvider.request(.getUserInfo(userId: User.currentUser!.userId)) { result in
+        let request = UserProvider.request(.getUserInfo(userId: User.currentUser!.Id)) { result in
             let (userInfo, error) = ResultHandler.handleResult(result: result)
             if error != nil {
                 completion(false, error)

@@ -13,6 +13,10 @@ import Result
 @objc(BAASUserTable)
 open class UserTable: BaseQuery {
 
+    /// 查询用户
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func find(_ completion:@escaping UsersResultCompletion) -> RequestCanceller? {
         guard User.currentUser != nil else {
@@ -33,8 +37,14 @@ open class UserTable: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 获取用户详细信息
+    ///
+    /// - Parameters:
+    ///   - userId: 用户 Id
+    ///   - completion: 结果回调
+    /// - Returns: 
     @discardableResult
-    @objc open func get(userId: Int, completion:@escaping UserResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ userId: Int, completion:@escaping UserResultCompletion) -> RequestCanceller? {
         guard User.currentUser != nil else {
             completion(nil, HError.init(code: 604))
             return nil

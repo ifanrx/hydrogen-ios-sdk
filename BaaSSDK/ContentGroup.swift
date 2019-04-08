@@ -12,16 +12,16 @@ import Result
 
 @objc(BAASContentGroup)
 open class ContentGroup: BaseQuery {
-    var contentGroupId: String
-    var contengGroupName: String!
+    var Id: String
+    var name: String!
 
-    @objc public init(contentGroupId: String) {
-        self.contentGroupId = contentGroupId
+    @objc public init(Id: String) {
+        self.Id = Id
         super.init()
     }
 
     @discardableResult
-    @objc open func get(contentId: String, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ contentId: String, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -46,7 +46,7 @@ open class ContentGroup: BaseQuery {
             return nil
         }
 
-        queryArgs["content_group_id"] = contentGroupId
+        queryArgs["content_group_id"] = Id
         let request = ContentGroupProvider.request(.contentList(prameters: queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (contentsInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
@@ -88,7 +88,7 @@ open class ContentGroup: BaseQuery {
             return nil
         }
 
-        let request = ContentGroupProvider.request(.categoryList(parameters: ["content_group_id": contentGroupId])) { [weak self] result in
+        let request = ContentGroupProvider.request(.categoryList(parameters: ["content_group_id": Id])) { [weak self] result in
             guard let strongSelf = self else { return }
             let (categorysInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
@@ -102,7 +102,7 @@ open class ContentGroup: BaseQuery {
     }
 
     @discardableResult
-    @objc open func getCategory(Id: String, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
+    @objc open func getCategory(_ Id: String, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
         guard (User.currentUser?.hadLogin)! else {
             completion(nil, HError.init(code: 604))
             return nil
