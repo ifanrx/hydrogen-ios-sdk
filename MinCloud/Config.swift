@@ -38,7 +38,7 @@ struct Config {
         var headers: [String: String] = [:]
         headers["X-Hydrogen-Client-ID"] = clientID
         headers["Content-Type"] = "application/json"
-        if let token = BaaSSDK.User.currentUser?.token {
+        if let token = MinCloud.User.currentUser?.token {
             headers["Authorization"] = "Hydrogen-r1 \(token)"
         }
         return headers

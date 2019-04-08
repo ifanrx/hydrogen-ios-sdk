@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		43D23B7FCA8D021E3E98A1A9 /* Pods_BaaSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7D3FD37B1C304F2750718 /* Pods_BaaSSDK.framework */; };
-		4C33A588223F4E850001C1A7 /* BaaSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* BaaSSDK.framework */; };
-		4C33A58D223F4E850001C1A7 /* BaaSSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A58C223F4E850001C1A7 /* BaaSSDKTests.swift */; };
-		4C33A58F223F4E850001C1A7 /* BaaSSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C33A581223F4E850001C1A7 /* BaaSSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43D23B7FCA8D021E3E98A1A9 /* Pods_MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */; };
+		4C33A588223F4E850001C1A7 /* MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; };
+		4C33A58D223F4E850001C1A7 /* MinCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A58C223F4E850001C1A7 /* MinCloudTests.swift */; };
+		4C33A58F223F4E850001C1A7 /* MinCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C33A581223F4E850001C1A7 /* MinCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C33A5A5223F6B2F0001C1A7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A4223F6B2F0001C1A7 /* AuthAPI.swift */; };
 		4C33A5A9223F6D480001C1A7 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A8223F6D480001C1A7 /* Auth.swift */; };
 		4C33A5DA223F919F0001C1A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5D9223F919F0001C1A7 /* Config.swift */; };
@@ -41,7 +41,7 @@
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
 		4CEEBC10224DB1EC007511E0 /* RequestCanceller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0F224DB1EC007511E0 /* RequestCanceller.swift */; };
 		4CF1BACC224B81720000CF54 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1BACB224B81720000CF54 /* Content.swift */; };
-		4D367FBC5D0B3498495D7D11 /* Pods_BaaSSDK_BaaSSDKTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653ADE49C87E389508F82094 /* Pods_BaaSSDK_BaaSSDKTests.framework */; };
+		4D367FBC5D0B3498495D7D11 /* Pods_MinCloud_MinCloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653ADE49C87E389508F82094 /* Pods_MinCloud_MinCloudTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,18 +50,18 @@
 			containerPortal = 4C33A575223F4E850001C1A7 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 4C33A57D223F4E850001C1A7;
-			remoteInfo = BaaSSDK;
+			remoteInfo = MinCloud;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1D22E5C4AB5E39CB3D550850 /* Pods-BaaSSDK-BaaSSDKTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaaSSDK-BaaSSDKTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-BaaSSDK-BaaSSDKTests/Pods-BaaSSDK-BaaSSDKTests.debug.xcconfig"; sourceTree = "<group>"; };
-		25D7D3FD37B1C304F2750718 /* Pods_BaaSSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaaSSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C33A57E223F4E850001C1A7 /* BaaSSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BaaSSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C33A581223F4E850001C1A7 /* BaaSSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaaSSDK.h; sourceTree = "<group>"; };
+		1D22E5C4AB5E39CB3D550850 /* Pods-MinCloud-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
+		25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C33A57E223F4E850001C1A7 /* MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C33A581223F4E850001C1A7 /* MinCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MinCloud.h; sourceTree = "<group>"; };
 		4C33A582223F4E850001C1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4C33A587223F4E850001C1A7 /* BaaSSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BaaSSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C33A58C223F4E850001C1A7 /* BaaSSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaaSSDKTests.swift; sourceTree = "<group>"; };
+		4C33A587223F4E850001C1A7 /* MinCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MinCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C33A58C223F4E850001C1A7 /* MinCloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinCloudTests.swift; sourceTree = "<group>"; };
 		4C33A58E223F4E850001C1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C33A5A4223F6B2F0001C1A7 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		4C33A5A8223F6D480001C1A7 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
@@ -93,10 +93,10 @@
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
 		4CEEBC0F224DB1EC007511E0 /* RequestCanceller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestCanceller.swift; sourceTree = "<group>"; };
 		4CF1BACB224B81720000CF54 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
-		653ADE49C87E389508F82094 /* Pods_BaaSSDK_BaaSSDKTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BaaSSDK_BaaSSDKTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B32BE11E5B58A524B35322F2 /* Pods-BaaSSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaaSSDK.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-BaaSSDK/Pods-BaaSSDK.debug.xcconfig"; sourceTree = "<group>"; };
-		E82CE092A9C01A2B0AEB622F /* Pods-BaaSSDK-BaaSSDKTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaaSSDK-BaaSSDKTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-BaaSSDK-BaaSSDKTests/Pods-BaaSSDK-BaaSSDKTests.release.xcconfig"; sourceTree = "<group>"; };
-		F8370F74399CA6938D5BD3D2 /* Pods-BaaSSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BaaSSDK.release.xcconfig"; path = "../Pods/Target Support Files/Pods-BaaSSDK/Pods-BaaSSDK.release.xcconfig"; sourceTree = "<group>"; };
+		653ADE49C87E389508F82094 /* Pods_MinCloud_MinCloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud_MinCloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B32BE11E5B58A524B35322F2 /* Pods-MinCloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.debug.xcconfig"; sourceTree = "<group>"; };
+		E82CE092A9C01A2B0AEB622F /* Pods-MinCloud-MinCloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.release.xcconfig"; sourceTree = "<group>"; };
+		F8370F74399CA6938D5BD3D2 /* Pods-MinCloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.release.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43D23B7FCA8D021E3E98A1A9 /* Pods_BaaSSDK.framework in Frameworks */,
+				43D23B7FCA8D021E3E98A1A9 /* Pods_MinCloud.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,8 +112,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C33A588223F4E850001C1A7 /* BaaSSDK.framework in Frameworks */,
-				4D367FBC5D0B3498495D7D11 /* Pods_BaaSSDK_BaaSSDKTests.framework in Frameworks */,
+				4C33A588223F4E850001C1A7 /* MinCloud.framework in Frameworks */,
+				4D367FBC5D0B3498495D7D11 /* Pods_MinCloud_MinCloudTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,8 +123,8 @@
 		21F9A129035E1F29D254CB78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				25D7D3FD37B1C304F2750718 /* Pods_BaaSSDK.framework */,
-				653ADE49C87E389508F82094 /* Pods_BaaSSDK_BaaSSDKTests.framework */,
+				25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */,
+				653ADE49C87E389508F82094 /* Pods_MinCloud_MinCloudTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -132,10 +132,10 @@
 		28FC9CAADA0363B72A188047 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				B32BE11E5B58A524B35322F2 /* Pods-BaaSSDK.debug.xcconfig */,
-				F8370F74399CA6938D5BD3D2 /* Pods-BaaSSDK.release.xcconfig */,
-				1D22E5C4AB5E39CB3D550850 /* Pods-BaaSSDK-BaaSSDKTests.debug.xcconfig */,
-				E82CE092A9C01A2B0AEB622F /* Pods-BaaSSDK-BaaSSDKTests.release.xcconfig */,
+				B32BE11E5B58A524B35322F2 /* Pods-MinCloud.debug.xcconfig */,
+				F8370F74399CA6938D5BD3D2 /* Pods-MinCloud.release.xcconfig */,
+				1D22E5C4AB5E39CB3D550850 /* Pods-MinCloud-MinCloudTests.debug.xcconfig */,
+				E82CE092A9C01A2B0AEB622F /* Pods-MinCloud-MinCloudTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -143,8 +143,8 @@
 		4C33A574223F4E850001C1A7 = {
 			isa = PBXGroup;
 			children = (
-				4C33A580223F4E850001C1A7 /* BaaSSDK */,
-				4C33A58B223F4E850001C1A7 /* BaaSSDKTests */,
+				4C33A580223F4E850001C1A7 /* MinCloud */,
+				4C33A58B223F4E850001C1A7 /* MinCloudTests */,
 				4C33A57F223F4E850001C1A7 /* Products */,
 				28FC9CAADA0363B72A188047 /* Pods */,
 				21F9A129035E1F29D254CB78 /* Frameworks */,
@@ -154,32 +154,32 @@
 		4C33A57F223F4E850001C1A7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4C33A57E223F4E850001C1A7 /* BaaSSDK.framework */,
-				4C33A587223F4E850001C1A7 /* BaaSSDKTests.xctest */,
+				4C33A57E223F4E850001C1A7 /* MinCloud.framework */,
+				4C33A587223F4E850001C1A7 /* MinCloudTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4C33A580223F4E850001C1A7 /* BaaSSDK */ = {
+		4C33A580223F4E850001C1A7 /* MinCloud */ = {
 			isa = PBXGroup;
 			children = (
 				4C33A5A6223F6CBC0001C1A7 /* API */,
 				4C33A5A1223F6A6D0001C1A7 /* Networking */,
 				4CE2BCF52242282B0008211C /* Utils */,
-				4C33A581223F4E850001C1A7 /* BaaSSDK.h */,
+				4C33A581223F4E850001C1A7 /* MinCloud.h */,
 				4C33A582223F4E850001C1A7 /* Info.plist */,
 			);
-			path = BaaSSDK;
+			path = MinCloud;
 			sourceTree = "<group>";
 		};
-		4C33A58B223F4E850001C1A7 /* BaaSSDKTests */ = {
+		4C33A58B223F4E850001C1A7 /* MinCloudTests */ = {
 			isa = PBXGroup;
 			children = (
 				4C33A5E7224082900001C1A7 /* AuthTestCase.swift */,
-				4C33A58C223F4E850001C1A7 /* BaaSSDKTests.swift */,
+				4C33A58C223F4E850001C1A7 /* MinCloudTests.swift */,
 				4C33A58E223F4E850001C1A7 /* Info.plist */,
 			);
-			path = BaaSSDKTests;
+			path = MinCloudTests;
 			sourceTree = "<group>";
 		};
 		4C33A5A1223F6A6D0001C1A7 /* Networking */ = {
@@ -335,16 +335,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C33A58F223F4E850001C1A7 /* BaaSSDK.h in Headers */,
+				4C33A58F223F4E850001C1A7 /* MinCloud.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4C33A57D223F4E850001C1A7 /* BaaSSDK */ = {
+		4C33A57D223F4E850001C1A7 /* MinCloud */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C33A592223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "BaaSSDK" */;
+			buildConfigurationList = 4C33A592223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "MinCloud" */;
 			buildPhases = (
 				245A099406CF49D0976A123A /* [CP] Check Pods Manifest.lock */,
 				4C33A579223F4E850001C1A7 /* Headers */,
@@ -357,14 +357,14 @@
 			);
 			dependencies = (
 			);
-			name = BaaSSDK;
-			productName = BaaSSDK;
-			productReference = 4C33A57E223F4E850001C1A7 /* BaaSSDK.framework */;
+			name = MinCloud;
+			productName = MinCloud;
+			productReference = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		4C33A586223F4E850001C1A7 /* BaaSSDKTests */ = {
+		4C33A586223F4E850001C1A7 /* MinCloudTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4C33A595223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "BaaSSDKTests" */;
+			buildConfigurationList = 4C33A595223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "MinCloudTests" */;
 			buildPhases = (
 				5BA50BC213E2BCD4670314DC /* [CP] Check Pods Manifest.lock */,
 				4C33A583223F4E850001C1A7 /* Sources */,
@@ -377,9 +377,9 @@
 			dependencies = (
 				4C33A58A223F4E850001C1A7 /* PBXTargetDependency */,
 			);
-			name = BaaSSDKTests;
-			productName = BaaSSDKTests;
-			productReference = 4C33A587223F4E850001C1A7 /* BaaSSDKTests.xctest */;
+			name = MinCloudTests;
+			productName = MinCloudTests;
+			productReference = 4C33A587223F4E850001C1A7 /* MinCloudTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -401,7 +401,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4C33A578223F4E850001C1A7 /* Build configuration list for PBXProject "BaaSSDK" */;
+			buildConfigurationList = 4C33A578223F4E850001C1A7 /* Build configuration list for PBXProject "MinCloud" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -413,8 +413,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4C33A57D223F4E850001C1A7 /* BaaSSDK */,
-				4C33A586223F4E850001C1A7 /* BaaSSDKTests */,
+				4C33A57D223F4E850001C1A7 /* MinCloud */,
+				4C33A586223F4E850001C1A7 /* MinCloudTests */,
 			);
 		};
 /* End PBXProject section */
@@ -452,7 +452,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BaaSSDK-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MinCloud-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -467,10 +467,10 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/../Pods/Target Support Files/Pods-BaaSSDK-BaaSSDKTests/Pods-BaaSSDK-BaaSSDKTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire-iOS9.0/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya-iOS9.0/Moya.framework",
+				"${BUILT_PRODUCTS_DIR}/Result-iOS9.0/Result.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -482,7 +482,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-BaaSSDK-BaaSSDKTests/Pods-BaaSSDK-BaaSSDKTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4C33A5E922409BE60001C1A7 /* ShellScript */ = {
@@ -517,7 +517,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-BaaSSDK-BaaSSDKTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MinCloud-MinCloudTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -567,7 +567,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C33A58D223F4E850001C1A7 /* BaaSSDKTests.swift in Sources */,
+				4C33A58D223F4E850001C1A7 /* MinCloudTests.swift in Sources */,
 				4C33A5E8224082900001C1A7 /* AuthTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -577,7 +577,7 @@
 /* Begin PBXTargetDependency section */
 		4C33A58A223F4E850001C1A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4C33A57D223F4E850001C1A7 /* BaaSSDK */;
+			target = 4C33A57D223F4E850001C1A7 /* MinCloud */;
 			targetProxy = 4C33A589223F4E850001C1A7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -707,7 +707,7 @@
 		};
 		4C33A593223F4E850001C1A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B32BE11E5B58A524B35322F2 /* Pods-BaaSSDK.debug.xcconfig */;
+			baseConfigurationReference = B32BE11E5B58A524B35322F2 /* Pods-MinCloud.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -718,7 +718,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = BaaSSDK/Info.plist;
+				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -727,7 +727,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.BaaSSDK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -738,7 +738,7 @@
 		};
 		4C33A594223F4E850001C1A7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8370F74399CA6938D5BD3D2 /* Pods-BaaSSDK.release.xcconfig */;
+			baseConfigurationReference = F8370F74399CA6938D5BD3D2 /* Pods-MinCloud.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -749,7 +749,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = BaaSSDK/Info.plist;
+				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -758,7 +758,7 @@
 					"@loader_path/Frameworks",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.BaaSSDK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
@@ -768,18 +768,18 @@
 		};
 		4C33A596223F4E850001C1A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D22E5C4AB5E39CB3D550850 /* Pods-BaaSSDK-BaaSSDKTests.debug.xcconfig */;
+			baseConfigurationReference = 1D22E5C4AB5E39CB3D550850 /* Pods-MinCloud-MinCloudTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
-				INFOPLIST_FILE = BaaSSDKTests/Info.plist;
+				INFOPLIST_FILE = MinCloudTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.BaaSSDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.MinCloudTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -788,18 +788,18 @@
 		};
 		4C33A597223F4E850001C1A7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E82CE092A9C01A2B0AEB622F /* Pods-BaaSSDK-BaaSSDKTests.release.xcconfig */;
+			baseConfigurationReference = E82CE092A9C01A2B0AEB622F /* Pods-MinCloud-MinCloudTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
-				INFOPLIST_FILE = BaaSSDKTests/Info.plist;
+				INFOPLIST_FILE = MinCloudTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.BaaSSDKTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.MinCloudTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -809,7 +809,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4C33A578223F4E850001C1A7 /* Build configuration list for PBXProject "BaaSSDK" */ = {
+		4C33A578223F4E850001C1A7 /* Build configuration list for PBXProject "MinCloud" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C33A590223F4E850001C1A7 /* Debug */,
@@ -818,7 +818,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C33A592223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "BaaSSDK" */ = {
+		4C33A592223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "MinCloud" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C33A593223F4E850001C1A7 /* Debug */,
@@ -827,7 +827,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4C33A595223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "BaaSSDKTests" */ = {
+		4C33A595223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "MinCloudTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4C33A596223F4E850001C1A7 /* Debug */,
