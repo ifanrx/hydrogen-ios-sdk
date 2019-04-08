@@ -46,7 +46,7 @@ open class File: NSObject {
 
     @discardableResult
     @objc open func delete(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }

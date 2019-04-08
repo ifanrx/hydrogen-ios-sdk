@@ -22,6 +22,7 @@ enum AuthType: String {
 struct Config {
     static let environment: NetworkEnvironment = .production
     static var clientID: String!
+    static let version: String = "0.0.1"
     static var baseURL: String {
         if environment == .qa {
             return "https://viac2-p.eng-vm.can.corp.ifanr.com"
@@ -38,6 +39,8 @@ struct Config {
         var headers: [String: String] = [:]
         headers["X-Hydrogen-Client-ID"] = clientID
         headers["Content-Type"] = "application/json"
+        headers["X-Hydrogen-Client-Platform"] = "NATIVE_IOS"
+        headers["X-Hydrogen-Client-Version"] = version
         if let token = MinCloud.User.currentUser?.token {
             headers["Authorization"] = "Hydrogen-r1 \(token)"
         }

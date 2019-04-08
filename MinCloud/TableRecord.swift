@@ -30,7 +30,7 @@ public class TableRecord: BaseRecord {
 
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -54,7 +54,7 @@ public class TableRecord: BaseRecord {
 
     @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -82,7 +82,7 @@ public class TableRecord: BaseRecord {
 
     @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }

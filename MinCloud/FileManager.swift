@@ -16,7 +16,7 @@ open class FileManager: BaseQuery {
     @discardableResult
     @objc open func get(_ fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -35,7 +35,7 @@ open class FileManager: BaseQuery {
 
     @discardableResult
     @objc open func find(_ completion:@escaping FilesResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -55,7 +55,7 @@ open class FileManager: BaseQuery {
 
     @discardableResult
     @objc open func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -75,7 +75,7 @@ open class FileManager: BaseQuery {
 
     @discardableResult
     @objc open func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -116,7 +116,7 @@ open class FileManager: BaseQuery {
 
     @discardableResult
     @objc open func getCategoryList(_ completion:@escaping FileCategorysResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -138,7 +138,7 @@ open class FileManager: BaseQuery {
 
     @discardableResult
     @objc open func getCategory(Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -157,7 +157,7 @@ open class FileManager: BaseQuery {
 
     @discardableResult
     @objc open func getFileList(categoryId: String, completion:@escaping FilesResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }

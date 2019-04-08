@@ -218,7 +218,7 @@ open class User: NSObject, NSCoding {
     // 获取当前用户
     @discardableResult
     @objc open func getCurrentUserInfo(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -242,7 +242,7 @@ open class User: NSObject, NSCoding {
     ///   - completion: 结果回调
     @discardableResult
     @objc open func resetPassword(email: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -265,7 +265,7 @@ open class User: NSObject, NSCoding {
     ///   - completion: 结果回调
     @discardableResult
     @objc open func updateUsername(_ username: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -290,7 +290,7 @@ open class User: NSObject, NSCoding {
     ///   - completion: 结果回调
     @discardableResult
     @objc open func updateEmail(_ email: String, sendVerification: Bool = false, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -315,7 +315,7 @@ open class User: NSObject, NSCoding {
     ///   - completion: 结果回调
     @discardableResult
     @objc open func updatePassword(_ password: String, newPassword: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -338,7 +338,7 @@ open class User: NSObject, NSCoding {
     ///   - completion: 结果回调
     @discardableResult
     @objc open func updateUserInfo(_ userInfo: [String: Any], completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -360,7 +360,7 @@ open class User: NSObject, NSCoding {
     /// - Parameter completion: 结果回调
     @discardableResult
     @objc open func requestEmailVerification(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(false, HError.init(code: 604))
             return nil
         }

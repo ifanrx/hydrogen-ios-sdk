@@ -10,7 +10,6 @@
 		43D23B7FCA8D021E3E98A1A9 /* Pods_MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */; };
 		4C33A588223F4E850001C1A7 /* MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; };
 		4C33A58D223F4E850001C1A7 /* MinCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A58C223F4E850001C1A7 /* MinCloudTests.swift */; };
-		4C33A58F223F4E850001C1A7 /* MinCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C33A581223F4E850001C1A7 /* MinCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4C33A5A5223F6B2F0001C1A7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A4223F6B2F0001C1A7 /* AuthAPI.swift */; };
 		4C33A5A9223F6D480001C1A7 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A8223F6D480001C1A7 /* Auth.swift */; };
 		4C33A5DA223F919F0001C1A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5D9223F919F0001C1A7 /* Config.swift */; };
@@ -58,7 +57,6 @@
 		1D22E5C4AB5E39CB3D550850 /* Pods-MinCloud-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C33A57E223F4E850001C1A7 /* MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C33A581223F4E850001C1A7 /* MinCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MinCloud.h; sourceTree = "<group>"; };
 		4C33A582223F4E850001C1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C33A587223F4E850001C1A7 /* MinCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MinCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C33A58C223F4E850001C1A7 /* MinCloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinCloudTests.swift; sourceTree = "<group>"; };
@@ -87,6 +85,7 @@
 		4C83121E2245E1C500B4B33E /* ContentGroupAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentGroupAPI.swift; sourceTree = "<group>"; };
 		4C8312222248EB2900B4B33E /* FileCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCategory.swift; sourceTree = "<group>"; };
 		4C8312252249B3FF00B4B33E /* BaaSAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaaSAPI.swift; sourceTree = "<group>"; };
+		4C86C6F7225B3DA50040C042 /* MinCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MinCloud.h; sourceTree = "<group>"; };
 		4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultHandler.swift; sourceTree = "<group>"; };
 		4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+Convenient.swift"; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
@@ -166,8 +165,8 @@
 				4C33A5A6223F6CBC0001C1A7 /* API */,
 				4C33A5A1223F6A6D0001C1A7 /* Networking */,
 				4CE2BCF52242282B0008211C /* Utils */,
-				4C33A581223F4E850001C1A7 /* MinCloud.h */,
 				4C33A582223F4E850001C1A7 /* Info.plist */,
+				4C86C6F7225B3DA50040C042 /* MinCloud.h */,
 			);
 			path = MinCloud;
 			sourceTree = "<group>";
@@ -335,7 +334,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4C33A58F223F4E850001C1A7 /* MinCloud.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

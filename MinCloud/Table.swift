@@ -50,7 +50,7 @@ public class Table: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc public func create(_ records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -83,7 +83,7 @@ public class Table: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc public func delete(enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -109,7 +109,7 @@ public class Table: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc public func get(_ recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -129,7 +129,7 @@ public class Table: BaseQuery {
 
     @discardableResult
     @objc public func update(_ record: BaseRecord, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -149,7 +149,7 @@ public class Table: BaseQuery {
 
     @discardableResult
     @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
-        guard (User.currentUser?.hadLogin)! else {
+        guard User.currentUser?.hadLogin ?? false else {
             completion(nil, HError.init(code: 604))
             return nil
         }
