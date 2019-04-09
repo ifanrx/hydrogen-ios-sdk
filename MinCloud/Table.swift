@@ -45,7 +45,7 @@ public class Table: BaseQuery {
     ///
     /// - Parameters:
     ///   - records: 记录值
-    ///   - enableTrigger: 是否触发触发器
+    ///   - enableTrigger: 是否触发触发器，默认 true。
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
@@ -77,8 +77,11 @@ public class Table: BaseQuery {
 
     /// 批量删除记录
     ///
+    /// 先使用 setQuery 方法设置条件，将会删除满足条件的记录。
+    /// 如果不设置条件，将删除该表的所有记录。
+    ///
     /// - Parameters:
-    ///   - enableTrigger: 是否触发触发器
+    ///   - enableTrigger: 是否触发触发器，默认值 true
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
@@ -127,6 +130,16 @@ public class Table: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 批量更新记录
+    ///
+    /// 先使用 setQuery 方法设置条件，满足条件的记录将会被更新。
+    /// 如果不设置条件，将更新该表的所有记录。
+    ///
+    /// - Parameters:
+    ///   - record: 需要更新的记录值
+    ///   - enableTrigger: 是否触发触发器，默认 true
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc public func update(_ record: BaseRecord, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -147,6 +160,13 @@ public class Table: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 查询记录
+    ///
+    /// 先使用 setQuery 方法设置条件，将会获取满足条件的记录。
+    /// 如果不设置条件，将获取该表的所有记录。
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {

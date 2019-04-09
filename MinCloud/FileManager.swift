@@ -13,6 +13,12 @@ open class FileManager: BaseQuery {
 
     // MARK: File
 
+    /// 获取文件详情
+    ///
+    /// - Parameters:
+    ///   - fileId: 文件 Id
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func get(_ fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
@@ -21,8 +27,9 @@ open class FileManager: BaseQuery {
             return nil
         }
 
-        let request = FileProvider.request(.getFile(fileId: fileId)) { result in
-            let (fileInfo, error) = ResultHandler.handleResult(result: result)
+        let request = FileProvider.request(.getFile(fileId: fileId, parameters: queryArgs)) {  [weak self] result in
+            guard let strongSelf = self else { return }
+            let (fileInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -33,6 +40,13 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 查询文件列表
+    ///
+    /// 先使用 setQuery 方法设置条件，将会获取满足条件的文件。
+    /// 如果不设置条件，将获取所有文件。
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func find(_ completion:@escaping FilesResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -53,6 +67,12 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 删除多个文件
+    ///
+    /// - Parameters:
+    ///   - fileIds: 文件 Id 数组
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -73,6 +93,15 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 上传文件
+    ///
+    /// - Parameters:
+    ///   - filename: 文件名称
+    ///   - localPath: 文件本地路径
+    ///   - categoryName: 文件分类
+    ///   - progressBlock: progressBlock
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -118,6 +147,10 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 获取文件分类
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func getCategoryList(_ completion:@escaping FileCategorysResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -140,6 +173,12 @@ open class FileManager: BaseQuery {
 
     // MARK: FileCategory
 
+    /// 获取分类详情
+    ///
+    /// - Parameters:
+    ///   - Id: 分类 Id
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func getCategory(Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -147,8 +186,9 @@ open class FileManager: BaseQuery {
             return nil
         }
 
-        let request = FileProvider.request(.getCategory(categoryId: Id)) { result in
-            let (categoryInfo, error) = ResultHandler.handleResult(result: result)
+        let request = FileProvider.request(.getCategory(categoryId: Id, parameter: queryArgs)) { [weak self] result in
+            guard let strongSelf = self else { return }
+            let (categoryInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -159,6 +199,12 @@ open class FileManager: BaseQuery {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 指定分类下的文件列表
+    ///
+    /// - Parameters:
+    ///   - categoryId: 分类 Id
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc open func getFileList(categoryId: String, completion:@escaping FilesResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {

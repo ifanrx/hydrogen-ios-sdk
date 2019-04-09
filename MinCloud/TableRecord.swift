@@ -13,6 +13,8 @@ import Result
 @objc(BAASTableRecord)
 public class TableRecord: BaseRecord {
     @objc public var tableIdentify: String
+
+    /// 记录所有的信息
     @objc public var recordInfo: [String: Any] = [:]
 
     @objc public init(tableIdentify: String, recordId: String?) {
@@ -28,6 +30,12 @@ public class TableRecord: BaseRecord {
         return recordInfo[key]
     }
 
+    /// 将新增的记录上传到服务器
+    ///
+    /// 记录新增成功后，新的记录值将同时被更新到本地的记录，可通过 recordInfo 查询。
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -52,6 +60,12 @@ public class TableRecord: BaseRecord {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 更新记录
+    ///
+    /// 记录更新成功后，新的记录值将同时被更新到本地的记录，可通过 recordInfo 查询。。
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
@@ -80,6 +94,12 @@ public class TableRecord: BaseRecord {
         return RequestCanceller(cancellable: request)
     }
 
+    /// 删除本记录
+    ///
+    /// 记录删除成功后，本地的记录也同时被清空。
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {

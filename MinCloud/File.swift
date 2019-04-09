@@ -22,6 +22,10 @@ open class File: NSObject {
     @objc public var localPath: String!
     @objc public var createdAt: TimeInterval = 0
 
+    /**
+     *  文件信息
+     *  在给类型为 file 类型的列赋值时，必须以下面方式组织文件信息
+     */
     @objc public var fileInfo: [String: Any] {
         var info: [String: Any] = [:]
         if let fileId = Id {
@@ -44,6 +48,12 @@ open class File: NSObject {
         return info
     }
 
+    /// 删除本文件
+    ///
+    /// 删除文件后，本地文件信息不清空，建议开发者自行清空。
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns: 
     @discardableResult
     @objc open func delete(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard User.currentUser?.hadLogin ?? false else {
