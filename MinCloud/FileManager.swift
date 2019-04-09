@@ -85,11 +85,15 @@ open class FileManager: BaseQuery {
             if error != nil {
                 completion(nil, error)
             } else {
+                guard fileInfo != nil, fileInfo?.getString("policy") != nil, fileInfo?.getString("authorization") != nil, fileInfo?.getString("file_link") != nil  else {
+                    completion(nil, HError.init(code: 500))
+                    return
+                }
+
                 let path = fileInfo?.getString("file_link")
                 let id = fileInfo?.getString("id")
-                let parameters: [String: String] = ["policy": (fileInfo?.getString("policy")!)!, "authorization": (fileInfo?.getString("authorization")!)!]
-                FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url")!)!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
-                    print("progress = \(progress)")
+                let parameters: [String: String] = ["policy": (fileInfo?.getString("policy"))!, "authorization": (fileInfo?.getString("authorization"))!]
+                FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url"))!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
                     progressBlock(progress.progressObject)
                 }, completion: { result in
                     let (fileInfo, error) = ResultHandler.handleResult(result: result)

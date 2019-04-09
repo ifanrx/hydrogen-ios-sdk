@@ -83,7 +83,7 @@ extension FileAPI: TargetType {
         case .UPUpload(_, let localPath, let parameters):
             let url = URL(fileURLWithPath: localPath)
             var formDatas: [MultipartFormData] = []
-            var formData = MultipartFormData(provider: .file(url), name: "file", fileName: "1", mimeType: nil)
+            var formData = MultipartFormData(provider: .file(url), name: "file")
             formDatas.append(formData)
             for (key, value) in parameters {
                 formData = MultipartFormData(provider: .data(value.data(using: .utf8)!), name: key)
