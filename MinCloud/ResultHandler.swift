@@ -172,26 +172,29 @@ extension ResultHandler {
         return nil
     }
 
-    static func dictToRecords(identify: String, dict: [String: Any]?) -> [TableRecord]? {
-        var records: [TableRecord]!
-        if let dict = dict, let objects = dict["objects"] as? [[String: Any]] {
-            records = []
-            for fileDict in objects {
-                let recordId = fileDict.getString("_id")
-                let record = TableRecord(tableIdentify: identify, Id: recordId)
-                if let createdBy = dict.getDict("created_by") as? [String: Any] {
-                    record.createdBy = createdBy
-                } else {
-                    record.createdById = dict.getInt("created_by")
-                }
-                record.createdAt = dict.getDouble("created_at")
-                record.updatedAt = dict.getDouble("updated_at")
-                record.acl = dict.getString("acl")
-                record.recordInfo = fileDict
-                records.append(record)
+    static func dictToRecordListResult(identify: String, dict: [String: Any]?) -> RecordListResult? {
+        var listResults: RecordListResult!
+        if let dict = dict {
+            listResults = RecordListResult()
+            if let meta = dict["meta"] as? [String: Any] {
+
+                listResults.limit = meta.getInt("limit")
+                listResults.offset = meta.getInt("offset")
+                listResults.totalCount = meta.getInt("total_count")
             }
+
+            var records: [TableRecord]!
+            if let objects = dict["objects"] as? [[String: Any]] {
+                records = []
+                for recordDict in objects {
+                    if let record = ResultHandler.dictToRecord(identify: identify, dict: recordDict) {
+                        records.append(record)
+                    }
+                }
+            }
+            listResults.records = records
         }
-        return records
+        return listResults
     }
 }
 
@@ -216,26 +219,29 @@ extension ResultHandler {
         return file
     }
 
-    static func dictToFiles(dict: [String: Any]?) -> [File]? {
-        var files: [File]!
-        if let dict = dict, let objects = dict["objects"] as? [[String: Any]] {
-            files = []
-            for fileDict in objects {
-                let file = File()
-                file.Id = fileDict.getString("id")
-                file.name = fileDict.getString("name")
-                file.mimeType = fileDict.getString("mime_type")
-                file.size = fileDict.getInt("size")
-                file.cdnPath = fileDict.getString("path")
-                file.createdAt = fileDict.getDouble("created_at")
-                let category = FileCategory()
-                category.categoryId = fileDict.getDict("category")?.getString("id")
-                category.name = fileDict.getDict("category")?.getString("name")
-                file.category = category
-                files.append(file)
+    static func dictToFileListResult(dict: [String: Any]?) -> FileListResult? {
+        var listResults: FileListResult!
+        if let dict = dict {
+            listResults = FileListResult()
+            if let meta = dict["meta"] as? [String: Any] {
+
+                listResults.limit = meta.getInt("limit")
+                listResults.offset = meta.getInt("offset")
+                listResults.totalCount = meta.getInt("total_count")
             }
+
+            var files: [File]!
+            if let objects = dict["objects"] as? [[String: Any]] {
+                files = []
+                for fileDict in objects {
+                    if let file = ResultHandler.dictToFile(dict: fileDict) {
+                        files.append(file)
+                    }
+                }
+            }
+            listResults.files = files
         }
-        return files
+        return listResults
     }
 
     static func dictToFileCategory(dict: [String: Any]?) -> FileCategory? {
@@ -245,23 +251,37 @@ extension ResultHandler {
             category.categoryId = categoryDict.getString("id")
             category.name = categoryDict.getString("name")
             category.files = categoryDict.getInt("files")
+            category.createdAt = categoryDict.getDouble("created_at")
+            category.updatedAt = categoryDict.getDouble("updated_at")
         }
         return category
     }
 
-    static func dictToFileCategorys(dict: [String: Any]?) -> [FileCategory]? {
-        var categorys: [FileCategory]!
-        if let dict = dict, let objects = dict["objects"] as? [[String: Any]] {
-            categorys = []
-            for categoryDict in objects {
-                let category = FileCategory()
-                category.categoryId = categoryDict.getString("id")
-                category.name = categoryDict.getString("name")
-                category.files = categoryDict.getInt("files")
-                categorys.append(category)
+    static func dictToFileCategoryListResult(dict: [String: Any]?) -> FileCategoryListResult? {
+        var listResults: FileCategoryListResult!
+        if let dict = dict {
+            listResults = FileCategoryListResult()
+            if let meta = dict["meta"] as? [String: Any] {
+
+                listResults.limit = meta.getInt("limit")
+                listResults.offset = meta.getInt("offset")
+                listResults.totalCount = meta.getInt("total_count")
             }
+
+            var categorys: [FileCategory]!
+            if let objects = dict["objects"] as? [[String: Any]] {
+                categorys = []
+                for categoryDict in objects {
+                    let category = FileCategory()
+                    category.categoryId = categoryDict.getString("id")
+                    category.name = categoryDict.getString("name")
+                    category.files = categoryDict.getInt("files")
+                    categorys.append(category)
+                }
+            }
+            listResults.fileCategorys = categorys
         }
-        return categorys
+        return listResults
     }
 }
 
@@ -290,44 +310,43 @@ extension ResultHandler {
         return content
     }
 
-    static func dictToContents(dict: [String: Any]?) -> [Content]? {
-        var contents: [Content]!
-        if let dict = dict, let objects = dict["objects"] as? [[String: Any]] {
-            contents = []
-            for contentDict in objects {
-                let content = Content()
-                content.contentId = contentDict.getInt("id")
-                content.title = contentDict.getString("title")
-                content.cover = contentDict.getString("cover")
-                content.desc = contentDict.getString("description")
-                content.categories = contentDict.getArray("categories", type: Int.self)
-                content.groupId = contentDict.getInt("group_id")
-                content.content = contentDict.getString("content")
-                if let createdBy = dict.getDict("created_by") as? [String: Any] {
-                    content.createdBy = createdBy
-                } else {
-                    content.createdById = dict.getInt("created_by")
-                }
-                content.createdAt = dict.getDouble("created_at")
-                content.updatedAt = dict.getDouble("created_at")
-                contents.append(content)
+    static func dictToContentListResult(dict: [String: Any]?) -> ContentListResult? {
+        var listResults: ContentListResult!
+        if let dict = dict {
+            listResults = ContentListResult()
+            if let meta = dict["meta"] as? [String: Any] {
+
+                listResults.limit = meta.getInt("limit")
+                listResults.offset = meta.getInt("offset")
+                listResults.totalCount = meta.getInt("total_count")
             }
+
+            var contents: [Content]!
+            if let objects = dict["objects"] as? [[String: Any]] {
+                contents = []
+                for contentDict in objects {
+                    if let content = ResultHandler.dictToContent(dict: contentDict) {
+                        contents.append(content)
+                    }
+                }
+            }
+            listResults.contents = contents
         }
-        return contents
+        return listResults
     }
 
     static func dictToContentCategory(dict: [String: Any]?) -> ContentCategory? {
         var category: ContentCategory!
         if let categoryDict = dict {
             category = ContentCategory()
-            category.categoryId = categoryDict.getString("id")
+            category.categoryId = categoryDict.getInt("id")
             category.name = categoryDict.getString("name")
             category.haveChildren = categoryDict.getBool("have_children")
             let children = categoryDict.getArray("children", type: [String: Any].self)
             var subCategorys: [ContentCategory] = []
             for subDict in children {
                 let subCategory = ContentCategory()
-                subCategory.categoryId = subDict.getString("id")
+                subCategory.categoryId = subDict.getInt("id")
                 subCategory.name = subDict.getString("name")
                 subCategory.haveChildren = subDict.getBool("have_children")
                 subCategorys.append(subCategory)
@@ -337,28 +356,28 @@ extension ResultHandler {
         return category
     }
 
-    static func dictToContentCategorys(dict: [String: Any]?) -> [ContentCategory]? {
-        var categorys: [ContentCategory]!
-        if let dict = dict, let objects = dict["objects"] as? [[String: Any]] {
-            categorys = []
-            for categoryDict in objects {
-                let category = ContentCategory()
-                category.categoryId = categoryDict.getString("id")
-                category.name = categoryDict.getString("name")
-                category.haveChildren = categoryDict.getBool("have_children")
-                let children = categoryDict.getArray("children", type: [String: Any].self)
-                var subCategorys: [ContentCategory] = []
-                for subDict in children {
-                    let subCategory = ContentCategory()
-                    subCategory.categoryId = subDict.getString("id")
-                    subCategory.name = subDict.getString("name")
-                    subCategory.haveChildren = subDict.getBool("have_children")
-                    subCategorys.append(subCategory)
-                }
-                category.children = subCategorys
-                categorys.append(category)
+    static func dictToContentCategoryListResult(dict: [String: Any]?) -> ContentCategoryListResult? {
+        var listResults: ContentCategoryListResult!
+        if let dict = dict {
+            listResults = ContentCategoryListResult()
+            if let meta = dict["meta"] as? [String: Any] {
+
+                listResults.limit = meta.getInt("limit")
+                listResults.offset = meta.getInt("offset")
+                listResults.totalCount = meta.getInt("total_count")
             }
+
+            var categorys: [ContentCategory]!
+            if let objects = dict["objects"] as? [[String: Any]] {
+                categorys = []
+                for categoryDict in objects {
+                    if let category = ResultHandler.dictToContentCategory(dict: categoryDict) {
+                        categorys.append(category)
+                    }
+                }
+            }
+            listResults.contentCategorys = categorys
         }
-        return categorys
+        return listResults
     }
 }

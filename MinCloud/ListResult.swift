@@ -23,3 +23,33 @@ public class UserListResult: ListResult {
 
     @objc public internal(set) var users: [User]?
 }
+
+@objc(BaaSRecordListResult)
+public class RecordListResult: ListResult {
+
+    @objc public internal(set) var records: [TableRecord]?
+}
+
+@objc(BaaSFileListResult)
+public class FileListResult: ListResult {
+
+    @objc public internal(set) var files: [File]?
+}
+
+@objc(BaaSFileCategoryListResult)
+public class FileCategoryListResult: ListResult {
+
+    @objc public internal(set) var fileCategorys: [FileCategory]?
+}
+
+@objc(BaaSContentListResult)
+public class ContentListResult: ListResult {
+
+    @objc public internal(set) var contents: [Content]?
+}
+
+@objc(BaaSContentCategoryListResult)
+public class ContentCategoryListResult: ListResult {
+
+    @objc public internal(set) var contentCategorys: [ContentCategory]?
+}

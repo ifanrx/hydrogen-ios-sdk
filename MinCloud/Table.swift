@@ -168,7 +168,7 @@ public class Table: NSObject {
     }
 
     @discardableResult
-    @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
+    @objc public func find(_ completion:@escaping RecordListResultCompletion) -> RequestCanceller? {
         return self.find(query: Query(), completion: completion)
     }
 
@@ -180,7 +180,7 @@ public class Table: NSObject {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func find(query: Query, completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
+    @objc public func find(query: Query, completion:@escaping RecordListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -192,7 +192,7 @@ public class Table: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let records = ResultHandler.dictToRecords(identify: strongSelf.identify, dict: recordsInfo)
+                let records = ResultHandler.dictToRecordListResult(identify: strongSelf.identify, dict: recordsInfo)
                 completion(records, nil)
             }
         }

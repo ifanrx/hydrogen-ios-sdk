@@ -15,4 +15,6 @@ open class FileCategory: NSObject {
     @objc public internal(set) var categoryId: String!
     @objc public internal(set) var name: String!
     @objc public internal(set) var files: Int = 0
+    @objc public internal(set) var updatedAt: TimeInterval = 0
+    @objc public internal(set) var createdAt: TimeInterval = 0
 }

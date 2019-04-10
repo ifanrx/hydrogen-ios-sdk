@@ -45,7 +45,7 @@ open class FileManager: NSObject {
     }
 
     @discardableResult
-    @objc open func find(_ completion:@escaping FilesResultCompletion) -> RequestCanceller? {
+    @objc open func find(_ completion:@escaping FileListResultCompletion) -> RequestCanceller? {
         return self.find(query: Query(), completion: completion)
     }
 
@@ -57,7 +57,7 @@ open class FileManager: NSObject {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func find(query: Query, completion:@escaping FilesResultCompletion) -> RequestCanceller? {
+    @objc open func find(query: Query, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -68,7 +68,7 @@ open class FileManager: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let files = ResultHandler.dictToFiles(dict: filesInfo)
+                let files = ResultHandler.dictToFileListResult(dict: filesInfo)
                 completion(files, nil)
             }
         }
@@ -158,7 +158,7 @@ open class FileManager: NSObject {
     }
 
     @discardableResult
-    @objc open func getCategoryList(_ completion:@escaping FileCategorysResultCompletion) -> RequestCanceller? {
+    @objc open func getCategoryList(_ completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
         return self.getCategoryList(query: Query(), completion: completion)
     }
 
@@ -167,7 +167,7 @@ open class FileManager: NSObject {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func getCategoryList(query: Query, completion:@escaping FileCategorysResultCompletion) -> RequestCanceller? {
+    @objc open func getCategoryList(query: Query, completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -178,7 +178,7 @@ open class FileManager: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let categorys = ResultHandler.dictToFileCategorys(dict: categorysInfo)
+                let categorys = ResultHandler.dictToFileCategoryListResult(dict: categorysInfo)
                 completion(categorys, nil)
             }
         }
@@ -213,7 +213,7 @@ open class FileManager: NSObject {
     }
 
     @discardableResult
-    @objc open func getFileList(categoryId: String, completion:@escaping FilesResultCompletion) -> RequestCanceller? {
+    @objc open func getFileList(categoryId: String, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
         return self.getFileList(categoryId: categoryId, query: Query(), completion: completion)
     }
 
@@ -224,7 +224,7 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func getFileList(categoryId: String, query: Query, completion:@escaping FilesResultCompletion) -> RequestCanceller? {
+    @objc open func getFileList(categoryId: String, query: Query, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -236,7 +236,7 @@ open class FileManager: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let files = ResultHandler.dictToFiles(dict: filesInfo)
+                let files = ResultHandler.dictToFileListResult(dict: filesInfo)
                 completion(files, nil)
             }
         }

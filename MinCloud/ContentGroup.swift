@@ -51,7 +51,7 @@ open class ContentGroup: NSObject {
     }
 
     @discardableResult
-    @objc open func find(_ completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+    @objc open func find(_ completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
         return self.find(query: Query(), completion: completion)
     }
 
@@ -63,7 +63,7 @@ open class ContentGroup: NSObject {
     /// - Parameter completion: 结果回调
     /// - Returns: 
     @discardableResult
-    @objc open func find(query: Query, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+    @objc open func find(query: Query, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -75,7 +75,7 @@ open class ContentGroup: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let contents = ResultHandler.dictToContents(dict: contentsInfo)
+                let contents = ResultHandler.dictToContentListResult(dict: contentsInfo)
                 completion(contents, nil)
             }
         }
@@ -83,7 +83,7 @@ open class ContentGroup: NSObject {
     }
 
     @discardableResult
-    @objc open func find(categoryId: String, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+    @objc open func find(categoryId: String, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
         return self.find(categoryId: categoryId, query: Query(), completion: completion)
     }
 
@@ -97,7 +97,7 @@ open class ContentGroup: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func find(categoryId: String, query: Query, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+    @objc open func find(categoryId: String, query: Query, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -109,7 +109,7 @@ open class ContentGroup: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let contents = ResultHandler.dictToContents(dict: contentsInfo)
+                let contents = ResultHandler.dictToContentListResult(dict: contentsInfo)
                 completion(contents, nil)
             }
         }
@@ -117,7 +117,7 @@ open class ContentGroup: NSObject {
     }
 
     @discardableResult
-    @objc open func getCategoryList(_ completion: @escaping ContentCategorysResultCompletion) -> RequestCanceller? {
+    @objc open func getCategoryList(_ completion: @escaping ContentCategoryListResultCompletion) -> RequestCanceller? {
         return self.getCategoryList(query: Query(), completion: completion)
     }
 
@@ -126,7 +126,7 @@ open class ContentGroup: NSObject {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func getCategoryList(query: Query, completion: @escaping ContentCategorysResultCompletion) -> RequestCanceller? {
+    @objc open func getCategoryList(query: Query, completion: @escaping ContentCategoryListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -138,7 +138,7 @@ open class ContentGroup: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let categorys = ResultHandler.dictToContentCategorys(dict: categorysInfo)
+                let categorys = ResultHandler.dictToContentCategoryListResult(dict: categorysInfo)
                 completion(categorys, nil)
             }
         }
