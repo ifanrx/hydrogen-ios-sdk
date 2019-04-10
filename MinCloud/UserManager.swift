@@ -13,23 +13,19 @@ import Result
 @objc(BaaSUserManager)
 open class UserManager: NSObject {
 
-    @discardableResult
-    @objc open func find(_ completion:@escaping UserListResultCompletion) -> RequestCanceller? {
-        return self.find(query: Query(), completion: completion)
-    }
-
     /// 查询用户
     ///
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func find(query: Query, completion:@escaping UserListResultCompletion) -> RequestCanceller? {
+    @objc open func find(query: Query? = nil, completion:@escaping UserListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = UserProvider.request(.getUserList(parameters: query.queryArgs)) { result in
+        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        let request = UserProvider.request(.getUserList(parameters: queryArgs)) { result in
             let (usersInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
@@ -41,12 +37,6 @@ open class UserManager: NSObject {
         return RequestCanceller(cancellable: request)
     }
 
-    @discardableResult
-    @objc open func get(_ userId: Int, completion:@escaping UserResultCompletion) -> RequestCanceller? {
-        return self.get(userId, query: Query(), completion: completion)
-
-    }
-
     /// 获取用户详细信息
     ///
     /// - Parameters:
@@ -54,13 +44,14 @@ open class UserManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns: 
     @discardableResult
-    @objc open func get(_ userId: Int, query: Query, completion:@escaping UserResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ userId: Int, query: Query? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = UserProvider.request(.getUserInfo(userId: userId)) { result in
+        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        let request = UserProvider.request(.getUserInfo(userId: userId, parameters: queryArgs)) { result in
             let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
@@ -80,7 +71,7 @@ open class UserManager: NSObject {
             return nil
         }
 
-        let request = UserProvider.request(.getUserInfo(userId: Storage.shared.userId!)) { result in
+        let request = UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:])) { result in
             let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)

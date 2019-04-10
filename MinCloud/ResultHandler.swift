@@ -154,10 +154,10 @@ extension ResultHandler {
 // MARK: TableResult
 
 extension ResultHandler {
-    static func dictToRecord(identify: String, dict: [String: Any]?) -> TableRecord? {
+    static func dictToRecord(table: Table, dict: [String: Any]?) -> TableRecord? {
         if let dict = dict {
             let recordId = dict.getString("_id")
-            let record = TableRecord(tableIdentify: identify, Id: recordId)
+            let record = TableRecord(table: table, Id: recordId)
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 record.createdBy = createdBy
             } else {
@@ -172,7 +172,7 @@ extension ResultHandler {
         return nil
     }
 
-    static func dictToRecordListResult(identify: String, dict: [String: Any]?) -> RecordListResult? {
+    static func dictToRecordListResult(table: Table, dict: [String: Any]?) -> RecordListResult? {
         var listResults: RecordListResult!
         if let dict = dict {
             listResults = RecordListResult()
@@ -187,7 +187,7 @@ extension ResultHandler {
             if let objects = dict["objects"] as? [[String: Any]] {
                 records = []
                 for recordDict in objects {
-                    if let record = ResultHandler.dictToRecord(identify: identify, dict: recordDict) {
+                    if let record = ResultHandler.dictToRecord(table: table, dict: recordDict) {
                         records.append(record)
                     }
                 }

@@ -12,7 +12,7 @@ import Moya
 let UserProvider = MoyaProvider<UserAPI>()
 
 enum UserAPI {
-    case getUserInfo(userId: Int)
+    case getUserInfo(userId: Int, parameters: [String: Any])
     case updateAccount(parameters: [String: Any])
     case updateUserInfo(parameters: [String: Any])
     case resetPassword(parameters: [String: Any])
@@ -27,7 +27,7 @@ extension UserAPI: TargetType {
 
     var path: String {
         switch self {
-        case .getUserInfo(let userId):
+        case .getUserInfo(let userId, _):
             return Config.User.getUserInfo(userId: userId)
         case .updateAccount:
             return Config.User.updateAccount
@@ -59,11 +59,11 @@ extension UserAPI: TargetType {
 
     var task: Task {
         switch self {
-        case .getUserInfo, .requestEmailVerify:
+        case .requestEmailVerify:
             return .requestPlain
         case .updateAccount(let parameters), .resetPassword(let parameters), .updateUserInfo(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .getUserList(let parameters):
+        case .getUserList(let parameters), .getUserInfo(_, let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         }
     }

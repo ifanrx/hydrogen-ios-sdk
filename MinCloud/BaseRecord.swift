@@ -11,6 +11,8 @@ import Foundation
 @objc(BAASRecord)
 open class BaseRecord: NSObject, RecordClearer {
 
+    @objc public internal(set) var Id: String?
+
     @objc public internal(set) var createdById: Int = -1
 
     @objc public internal(set) var createdBy: [String: Any]?

@@ -13,11 +13,6 @@ open class FileManager: NSObject {
 
     // MARK: File
 
-    @discardableResult
-    @objc open func get(_ fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
-        return self.get(fileId, query: Query(), completion: completion)
-    }
-
     /// 获取文件详情
     ///
     /// - Parameters:
@@ -25,14 +20,15 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func get(_ fileId: String, query: Query, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ fileId: String, query: Query? = nil, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = FileProvider.request(.getFile(fileId: fileId, parameters: query.queryArgs)) { result in
+        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        let request = FileProvider.request(.getFile(fileId: fileId, parameters: queryArgs)) { result in
             let (fileInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
@@ -44,11 +40,6 @@ open class FileManager: NSObject {
         return RequestCanceller(cancellable: request)
     }
 
-    @discardableResult
-    @objc open func find(_ completion:@escaping FileListResultCompletion) -> RequestCanceller? {
-        return self.find(query: Query(), completion: completion)
-    }
-
     /// 查询文件列表
     ///
     /// 先使用 setQuery 方法设置条件，将会获取满足条件的文件。
@@ -57,13 +48,14 @@ open class FileManager: NSObject {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func find(query: Query, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
+    @objc open func find(query: Query? = nil, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = FileProvider.request(.findFiles(parameters: query.queryArgs)) { result in
+        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        let request = FileProvider.request(.findFiles(parameters: queryArgs)) { result in
             let (filesInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
@@ -75,10 +67,6 @@ open class FileManager: NSObject {
         return RequestCanceller(cancellable: request)
     }
 
-    @objc open func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        return self.delete(fileIds, query: Query(), completion: completion)
-    }
-
     /// 删除多个文件
     ///
     /// - Parameters:
@@ -86,7 +74,7 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func delete(_ fileIds: [String], query: Query, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc open func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(false, HError.init(code: 604))
             return nil
@@ -157,23 +145,19 @@ open class FileManager: NSObject {
         return RequestCanceller(cancellable: request)
     }
 
-    @discardableResult
-    @objc open func getCategoryList(_ completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
-        return self.getCategoryList(query: Query(), completion: completion)
-    }
-
     /// 获取文件分类
     ///
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func getCategoryList(query: Query, completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
+    @objc open func getCategoryList(query: Query? = nil, completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = FileProvider.request(.findCategories(parameters: query.queryArgs)) { result in
+        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        let request = FileProvider.request(.findCategories(parameters: queryArgs)) { result in
             let (categorysInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
@@ -212,11 +196,6 @@ open class FileManager: NSObject {
         return RequestCanceller(cancellable: request)
     }
 
-    @discardableResult
-    @objc open func getFileList(categoryId: String, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
-        return self.getFileList(categoryId: categoryId, query: Query(), completion: completion)
-    }
-
     /// 指定分类下的文件列表
     ///
     /// - Parameters:
@@ -224,14 +203,15 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func getFileList(categoryId: String, query: Query, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
+    @objc open func getFileList(categoryId: String, query: Query? = nil, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        query.queryArgs["category_id"] = categoryId
-        let request = FileProvider.request(.findFilesInCategory(parameters: query.queryArgs)) { result in
+        var queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        queryArgs["category_id"] = categoryId
+        let request = FileProvider.request(.findFilesInCategory(parameters: queryArgs)) { result in
             let (filesInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)

@@ -13,23 +13,21 @@ import Result
 @objc(BAASTableRecord)
 public class TableRecord: BaseRecord {
 
-    @objc public internal(set) var Id: String?
-
     @objc public internal(set) var acl: String?
 
-    @objc var tableIdentify: String
+    @objc public let table: Table
 
     /// 记录所有的信息
     @objc public internal(set) var recordInfo: [String: Any] = [:]
 
-    @objc public init(tableIdentify: String, Id: String?) {
-        self.tableIdentify = tableIdentify
-        self.Id = Id
+    @objc public init(table: Table, Id: String?) {
+        self.table = table
         super.init()
+        self.Id = Id
     }
 
-    @objc public convenience init(tableIdentify: String) {
-        self.init(tableIdentify: tableIdentify, Id: nil)
+    @objc public convenience init(table: Table) {
+        self.init(table: table, Id: nil)
     }
 
     @objc public func get(key: String) -> Any? {
@@ -49,7 +47,7 @@ public class TableRecord: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.save(tableId: tableIdentify, parameters: record)) { [weak self] result in
+        let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
@@ -92,7 +90,7 @@ public class TableRecord: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.update(tableId: tableIdentify, recordId: Id!, parameters: record)) { [weak self] result in
+        let request = TableRecordProvider.request(.update(tableId: table.identify, recordId: Id!, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
@@ -127,7 +125,7 @@ public class TableRecord: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.delete(tableId: tableIdentify, recordId: Id!)) { [weak self] result in
+        let request = TableRecordProvider.request(.delete(tableId: table.identify, recordId: Id!)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
