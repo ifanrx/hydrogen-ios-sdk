@@ -11,11 +11,7 @@ import Moya
 import Result
 
 class ResultHandler {
-    static func handleResult(clearer: RecordClearer? = nil,
-                             result: Result<Moya.Response, MoyaError>) -> ([String: Any]?, Error?) {
-        if let clearer = clearer {
-            clearer.clear()
-        }
+    static func handleResult(_ result: Result<Moya.Response, MoyaError>) -> ([String: Any]?, Error?) {
         switch result {
         case .success(let response):
             if response.statusCode == 401 {

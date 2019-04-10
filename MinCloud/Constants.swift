@@ -39,7 +39,6 @@ public typealias ContentCategorysResultCompletion = (_ file: [ContentCategory]?,
 
 public typealias ProgressBlock = (_ progress: Progress?) -> Void
 
-
 public typealias CurrentUserResultCompletion = (_ user: CurrentUser?, _ error: Error?) -> Void
 
 public typealias UserListResultCompletion = (_ userListResult: UserListResult?, _ error: Error?) -> Void

@@ -79,7 +79,6 @@ class Storage {
         }
     }
 
-
     func reset() {
         token = nil
         openid = nil

@@ -16,7 +16,7 @@ public class TableRecord: BaseRecord {
     @objc public internal(set) var Id: String?
 
     @objc public internal(set) var acl: String?
-    
+
     @objc var tableIdentify: String
 
     /// 记录所有的信息
@@ -24,6 +24,7 @@ public class TableRecord: BaseRecord {
 
     @objc public init(tableIdentify: String, Id: String?) {
         self.tableIdentify = tableIdentify
+        self.Id = Id
         super.init()
     }
 
@@ -50,12 +51,20 @@ public class TableRecord: BaseRecord {
 
         let request = TableRecordProvider.request(.save(tableId: tableIdentify, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
-            let (recordInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
                 if let recordInfo = recordInfo {
                     strongSelf.Id = recordInfo.getString("id")
+                    strongSelf.acl = recordInfo.getString("acl")
+                    if let createdBy = recordInfo.getDict("created_by") as? [String: Any] {
+                        strongSelf.createdBy = createdBy
+                    } else {
+                        strongSelf.createdById = recordInfo.getInt("created_by")
+                    }
+                    strongSelf.createdAt = recordInfo.getDouble("created_at")
+                    strongSelf.updatedAt = recordInfo.getDouble("updated_at")
                     strongSelf.recordInfo.merge(recordInfo)
                 }
                 completion(true, nil)
@@ -85,12 +94,13 @@ public class TableRecord: BaseRecord {
 
         let request = TableRecordProvider.request(.update(tableId: tableIdentify, recordId: Id!, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
-            let (recordInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
                 if let recordInfo = recordInfo {
                     strongSelf.Id = recordInfo.getString("id")
+                    strongSelf.updatedAt = recordInfo.getDouble("updated_at")
                     strongSelf.recordInfo.merge(recordInfo)
                 }
                 completion(true, nil)
@@ -119,7 +129,7 @@ public class TableRecord: BaseRecord {
 
         let request = TableRecordProvider.request(.delete(tableId: tableIdentify, recordId: Id!)) { [weak self] result in
             guard let strongSelf = self else { return }
-            let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {

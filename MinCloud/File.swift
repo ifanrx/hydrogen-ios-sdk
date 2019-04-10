@@ -67,7 +67,7 @@ open class File: NSObject {
         }
 
         let request = FileProvider.request(.deleteFile(fileId: Id!)) { result in
-            let (_, error) = ResultHandler.handleResult(result: result)
+            let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {

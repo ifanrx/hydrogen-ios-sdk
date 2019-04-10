@@ -30,7 +30,7 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.resetPassword(parameters: ["email": email])) { result in
-            let (_, error) = ResultHandler.handleResult(result: result)
+            let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
@@ -53,7 +53,7 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateAccount(parameters: ["username": username])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -77,7 +77,7 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateAccount(parameters: ["email": email])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -101,7 +101,7 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateAccount(parameters: ["password": password, "new_password": newPassword])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -124,7 +124,7 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateUserInfo(parameters: userInfo)) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -145,7 +145,7 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.requestEmailVerify) { result in
-            let (_, error) = ResultHandler.handleResult(result: result)
+            let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {

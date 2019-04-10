@@ -11,7 +11,7 @@ import Moya
 import Result
 
 @objc(BAASContentGroup)
-open class ContentGroup: Query {
+open class ContentGroup: NSObject {
     var Id: String
     var name: String!
 
@@ -20,22 +20,26 @@ open class ContentGroup: Query {
         super.init()
     }
 
+    @discardableResult
+    @objc open func get(_ contentId: String, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
+        return self.get(contentId, query: Query(), completion: completion)
+    }
+
     /// 获取内容详情
     ///
     /// - Parameters:
     ///   - contentId: 内容 Id
-    ///   - completion: 结果结果
+    ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func get(_ contentId: String, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ contentId: String, query: Query, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = ContentGroupProvider.request(.conentDetail(id: contentId, parameters: queryArgs)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (contentInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        let request = ContentGroupProvider.request(.conentDetail(id: contentId, parameters: query.queryArgs)) { result in
+            let (contentInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -46,6 +50,11 @@ open class ContentGroup: Query {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
+    @objc open func find(_ completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+        return self.find(query: Query(), completion: completion)
+    }
+
     /// 查询内容列表
     ///
     /// 先使用 setQuery 方法设置条件，将会获取满足条件的文件。
@@ -54,16 +63,15 @@ open class ContentGroup: Query {
     /// - Parameter completion: 结果回调
     /// - Returns: 
     @discardableResult
-    @objc open func find(_ completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+    @objc open func find(query: Query, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        queryArgs["content_group_id"] = Id
-        let request = ContentGroupProvider.request(.contentList(parameters: queryArgs)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (contentsInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        query.queryArgs["content_group_id"] = Id
+        let request = ContentGroupProvider.request(.contentList(parameters: query.queryArgs)) { result in
+            let (contentsInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -72,6 +80,11 @@ open class ContentGroup: Query {
             }
         }
         return RequestCanceller(cancellable: request)
+    }
+
+    @discardableResult
+    @objc open func find(categoryId: String, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+        return self.find(categoryId: categoryId, query: Query(), completion: completion)
     }
 
     /// 查询指定分类下的内容列表
@@ -84,16 +97,15 @@ open class ContentGroup: Query {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func find(categoryId: String, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
+    @objc open func find(categoryId: String, query: Query, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        queryArgs["category_id"] = categoryId
-        let request = ContentGroupProvider.request(.contentListInCategory(prameters: queryArgs)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (contentsInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        query.queryArgs["category_id"] = categoryId
+        let request = ContentGroupProvider.request(.contentListInCategory(prameters: query.queryArgs)) { result in
+            let (contentsInfo, error) = ResultHandler.handleResult( result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -104,21 +116,25 @@ open class ContentGroup: Query {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
+    @objc open func getCategoryList(_ completion: @escaping ContentCategorysResultCompletion) -> RequestCanceller? {
+        return self.getCategoryList(query: Query(), completion: completion)
+    }
+
     /// 获取分类列表
     ///
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func getCategoryList(_ completion: @escaping ContentCategorysResultCompletion) -> RequestCanceller? {
+    @objc open func getCategoryList(query: Query, completion: @escaping ContentCategorysResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        queryArgs["content_group_id"] = Id
-        let request = ContentGroupProvider.request(.categoryList(parameters: queryArgs)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (categorysInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        query.queryArgs["content_group_id"] = Id
+        let request = ContentGroupProvider.request(.categoryList(parameters: query.queryArgs)) { result in
+            let (categorysInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -142,9 +158,8 @@ open class ContentGroup: Query {
             return nil
         }
 
-        let request = ContentGroupProvider.request(.categoryDetail(id: Id, parameters: queryArgs)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (categoryInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        let request = ContentGroupProvider.request(.categoryDetail(id: Id)) { result in
+            let (categoryInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {

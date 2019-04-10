@@ -16,7 +16,7 @@ enum ContentGroupAPI {
     case contentList(parameters: [String: Any]) // 某个内容库全部内容，或某个分类的内容
     case contentListInCategory(prameters: [String: Any]) // 某个分类的内容列表
     case categoryList(parameters: [String: Any]) // 某个内容库分类列表
-    case categoryDetail(id: String, parameters: [String: Any]) // 内容详情
+    case categoryDetail(id: String) // 内容详情
 }
 
 extension ContentGroupAPI: TargetType {
@@ -34,7 +34,7 @@ extension ContentGroupAPI: TargetType {
             return Config.ContentGroup.contentList
         case .categoryList:
             return Config.ContentGroup.categoryList
-        case .categoryDetail(let categoryId, _):
+        case .categoryDetail(let categoryId):
             return Config.ContentGroup.categoryDetail(categoryId: categoryId)
 
         }
@@ -52,8 +52,10 @@ extension ContentGroupAPI: TargetType {
         switch self {
         case .contentList(let parameters), .contentListInCategory(let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
-        case .categoryList(let parameters), .conentDetail(_, let parameters), .categoryDetail(_, let parameters):
+        case .categoryList(let parameters), .conentDetail(_, let parameters):
             return.requestParameters(parameters: parameters, encoding: URLEncoding.default)
+        case .categoryDetail:
+            return .requestPlain
         }
     }
 

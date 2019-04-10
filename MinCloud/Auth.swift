@@ -30,7 +30,7 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func register(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.register(.username, ["username": username, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -50,7 +50,7 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func register(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request =  AuthProvider.request(.register(.email, ["email": email, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -72,7 +72,7 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func login(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.username, ["username": username, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -92,7 +92,7 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func login(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.email, ["email": email, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -109,7 +109,7 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func anonymousLogin(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.anonymous, [:])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -126,7 +126,7 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func logout(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.logout) { result in
-            let (_, error) = ResultHandler.handleResult(result: result)
+            let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {

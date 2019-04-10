@@ -11,7 +11,7 @@ import Moya
 import Result
 
 @objc(BAASTable)
-public class Table: Query {
+public class Table: NSObject {
     public internal(set) var Id: Int?
     public internal(set) var name: String?
     fileprivate var identify: String
@@ -63,9 +63,8 @@ public class Table: Query {
             return nil
         }
 
-        let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (resultInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!)) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -73,6 +72,11 @@ public class Table: Query {
             }
         }
         return RequestCanceller(cancellable: request)
+    }
+
+    @discardableResult
+    @objc public func delete(enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+        return self.delete(query: Query(), completion: completion)
     }
 
     /// 批量删除记录
@@ -85,16 +89,15 @@ public class Table: Query {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func delete(enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func delete(query: Query, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
-        let request = TableProvider.request(.delete(tableId: identify, parameters: queryArgs)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (resultInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        query.queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
+        let request = TableProvider.request(.delete(tableId: identify, parameters: query.queryArgs)) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -104,6 +107,11 @@ public class Table: Query {
         return RequestCanceller(cancellable: request)
     }
 
+    @discardableResult
+    @objc public func get(_ recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
+        return self.get(recordId, query: Query(), completion: completion)
+    }
+
     /// 获取记录详情
     ///
     /// - Parameters:
@@ -111,15 +119,15 @@ public class Table: Query {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func get(_ recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
+    @objc public func get(_ recordId: String, query: Query, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: queryArgs)) { [weak self] result in
+        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: query.queryArgs)) { [weak self]  result in
             guard let strongSelf = self else { return }
-            let (recordInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -141,16 +149,15 @@ public class Table: Query {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func update(_ record: BaseRecord, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func update(record: BaseRecord, query: Query, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
-        let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.record)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            let (resultInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+        query.queryArgs["enableTrigger"] = enableTrigger ? 1 : 0
+        let request = TableProvider.request(.update(tableId: identify, urlParameters: query.queryArgs, bodyParameters: record.record)) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
@@ -158,6 +165,11 @@ public class Table: Query {
             }
         }
         return RequestCanceller(cancellable: request)
+    }
+
+    @discardableResult
+    @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
+        return self.find(query: Query(), completion: completion)
     }
 
     /// 查询记录
@@ -168,15 +180,15 @@ public class Table: Query {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
+    @objc public func find(query: Query, completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { [weak self] result in
+        let request = TableProvider.request(.find(tableId: identify, parameters: query.queryArgs)) { [weak self] result in
             guard let strongSelf = self else { return }
-            let (recordsInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
+            let (recordsInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
