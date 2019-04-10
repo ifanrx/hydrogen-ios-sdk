@@ -11,24 +11,15 @@ import Foundation
 @objc(BAASRecord)
 open class BaseRecord: NSObject, RecordClearer {
 
-    @objc public var recordId: String?
+    @objc public internal(set) var createdById: Int = -1
 
-    @objc public var createById: Int = -1
+    @objc public internal(set) var createdBy: [String: Any]?
 
-    @objc public var createBy: [String: Any]?
+    @objc public internal(set) var createdAt: TimeInterval = 0
 
-    @objc public var createdAt: TimeInterval = 0
-
-    @objc public var updatedAt: TimeInterval = 0
-
-    @objc public var acl: String?
+    @objc public internal(set) var updatedAt: TimeInterval = 0
 
     @objc var record: [String: Any] = [:]
-
-    @objc public init(recordId: String?) {
-        self.recordId = recordId
-        super.init()
-    }
 
     @objc public func set(key: String, value: Any) {
         record[key] = value

@@ -23,7 +23,7 @@ public typealias COUNTResultCompletion = (_ count: Int?, _ error: Error?) -> Voi
 public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: Error?) -> Void
 
 public typealias UserResultCompletion = (_ user: User?, _ error: Error?) -> Void
-public typealias UsersResultCompletion = (_ users: [User]?, _ error: Error?) -> Void
+public typealias UsersResultCompletion = (_ users: [CurrentUser]?, _ error: Error?) -> Void
 public typealias RecordResultCompletion = (_ record: TableRecord?, _ error: Error?) -> Void
 public typealias RecordsResultCompletion = (_ records: [TableRecord]?, _ error: Error?) -> Void
 
@@ -38,3 +38,8 @@ public typealias ContentCategoryResultCompletion = (_ file: ContentCategory?, _ 
 public typealias ContentCategorysResultCompletion = (_ file: [ContentCategory]?, _ error: Error?) -> Void
 
 public typealias ProgressBlock = (_ progress: Progress?) -> Void
+
+
+public typealias CurrentUserResultCompletion = (_ user: CurrentUser?, _ error: Error?) -> Void
+
+public typealias UserListResultCompletion = (_ userListResult: UserListResult?, _ error: Error?) -> Void

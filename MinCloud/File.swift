@@ -13,20 +13,20 @@ import Result
 @objc(BAASFile)
 open class File: NSObject {
 
-    @objc public var Id: String!
-    @objc public var mimeType: String!
-    @objc public var name: String!
-    @objc public var cdnPath: String!
-    @objc public var size: Int = 0
-    @objc public var category: FileCategory!
-    @objc public var localPath: String!
-    @objc public var createdAt: TimeInterval = 0
+    @objc public internal(set) var Id: String!
+    @objc public internal(set) var mimeType: String!
+    @objc public internal(set) var name: String!
+    @objc public internal(set) var cdnPath: String!
+    @objc public internal(set) var size: Int = 0
+    @objc public internal(set) var category: FileCategory!
+    @objc public internal(set) var localPath: String!
+    @objc public internal(set) var createdAt: TimeInterval = 0
 
     /**
      *  文件信息
      *  在给类型为 file 类型的列赋值时，必须以下面方式组织文件信息
      */
-    @objc public var fileInfo: [String: Any] {
+    @objc public  var fileInfo: [String: Any] {
         var info: [String: Any] = [:]
         if let fileId = Id {
             info["id"] = fileId
@@ -56,7 +56,7 @@ open class File: NSObject {
     /// - Returns: 
     @discardableResult
     @objc open func delete(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(false, HError.init(code: 604))
             return nil
         }

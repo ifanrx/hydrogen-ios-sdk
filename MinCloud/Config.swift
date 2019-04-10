@@ -41,7 +41,7 @@ struct Config {
         headers["Content-Type"] = "application/json"
         headers["X-Hydrogen-Client-Platform"] = "NATIVE_IOS"
         headers["X-Hydrogen-Client-Version"] = version
-        if let token = MinCloud.User.currentUser?.token {
+        if let token = Storage.shared.token {
             headers["Authorization"] = "Hydrogen-r1 \(token)"
         }
         return headers

@@ -12,18 +12,23 @@ import Result
 
 @objc(BAASTableRecord)
 public class TableRecord: BaseRecord {
-    @objc public var tableIdentify: String
+
+    @objc public internal(set) var Id: String?
+
+    @objc public internal(set) var acl: String?
+    
+    @objc var tableIdentify: String
 
     /// 记录所有的信息
-    @objc public var recordInfo: [String: Any] = [:]
+    @objc public internal(set) var recordInfo: [String: Any] = [:]
 
-    @objc public init(tableIdentify: String, recordId: String?) {
+    @objc public init(tableIdentify: String, Id: String?) {
         self.tableIdentify = tableIdentify
-        super.init(recordId: recordId)
+        super.init()
     }
 
     @objc public convenience init(tableIdentify: String) {
-        self.init(tableIdentify: tableIdentify, recordId: nil)
+        self.init(tableIdentify: tableIdentify, Id: nil)
     }
 
     @objc public func get(key: String) -> Any? {
@@ -38,7 +43,7 @@ public class TableRecord: BaseRecord {
     /// - Returns:
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -50,7 +55,7 @@ public class TableRecord: BaseRecord {
                 completion(false, error)
             } else {
                 if let recordInfo = recordInfo {
-                    strongSelf.recordId = recordInfo.getString("id")
+                    strongSelf.Id = recordInfo.getString("id")
                     strongSelf.recordInfo.merge(recordInfo)
                 }
                 completion(true, nil)
@@ -68,24 +73,24 @@ public class TableRecord: BaseRecord {
     /// - Returns:
     @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(false, HError.init(code: 604))
             return nil
         }
 
-        guard recordId != nil else {
+        guard Id != nil else {
             completion(false, HError.init(code: 400, description: "recordId invalid!"))
             return nil
         }
 
-        let request = TableRecordProvider.request(.update(tableId: tableIdentify, recordId: recordId!, parameters: record)) { [weak self] result in
+        let request = TableRecordProvider.request(.update(tableId: tableIdentify, recordId: Id!, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (recordInfo, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
                 completion(false, error)
             } else {
                 if let recordInfo = recordInfo {
-                    strongSelf.recordId = recordInfo.getString("id")
+                    strongSelf.Id = recordInfo.getString("id")
                     strongSelf.recordInfo.merge(recordInfo)
                 }
                 completion(true, nil)
@@ -102,23 +107,23 @@ public class TableRecord: BaseRecord {
     /// - Returns:
     @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(false, HError.init(code: 604))
             return nil
         }
 
-        guard recordId != nil else {
+        guard Id != nil else {
             completion(false, HError.init(code: 400, description: "recordId invalid!"))
             return nil
         }
 
-        let request = TableRecordProvider.request(.delete(tableId: tableIdentify, recordId: recordId!)) { [weak self] result in
+        let request = TableRecordProvider.request(.delete(tableId: tableIdentify, recordId: Id!)) { [weak self] result in
             guard let strongSelf = self else { return }
             let (_, error) = ResultHandler.handleResult(clearer: strongSelf, result: result)
             if error != nil {
                 completion(false, error)
             } else {
-                strongSelf.recordId = nil
+                strongSelf.Id = nil
                 strongSelf.recordInfo = [:]
                 completion(true, nil)
             }

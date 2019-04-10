@@ -11,7 +11,7 @@ import Moya
 import Result
 
 @objc(BAASContentGroup)
-open class ContentGroup: BaseQuery {
+open class ContentGroup: Query {
     var Id: String
     var name: String!
 
@@ -28,7 +28,7 @@ open class ContentGroup: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc open func get(_ contentId: String, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -55,7 +55,7 @@ open class ContentGroup: BaseQuery {
     /// - Returns: 
     @discardableResult
     @objc open func find(_ completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -85,7 +85,7 @@ open class ContentGroup: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc open func find(categoryId: String, completion: @escaping ContentsResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -110,7 +110,7 @@ open class ContentGroup: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc open func getCategoryList(_ completion: @escaping ContentCategorysResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -137,7 +137,7 @@ open class ContentGroup: BaseQuery {
     /// - Returns: 
     @discardableResult
     @objc open func getCategory(_ Id: String, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }

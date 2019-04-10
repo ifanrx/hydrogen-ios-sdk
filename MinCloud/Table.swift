@@ -11,9 +11,9 @@ import Moya
 import Result
 
 @objc(BAASTable)
-public class Table: BaseQuery {
-    public var Id: Int?
-    public var name: String?
+public class Table: Query {
+    public internal(set) var Id: Int?
+    public internal(set) var name: String?
     fileprivate var identify: String
 
     @objc public init(tableId: Int) {
@@ -38,7 +38,7 @@ public class Table: BaseQuery {
     /// - Parameter recordId: 记录 Id
     /// - Returns:
     @objc public func getWithoutData(recordId: String) -> TableRecord {
-        return TableRecord(tableIdentify: identify, recordId: recordId)
+        return TableRecord(tableIdentify: identify, Id: recordId)
     }
 
     /// 批量新建记录
@@ -49,8 +49,8 @@ public class Table: BaseQuery {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func create(_ records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+    @objc public func createMany(_ records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -86,7 +86,7 @@ public class Table: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc public func delete(enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -112,7 +112,7 @@ public class Table: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc public func get(_ recordId: String, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -142,7 +142,7 @@ public class Table: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc public func update(_ record: BaseRecord, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
@@ -169,7 +169,7 @@ public class Table: BaseQuery {
     /// - Returns:
     @discardableResult
     @objc public func find(_ completion:@escaping RecordsResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }

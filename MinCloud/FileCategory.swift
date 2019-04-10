@@ -12,7 +12,7 @@ import Result
 
 @objc(BAASFileCategory)
 open class FileCategory: NSObject {
-    @objc public var categoryId: String!
-    @objc public var name: String!
-    @objc public var files: Int = 0
+    @objc public internal(set) var categoryId: String!
+    @objc public internal(set) var name: String!
+    @objc public internal(set) var files: Int = 0
 }
