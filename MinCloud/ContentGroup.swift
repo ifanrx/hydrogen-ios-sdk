@@ -30,10 +30,6 @@ open class ContentGroup: NSObject {
     /// - Returns:
     @discardableResult
     @objc open func get(_ contentId: Int64, select: [String]? = nil, expand: [String]? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var parameters: [String: String] = [:]
         if let select = select {
@@ -64,10 +60,6 @@ open class ContentGroup: NSObject {
     /// - Returns: 
     @discardableResult
     @objc open func find(query: Query? = nil, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
@@ -95,10 +87,6 @@ open class ContentGroup: NSObject {
     /// - Returns:
     @discardableResult
     @objc open func find(categoryId: Int64, query: Query? = nil, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
@@ -122,10 +110,6 @@ open class ContentGroup: NSObject {
     /// - Returns:
     @discardableResult
     @objc open func getCategoryList(query: Query? = nil, completion: @escaping ContentCategoryListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
@@ -149,10 +133,6 @@ open class ContentGroup: NSObject {
     /// - Returns: 
     @discardableResult
     @objc open func getCategory(_ Id: Int64, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let request = ContentGroupProvider.request(.categoryDetail(id: Id)) { result in
             let (categoryInfo, error) = ResultHandler.handleResult(result)

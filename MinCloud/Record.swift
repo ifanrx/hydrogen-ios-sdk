@@ -10,8 +10,8 @@ import UIKit
 import Moya
 import Result
 
-@objc(BaaSTableRecord)
-public class TableRecord: BaseRecord {
+@objc(BaaSRecord)
+public class Record: BaseRecord {
 
     @objc public internal(set) var acl: String?
 
@@ -42,10 +42,6 @@ public class TableRecord: BaseRecord {
     /// - Returns:
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(false, HError.init(code: 604))
-            return nil
-        }
 
         let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -81,10 +77,6 @@ public class TableRecord: BaseRecord {
     /// - Returns:
     @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(false, HError.init(code: 604))
-            return nil
-        }
 
         guard Id != nil else {
             completion(false, HError.init(code: 400, description: "recordId invalid!"))
@@ -117,10 +109,6 @@ public class TableRecord: BaseRecord {
     /// - Returns:
     @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(false, HError.init(code: 604))
-            return nil
-        }
 
         guard Id != nil else {
             completion(false, HError.init(code: 400, description: "recordId invalid!"))

@@ -24,11 +24,6 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public static func get(_ fileId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
-
         var parameters: [String: String] = [:]
         if let select = select {
             parameters["keys"] = select.joined(separator: ",")
@@ -55,10 +50,6 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public static func find(query: Query? = nil, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = FileProvider.request(.findFiles(parameters: queryArgs)) { result in
@@ -81,10 +72,6 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public static func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(false, HError.init(code: 604))
-            return nil
-        }
 
         let request = FileProvider.request(.deleteFiles(parameters: ["id__in": fileIds])) { result in
             let (_, error) = ResultHandler.handleResult(result)
@@ -108,10 +95,6 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public static func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let request = FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName as Any])) { result in
             let (fileInfo, error) = ResultHandler.handleResult(result)
@@ -158,10 +141,6 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public static func getCategoryList(query: Query? = nil, completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = FileProvider.request(.findCategories(parameters: queryArgs)) { result in
@@ -186,10 +165,6 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public static func getCategory(_ Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let request = FileProvider.request(.getCategory(categoryId: Id)) { result in
             let (categoryInfo, error) = ResultHandler.handleResult(result)
@@ -212,10 +187,6 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public static func find(categoryId: String, query: Query? = nil, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId

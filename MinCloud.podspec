@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '0.0.5'
+  s.version          = '0.0.6'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/ifanrx/hydrogen-ios-sdk'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'pengquanhua' => 'pengquanhua@ifanr.com' }
-  s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :commit => '51bab48ac068f90fd41468b379a6a67ace338542' }
+  s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :commit => '623ac9433bbd1ecc605ba4adbff7cf61e965e42e' }
  
   s.ios.deployment_target = '9.0'
   s.source_files = 'MinCloud/*.swift'

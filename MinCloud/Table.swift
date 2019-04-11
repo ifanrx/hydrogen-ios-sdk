@@ -29,16 +29,16 @@ public class Table: NSObject {
     /// 创建一条空记录
     ///
     /// - Returns:
-    @objc public func createRecord() -> TableRecord {
-        return TableRecord(table: self)
+    @objc public func createRecord() -> Record {
+        return Record(table: self)
     }
 
     /// 示例化一条记录
     ///
     /// - Parameter recordId: 记录 Id
     /// - Returns:
-    @objc public func getWithoutData(recordId: String) -> TableRecord {
-        return TableRecord(table: self, Id: recordId)
+    @objc public func getWithoutData(recordId: String) -> Record {
+        return Record(table: self, Id: recordId)
     }
 
     /// 批量新建记录
@@ -50,10 +50,6 @@ public class Table: NSObject {
     /// - Returns:
     @discardableResult
     @objc public func createMany(_ records: [[String: Any]], options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var jsonData: Data?
         do {
@@ -84,10 +80,6 @@ public class Table: NSObject {
     /// - Returns:
     @discardableResult
     @objc public func delete(query: Query? = nil, options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
@@ -112,10 +104,6 @@ public class Table: NSObject {
     /// - Returns:
     @discardableResult
     @objc public func get(_ recordId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var parameters: [String: String] = [:]
         if let select = select {
@@ -174,10 +162,6 @@ public class Table: NSObject {
     /// - Returns:
     @discardableResult
     @objc public func find(query: Query? = nil, completion:@escaping RecordListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { [weak self] result in
