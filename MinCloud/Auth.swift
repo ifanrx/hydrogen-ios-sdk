@@ -10,7 +10,7 @@ import Foundation
 import Moya
 import Result
 
-@objc(BAASAuth)
+@objc(BaaSAuth)
 open class Auth: NSObject {
 
     @objc public static var hadLogin: Bool {
@@ -133,6 +133,25 @@ open class Auth: NSObject {
                 Storage.shared.reset()
                 completion(true, nil)
             }
+        }
+        return RequestCanceller(cancellable: request)
+    }
+
+    // 获取当前用户
+    @discardableResult
+    @objc public static func getCurrentUser(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller? {
+        guard Auth.hadLogin && Storage.shared.userId != nil else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:])) { result in
+            let (userInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            }
+            let user = ResultHandler.dictToCurrentUser(dict: userInfo)
+            completion(user, nil)
         }
         return RequestCanceller(cancellable: request)
     }

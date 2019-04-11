@@ -64,7 +64,7 @@ extension ResultHandler {
 
     static func dictToCurrentUser(dict: [String: Any]?) -> CurrentUser? {
         if let dict = dict {
-            let Id = dict.getInt("id")
+            let Id = dict.getInt64("id")
 
             let user = CurrentUser(Id: Id)
             user.email = dict.getString("_email")
@@ -83,7 +83,7 @@ extension ResultHandler {
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 user.createdBy = createdBy
             } else {
-                user.createdById = dict.getInt("created_by")
+                user.createdById = dict.getInt64("created_by")
             }
             user.createdAt = dict.getDouble("created_at")
             user.updatedAt = dict.getDouble("created_at")
@@ -95,7 +95,7 @@ extension ResultHandler {
 
     static func dictToUser(dict: [String: Any]?) -> User? {
         if let dict = dict {
-            let Id = dict.getInt("id")
+            let Id = dict.getInt64("id")
 
             let user = User(Id: Id)
             user.email = dict.getString("_email")
@@ -114,7 +114,7 @@ extension ResultHandler {
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 user.createdBy = createdBy
             } else {
-                user.createdById = dict.getInt("created_by")
+                user.createdById = dict.getInt64("created_by")
             }
             user.createdAt = dict.getDouble("created_at")
             user.updatedAt = dict.getDouble("created_at")
@@ -161,7 +161,7 @@ extension ResultHandler {
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 record.createdBy = createdBy
             } else {
-                record.createdById = dict.getInt("created_by")
+                record.createdById = dict.getInt64("created_by")
             }
             record.createdAt = dict.getDouble("created_at")
             record.updatedAt = dict.getDouble("updated_at")
@@ -212,7 +212,7 @@ extension ResultHandler {
             file.cdnPath = fileDict.getString("path")
             file.createdAt = fileDict.getDouble("created_at")
             let category = FileCategory()
-            category.categoryId = fileDict.getDict("category")?.getString("id")
+            category.Id = fileDict.getDict("category")?.getString("id")
             category.name = fileDict.getDict("category")?.getString("name")
             file.category = category
         }
@@ -248,7 +248,7 @@ extension ResultHandler {
         var category: FileCategory!
         if let categoryDict = dict {
             category = FileCategory()
-            category.categoryId = categoryDict.getString("id")
+            category.Id = categoryDict.getString("id")
             category.name = categoryDict.getString("name")
             category.files = categoryDict.getInt("files")
             category.createdAt = categoryDict.getDouble("created_at")
@@ -273,7 +273,7 @@ extension ResultHandler {
                 categorys = []
                 for categoryDict in objects {
                     let category = FileCategory()
-                    category.categoryId = categoryDict.getString("id")
+                    category.Id = categoryDict.getString("id")
                     category.name = categoryDict.getString("name")
                     category.files = categoryDict.getInt("files")
                     categorys.append(category)
@@ -292,17 +292,17 @@ extension ResultHandler {
         var content: Content!
         if let contentDict = dict {
             content = Content()
-            content.contentId = contentDict.getInt("id")
+            content.Id = contentDict.getInt64("id")
             content.title = contentDict.getString("title")
             content.cover = contentDict.getString("cover")
             content.desc = contentDict.getString("description")
             content.categories = contentDict.getArray("categories", type: Int.self)
-            content.groupId = contentDict.getInt("group_id")
+            content.groupId = contentDict.getInt64("group_id")
             content.content = contentDict.getString("content")
             if let createdBy = contentDict.getDict("created_by") as? [String: Any] {
                 content.createdBy = createdBy
             } else {
-                content.createdById = contentDict.getInt("created_by")
+                content.createdById = contentDict.getInt64("created_by")
             }
             content.createdAt = contentDict.getDouble("created_at")
             content.updatedAt = contentDict.getDouble("created_at")
@@ -339,14 +339,14 @@ extension ResultHandler {
         var category: ContentCategory!
         if let categoryDict = dict {
             category = ContentCategory()
-            category.categoryId = categoryDict.getInt("id")
+            category.Id = categoryDict.getInt64("id")
             category.name = categoryDict.getString("name")
             category.haveChildren = categoryDict.getBool("have_children")
             let children = categoryDict.getArray("children", type: [String: Any].self)
             var subCategorys: [ContentCategory] = []
             for subDict in children {
                 let subCategory = ContentCategory()
-                subCategory.categoryId = subDict.getInt("id")
+                subCategory.Id = subDict.getInt64("id")
                 subCategory.name = subDict.getString("name")
                 subCategory.haveChildren = subDict.getBool("have_children")
                 subCategorys.append(subCategory)

@@ -10,12 +10,12 @@ import Foundation
 import Moya
 import Result
 
-@objc(BAASContentGroup)
+@objc(BaaSContentGroup)
 open class ContentGroup: NSObject {
-    var Id: String
+    var Id: Int64
     var name: String!
 
-    @objc public init(Id: String) {
+    @objc public init(Id: Int64) {
         self.Id = Id
         super.init()
     }
@@ -24,17 +24,25 @@ open class ContentGroup: NSObject {
     ///
     /// - Parameters:
     ///   - contentId: 内容 Id
+    ///   - select: 筛选条件，只返回指定的字段。可选
+    ///   - expand: 扩展条件。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func get(_ contentId: String, query: Query? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ contentId: Int64, select: [String]? = nil, expand: [String]? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = ContentGroupProvider.request(.conentDetail(id: contentId, parameters: queryArgs)) { result in
+        var parameters: [String: String] = [:]
+        if let select = select {
+            parameters["keys"] = select.joined(separator: ",")
+        }
+        if let expand = expand {
+            parameters["expand"] = expand.joined(separator: ",")
+        }
+        let request = ContentGroupProvider.request(.conentDetail(id: contentId, parameters: parameters)) { result in
             let (contentInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
@@ -48,8 +56,9 @@ open class ContentGroup: NSObject {
 
     /// 查询内容列表
     ///
-    /// 先使用 setQuery 方法设置条件，将会获取满足条件的文件。
-    /// 如果不设置条件，将获取所有文件。
+    /// - Parameter:
+    ///   - query: 查询条件，满足条件的内容件将被返回。可选
+    ///   - completion: 结果回调
     ///
     /// - Parameter completion: 结果回调
     /// - Returns: 
@@ -81,10 +90,11 @@ open class ContentGroup: NSObject {
     ///
     /// - Parameters:
     ///   - categoryId: 分类 Id
+    ///   - query: 查询条件，满足条件的分类将被返回。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func find(categoryId: String, query: Query? = nil, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
+    @objc open func find(categoryId: Int64, query: Query? = nil, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -106,7 +116,9 @@ open class ContentGroup: NSObject {
 
     /// 获取分类列表
     ///
-    /// - Parameter completion: 结果回调
+    /// - Parameter:
+    ///   - query: 查询条件，满足条件的分类将被返回。可选
+    ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
     @objc open func getCategoryList(query: Query? = nil, completion: @escaping ContentCategoryListResultCompletion) -> RequestCanceller? {
@@ -136,7 +148,7 @@ open class ContentGroup: NSObject {
     ///   - completion: 结果回调
     /// - Returns: 
     @discardableResult
-    @objc open func getCategory(_ Id: String, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
+    @objc open func getCategory(_ Id: Int64, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil

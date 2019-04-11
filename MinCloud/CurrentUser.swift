@@ -13,7 +13,7 @@ import Result
 @objc(BaaSCurrentUser)
 open class CurrentUser: User {
 
-    override init(Id: Int) {
+    override init(Id: Int64) {
         super.init(Id: Id)
     }
 

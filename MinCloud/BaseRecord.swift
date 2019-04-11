@@ -9,11 +9,11 @@
 import Foundation
 
 @objc(BAASRecord)
-open class BaseRecord: NSObject, RecordClearer {
+open class BaseRecord: NSObject {
 
     @objc public internal(set) var Id: String?
 
-    @objc public internal(set) var createdById: Int = -1
+    @objc public internal(set) var createdById: Int64 = -1
 
     @objc public internal(set) var createdBy: [String: Any]?
 
@@ -24,7 +24,11 @@ open class BaseRecord: NSObject, RecordClearer {
     @objc var record: [String: Any] = [:]
 
     @objc public func set(key: String, value: Any) {
-        record[key] = value
+        if let baseRecord = value as? BaseRecord {
+            record[key] = baseRecord.Id
+        } else {
+            record[key] = value
+        }
     }
 
     @objc public func set(record: [String: Any]) {

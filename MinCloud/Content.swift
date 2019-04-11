@@ -8,21 +8,21 @@
 
 import Foundation
 
-@objc(BAASContent)
+@objc(BaaSContent)
 open class Content: NSObject {
-    @objc public internal(set) var contentId: Int = -1
+    @objc public internal(set) var Id: Int64 = -1
     @objc public internal(set) var title: String?
     @objc public internal(set) var desc: String?
     @objc public internal(set) var cover: String?
     @objc public internal(set) var content: String?
-    @objc public internal(set) var groupId: Int = -1
+    @objc public internal(set) var groupId: Int64 = -1
     @objc public internal(set) var categories: [Int]?
     @objc public internal(set) var readCount: Int = 0
 
     /**
      *  创建者的 ID
      */
-    @objc public internal(set) var createdById: Int = 0
+    @objc public internal(set) var createdById: Int64 = 0
 
     /**
      *  创建者的信息

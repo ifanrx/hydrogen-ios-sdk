@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>token</key>
+	<string>ua2vdhgluec7seix2ucpxx8wkxosjo4h</string>
+	<key>expireIn</key>
+	<real>1557486002.295504</real>
+	<key>userId</key>
+	<integer>35197755990466</integer>
+	<key>recordId</key>
+	<string>5ca471a2d625d82c9b972334</string>
+	<key>atomicRecordId</key>
+	<string>5cad651243b51e5605390259</string>
+	<key>deleteRecordId</key>
+	<string>5caeb9b30e79ce584af31720</string>
+	<key>contentGroupId</key>
+	<integer>1551697162031508</integer>
+	<key>contentId</key>
+	<integer>1551697403189289</integer>
+	<key>contentCategoryId</key>
+	<integer>1551697507400928</integer>
+	<key>fileId</key>
+	<string>5ca489d3d625d846af4bf453</string>
+	<key>fileCategoryId</key>
+	<string>5ca489bb8c374f5039a8062b</string>
+	<key>fileDeleteId</key>
+	<string>5caed8820e79ce35adc0e753</string>
+	<key>fileDeleteIds</key>
+	<array>
+		<string>5cac34631071240a7f8c492d</string>
+		<string>5cabf7391071242eee8c49e1</string>
+	</array>
+</dict>
+</plist>

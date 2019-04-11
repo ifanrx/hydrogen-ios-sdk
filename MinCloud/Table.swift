@@ -10,13 +10,13 @@ import UIKit
 import Moya
 import Result
 
-@objc(BAASTable)
+@objc(BaaSTable)
 public class Table: NSObject {
-    public internal(set) var Id: Int?
+    public internal(set) var Id: Int64?
     public internal(set) var name: String?
     var identify: String
 
-    @objc public init(tableId: Int) {
+    @objc public init(tableId: Int64) {
         self.identify = String(tableId)
         super.init()
     }
@@ -45,11 +45,11 @@ public class Table: NSObject {
     ///
     /// - Parameters:
     ///   - records: 记录值
-    ///   - enableTrigger: 是否触发触发器，默认 true。
+    ///   - options: 选项,目前支持 enable_trigger: 是否触发触发器。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func createMany(_ records: [[String: Any]], enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func createMany(_ records: [[String: Any]], options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
@@ -63,7 +63,8 @@ public class Table: NSObject {
             return nil
         }
 
-        let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!)) { result in
+        let args = options ?? [:]
+        let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!, parameters: args)) { result in
             let (resultInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
@@ -76,11 +77,9 @@ public class Table: NSObject {
 
     /// 批量删除记录
     ///
-    /// 先使用 setQuery 方法设置条件，将会删除满足条件的记录。
-    /// 如果不设置条件，将删除该表的所有记录。
-    ///
     /// - Parameters:
-    ///   - enableTrigger: 是否触发触发器，默认值 true
+    ///   - query: 查询条件，将会删除满足条件的记录。如果不设置条件，将删除该表的所有记录。可选
+    ///   - options: 选项,目前支持 enable_trigger: 是否触发触发器, 可选。
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
@@ -107,17 +106,25 @@ public class Table: NSObject {
     ///
     /// - Parameters:
     ///   - recordId: 记录 Id
+    ///   - select: 筛选条件，只返回指定的字段。可选
+    ///   - expand: 扩展条件。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func get(_ recordId: String, query: Query? = nil, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
+    @objc public func get(_ recordId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             completion(nil, HError.init(code: 604))
             return nil
         }
 
-        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: queryArgs)) { [weak self]  result in
+        var parameters: [String: String] = [:]
+        if let select = select {
+            parameters["keys"] = select.joined(separator: ",")
+        }
+        if let expand = expand {
+            parameters["expand"] = expand.joined(separator: ",")
+        }
+        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: parameters)) { [weak self]  result in
             guard let strongSelf = self else { return }
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
@@ -137,7 +144,7 @@ public class Table: NSObject {
     ///
     /// - Parameters:
     ///   - record: 需要更新的记录值
-    ///   - enableTrigger: 是否触发触发器，默认 true
+    ///   - query: 查询条件，满足条件的记录将被更新
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
@@ -161,10 +168,9 @@ public class Table: NSObject {
 
     /// 查询记录
     ///
-    /// 先使用 setQuery 方法设置条件，将会获取满足条件的记录。
-    /// 如果不设置条件，将获取该表的所有记录。
-    ///
-    /// - Parameter completion: 结果回调
+    /// - Parameter:
+    ///   - query: 查询条件，满足条件的记录将被返回。可选
+    ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
     @objc public func find(query: Query? = nil, completion:@escaping RecordListResultCompletion) -> RequestCanceller? {

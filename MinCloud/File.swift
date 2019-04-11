@@ -10,7 +10,7 @@ import Foundation
 import Moya
 import Result
 
-@objc(BAASFile)
+@objc(BaaSFile)
 open class File: NSObject {
 
     @objc public internal(set) var Id: String!

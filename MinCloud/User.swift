@@ -14,7 +14,7 @@ open class User: BaseRecord {
     /**
      * 用户 Id
      */
-    @objc public internal(set) var userId: Int
+    @objc public internal(set) var userId: Int64
 
     /**
      *  用户昵称
@@ -95,8 +95,17 @@ open class User: BaseRecord {
      */
     @objc public internal(set) var provider: [String: Any]?
 
-    init(Id: Int) {
+    init(Id: Int64) {
         self.userId = Id
         super.init()
+        self.Id = String(Id)
+    }
+
+    /// 通过 字段名 获取用户信息
+    ///
+    /// - Parameter key: 字段名称
+    /// - Returns: 
+    @objc public func get(key: String) -> Any? {
+        return userInfo[key]
     }
 }

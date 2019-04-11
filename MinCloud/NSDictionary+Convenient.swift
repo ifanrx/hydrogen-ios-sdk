@@ -49,6 +49,21 @@ extension NSDictionary {
         return defaultValue
     }
 
+    func getInt64(_ keys: String..., defaultValue: Int64 = 0, minValue: Int64? = nil, maxValue: Int64? = nil) -> Int64 {
+        for key in keys {
+            if var result = self[key] as? Int64 {
+                if let minValue = minValue {
+                    result = Swift.max(minValue, result)
+                }
+                if let maxValue = maxValue {
+                    result = Swift.min(maxValue, result)
+                }
+                return result
+            }
+        }
+        return defaultValue
+    }
+
     func getString(_ keys: String..., defaultValue: String? = nil) -> String? {
         for key in keys {
             if let result = self[key] as? String {
@@ -115,6 +130,21 @@ extension Dictionary where Key == String {
     func getInt(_ keys: String..., defaultValue: Int = 0, minValue: Int? = nil, maxValue: Int? = nil) -> Int {
         for key in keys {
             if var result = self[key] as? Int {
+                if let minValue = minValue {
+                    result = Swift.max(minValue, result)
+                }
+                if let maxValue = maxValue {
+                    result = Swift.min(maxValue, result)
+                }
+                return result
+            }
+        }
+        return defaultValue
+    }
+
+    func getInt64(_ keys: String..., defaultValue: Int64 = 0, minValue: Int64? = nil, maxValue: Int64? = nil) -> Int64 {
+        for key in keys {
+            if var result = self[key] as? Int64 {
                 if let minValue = minValue {
                     result = Swift.max(minValue, result)
                 }

@@ -23,18 +23,18 @@ open class Where: NSObject {
         super.init()
     }
 
-    @objc static public func or(querys: [Where]) -> Where {
+    @objc static public func or(wheres: [Where]) -> Where {
         var conditons: [[String: Any]] = []
-        for query in querys {
-            conditons.append(query.conditon)
+        for wherearg in wheres {
+            conditons.append(wherearg.conditon)
         }
         return Where(conditon: ["$or": conditons])
     }
 
-    @objc static public func and(querys: [Where]) -> Where {
+    @objc static public func and(wheres: [Where]) -> Where {
         var conditons: [[String: Any]] = []
-        for query in querys {
-            conditons.append(query.conditon)
+        for wherearg in wheres {
+            conditons.append(wherearg.conditon)
         }
         return Where(conditon: ["$and": conditons])
     }
@@ -122,13 +122,13 @@ open class Where: NSObject {
         return Where(conditon: [key: ["$intersects": point.geoJson]])
     }
 
-    @objc static public func withinCircle(key: String, point: GeoPoint, radius: Float) -> Where {
+    @objc static public func withinCircle(key: String, point: GeoPoint, radius: Double) -> Where {
         let data: [String: Any] = ["radius": radius, "coordinates": [point.longitude, point.latitude]]
         let dataJson = data as NSDictionary
         return Where(conditon: [key: ["$center": dataJson]])
     }
 
-    @objc static public func withinRegion(key: String, point: GeoPoint, minDistance: Float, maxDistance: Float) -> Where {
+    @objc static public func withinRegion(key: String, point: GeoPoint, minDistance: Double, maxDistance: Double) -> Where {
         let data: [String: Any] = ["geometry": point.geoJson, "min_distance": minDistance, "max_distance": maxDistance]
         return Where(conditon: [key: ["$nearsphere": data]])
     }

@@ -8,8 +8,9 @@
 
 import Foundation
 
-@objc open class ContentCategory: Query {
-    @objc public internal(set) var categoryId: Int = -1
+@objc(BaaSContentCategory)
+open class ContentCategory: NSObject {
+    @objc public internal(set) var Id: Int64 = -1
     @objc public internal(set) var name: String!
     @objc public internal(set) var haveChildren: Bool = false
     @objc public internal(set) var children: [ContentCategory]!

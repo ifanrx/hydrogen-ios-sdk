@@ -13,7 +13,8 @@ protocol RecordClearer {
     func clear()
 }
 
-open class Query: NSObject, RecordClearer {
+@objc(BaaSQuery)
+open class Query: NSObject {
 
     lazy var queryArgs: [String: Any] = [:]
 

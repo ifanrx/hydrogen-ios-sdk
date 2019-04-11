@@ -15,7 +15,7 @@ enum TableAPI {
     case get(tableId: String, recordId: String, parameters: [String: Any])
     case find(tableId: String, parameters: [String: Any])
     case delete(tableId: String, parameters: [String: Any])
-    case createRecords(tableId: String, recordData: Data)
+    case createRecords(tableId: String, recordData: Data, parameters: [String: Any])
     case update(tableId: String, urlParameters: [String: Any], bodyParameters: [String: Any])
 }
 
@@ -32,7 +32,7 @@ extension TableAPI: TargetType {
             return Config.Table.recordList(tableId: tableId)
         case .delete(let tableId, _):
             return Config.Table.recordList(tableId: tableId)
-        case .createRecords(let tableId, _):
+        case .createRecords(let tableId, _, _):
             return Config.Table.recordList(tableId: tableId)
         case .update(let tableId, _, _):
             return Config.Table.recordList(tableId: tableId)
@@ -60,8 +60,8 @@ extension TableAPI: TargetType {
         switch self {
         case .get(_, _, let parameters), .find(_, let parameters), .delete(tableId: _, let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
-        case .createRecords(_, let recordData):
-                return .requestData(recordData)
+        case .createRecords(_, let recordData, let parameters):
+                return .requestCompositeData(bodyData: recordData, urlParameters: parameters)
         case .update(_, let urlParameters, let bodyParametes):
             return .requestCompositeParameters(bodyParameters: bodyParametes, bodyEncoding: JSONEncoding.default, urlParameters: urlParameters)
         }

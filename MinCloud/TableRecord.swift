@@ -10,7 +10,7 @@ import UIKit
 import Moya
 import Result
 
-@objc(BAASTableRecord)
+@objc(BaaSTableRecord)
 public class TableRecord: BaseRecord {
 
     @objc public internal(set) var acl: String?
@@ -49,6 +49,7 @@ public class TableRecord: BaseRecord {
 
         let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
+            strongSelf.clear() // 清除条件
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
@@ -59,7 +60,7 @@ public class TableRecord: BaseRecord {
                     if let createdBy = recordInfo.getDict("created_by") as? [String: Any] {
                         strongSelf.createdBy = createdBy
                     } else {
-                        strongSelf.createdById = recordInfo.getInt("created_by")
+                        strongSelf.createdById = recordInfo.getInt64("created_by")
                     }
                     strongSelf.createdAt = recordInfo.getDouble("created_at")
                     strongSelf.updatedAt = recordInfo.getDouble("updated_at")
@@ -92,6 +93,7 @@ public class TableRecord: BaseRecord {
 
         let request = TableRecordProvider.request(.update(tableId: table.identify, recordId: Id!, parameters: record)) { [weak self] result in
             guard let strongSelf = self else { return }
+            strongSelf.clear() // 清除条件
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
