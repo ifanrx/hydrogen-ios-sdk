@@ -25,7 +25,7 @@ public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: Er
 public typealias UserResultCompletion = (_ user: User?, _ error: Error?) -> Void
 public typealias CurrentUserResultCompletion = (_ user: CurrentUser?, _ error: Error?) -> Void
 public typealias UserListResultCompletion = (_ listResult: UserListResult?, _ error: Error?) -> Void
-public typealias RecordResultCompletion = (_ record: TableRecord?, _ error: Error?) -> Void
+public typealias RecordResultCompletion = (_ record: Record?, _ error: Error?) -> Void
 public typealias RecordListResultCompletion = (_ records: RecordListResult?, _ error: Error?) -> Void
 
 public typealias FileResultCompletion = (_ file: File?, _ error: Error?) -> Void

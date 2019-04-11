@@ -27,7 +27,7 @@ public class UserListResult: ListResult {
 @objc(BaaSRecordListResult)
 public class RecordListResult: ListResult {
 
-    @objc public internal(set) var records: [TableRecord]?
+    @objc public internal(set) var records: [Record]?
 }
 
 @objc(BaaSFileListResult)

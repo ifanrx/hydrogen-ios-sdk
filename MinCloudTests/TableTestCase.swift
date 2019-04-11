@@ -12,10 +12,10 @@ import XCTest
 class TableTestCase: XCTestCase {
 
     var table: Table! = Table(name: "Book")
-    var createdRecord: TableRecord?
-    var updatedRecord: TableRecord?
-    var atomicRecord: TableRecord?
-    var deleteRecord: TableRecord?
+    var createdRecord: Record?
+    var updatedRecord: Record?
+    var atomicRecord: Record?
+    var deleteRecord: Record?
     var data: NSDictionary!
     override func setUp() {
         BaaS.register(clientID: "196ba98487ebc358955d")

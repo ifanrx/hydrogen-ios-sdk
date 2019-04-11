@@ -154,10 +154,10 @@ extension ResultHandler {
 // MARK: TableResult
 
 extension ResultHandler {
-    static func dictToRecord(table: Table, dict: [String: Any]?) -> TableRecord? {
+    static func dictToRecord(table: Table, dict: [String: Any]?) -> Record? {
         if let dict = dict {
             let recordId = dict.getString("_id")
-            let record = TableRecord(table: table, Id: recordId)
+            let record = Record(table: table, Id: recordId)
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 record.createdBy = createdBy
             } else {
@@ -183,7 +183,7 @@ extension ResultHandler {
                 listResults.totalCount = meta.getInt("total_count")
             }
 
-            var records: [TableRecord]!
+            var records: [Record]!
             if let objects = dict["objects"] as? [[String: Any]] {
                 records = []
                 for recordDict in objects {
