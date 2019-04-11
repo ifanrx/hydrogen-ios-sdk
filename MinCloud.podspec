@@ -11,10 +11,9 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/ifanrx/hydrogen-ios-sdk'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'pengquanhua' => 'pengquanhua@ifanr.com' }
-  s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :commit => '623ac9433bbd1ecc605ba4adbff7cf61e965e42e' }
+  s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :commit => '90ccaae655345c01df867279cc4d28513731245b' }
  
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
   s.source_files = 'MinCloud/*.swift'
-  s.dependency "Moya"
- 
+  s.dependency 'Moya'
 end

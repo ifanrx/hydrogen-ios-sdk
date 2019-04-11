@@ -112,13 +112,12 @@ public class Table: NSObject {
         if let expand = expand {
             parameters["expand"] = expand.joined(separator: ",")
         }
-        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: parameters)) { [weak self]  result in
-            guard let strongSelf = self else { return }
+        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: parameters)) { result in
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let record = ResultHandler.dictToRecord(table: strongSelf, dict: recordInfo)
+                let record = ResultHandler.dictToRecord(table: self, dict: recordInfo)
                 completion(record, nil)
             }
         }
@@ -137,10 +136,6 @@ public class Table: NSObject {
     /// - Returns:
     @discardableResult
     @objc public func update(record: BaseRecord, query: Query? = nil, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.record)) { result in
@@ -161,16 +156,15 @@ public class Table: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func find(query: Query? = nil, completion:@escaping RecordListResultCompletion) -> RequestCanceller? {
+    @objc public func find(query: Query? = nil, completion: @escaping RecordListResultCompletion) -> RequestCanceller? {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { [weak self] result in
-            guard let strongSelf = self else { return }
+        let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { result in
             let (recordsInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let records = ResultHandler.dictToRecordListResult(table: strongSelf, dict: recordsInfo)
+                let records = ResultHandler.dictToRecordListResult(table: self, dict: recordsInfo)
                 completion(records, nil)
             }
         }

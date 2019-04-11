@@ -21,10 +21,6 @@ open class UserManager: NSObject {
         /// - Returns:
         @discardableResult
     @objc public static func find(query: Query? = nil, completion:@escaping UserListResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = UserProvider.request(.getUserList(parameters: queryArgs)) { result in
@@ -49,10 +45,6 @@ open class UserManager: NSObject {
     /// - Returns: 
     @discardableResult
     @objc public static func get(_ userId: Int, select: [String]? = nil, expand: [String]? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
-            return nil
-        }
 
         var parameters: [String: String] = [:]
         if let select = select {
