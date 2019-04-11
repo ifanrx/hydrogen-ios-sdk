@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :commit => '51bab48ac068f90fd41468b379a6a67ace338542' }
  
   s.ios.deployment_target = '9.0'
-  s.source_files = 'BaaSSDK/*.swift'
+  s.source_files = 'MinCloud/*.swift'
   s.dependency "Moya"
  
 end
