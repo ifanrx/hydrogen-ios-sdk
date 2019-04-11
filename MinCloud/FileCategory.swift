@@ -10,9 +10,11 @@ import Foundation
 import Moya
 import Result
 
-@objc(BAASFileCategory)
+@objc(BaaSFileCategory)
 open class FileCategory: NSObject {
-    @objc public var categoryId: String!
-    @objc public var name: String!
-    @objc public var files: Int = 0
+    @objc public internal(set) var Id: String!
+    @objc public internal(set) var name: String!
+    @objc public internal(set) var files: Int = 0
+    @objc public internal(set) var updatedAt: TimeInterval = 0
+    @objc public internal(set) var createdAt: TimeInterval = 0
 }

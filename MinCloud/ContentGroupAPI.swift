@@ -12,11 +12,11 @@ import Moya
 let ContentGroupProvider = MoyaProvider<ContentGroupAPI>()
 
 enum ContentGroupAPI {
-    case conentDetail(id: String)
-    case contentList(prameters: [String: Any]) // 某个内容库全部内容，或某个分类的内容
+    case conentDetail(id: Int64, parameters: [String: Any])
+    case contentList(parameters: [String: Any]) // 某个内容库全部内容，或某个分类的内容
     case contentListInCategory(prameters: [String: Any]) // 某个分类的内容列表
     case categoryList(parameters: [String: Any]) // 某个内容库分类列表
-    case categoryDetail(id: String) // 内容详情
+    case categoryDetail(id: Int64) // 内容详情
 }
 
 extension ContentGroupAPI: TargetType {
@@ -26,7 +26,7 @@ extension ContentGroupAPI: TargetType {
 
     var path: String {
         switch self {
-        case .conentDetail(let contentId):
+        case .conentDetail(let contentId, _):
             return Config.ContentGroup.contentDetail(contentId: contentId)
         case .contentList:
             return Config.ContentGroup.contentList
@@ -52,9 +52,9 @@ extension ContentGroupAPI: TargetType {
         switch self {
         case .contentList(let parameters), .contentListInCategory(let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
-        case .categoryList(let parameters):
+        case .categoryList(let parameters), .conentDetail(_, let parameters):
             return.requestParameters(parameters: parameters, encoding: URLEncoding.default)
-        case .categoryDetail, .conentDetail:
+        case .categoryDetail:
             return .requestPlain
         }
     }

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import BaaSSDK
+@testable import MinCloud
 
 let timeout: TimeInterval = 30
 
@@ -15,7 +15,7 @@ class AuthTestCase: XCTestCase {
 
     var auth: Auth!
     override func setUp() {
-        BaaS.register(clientID: "f86c122f10f45d1152a1")
+        BaaS.register(clientID: "196ba98487ebc358955d")
     }
 
     override func tearDown() {

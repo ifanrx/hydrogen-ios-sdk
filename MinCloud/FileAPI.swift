@@ -13,7 +13,7 @@ let FileProvider = MoyaProvider<FileAPI>()
 
 enum FileAPI {
     case upload(parameters: [String: Any]) // 上传文件
-    case getFile(fileId: String)
+    case getFile(fileId: String, parameters: [String: Any])
     case findFiles(parameters: [String: Any])
     case findCategories(parameters: [String: Any])
     case deleteFile(fileId: String)
@@ -38,7 +38,7 @@ extension FileAPI: TargetType {
         switch self {
         case .upload:
             return Config.File.upload
-        case .getFile(let fileId):
+        case .getFile(let fileId, _):
             return Config.File.fileDetail(fileId: fileId)
         case .findFiles, .findFilesInCategory:
             return Config.File.fileList
@@ -76,9 +76,7 @@ extension FileAPI: TargetType {
             return .requestParameters(parameters: [:], encoding: JSONEncoding.default)
         case .upload(let parameters), .deleteFiles(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .getFile, .getCategory:
-            return .requestPlain
-        case .findFiles(let parameters), .findCategories(let parameters), .findFilesInCategory(let parameters):
+        case .findFiles(let parameters), .findCategories(let parameters), .findFilesInCategory(let parameters), .getFile(_, let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         case .UPUpload(_, let localPath, let parameters):
             let url = URL(fileURLWithPath: localPath)
@@ -90,6 +88,8 @@ extension FileAPI: TargetType {
                 formDatas.append(formData)
             }
             return .uploadMultipart(formDatas)
+        case .getCategory:
+            return .requestPlain
         }
     }
 

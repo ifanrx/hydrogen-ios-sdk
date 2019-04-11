@@ -8,14 +8,14 @@
 
 import Foundation
 
-@objc(BAASOperator)
+@objc(BaaSOperator)
 public enum Operator: Int {
-    case equalTo = 0
-    case notEqualTo = 1
-    case greaterThan
-    case greaterThanOrEqualTo
-    case lessThan
-    case lessThanOrEqualTo
+    case equalTo = 0           // 等于
+    case notEqualTo = 1        // 不等于
+    case greaterThan           // 大于
+    case greaterThanOrEqualTo  // 大于等于
+    case lessThan              // 小于
+    case lessThanOrEqualTo     // 小于等于
 }
 
 public typealias BOOLResultCompletion = (_ success: Bool, _ error: Error?) -> Void
@@ -23,18 +23,19 @@ public typealias COUNTResultCompletion = (_ count: Int?, _ error: Error?) -> Voi
 public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: Error?) -> Void
 
 public typealias UserResultCompletion = (_ user: User?, _ error: Error?) -> Void
-public typealias UsersResultCompletion = (_ users: [User]?, _ error: Error?) -> Void
+public typealias CurrentUserResultCompletion = (_ user: CurrentUser?, _ error: Error?) -> Void
+public typealias UserListResultCompletion = (_ listResult: UserListResult?, _ error: Error?) -> Void
 public typealias RecordResultCompletion = (_ record: TableRecord?, _ error: Error?) -> Void
-public typealias RecordsResultCompletion = (_ records: [TableRecord]?, _ error: Error?) -> Void
+public typealias RecordListResultCompletion = (_ records: RecordListResult?, _ error: Error?) -> Void
 
 public typealias FileResultCompletion = (_ file: File?, _ error: Error?) -> Void
-public typealias FilesResultCompletion = (_ files: [File]?, _ error: Error?) -> Void
+public typealias FileListResultCompletion = (_ listResult: FileListResult?, _ error: Error?) -> Void
 public typealias FileCategoryResultCompletion = (_ file: FileCategory?, _ error: Error?) -> Void
-public typealias FileCategorysResultCompletion = (_ file: [FileCategory]?, _ error: Error?) -> Void
+public typealias FileCategoryListResultCompletion = (_ listResult: FileCategoryListResult?, _ error: Error?) -> Void
 
 public typealias ContentResultCompletion = (_ content: Content?, _ error: Error?) -> Void
-public typealias ContentsResultCompletion = (_ contents: [Content]?, _ error: Error?) -> Void
+public typealias ContentListResultCompletion = (_ listResult: ContentListResult?, _ error: Error?) -> Void
 public typealias ContentCategoryResultCompletion = (_ file: ContentCategory?, _ error: Error?) -> Void
-public typealias ContentCategorysResultCompletion = (_ file: [ContentCategory]?, _ error: Error?) -> Void
+public typealias ContentCategoryListResultCompletion = (_ listResult: ContentCategoryListResult?, _ error: Error?) -> Void
 
 public typealias ProgressBlock = (_ progress: Progress?) -> Void

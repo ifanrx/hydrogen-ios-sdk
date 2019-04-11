@@ -10,8 +10,15 @@ import Foundation
 import Moya
 import Result
 
-@objc(BAASAuth)
+@objc(BaaSAuth)
 open class Auth: NSObject {
+
+    @objc public static var hadLogin: Bool {
+        if Storage.shared.token != nil, let expiresIn = Storage.shared.expiresIn, expiresIn > Date().timeIntervalSince1970 {
+            return true
+        }
+        return false
+    }
     // MARK: - 注册
 
     /// 用户名注册
@@ -21,13 +28,13 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 注册回调结果
     @discardableResult
-    @objc public static func register(username: String, password: String, completion: @escaping UserResultCompletion) -> RequestCanceller {
+    @objc public static func register(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.register(.username, ["username": username, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let user = ResultHandler.dictToUser(dict: userInfo)
+                let user = ResultHandler.dictToLoginUser(dict: userInfo)
                 completion(user, nil)
             }
         }
@@ -41,13 +48,13 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 注册回调结果
     @discardableResult
-    @objc public static func register(email: String, password: String, completion: @escaping UserResultCompletion) -> RequestCanceller {
+    @objc public static func register(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request =  AuthProvider.request(.register(.email, ["email": email, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let user = ResultHandler.dictToUser(dict: userInfo)
+                let user = ResultHandler.dictToLoginUser(dict: userInfo)
                 completion(user, nil)
             }
         }
@@ -63,13 +70,13 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 登录回调结果
     @discardableResult
-    @objc public static func login(username: String, password: String, completion: @escaping UserResultCompletion) -> RequestCanceller {
+    @objc public static func login(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.username, ["username": username, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let user = ResultHandler.dictToUser(dict: userInfo)
+                let user = ResultHandler.dictToLoginUser(dict: userInfo)
                 completion(user, nil)
             }
         }
@@ -83,13 +90,13 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 登录结果回调
     @discardableResult
-    @objc public static func login(email: String, password: String, completion: @escaping UserResultCompletion) -> RequestCanceller {
+    @objc public static func login(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.email, ["email": email, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let user = ResultHandler.dictToUser(dict: userInfo)
+                let user = ResultHandler.dictToLoginUser(dict: userInfo)
                 completion(user, nil)
             }
         }
@@ -100,13 +107,13 @@ open class Auth: NSObject {
     ///
     /// - Parameter completion: 登录结果回调
     @discardableResult
-    @objc public static func anonymousLogin(_ completion: @escaping UserResultCompletion) -> RequestCanceller {
+    @objc public static func anonymousLogin(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.anonymous, [:])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result: result)
+            let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let user = ResultHandler.dictToUser(dict: userInfo)
+                let user = ResultHandler.dictToLoginUser(dict: userInfo)
                 completion(user, nil)
             }
         }
@@ -119,13 +126,32 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func logout(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.logout) { result in
-            let (_, error) = ResultHandler.handleResult(result: result)
+            let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
-                User.currentUser = nil
+                Storage.shared.reset()
                 completion(true, nil)
             }
+        }
+        return RequestCanceller(cancellable: request)
+    }
+
+    // 获取当前用户
+    @discardableResult
+    @objc public static func getCurrentUser(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller? {
+        guard Auth.hadLogin && Storage.shared.userId != nil else {
+            completion(nil, HError.init(code: 604))
+            return nil
+        }
+
+        let request = UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:])) { result in
+            let (userInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            }
+            let user = ResultHandler.dictToCurrentUser(dict: userInfo)
+            completion(user, nil)
         }
         return RequestCanceller(cancellable: request)
     }

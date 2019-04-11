@@ -10,19 +10,23 @@ import Foundation
 import Moya
 import Result
 
-@objc(BAASFile)
+@objc(BaaSFile)
 open class File: NSObject {
 
-    @objc public var Id: String!
-    @objc public var mimeType: String!
-    @objc public var name: String!
-    @objc public var cdnPath: String!
-    @objc public var size: Int = 0
-    @objc public var category: FileCategory!
-    @objc public var localPath: String!
-    @objc public var createdAt: TimeInterval = 0
+    @objc public internal(set) var Id: String!
+    @objc public internal(set) var mimeType: String!
+    @objc public internal(set) var name: String!
+    @objc public internal(set) var cdnPath: String!
+    @objc public internal(set) var size: Int = 0
+    @objc public internal(set) var category: FileCategory!
+    @objc public internal(set) var localPath: String!
+    @objc public internal(set) var createdAt: TimeInterval = 0
 
-    @objc public var fileInfo: [String: Any] {
+    /**
+     *  文件信息
+     *  在给类型为 file 类型的列赋值时，必须以下面方式组织文件信息
+     */
+    @objc public  var fileInfo: [String: Any] {
         var info: [String: Any] = [:]
         if let fileId = Id {
             info["id"] = fileId
@@ -44,9 +48,15 @@ open class File: NSObject {
         return info
     }
 
+    /// 删除本文件
+    ///
+    /// 删除文件后，本地文件信息不清空，建议开发者自行清空。
+    ///
+    /// - Parameter completion: 结果回调
+    /// - Returns: 
     @discardableResult
     @objc open func delete(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard User.currentUser?.hadLogin ?? false else {
+        guard Auth.hadLogin else {
             completion(false, HError.init(code: 604))
             return nil
         }
@@ -57,7 +67,7 @@ open class File: NSObject {
         }
 
         let request = FileProvider.request(.deleteFile(fileId: Id!)) { result in
-            let (_, error) = ResultHandler.handleResult(result: result)
+            let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
