@@ -43,24 +43,23 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: record)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.clear() // 清除条件
+        let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: record)) { result in
+            self.clear() // 清除条件
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
                 if let recordInfo = recordInfo {
-                    strongSelf.Id = recordInfo.getString("id")
-                    strongSelf.acl = recordInfo.getString("acl")
+                    self.Id = recordInfo.getString("id")
+                    self.acl = recordInfo.getString("acl")
                     if let createdBy = recordInfo.getDict("created_by") as? [String: Any] {
-                        strongSelf.createdBy = createdBy
+                        self.createdBy = createdBy
                     } else {
-                        strongSelf.createdById = recordInfo.getInt64("created_by")
+                        self.createdById = recordInfo.getInt64("created_by")
                     }
-                    strongSelf.createdAt = recordInfo.getDouble("created_at")
-                    strongSelf.updatedAt = recordInfo.getDouble("updated_at")
-                    strongSelf.recordInfo.merge(recordInfo)
+                    self.createdAt = recordInfo.getDouble("created_at")
+                    self.updatedAt = recordInfo.getDouble("updated_at")
+                    self.recordInfo.merge(recordInfo)
                 }
                 completion(true, nil)
             }
@@ -83,17 +82,16 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.update(tableId: table.identify, recordId: Id!, parameters: record)) { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.clear() // 清除条件
+        let request = TableRecordProvider.request(.update(tableId: table.identify, recordId: Id!, parameters: record)) { result in
+            self.clear() // 清除条件
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
                 if let recordInfo = recordInfo {
-                    strongSelf.Id = recordInfo.getString("id")
-                    strongSelf.updatedAt = recordInfo.getDouble("updated_at")
-                    strongSelf.recordInfo.merge(recordInfo)
+                    self.Id = recordInfo.getString("id")
+                    self.updatedAt = recordInfo.getDouble("updated_at")
+                    self.recordInfo.merge(recordInfo)
                 }
                 completion(true, nil)
             }
@@ -115,15 +113,13 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.delete(tableId: table.identify, recordId: Id!)) { [weak self] result in
-            guard let strongSelf = self else { return }
+        let request = TableRecordProvider.request(.delete(tableId: table.identify, recordId: Id!)) { result in
             let (_, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(false, error)
             } else {
-                strongSelf.Id = nil
-                strongSelf.recordInfo = [:]
-                completion(true, nil)
+                self.Id = nil
+                self.recordInfo = [:]
             }
         }
         return RequestCanceller(cancellable: request)

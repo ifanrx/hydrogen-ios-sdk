@@ -150,7 +150,7 @@ class FileTestCase: XCTestCase {
         let filePath = testBundle.path(forResource: "1", ofType: "png")
         FileManager.upload(filename: "test", localPath: filePath!, progressBlock: { progress in
 
-        }) { (file, error) in
+        }) {(file, error) in
             XCTAssertNotNil(file, "记录为 nil")
             XCTAssertNotNil(file!.Id, "记录 Id 无效")
             XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
