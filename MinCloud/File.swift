@@ -57,12 +57,12 @@ open class File: NSObject {
     @discardableResult
     @objc open func delete(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
-            completion(false, HError.init(code: 604))
+            completion(false, HError.init(code: 604) as NSError)
             return nil
         }
 
         guard Id != nil else {
-            completion(false, HError.init(code: 400, description: "recordId invalid!"))
+            completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
 

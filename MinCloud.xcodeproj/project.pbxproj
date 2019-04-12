@@ -218,6 +218,7 @@
 		4C33A5A2223F6AAC0001C1A7 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */,
 				4C33A5D9223F919F0001C1A7 /* Config.swift */,
 			);
 			name = Base;
@@ -238,8 +239,6 @@
 				4C33A5DF223F9BCD0001C1A7 /* BaaS.swift */,
 				4C33A5E1223FA8B00001C1A7 /* Constants.swift */,
 				4C33A5E3223FA9BE0001C1A7 /* HError.swift */,
-				4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */,
-				4CEFC083225CEC1000C9238C /* Storage.swift */,
 				4CEFC087225E594C00C9238C /* RequestCanceller.swift */,
 				4C33A5A7223F6CCC0001C1A7 /* Base */,
 				4C33A5D7223F8C500001C1A7 /* User */,
@@ -258,6 +257,7 @@
 				4C33A5F12240E7A40001C1A7 /* Where.swift */,
 				4C33A5F32240E8A30001C1A7 /* BaseRecord.swift */,
 				4CEFC085225D760F00C9238C /* ListResult.swift */,
+				4CEFC083225CEC1000C9238C /* Storage.swift */,
 			);
 			name = Base;
 			sourceTree = "<group>";

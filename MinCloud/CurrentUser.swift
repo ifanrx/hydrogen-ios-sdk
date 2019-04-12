@@ -25,7 +25,9 @@ open class CurrentUser: User {
     @discardableResult
     @objc open func resetPassword(email: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
-            completion(false, HError.init(code: 604))
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(false, error as NSError)
             return nil
         }
 
@@ -48,7 +50,9 @@ open class CurrentUser: User {
     @discardableResult
     @objc open func updateUsername(_ username: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(nil, error as NSError)
             return nil
         }
 
@@ -72,7 +76,9 @@ open class CurrentUser: User {
     @discardableResult
     @objc open func updateEmail(_ email: String, sendVerification: Bool = false, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(nil, error as NSError)
             return nil
         }
 
@@ -96,7 +102,9 @@ open class CurrentUser: User {
     @discardableResult
     @objc open func updatePassword(_ password: String, newPassword: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(nil, error as NSError)
             return nil
         }
 
@@ -119,7 +127,9 @@ open class CurrentUser: User {
     @discardableResult
     @objc open func updateUserInfo(_ userInfo: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
-            completion(nil, HError.init(code: 604))
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(nil, error as NSError)
             return nil
         }
 
@@ -140,7 +150,9 @@ open class CurrentUser: User {
     @discardableResult
     @objc open func requestEmailVerification(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
-            completion(false, HError.init(code: 604))
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(false, error as NSError)
             return nil
         }
 

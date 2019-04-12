@@ -18,24 +18,24 @@ public enum Operator: Int {
     case lessThanOrEqualTo     // 小于等于
 }
 
-public typealias BOOLResultCompletion = (_ success: Bool, _ error: Error?) -> Void
-public typealias COUNTResultCompletion = (_ count: Int?, _ error: Error?) -> Void
-public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: Error?) -> Void
+public typealias BOOLResultCompletion = (_ success: Bool, _ error: NSError?) -> Void
+public typealias COUNTResultCompletion = (_ count: Int?, _ error: NSError?) -> Void
+public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: NSError?) -> Void
 
-public typealias UserResultCompletion = (_ user: User?, _ error: Error?) -> Void
-public typealias CurrentUserResultCompletion = (_ user: CurrentUser?, _ error: Error?) -> Void
-public typealias UserListResultCompletion = (_ listResult: UserListResult?, _ error: Error?) -> Void
-public typealias RecordResultCompletion = (_ record: Record?, _ error: Error?) -> Void
-public typealias RecordListResultCompletion = (_ records: RecordListResult?, _ error: Error?) -> Void
+public typealias UserResultCompletion = (_ user: User?, _ error: NSError?) -> Void
+public typealias CurrentUserResultCompletion = (_ user: CurrentUser?, _ error: NSError?) -> Void
+public typealias UserListResultCompletion = (_ listResult: UserListResult?, _ error: NSError?) -> Void
+public typealias RecordResultCompletion = (_ record: Record?, _ error: NSError?) -> Void
+public typealias RecordListResultCompletion = (_ records: RecordListResult?, _ error: NSError?) -> Void
 
-public typealias FileResultCompletion = (_ file: File?, _ error: Error?) -> Void
-public typealias FileListResultCompletion = (_ listResult: FileListResult?, _ error: Error?) -> Void
-public typealias FileCategoryResultCompletion = (_ file: FileCategory?, _ error: Error?) -> Void
-public typealias FileCategoryListResultCompletion = (_ listResult: FileCategoryListResult?, _ error: Error?) -> Void
+public typealias FileResultCompletion = (_ file: File?, _ error: NSError?) -> Void
+public typealias FileListResultCompletion = (_ listResult: FileListResult?, _ error: NSError?) -> Void
+public typealias FileCategoryResultCompletion = (_ file: FileCategory?, _ error: NSError?) -> Void
+public typealias FileCategoryListResultCompletion = (_ listResult: FileCategoryListResult?, _ error: NSError?) -> Void
 
-public typealias ContentResultCompletion = (_ content: Content?, _ error: Error?) -> Void
-public typealias ContentListResultCompletion = (_ listResult: ContentListResult?, _ error: Error?) -> Void
-public typealias ContentCategoryResultCompletion = (_ file: ContentCategory?, _ error: Error?) -> Void
-public typealias ContentCategoryListResultCompletion = (_ listResult: ContentCategoryListResult?, _ error: Error?) -> Void
+public typealias ContentResultCompletion = (_ content: Content?, _ error: NSError?) -> Void
+public typealias ContentListResultCompletion = (_ listResult: ContentListResult?, _ error: NSError?) -> Void
+public typealias ContentCategoryResultCompletion = (_ file: ContentCategory?, _ error: NSError?) -> Void
+public typealias ContentCategoryListResultCompletion = (_ listResult: ContentCategoryListResult?, _ error: NSError?) -> Void
 
 public typealias ProgressBlock = (_ progress: Progress?) -> Void

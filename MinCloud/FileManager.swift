@@ -102,7 +102,7 @@ open class FileManager: NSObject {
                 completion(nil, error)
             } else {
                 guard fileInfo != nil, fileInfo?.getString("policy") != nil, fileInfo?.getString("authorization") != nil, fileInfo?.getString("file_link") != nil  else {
-                    completion(nil, HError.init(code: 500))
+                    completion(nil, HError.init(code: 500) as NSError)
                     return
                 }
 

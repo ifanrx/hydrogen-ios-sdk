@@ -55,7 +55,7 @@ public class Table: NSObject {
         do {
             jsonData = try JSONSerialization.data(withJSONObject: records, options: .prettyPrinted)
         } catch let error {
-            completion(nil, HError.init(code: 400, description: error.localizedDescription))
+            completion(nil, HError.init(code: 400, description: error.localizedDescription) as NSError)
             return nil
         }
 

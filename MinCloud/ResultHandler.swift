@@ -11,7 +11,7 @@ import Moya
 import Result
 
 class ResultHandler {
-    static func handleResult(_ result: Result<Moya.Response, MoyaError>) -> ([String: Any]?, Error?) {
+    static func handleResult(_ result: Result<Moya.Response, MoyaError>) -> ([String: Any]?, NSError?) {
         switch result {
         case .success(let response):
             if response.statusCode == 401 {
@@ -28,19 +28,19 @@ class ResultHandler {
                 let errorMsg = dict.getString("error_msg")
                 let error = HError(code: response.statusCode, description: errorMsg)
                 printErrorInfo(error)
-                return (nil, error)
+                return (nil, error as NSError)
             } else if let message = try? response.mapString() {
                 let error = HError(code: response.statusCode, description: message)
                 printErrorInfo(error)
-                return (nil, error)
+                return (nil, error as NSError)
             } else {
                 let error = HError(code: response.statusCode, description: nil)
                 printErrorInfo(error)
-                return (nil, error)
+                return (nil, error as NSError)
             }
         case .failure(let error):
             printErrorInfo(error)
-            return (nil, error)
+            return (nil, error as NSError)
         }
     }
 }
