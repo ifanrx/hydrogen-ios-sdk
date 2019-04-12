@@ -120,6 +120,7 @@ public class Record: BaseRecord {
             } else {
                 self.Id = nil
                 self.recordInfo = [:]
+                completion(true, nil)
             }
         }
         return RequestCanceller(cancellable: request)
