@@ -78,7 +78,7 @@ public class Record: BaseRecord {
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
         guard Id != nil else {
-            completion(false, HError.init(code: 400, description: "recordId invalid!"))
+            completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
 
@@ -109,7 +109,7 @@ public class Record: BaseRecord {
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
         guard Id != nil else {
-            completion(false, HError.init(code: 400, description: "recordId invalid!"))
+            completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
 

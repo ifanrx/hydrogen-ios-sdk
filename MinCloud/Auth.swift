@@ -131,6 +131,7 @@ open class Auth: NSObject {
                 completion(false, error)
             } else {
                 Storage.shared.reset()
+                printDebugInfo("logout success!")
                 completion(true, nil)
             }
         }
@@ -141,7 +142,9 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func getCurrentUser(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin && Storage.shared.userId != nil else {
-            completion(nil, HError.init(code: 604))
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(nil, error as NSError)
             return nil
         }
 

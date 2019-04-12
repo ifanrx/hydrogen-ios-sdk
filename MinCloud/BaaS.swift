@@ -28,10 +28,10 @@ import Result
                 } else {
                     let dict = data as? NSDictionary
                     let errorMsg = dict?.getString("error_msg")
-                    completion(nil, HError(code: response.statusCode, description: errorMsg))
+                    completion(nil, HError(code: response.statusCode, description: errorMsg) as NSError)
                 }
             } else if case let .failure(error) = result {
-                completion(nil, error)
+                completion(nil, error as NSError)
             }
         }
     }
