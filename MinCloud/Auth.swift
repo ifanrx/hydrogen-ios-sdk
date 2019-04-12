@@ -152,9 +152,10 @@ open class Auth: NSObject {
             let (userInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
+            } else {
+                let user = ResultHandler.dictToCurrentUser(dict: userInfo)
+                completion(user, nil)
             }
-            let user = ResultHandler.dictToCurrentUser(dict: userInfo)
-            completion(user, nil)
         }
         return RequestCanceller(cancellable: request)
     }

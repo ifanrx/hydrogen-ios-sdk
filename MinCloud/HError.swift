@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct HError: CustomNSError {
+struct HError: CustomNSError {
 
     var code: Int
     var kind: ErrorKind!
@@ -34,11 +34,13 @@ public struct HError: CustomNSError {
     init(code: Int, description: String? = nil) {
         self.code = code
         self.kind = HError.ErrorKind(rawValue: code)
-        self.description = description
+        if let description = description, description != "" {
+            self.description = description
+        }
     }
 
-    public static var errorDomain: String = "baas.ifanr.error.domain"
-    public var errorCode: Int {
+    static var errorDomain: String = "baas.ifanr.error.domain"
+    var errorCode: Int {
         switch self.kind {
         case .badRequest?:
             return 400
@@ -73,7 +75,7 @@ public struct HError: CustomNSError {
         }
     }
 
-    public var errorUserInfo: [String: Any] {
+    var errorUserInfo: [String: Any] {
         var description: String = self.description ?? "unknown"
         switch self.kind {
         case .badRequest?:
