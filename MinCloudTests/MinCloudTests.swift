@@ -27,9 +27,13 @@ class AuthTestCase: XCTestCase {
 
         let promise = expectation(description: "Status code: 201")
         Auth.register(username: "test29", password: "1111") { (user, error) in
-            XCTAssertNotNil(user, "数据为空")
-            XCTAssertFalse(user!.userId == -1)
-            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            if error != nil {
+                XCTAssertTrue(error?.code == 400 && error?.localizedDescription == "'Username'lready exists.")
+            } else {
+                XCTAssertNotNil(user, "数据为空")
+                XCTAssertFalse(user!.userId == -1)
+                XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            }
 
             promise.fulfill()
         }
@@ -41,9 +45,13 @@ class AuthTestCase: XCTestCase {
 
         let promise = expectation(description: "Status code: 201")
         Auth.register(email: "test12345@ifanr.com", password: "1111") { (user, error) in
-            XCTAssertNotNil(user, "数据为空")
-            XCTAssertFalse(user!.userId == -1)
-            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            if error != nil {
+                XCTAssertTrue(error?.code == 400 && error?.localizedDescription == "'Email'lready exists.")
+            } else {
+                XCTAssertNotNil(user, "数据为空")
+                XCTAssertFalse(user!.userId == -1)
+                XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            }
 
             promise.fulfill()
         }
@@ -54,9 +62,13 @@ class AuthTestCase: XCTestCase {
     func testUsernameLogin() {
         let promise = expectation(description: "Status code: 201")
         Auth.login(username: "test29", password: "1111") { (user, error) in
-            XCTAssertNotNil(user, "数据为空")
-            XCTAssertFalse(user!.userId == -1)
-            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            if error != nil {
+                XCTAssertTrue(error?.code == 400 && error?.localizedDescription == "You are already logged in.")
+            } else {
+                XCTAssertNotNil(user, "数据为空")
+                XCTAssertFalse(user!.userId == -1)
+                XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            }
 
             promise.fulfill()
         }
@@ -79,9 +91,13 @@ class AuthTestCase: XCTestCase {
     func testEmailLogin() {
         let promise = expectation(description: "Status code: 201")
         Auth.login(email: "test12345@ifanr.com", password: "1111") { (user, error) in
-            XCTAssertNotNil(user, "数据为空")
-            XCTAssertFalse(user!.userId == -1)
-            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            if error != nil {
+                XCTAssertTrue(error?.code == 400 && error?.localizedDescription == "You are already logged in.")
+            } else {
+                XCTAssertNotNil(user, "数据为空")
+                XCTAssertFalse(user!.userId == -1)
+                XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            }
 
             promise.fulfill()
         }
@@ -104,9 +120,13 @@ class AuthTestCase: XCTestCase {
     func testAnonymousLogin() {
         let promise = expectation(description: "Status code: 201")
         Auth.anonymousLogin({ (user, error) in
-            XCTAssertNotNil(user, "数据为空")
-            XCTAssertFalse(user!.userId == -1)
-            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            if error != nil {
+                XCTAssertTrue(error?.code == 400 && error?.localizedDescription == "You are already logged in.")
+            } else {
+                XCTAssertNotNil(user, "数据为空")
+                XCTAssertFalse(user!.userId == -1)
+                XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            }
 
             promise.fulfill()
         })
