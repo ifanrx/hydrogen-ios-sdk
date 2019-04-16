@@ -1,0 +1,19 @@
+# Fastfile
+desc "Release new version"
+lane :release do |options|
+  target_version = options[:version]
+  raise "The version is missed." if target_version.nil?
+  ensure_git_branch                                             # 确认 master 分支
+  ensure_git_status_clean                                       # 确认没有未提交的文件
+  scan                                                          # 运行测试
+
+  increment_build_number                                        # 设置 build 号
+  increment_version_number(version_number: target_version)      # 设置版本号
+
+  version_bump_podspec(path: "../MinCloud.podspec",
+             version_number: target_version)                    # 更新 podspec
+  git_commit(message: "Bump version to #{target_version}")  # 提交版本号修改
+  add_git_tag tag: target_version                               # 设置 tag
+  push_to_git_remote                                            # 推送到 git 仓库
+  pod_lib_lint
+end

@@ -18,7 +18,7 @@ class TableTestCase: XCTestCase {
     var deleteRecord: Record?
     var data: NSDictionary!
     override func setUp() {
-        BaaS.register(clientID: "196ba98487ebc358955d")
+        BaaS.register(clientID: "fdc4feb5403a985fe681")
         let testBundle = Bundle(for: type(of: self))
         let fileUrl = testBundle.url(forResource: "testcase", withExtension: "plist")
         data = NSDictionary(contentsOf: fileUrl!)
@@ -123,9 +123,9 @@ class TableTestCase: XCTestCase {
         // 一次性赋值
         updatedRecord?.set(record: ["price": 25, "name": "normal book update"])
 
-         // date 类型
-        let dateISO = ISO8601DateFormatter().string(from: Date())
-        updatedRecord?.set(key: "publish_date", value: dateISO)
+//         // date 类型
+//        let dateISO = ISO8601DateFormatter().string(from: Date())
+//        updatedRecord?.set(key: "publish_date", value: dateISO)
 
         // geoPoint 类型
         let point = GeoPoint(latitude: 11, longitude: 12)
@@ -172,7 +172,7 @@ class TableTestCase: XCTestCase {
     // 原子操作
     func testAtomic() {
         let promise = expectation(description: "Status code: 201")
-        atomicRecord = table.getWithoutData(recordId: data.getString("atomicRecordId")!)
+        atomicRecord = table.getWithoutData(recordId: data.getString("atomic_recordId")!)
 
         atomicRecord?.incrementBy(key: "price", value: 1)
         atomicRecord?.append(key: "recommender", value: ["hong"])
@@ -191,11 +191,15 @@ class TableTestCase: XCTestCase {
     // 删除本记录
     func testDeleteRecord() {
         let promise = expectation(description: "Status code: 201")
-        deleteRecord = table.getWithoutData(recordId: data.getString("deleteRecordId")!)
+        deleteRecord = table.getWithoutData(recordId: data.getString("delete_recordId")!)
 
         deleteRecord?.delete { (result, error) in
-            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
-            XCTAssertTrue(result)
+            if error != nil {
+                XCTAssertTrue(error!.code == 404)
+            } else {
+                XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+                XCTAssertTrue(result)
+            }
             promise.fulfill()
         }
 
@@ -206,7 +210,7 @@ class TableTestCase: XCTestCase {
     func testDeletRecords() {
         let promise = expectation(description: "Status code: 201")
 
-        let whereArgs = Where.contains(key: "color", value: "brown")
+        let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
         let query = Query()
         query.setWhere(whereArgs)
         let options = ["enable_trigger": true]
@@ -225,12 +229,12 @@ class TableTestCase: XCTestCase {
         let promise = expectation(description: "Status code: 201")
 
         // 设置查询条件
-        let whereargs = Where.contains(key: "color", value: "red")
+        let whereargs = Where.contains(key: "name", value: "老人与海")
 
         // 应用查询条件
         let query = Query()
         query.setWhere(whereargs)
-        query.select(["created_by", "color"])
+        query.select(["created_by", "name"])
         query.expand(["created_by"])
         table?.find(completion: { (listResult, error) in
             XCTAssertNotNil(listResult, "数据列表为 nil")
@@ -270,7 +274,7 @@ class TableTestCase: XCTestCase {
 
         let promise = expectation(description: "Status code: 201")
 
-        let select = ["color"]
+        let select = ["name"]
         let expand = ["created_by"]
         table?.get(data.getString("recordId")!, select: select, expand: expand, completion: {(record, error) in
             XCTAssertNotNil(record, "记录为 nil")
