@@ -23,3 +23,7 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# cocoapods
+Pods/
+Podfile.lock

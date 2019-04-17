@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<array>
+		<string>用户名注册</string>
+		<string>邮箱注册</string>
+		<string>用户登录</string>
+		<string>邮箱登录</string>
+		<string>匿名登录</string>
+		<string>登出</string>
+	</array>
+	<array>
+		<string>获取当前用户</string>
+		<string>更新用户名</string>
+		<string>更新密码</string>
+		<string>更新邮箱</string>
+		<string>更新用户信息</string>
+		<string>请求邮箱验证</string>
+		<string>通过邮箱重设密码</string>
+		<string>批量查询用户信息</string>
+	</array>
+	<array>
+		<string>获取记录项</string>
+		<string>获取记录列表</string>
+		<string>更新数据</string>
+		<string>删除一条数据</string>
+		<string>批量删除数据</string>
+		<string>插入新数据</string>
+		<string>批量新增数据</string>
+		<string>批量更新数据(暂不上）</string>
+		<string>删除字段值</string>
+	</array>
+	<array>
+		<string>获取内容详情</string>
+		<string>查询和获取内容列表</string>
+		<string>查询和获取内容列表(分类）</string>
+		<string>获取分类详情</string>
+		<string>获取分类列表</string>
+	</array>
+	<array>
+		<string>上传文件</string>
+		<string>获取文件详情</string>
+		<string>获取文件列表</string>
+		<string>删除一个文件</string>
+		<string>删除多个文件</string>
+		<string>获取分类详情</string>
+		<string>获取分类列表</string>
+		<string>获取文件列表（分类）</string>
+	</array>
+	<array>
+		<string>云函数</string>
+		<string>获取当前系统版本</string>
+	</array>
+</array>
+</plist>
