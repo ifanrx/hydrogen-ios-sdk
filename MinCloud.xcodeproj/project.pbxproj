@@ -23,6 +23,7 @@
 		4C33A5FB224130950001C1A7 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FA224130950001C1A7 /* Table.swift */; };
 		4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FC2241338C0001C1A7 /* Record.swift */; };
 		4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D31682266FCF1001EFA7D /* datasource.plist */; };
+		4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D316A22670AF1001EFA7D /* video.mp4 */; };
 		4C83120E2244725B00B4B33E /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C83120D2244725B00B4B33E /* UserManager.swift */; };
 		4C831211224477E700B4B33E /* TableAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C831210224477E700B4B33E /* TableAPI.swift */; };
 		4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312122244F16000B4B33E /* GeoPoint.swift */; };
@@ -103,6 +104,7 @@
 		4C33A5FA224130950001C1A7 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		4C33A5FC2241338C0001C1A7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		4C4D31682266FCF1001EFA7D /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
+		4C4D316A22670AF1001EFA7D /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		4C83120D2244725B00B4B33E /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		4C831210224477E700B4B33E /* TableAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAPI.swift; sourceTree = "<group>"; };
 		4C8312122244F16000B4B33E /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				4CCB87612266CF9D00D65A65 /* Assets.xcassets */,
 				4CCB87632266CF9D00D65A65 /* LaunchScreen.storyboard */,
 				4CCB87662266CF9D00D65A65 /* Info.plist */,
+				4C4D316A22670AF1001EFA7D /* video.mp4 */,
 			);
 			path = Demo_Swift;
 			sourceTree = "<group>";
@@ -620,6 +623,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CCB87652266CF9D00D65A65 /* LaunchScreen.storyboard in Resources */,
+				4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */,
 				4CCB87882266D52100D65A65 /* datasource.plist in Resources */,
 				4CCB87622266CF9D00D65A65 /* Assets.xcassets in Resources */,
 				4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */,

@@ -96,6 +96,8 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public static func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
+        let canceller = RequestCanceller()
+
         let request = FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName as Any])) { result in
             let (fileInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
@@ -109,7 +111,7 @@ open class FileManager: NSObject {
                 let path = fileInfo?.getString("file_link")
                 let id = fileInfo?.getString("id")
                 let parameters: [String: String] = ["policy": (fileInfo?.getString("policy"))!, "authorization": (fileInfo?.getString("authorization"))!]
-                FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url"))!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
+                let uploadRequest = FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url"))!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
                     progressBlock(progress.progressObject)
                 }, completion: { result in
                     let (fileInfo, error) = ResultHandler.handleResult(result)
@@ -129,9 +131,11 @@ open class FileManager: NSObject {
                         completion(file, nil)
                     }
                 })
+                canceller.cancellable = uploadRequest
             }
         }
-        return RequestCanceller(cancellable: request)
+        canceller.cancellable = request
+        return canceller
     }
 
     /// 获取文件分类
