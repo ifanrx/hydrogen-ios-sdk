@@ -152,14 +152,13 @@ class FileTestCase: XCTestCase {
         let promise = expectation(description: "Status code: 201")
         let testBundle = Bundle(for: type(of: self))
         let filePath = testBundle.path(forResource: "1", ofType: "png")
-        FileManager.upload(filename: "test", localPath: filePath!, progressBlock: { progress in
-
-        }) {(file, error) in
+        FileManager.upload(filename: "test", localPath: filePath!,
+                           progressBlock: { _ in }, completion: {(file, error) in
             XCTAssertNotNil(file, "记录为 nil")
             XCTAssertNotNil(file!.Id, "记录 Id 无效")
             XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
             promise.fulfill()
-        }
+        })
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
