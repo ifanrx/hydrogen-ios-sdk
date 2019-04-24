@@ -15,7 +15,7 @@ class AuthTestCase: XCTestCase {
 
     var auth: Auth!
     override func setUp() {
-        BaaS.register(clientID: "196ba98487ebc358955d")
+        BaaS.register(clientID: "fdc4feb5403a985fe681")
     }
 
     override func tearDown() {

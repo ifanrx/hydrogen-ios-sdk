@@ -82,6 +82,7 @@ extension ResultHandler {
             user.provider = dict.getDict("_provider") as? [String: Any]
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 user.createdBy = createdBy
+                user.createdById = dict.getDict("created_by")?.getInt64("id") ?? -1
             } else {
                 user.createdById = dict.getInt64("created_by")
             }
@@ -113,6 +114,7 @@ extension ResultHandler {
             user.provider = dict.getDict("_provider") as? [String: Any]
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 user.createdBy = createdBy
+                user.createdById = dict.getDict("created_by")?.getInt64("id") ?? -1
             } else {
                 user.createdById = dict.getInt64("created_by")
             }
@@ -160,6 +162,7 @@ extension ResultHandler {
             let record = Record(table: table, Id: recordId)
             if let createdBy = dict.getDict("created_by") as? [String: Any] {
                 record.createdBy = createdBy
+                record.createdById = dict.getDict("created_by")?.getInt64("id") ?? -1
             } else {
                 record.createdById = dict.getInt64("created_by")
             }
@@ -301,6 +304,7 @@ extension ResultHandler {
             content.content = contentDict.getString("content")
             if let createdBy = contentDict.getDict("created_by") as? [String: Any] {
                 content.createdBy = createdBy
+                content.createdById = contentDict.getDict("created_by")?.getInt64("id") ?? -1
             } else {
                 content.createdById = contentDict.getInt64("created_by")
             }

@@ -12,7 +12,6 @@
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *datas;
-@property (nonatomic, strong) BaaSUserManager *userManager;
 @property (nonatomic, strong) BaaSTable *table;
 @property (nonatomic, strong) BaaSContentGroup *contentGroup;
 @property (nonatomic, strong) BaaSFileManager *fileManager;
@@ -34,8 +33,6 @@
 
     NSString *filePath = [NSBundle.mainBundle pathForResource:@"datasource" ofType:@"plist"];
     self.datas = [NSArray arrayWithContentsOfFile:filePath];
-
-    _userManager = [[BaaSUserManager alloc] init];
 
     // 数据表
     _table = [[BaaSTable alloc] initWithName:@"Book"];
@@ -195,11 +192,18 @@
                     BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@15];
                     BaaSQuery *query = [[BaaSQuery alloc] init];
                     [query setWhere:where];
-                    [BaaSUserManager findWithQuery:query completion:^(BaaSUserListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [BaaSUser findWithQuery:query completion:^(BaaSUserListResult * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                 }
                     break;
+                case 8:
+                {
+                    long long userId = 36845069853014;
+                    [BaaSUser get:userId select:@[@"nickname", @"gender"] expand:nil completion:^(BaaSUser * _Nullable user, NSError * _Nullable error) {
+                        
+                    }];
+                }
                 default:
                     break;
             }
@@ -292,17 +296,17 @@
                     [_record setWithRecord:@{@"price": @24, @"name": @"normal"}];
 
                     // geoPoint
-                    BAASGeoPoint *point = [[BAASGeoPoint alloc] initWithLatitude:10 longitude:2];
-                    [_record setWithKey:@"location" value:point.geoJson];
+                    BaaSGeoPoint *point = [[BaaSGeoPoint alloc] initWithLongitude:10 latitude:2];
+                    [_record setWithKey:@"location" value:point];
 
                     // polygon
-                    BAASGeoPolygon *polygon = [[BAASGeoPolygon alloc] initWithCoordinates:@[@[@30, @10], @[@40, @40], @[@20, @40], @[@10, @20], @[@30, @10]]];
-                    [_record setWithKey:@"polygon" value:polygon.geoJson];
+                    BaaSGeoPolygon *polygon = [[BaaSGeoPolygon alloc] initWithCoordinates:@[@[@10, @10], @[@40, @40], @[@20, @40], @[@10, @20], @[@10, @10]]];
+                    [_record setWithKey:@"polygon" value:polygon];
 
                     // date
                     NSISO8601DateFormatter *dateFormatter = [[NSISO8601DateFormatter alloc] init];
                     NSString *dateISO = [dateFormatter stringFromDate:[NSDate date]];
-                    [_record setWithKey:@"" value:dateISO];
+                    [_record setWithKey:@"publish_date" value:dateISO];
 
                     [_record save:^(BOOL success, NSError * _Nullable error) {
 
@@ -320,16 +324,20 @@
                     break;
                     case 7:
                 {
-                    //                    // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
-                    //                    BAASQuery *query = [BAASQuery compareWithKey:@"price" operator:BAASOperatorLessThan value:@15];
-                    //                    [_table setQuery:query];
-                    //
-                    //                    BAASTableRecord *record = [_table createRecord];
-                    //                    [record incrementByKey:@"price" value:@1];
-                    //
-                    //                    [_table update:record enableTrigger:true completion:^(NSDictionary<NSString *,id> * _Nullable records, NSError * _Nullable error) {
-                    //
-                    //                    }];
+                    // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
+                    BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@15];
+
+                    BaaSQuery *query = [[BaaSQuery alloc] init];
+                    [query setWhere:where];
+
+                    NSDictionary *options = @{@"enable_trigger": @YES};
+
+                    BaaSRecord *record = [_table createRecord];
+                    [record incrementByKey:@"price" value:@1];
+
+                    [_table updateWithRecord:record query:query options: options completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
                 }
                     break;
                 default:
@@ -353,7 +361,7 @@
                     break;
                     case 2:
                     // 获取分类详情
-                    [_contentGroup getCategory:@"1551697507400928" completion:^(BaaSContentCategory * _Nullable category, NSError * _Nullable error) {
+                    [_contentGroup getCategory:1551697507400928 completion:^(BaaSContentCategory * _Nullable category, NSError * _Nullable error) {
 
                     }];
                     break;
@@ -427,16 +435,87 @@
                     [BaaSFileManager findWithCategoryId:@"" query:nil completion:^(BaaSFileListResult * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
+                    case 8:
+                {
+                    NSDictionary *params = @{
+                            @"source": @"xxxxxxxxxx",
+                            @"save_as": @"hello.png",
+                            @"point": @"00:00:10",
+                            @"category_id": @"5c18bc794e1e8d20dbfcddcc",
+                            @"random_file_link": @NO };
+                    [BaaSFileManager genVideoSnapshot:params completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
 
+                    }];
+                }
+                    break;
+                    case 9:
+                {
+                    NSDictionary *params = @{
+                        @"m3u8s": @[@"xxxxxxxxxx", @"xxxxxxxxxx"],
+                        @"save_as": @"hello.m3u8",
+                        @"category_id": @"5c18bc794e1e8d20dbfcddcc",
+                        @"random_file_link": @NO, };
+                    [BaaSFileManager videoConcat:params completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                    case 10:
+                {
+                    NSDictionary *params = @{
+                        @"m3u8": @"xxxxxxxxxx",
+                        @"include": @[@0, @20],
+                        @"save_as": @"0s_20s.m3u8",
+                        @"category_id": @"5c18bc794e1e8d20dbfcddcc",
+                        @"random_file_link": @NO };
+                    [BaaSFileManager videoClip:params completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                    case 11:
+                {
+                    [BaaSFileManager videoMeta:@"xxxx" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                    case 12:
+                {
+                    [BaaSFileManager videoAudioMeta:@"xxxx" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
 
                 default:
                     break;
             }
             case 5:
         {
-            [BaaS invokeWithName:@"helloWorld" data:@{@"name": @"BaaS"} sync:YES completion:^(NSDictionary * _Nullable result, NSError * _Nullable error) {
+            switch (indexPath.row) {
+                case 0:
+                    [BaaS invokeWithName:@"helloWorld" data:@{@"name": @"BaaS"} sync:YES completion:^(NSDictionary * _Nullable result, NSError * _Nullable error) {
 
-            }];
+                    }];
+                    break;
+                case 1:
+                {
+                    [BaaS sendSmsCodeWithPhone:@"1508805****" completion:^(BOOL success, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                case 2:
+                {
+                    [BaaS verifySmsCodeWithPhone:@"1508805****" code:@"11111" completion:^(BOOL success, NSError * _Nullable error) {
+
+                    }];
+                }
+                default:
+                    break;
+            }
+
         }
         default:
             break;

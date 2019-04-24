@@ -86,11 +86,11 @@ class TableTestCase: XCTestCase {
 
         // geoPoint 类型
         let point = GeoPoint(latitude: 10, longitude: 2)
-        createdRecord?.set(key: "location", value: point.geoJson)
+        createdRecord?.set(key: "location", value: point)
 
         // polygon
         let polygon = GeoPolygon(coordinates: [[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]])
-        createdRecord?.set(key: "polygon", value: polygon.geoJson)
+        createdRecord?.set(key: "polygon", value: polygon)
 
         // object
         let pulish_info = ["name": "新华出版社"]
@@ -129,11 +129,11 @@ class TableTestCase: XCTestCase {
 
         // geoPoint 类型
         let point = GeoPoint(latitude: 11, longitude: 12)
-        updatedRecord?.set(key: "location", value: point.geoJson)
+        updatedRecord?.set(key: "location", value: point)
 
         // polygon
         let polygon = GeoPolygon(coordinates: [[31, 11], [41, 41], [21, 41], [11, 21], [31, 11]])
-        updatedRecord?.set(key: "polygon", value: polygon.geoJson)
+        updatedRecord?.set(key: "polygon", value: polygon)
 
         // object
         let pulish_info = ["name": "新华出版社"]
@@ -286,4 +286,23 @@ class TableTestCase: XCTestCase {
         waitForExpectations(timeout: timeout, handler: nil)
     }
 
+    // 批量更新
+    func testBatchUpdate() {
+        let promise = expectation(description: "Status code: 201")
+
+        // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
+        let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 15)
+        let query = Query()
+        query.setWhere(whereArgs)
+        let options = ["enable_trigger": true]
+        let record = table.createRecord()
+        record.incrementBy(key: "price", value: 1)
+        table.update(record: record, query: query, options: options) { (result, error) in
+            XCTAssertNotNil(result, "结果为 nil")
+            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+            promise.fulfill()
+        }
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }

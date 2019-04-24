@@ -20,13 +20,13 @@ public class Record: BaseRecord {
     /// 记录所有的信息
     @objc public internal(set) var recordInfo: [String: Any] = [:]
 
-    @objc public init(table: Table, Id: String?) {
+    @objc init(table: Table, Id: String?) {
         self.table = table
         super.init()
         self.Id = Id
     }
 
-    @objc public convenience init(table: Table) {
+    @objc convenience init(table: Table) {
         self.init(table: table, Id: nil)
     }
 
@@ -43,7 +43,7 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: record)) { result in
+        let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: recordParameter)) { result in
             self.clear() // 清除条件
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
@@ -82,7 +82,7 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.update(tableId: table.identify, recordId: Id!, parameters: record)) { result in
+        let request = TableRecordProvider.request(.update(tableId: table.identify, recordId: Id!, parameters: recordParameter)) { result in
             self.clear() // 清除条件
             let (recordInfo, error) = ResultHandler.handleResult(result)
             if error != nil {

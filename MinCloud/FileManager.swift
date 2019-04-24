@@ -190,7 +190,7 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func find(categoryId: String, query: Query? = nil, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
+    @objc public static func find(categoryId: String, query: Query? = nil, completion: @escaping FileListResultCompletion) -> RequestCanceller? {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
@@ -204,5 +204,122 @@ open class FileManager: NSObject {
             }
         }
         return RequestCanceller(cancellable: request)
+    }
+
+    /// 从 M3U8，MP4 或其他格式视频中获取一张截图。
+    ///
+    /// - Parameters:
+    ///   - parameters: 参数，可设置的字段如下
+    ///     - source: 视频文件的 id；必填
+    ///     - save_as: 截图时间格式，格式：HH:MM:SS；必填
+    ///     - category_id: 文件所属类别 ID；选填
+    ///     - random_file_link: 是否使用随机字符串作为文件的下载地址，不随机可能会覆盖之前的文件；可选，默认为 true
+    ///     - size: 截图尺寸，格式为 宽x高，默认是视频尺寸；可选
+    ///     - format: 截图格式，可选值为 jpg，png, webp, 默认根据 save_as 的后缀生成；可选
+    ///   - completion: 回调结果
+    /// - Returns:
+    @discardableResult
+    @objc public static func genVideoSnapshot(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileProvider.request(.genVideoSnapshot(parameters: parameters)) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            } else {
+                completion(resultInfo, nil)
+            }
+        }
+        return RequestCanceller(cancellable: request)
+
+    }
+
+    /// 多个 M3U8 拼接成一个。
+    ///
+    /// - Parameters:
+    ///   - parameters: 参数，可设置的字段如下
+    ///     - m3u8s: 数组，包含视频文件的 id， 拼接 M3U8 的存储地址，按提交的顺序进行拼接；必填
+    ///     - save_as: 截图时间格式，格式：HH:MM:SS；必填
+    ///     - category_id: 文件所属类别 ID；选填
+    ///     - random_file_link: 是否使用随机字符串作为文件的下载地址，不随机可能会覆盖之前的文件；可选，默认为 true
+    ///   - completion: 回调结果
+    /// - Returns:
+    @discardableResult
+    @objc public static func videoConcat(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileProvider.request(.videoConcat(parameters: parameters)) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            } else {
+                completion(resultInfo, nil)
+            }
+        }
+        return RequestCanceller(cancellable: request)
+
+    }
+
+    /// 从 M3U8 中剪辑一段，或去掉一段保留前后两段。
+    ///
+    /// - Parameters:
+    ///   - parameters: 参数，可设置的字段如下
+    ///     - m3u8: 视频文件的 id；必填
+    ///     - save_as: 截图时间格式，格式：HH:MM:SS；必填
+    ///     - category_id: 文件所属类别 ID；选填
+    ///     - random_file_link: 是否使用随机字符串作为文件的下载地址，不随机可能会覆盖之前的文件；可选，默认为 true
+    ///     - include: 包含某段内容的开始结束时间，单位是秒。当 index 为 false 时，为开始结束分片序号；可选，数组类型
+    ///     - exclude: 不包含某段内容的开始结束时间，单位是秒。当 index 为 false 时，为开始结束分片序号；可选，数组类型
+    ///     说明: index include 或者 exclude 中的值是否为 ts 分片序号，默认为 false；可选，数组类型
+    ///   - completion: 回调结果
+    /// - Returns:
+    @discardableResult
+    @objc public static func videoClip(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileProvider.request(.videoClip(parameters: parameters)) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            } else {
+                completion(resultInfo, nil)
+            }
+        }
+        return RequestCanceller(cancellable: request)
+
+    }
+
+    /// 获取 M3U8 时长和分片信息。
+    ///
+    /// - Parameters:
+    ///   - fileId: 数组，包含视频文件的 id
+    ///   - completion: 回调结果
+    /// - Returns:
+    @discardableResult
+    @objc public static func videoMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileProvider.request(.videoMeta(parameters: ["m3u8": fileId])) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            } else {
+                completion(resultInfo, nil)
+            }
+        }
+        return RequestCanceller(cancellable: request)
+
+    }
+
+    /// 获取音视频的元信息。
+    ///
+    /// - Parameters:
+    ///     - fileId: 文件的 id
+    ///   - completion: 回调结果
+    /// - Returns:
+    @discardableResult
+    @objc public static func videoAudioMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileProvider.request(.videoAudioMeta(parameters: ["source": fileId])) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            } else {
+                completion(resultInfo, nil)
+            }
+        }
+        return RequestCanceller(cancellable: request)
+
     }
 }

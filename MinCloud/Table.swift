@@ -132,13 +132,15 @@ public class Table: NSObject {
     /// - Parameters:
     ///   - record: 需要更新的记录值
     ///   - query: 查询条件，满足条件的记录将被更新
+    ///   - options: 选项,目前支持 enable_trigger: 是否触发触发器, 可选。
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func update(record: BaseRecord, query: Query? = nil, enableTrigger: Bool = true, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func update(record: Record, query: Query? = nil, options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
 
-        let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.record)) { result in
+        var queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        queryArgs.merge(options ?? [:])
+        let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.recordParameter)) { result in
             let (resultInfo, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)

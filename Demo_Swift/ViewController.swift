@@ -149,9 +149,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let whereArgs = Where.compare(key: "age", operator: .equalTo, value: 19)
                 let query = Query()
                 query.setWhere(whereArgs)
-                UserManager.find(query: query, completion: {_, _ in
+                User.find(query: query, completion: {_, _ in
 
                 })
+            case 8:
+                // 获取指定用户
+                User.get(36845069853014, select: ["nickname", "gender"]) {
+
+                }
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
             }
@@ -161,11 +166,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 0:
                 // 获取指定数据详情
 
-                table.get("5cb54fea5c29454dbe6b1884", select: ["color", "created_by"], expand: ["created_by"]) {_, _ in
+                table.get("5cb43f3f66e4804bb158bc4f", select: ["color", "created_by"], expand: ["created_by"]) {_, _ in
 
                 }
             case 1:
-                table.find(completion: {_, _ in
+                // let whereArgs = Where.include(key: "polygon", point: GeoPoint(latitude: 5, longitude: 25))
+                //let whereArgs = Where.withinCircle(key: "location", point: GeoPoint(longitude: 5.0, latitude: 5.0), radius: 100)
+                //let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 5, latitude: 5), minDistance: 1.0, maxDistance: 5.0)
+                //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
+                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
+                let query = Query()
+                query.setWhere(whereArgs)
+                table.find(query: query, completion: {
 
                 })
 
@@ -210,12 +222,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //                record.set(key: "publish_date", value: dateISO)
 
                 // geoPoint 类型
-                let point = GeoPoint(latitude: 10, longitude: 2)
-                record.set(key: "location", value: point.geoJson)
+                let point = GeoPoint(longitude: 2, latitude: 10)
+                record.set(key: "location", value: point)
 
                 // polygon
-                let polygon = GeoPolygon(coordinates: [[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]])
-                record.set(key: "polygon", value: polygon.geoJson)
+                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
+                record.set(key: "polygon", value: polygon)
 
                 // object
                 let pulish_info = ["name": "新华出版社"]
@@ -239,17 +251,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 }
             case 7:
-                //                // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
-                //                let query = Where.compare(key: "price", operator: .lessThan, value: 15)
-                //                let query = Query()
-                //                query.setWhere(whereArgs)
-                //                table.setWhere(query)
-                //                let record = table.createRecord()
-                //                record.incrementBy(key: "price", value: 1)
-                //                table.update(record) { (result, error) in
-                //
-                //                }
-                break
+                // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
+                let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 15)
+                let query = Query()
+                query.setWhere(whereArgs)
+                let options = ["enable_trigger": true]
+                let record = table.createRecord()
+                record.incrementBy(key: "price", value: 1)
+                table.update(record: record, query: query, options: options) { (_, _) in
+
+                }
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
             }
@@ -332,7 +343,50 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 7:
                 // 获取文件列表
-                MinCloud.FileManager.find(categoryId: "") { (_, _) in
+                FileManager.find(categoryId: "5ca489bb8c374f5039a8062b") { (_, _) in
+
+                }
+            case 8:
+                let params: [String: Any] = ["source": "xxxxxxxxxx",
+                              "save_as": "hello.png",
+                              "point": "00:00:10",
+                              "category_id": "5c18bc794e1e8d20dbfcddcc",
+                              "random_file_link": false]
+                FileManager.genVideoSnapshot(params) {
+
+                }
+            case 9:
+                let params: [String: Any] = ["m3u8s": ["xxxxxxxxxx", "xxxxxxxxxx"],
+                                             "save_as": "hello.m3u8",
+                                             "category_id": "5c18bc794e1e8d20dbfcddcc",
+                                             "random_file_link": false]
+                FileManager.videoConcat(params) {
+
+                }
+            case 10:
+                let params: [String: Any] = ["m3u8s": ["xxxxxxxxxx", "xxxxxxxxxx"],
+                                             "save_as": "hello.m3u8",
+                                             "category_id": "5c18bc794e1e8d20dbfcddcc",
+                                             "random_file_link": false]
+                FileManager.videoConcat(params) {
+
+                }
+            case 11:
+                let params: [String: Any] = ["m3u8": "xxxxxxxxxx",
+                                             "include": [0, 20],
+                                             "save_as": "0s_20s.m3u8",
+                                             "category_id": "5c18bc794e1e8d20dbfcddcc",
+                                             "random_file_link": false]
+
+                FileManager.videoClip(params) {
+
+                }
+            case 12:
+                FileManager.videoMeta("xxxx") {
+
+                }
+            case 13:
+                FileManager.videoAudioMeta("xxxx") {
 
                 }
             default:
@@ -342,7 +396,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 云函数
-                BaaS.invoke(name: "helloWorld", data: ["name": "MinCloud"], sync: true) {_, _ in
+                BaaS.invoke(name: "helloWorld", data: ["name": "MinCloud"], sync: true) {
+
+                }
+            case 1:
+                // 发送验证码
+                BaaS.sendSmsCode(phone: "15088057274") {
+
+                }
+            case 2:
+                // 验证手机验证码
+                BaaS.verifySmsCode(phone: "15088057274", code: "") {
 
                 }
             default:

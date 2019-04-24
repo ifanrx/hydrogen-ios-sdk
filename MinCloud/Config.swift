@@ -89,7 +89,17 @@ struct Config {
         static let gensorMsg = "/hserve/v1.7/censor-msg/"
         static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
         static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
+
+        static let videoSnapshot = "/hserve/v1/media/video-snapshot/"
+        static let m3u8Concat = "/hserve/v1/media/m3u8-concat/"
+        static let m3u8Clip =  "/hserve/v1/media/m3u8-clip/"
+        static let m3u8Meta = "/hserve/v1/media/m3u8-meta/"
+        static let videoAudioMeta = "/hserve/v1/media/audio-video-meta/"
     }
 
-    static let cloudFunction = "/hserve/v1/cloud-function/job/"
+    struct BaaS {
+        static let cloudFunction = "/hserve/v1/cloud-function/job/"
+        static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
+        static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
+    }
 }

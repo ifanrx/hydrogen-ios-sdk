@@ -17,22 +17,42 @@ import Result
 
     @objc public static var isDebug: Bool = false
 
-    @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) {
-        BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
-            if case let .success(response) = result {
-                let data = try? response.mapJSON()
-                print("response = \(String(describing: data))")
-                if response.statusCode >= 200 && response.statusCode <= 299 {
-                    let dict = data as? [String: Any]
-                    completion(dict, nil)
-                } else {
-                    let dict = data as? NSDictionary
-                    let errorMsg = dict?.getString("error_msg")
-                    completion(nil, HError(code: response.statusCode, description: errorMsg) as NSError)
-                }
-            } else if case let .failure(error) = result {
-                completion(nil, error as NSError)
+    @discardableResult
+    @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
+            let (resultInfo, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(nil, error)
+            } else {
+                completion(resultInfo, nil)
             }
         }
+        return RequestCanceller(cancellable: request)
+    }
+
+    @discardableResult
+    @objc public static func sendSmsCode(phone: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.sendSmsCode(parameters: ["phone": phone])) { result in
+            let (_, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(false, error)
+            } else {
+                completion(true, nil)
+            }
+        }
+        return RequestCanceller(cancellable: request)
+    }
+
+    @discardableResult
+    @objc public static func verifySmsCode(phone: String, code: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.verifySmsCode(parameters: ["phone": phone, "code": code])) { result in
+            let (_, error) = ResultHandler.handleResult(result)
+            if error != nil {
+                completion(false, error)
+            } else {
+                completion(true, nil)
+            }
+        }
+        return RequestCanceller(cancellable: request)
     }
 }

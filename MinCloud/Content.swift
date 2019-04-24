@@ -22,7 +22,7 @@ open class Content: NSObject {
     /**
      *  创建者的 ID
      */
-    @objc public internal(set) var createdById: Int64 = 0
+    @objc public internal(set) var createdById: Int64 = -1
 
     /**
      *  创建者的信息
@@ -37,4 +37,5 @@ open class Content: NSObject {
     /**
      *  更新时间
      */
-    @objc public internal(set) var updatedAt: TimeInterval = 0}
+    @objc public internal(set) var updatedAt: TimeInterval = 0
+}

@@ -19,6 +19,7 @@
 		<string>请求邮箱验证</string>
 		<string>通过邮箱重设密码</string>
 		<string>批量查询用户信息</string>
+		<string>获取指定用户</string>
 	</array>
 	<array>
 		<string>获取记录项</string>
@@ -28,7 +29,7 @@
 		<string>批量删除数据</string>
 		<string>插入新数据</string>
 		<string>批量新增数据</string>
-		<string>批量更新数据(暂不上）</string>
+		<string>批量更新数据</string>
 		<string>删除字段值</string>
 	</array>
 	<array>
@@ -47,10 +48,16 @@
 		<string>获取分类详情</string>
 		<string>获取分类列表</string>
 		<string>获取文件列表（分类）</string>
+		<string>视频截图</string>
+		<string>视频拼接</string>
+		<string>视频剪辑</string>
+		<string>M3U8 时长和分片信息</string>
+		<string>视频元信息</string>
 	</array>
 	<array>
 		<string>云函数</string>
-		<string>获取当前系统版本</string>
+		<string>发送手机验证码</string>
+		<string>验证手机验证码</string>
 	</array>
 </array>
 </plist>

@@ -112,4 +112,34 @@ class CurrentUserTestCase: XCTestCase {
         }
         waitForExpectations(timeout: timeout, handler: nil)
     }
+
+    // 获取指定用户
+    func testGetUser() {
+        let promise = expectation(description: "Status code: 201")
+        User.get(37308161491447) { (user, error) in
+            XCTAssertNotNil(user, "用户为空")
+            XCTAssertFalse(user!.userId == -1)
+            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+
+            promise.fulfill()
+        }
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
+
+    // 查询用户
+    func testFindUsers() {
+        let promise = expectation(description: "Status code: 201")
+
+        User.find(completion: { (listResult, error) in
+            XCTAssertNotNil(listResult, "数据列表为 nil")
+            if listResult?.users?.count ?? 0 > 0 {
+                XCTAssertNotNil(listResult?.users?[0].Id, "数据项 Id 无效")
+            }
+            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+
+            promise.fulfill()
+        })
+
+        waitForExpectations(timeout: timeout, handler: nil)
+    }
 }
