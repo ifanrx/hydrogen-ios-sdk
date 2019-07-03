@@ -559,7 +559,7 @@
                     break;
                 case 3:
                 {
-                    [BaaSPay.shared repayWithOrderInfo:self.orderInfo completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
+                    [BaaSPay.shared repay:self.orderInfo completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];
                         } else {
@@ -570,7 +570,7 @@
                     break;
                 case 4:
                 {
-                    [BaaSPay.shared orderListWithQuery:nil completion:^(BaaSOrderInfoListResult * _Nullable orders, NSError * _Nullable error) {
+                    [BaaSPay.shared orderListWithQuery:nil completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];
                         } else {
@@ -583,8 +583,8 @@
                 case 5:
                 {
                     BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
-                    [query status:@"pending"];
-                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderInfoListResult * _Nullable orders, NSError * _Nullable error) {
+                    [query status:BaaSOrderStatusPending];
+                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];
                         } else {
@@ -597,8 +597,8 @@
                 case 6:
                 {
                     BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
-                    [query status:@"success"];
-                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderInfoListResult * _Nullable orders, NSError * _Nullable error) {
+                    [query status:BaaSOrderStatusSuccess];
+                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];
                         } else {

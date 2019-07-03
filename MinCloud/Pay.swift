@@ -9,6 +9,9 @@
 import Foundation
 import Moya
 
+let WXPay = "weixin_tenpay_app"
+let AliPay = "alipay_app"
+
 @objc(BaaSPay)
 open class Pay: NSObject {
 
@@ -17,7 +20,7 @@ open class Pay: NSObject {
 
     // 微信支付
     @discardableResult
-    @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderInfoCompletion) -> RequestCanceller? {
+    @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return nil
@@ -32,7 +35,7 @@ open class Pay: NSObject {
                 completion(nil, error)
             } else {
                 let orderInfo = Order(dict: orderDict)
-                orderInfo?.gateWayType = PayType.weixin.rawValue
+                orderInfo?.gateWayType = WXPay
                 if let request = orderInfo?.wxPayReq, let appId = orderInfo?.wxAppid {
                     completion(orderInfo, nil)
                     // 调起微信支付
@@ -48,7 +51,7 @@ open class Pay: NSObject {
 
     // 支付宝支付
     @discardableResult
-    @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderInfoCompletion) -> RequestCanceller? {
+    @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return nil
@@ -61,7 +64,7 @@ open class Pay: NSObject {
                 completion(nil, error)
             } else {
                 let orderInfo = Order(dict: orderDict)
-                orderInfo?.gateWayType = PayType.alipay.rawValue
+                orderInfo?.gateWayType = AliPay
                 if let paymentUrl = orderInfo?.aliPaymenUrl, let appId = orderInfo?.aliAppid {
                     completion(orderInfo, nil)
                     self.payWithAli(paymentUrl, appId: appId)
@@ -75,7 +78,7 @@ open class Pay: NSObject {
 
     // 查询订单
     @discardableResult
-    @objc public func order(_ transactionID: String, completion:@escaping OrderInfoCompletion) -> RequestCanceller? {
+    @objc public func order(_ transactionID: String, completion:@escaping OrderCompletion) -> RequestCanceller? {
         let request = PayProvider.request(.order(transactionID: transactionID)) { (result) in
             let (orderDict, error) = ResultHandler.handleResult(result)
             if error != nil {
@@ -90,14 +93,14 @@ open class Pay: NSObject {
 
     // 查询订单列表
     @discardableResult
-    @objc public func orderList(query: Query? = nil, completion:@escaping OrderInfoListCompletion) -> RequestCanceller? {
+    @objc public func orderList(query: Query? = nil, completion:@escaping OrderListCompletion) -> RequestCanceller? {
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = PayProvider.request(.orderList(parameters: queryArgs)) { (result) in
             let (orderInfoDict, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let orderInfos = OrderInfoList(dict: orderInfoDict)
+                let orderInfos = OrderList(dict: orderInfoDict)
                 completion(orderInfos, nil)
             }
         }
@@ -105,26 +108,26 @@ open class Pay: NSObject {
     }
 
     // 未支付状态，重新支付
-    @objc public func repay(orderInfo: Order, completion:@escaping OrderInfoCompletion) {
+    @objc public func repay(_ order: Order, completion:@escaping OrderCompletion) {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return
         }
-        guard let gateWayType = orderInfo.gateWayType else {
+        guard let gateWayType = order.gateWayType else {
             completion(nil, HError.init(code: 400) as NSError)
             return
         }
-        if gateWayType == PayType.weixin.rawValue {
-            if let request = orderInfo.wxPayReq, let appId = orderInfo.wxAppid {
+        if gateWayType == WXPay {
+            if let request = order.wxPayReq, let appId = order.wxAppid {
                 // 调起微信支付
                 self.payWithWX(request, appId: appId)
             } else {
                 let error = HError.init(code: 610) as NSError
-                completion(orderInfo, error)
+                completion(order, error)
             }
 
-        } else if gateWayType == PayType.alipay.rawValue {
-            if let paymentUrl = orderInfo.aliPaymenUrl, let appId = orderInfo.aliAppid {
+        } else if gateWayType == AliPay {
+            if let paymentUrl = order.aliPaymenUrl, let appId = order.aliAppid {
                 self.payWithAli(paymentUrl, appId: appId)
             } else {
                 completion(nil, HError.init(code: 610) as NSError)
@@ -136,7 +139,7 @@ open class Pay: NSObject {
 
 extension Pay {
 
-    fileprivate func pay(type: PayType, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    fileprivate func pay(type: GateWayType, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: Any] = ["gateway_type": type.rawValue, "total_cost": totalCost, "merchandise_description": merchandiseDescription]
         if merchandiseSchemaID != -1 {

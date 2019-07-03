@@ -18,6 +18,24 @@ public enum Operator: Int {
     case lessThanOrEqualTo     // 小于等于
 }
 
+@objc(BaaSOrderStatus)
+public enum OrderStatus: Int {
+    case success = 0           // 支付成功
+    case pending = 1           // 待支付
+}
+
+@objc(BaaSRefundStatus)
+public enum RefundStatus: Int {
+    case complete = 0          // 退款成功
+    case partial = 1           // 部分退款
+}
+
+@objc(BaaSGateWayType)
+public enum GateWayType: Int {
+    case weixin = 0            // 微信支付
+    case alipay = 1            // 支付宝
+}
+
 public typealias BOOLResultCompletion = (_ success: Bool, _ error: NSError?) -> Void
 public typealias COUNTResultCompletion = (_ count: Int?, _ error: NSError?) -> Void
 public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: NSError?) -> Void
@@ -38,7 +56,7 @@ public typealias ContentListResultCompletion = (_ listResult: ContentListResult?
 public typealias ContentCategoryResultCompletion = (_ file: ContentCategory?, _ error: NSError?) -> Void
 public typealias ContentCategoryListResultCompletion = (_ listResult: ContentCategoryListResult?, _ error: NSError?) -> Void
 
-public typealias OrderInfoCompletion = (_ orderInfo: Order?, _ error: NSError?) -> Void
-public typealias OrderInfoListCompletion = (_ listResult: OrderInfoList?, _ error: NSError?) -> Void
+public typealias OrderCompletion = (_ order: Order?, _ error: NSError?) -> Void
+public typealias OrderListCompletion = (_ listResult: OrderList?, _ error: NSError?) -> Void
 
 public typealias ProgressBlock = (_ progress: Progress?) -> Void

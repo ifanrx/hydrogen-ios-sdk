@@ -19,11 +19,6 @@ enum AuthType: String {
     case anonymous
 }
 
-enum PayType: String {
-    case weixin = "weixin_tenpay_app"
-    case alipay = "alipay_app"
-}
-
 struct Config {
     static let environment: NetworkEnvironment = .production
     static var clientID: String!

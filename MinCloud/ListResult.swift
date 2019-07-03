@@ -72,10 +72,10 @@ public class ContentCategoryListResult: ListResult {
     @objc public internal(set) var contentCategorys: [ContentCategory]?
 }
 
-@objc(BaaSOrderInfoListResult)
-public class OrderInfoList: ListResult {
+@objc(BaaSOrderList)
+public class OrderList: ListResult {
 
-    @objc public internal(set) var orderInfos: [Order]?
+    @objc public internal(set) var orders: [Order]?
     var dictInfo: [String: Any]?
 
     public override init() {
@@ -91,7 +91,7 @@ public class OrderInfoList: ListResult {
                 orderInfos.append(orderInfo)
             }
         }
-        self.orderInfos = orderInfos
+        self.orders = orderInfos
         super.init(dict: dict)
     }
 

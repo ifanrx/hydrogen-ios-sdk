@@ -431,7 +431,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 })
             case 1:
-                Pay.shared.aliPay(totalCost: 0.01, merchandiseDescription: "支付宝", completion: { (result, error) in
+                Pay.shared.aliPay(totalCost: 0.02, merchandiseDescription: "支付宝", completion: { (result, error) in
                     self.resultInfo = result
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "支付失败")
@@ -456,7 +456,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if self.resultInfo == nil {
                     self.showMessage(message: "请创建订单")
                 } else {
-                    Pay.shared.repay(orderInfo: self.resultInfo) { (result, error) in
+                    Pay.shared.repay(self.resultInfo) { (result, error) in
                         if error != nil {
                             self.showMessage(message: error?.localizedDescription ?? "支付失败")
                         } else {
@@ -474,7 +474,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 5:
                 let query = OrderQuery()
-                query.status("pending")
+                query.status(.pending)
                 Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
@@ -484,7 +484,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 6:
                 let query = OrderQuery()
-                query.status("success")
+                query.status(.success)
                 Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
