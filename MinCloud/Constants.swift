@@ -38,4 +38,7 @@ public typealias ContentListResultCompletion = (_ listResult: ContentListResult?
 public typealias ContentCategoryResultCompletion = (_ file: ContentCategory?, _ error: NSError?) -> Void
 public typealias ContentCategoryListResultCompletion = (_ listResult: ContentCategoryListResult?, _ error: NSError?) -> Void
 
+public typealias OrderInfoResultCompletion = (_ orderInfo: OrderInfo?, _ error: NSError?) -> Void
+public typealias OrderInfoListCompletion = (_ listResult: OrderInfoList?, _ error: NSError?) -> Void
+
 public typealias ProgressBlock = (_ progress: Progress?) -> Void

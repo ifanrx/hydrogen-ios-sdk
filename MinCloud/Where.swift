@@ -133,7 +133,7 @@ open class Where: NSObject {
     }
 
     @objc static public func withinRegion(key: String, point: GeoPoint, minDistance: Double, maxDistance: Double) -> Where {
-        let data: [String: Any] = ["geometry": point.geoJson, "min_distance": minDistance, "max_distance": maxDistance]
+        let data: [String: Any] = ["geometry": point.geoJson, "min_distance": minDistance * 1000, "max_distance": maxDistance * 1000]
         return Where(conditon: [key: ["$nearsphere": data]])
     }
 }

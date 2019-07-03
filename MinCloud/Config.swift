@@ -19,6 +19,11 @@ enum AuthType: String {
     case anonymous
 }
 
+enum PayType: String {
+    case weixin = "weixin_tenpay_app"
+    case alipay = "alipay_app"
+}
+
 struct Config {
     static let environment: NetworkEnvironment = .production
     static var clientID: String!
@@ -54,7 +59,7 @@ struct Config {
     }
 
     struct User {
-        static func getUserInfo(userId: Int) -> String { return "/hserve/v2.0/user/info/\(userId)/" }
+        static func getUserInfo(userId: Int64) -> String { return "/hserve/v2.0/user/info/\(userId)/" }
         static let updateAccount = "/hserve/v2.0/user/account/"
         static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
@@ -101,5 +106,11 @@ struct Config {
         static let cloudFunction = "/hserve/v1/cloud-function/job/"
         static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
         static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
+    }
+
+    struct Pay {
+        static let pay = "/hserve/v2.0/idp/pay/order/"
+        static func order(transactionID: String) -> String { return "/hserve/v2.0/idp/pay/order/\(transactionID)/" }
+        static let orderList = "/hserve/v2.0/idp/pay/order/"
     }
 }

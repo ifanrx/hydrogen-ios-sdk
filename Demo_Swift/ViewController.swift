@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     var tableView: UITableView!
     var data: NSArray!
+    var resultInfo: OrderInfo!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,7 +155,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 8:
                 // 获取指定用户
-                User.get(36845069853014, select: ["nickname", "gender"]) {
+                User.get(36845069853014, select: ["nickname", "gender"]) {_, _ in
 
                 }
             default:
@@ -170,14 +171,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 }
             case 1:
-                // let whereArgs = Where.include(key: "polygon", point: GeoPoint(latitude: 5, longitude: 25))
-                //let whereArgs = Where.withinCircle(key: "location", point: GeoPoint(longitude: 5.0, latitude: 5.0), radius: 100)
-                //let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 5, latitude: 5), minDistance: 1.0, maxDistance: 5.0)
+//                let whereArgs = Where.include(key: "polygon", point: GeoPoint(longitude: 5, latitude: 5))
+                // 单位为km
+//                let whereArgs = Where.withinCircle(key: "location", point: GeoPoint(longitude: 113.329632, latitude: 23.109101), radius: 0.5)
+                // 单位为m
+                let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 113.329632, latitude: 23.109101), minDistance: 0.5, maxDistance: 5)
+
+//                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[10, 5], [20, 5], [20, 10], [10, 10], [10, 5]]))
                 //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
-                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
+//                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
                 let query = Query()
                 query.setWhere(whereArgs)
-                table.find(query: query, completion: {
+                table.find(query: query, completion: {_, _ in
 
                 })
 
@@ -247,7 +252,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 6:
                 // 批量增加数据项
                 let options = ["enable_trigger": true]
-                table.createMany([["name": "麦田里的守望者", "price": 19], ["name": "三体", "price": 19]], options: options) {_, _ in
+                table.createMany([["name": "麦田里的守望者", "price": 30], ["name": "三体", "price": 39]], options: options) {_, _ in
 
                 }
             case 7:
@@ -257,7 +262,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.setWhere(whereArgs)
                 let options = ["enable_trigger": true]
                 let record = table.createRecord()
-                record.incrementBy(key: "price", value: 1)
+                //record.incrementBy(key: "price", value: 1)
+                record.set(key: "price", value: 35)
                 table.update(record: record, query: query, options: options) { (_, _) in
 
                 }
@@ -352,7 +358,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                               "point": "00:00:10",
                               "category_id": "5c18bc794e1e8d20dbfcddcc",
                               "random_file_link": false]
-                FileManager.genVideoSnapshot(params) {
+                FileManager.genVideoSnapshot(params) {_, _ in
 
                 }
             case 9:
@@ -360,7 +366,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                              "save_as": "hello.m3u8",
                                              "category_id": "5c18bc794e1e8d20dbfcddcc",
                                              "random_file_link": false]
-                FileManager.videoConcat(params) {
+                FileManager.videoConcat(params) {_, _ in
 
                 }
             case 10:
@@ -368,7 +374,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                              "save_as": "hello.m3u8",
                                              "category_id": "5c18bc794e1e8d20dbfcddcc",
                                              "random_file_link": false]
-                FileManager.videoConcat(params) {
+                FileManager.videoConcat(params) {_, _ in
 
                 }
             case 11:
@@ -378,15 +384,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                              "category_id": "5c18bc794e1e8d20dbfcddcc",
                                              "random_file_link": false]
 
-                FileManager.videoClip(params) {
+                FileManager.videoClip(params) {_, _ in
 
                 }
             case 12:
-                FileManager.videoMeta("xxxx") {
+                FileManager.videoMeta("xxxx") {_, _ in
 
                 }
             case 13:
-                FileManager.videoAudioMeta("xxxx") {
+                FileManager.videoAudioMeta("xxxx") {_, _ in
 
                 }
             default:
@@ -396,18 +402,67 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 云函数
-                BaaS.invoke(name: "helloWorld", data: ["name": "MinCloud"], sync: true) {
+                BaaS.invoke(name: "helloWorld", data: ["name": "MinCloud"], sync: true) {_, _ in
 
                 }
             case 1:
                 // 发送验证码
-                BaaS.sendSmsCode(phone: "15088057274") {
+                BaaS.sendSmsCode(phone: "15088057274") {_, _ in
 
                 }
             case 2:
                 // 验证手机验证码
-                BaaS.verifySmsCode(phone: "15088057274", code: "") {
+                BaaS.verifySmsCode(phone: "15088057274", code: "") {_, _ in
 
+                }
+            default:
+                break
+            }
+        case 6:
+
+            switch indexPath.row {
+            case 0:
+                Pay.shared.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", completion: { (result, error) in
+                    self.resultInfo = result
+//                    if error != nil {
+//                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
+//                    } else {
+//                        self.showMessage(message: result?.description ?? "")
+//                    }
+                })
+            case 1:
+                Pay.shared.aliPay(totalCost: 0.01, merchandiseDescription: "支付宝", completion: { (result, error) in
+                    self.resultInfo = result
+//                    if error != nil {
+//                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
+//                    } else {
+//                        self.showMessage(message: result?.description ?? "")
+//                    }
+                })
+            case 2:
+                Pay.shared.order(self.resultInfo.transactionNo!) { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+
+            case 3:
+                Pay.shared.repay(orderInfo: self.resultInfo) { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+            case 4:
+                Pay.shared.orderList { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
                 }
             default:
                 break
@@ -418,10 +473,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
-//    func showMessage(message: String) {
-//        let alertController = UIAlertController(title: "提示", message: message, preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "好的", style: .default, handler: nil)
-//        alertController.addAction(okAction)
-//        self.present(alertController, animated: true, completion: nil)
-//    }
+    func showMessage(message: String) {
+        let alertController = UIAlertController(title: "提示", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "好的", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 }

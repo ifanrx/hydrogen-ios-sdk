@@ -140,7 +140,7 @@ open class User: BaseRecord {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func get(_ userId: Int, select: [String]? = nil, expand: [String]? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
+    @objc public static func get(_ userId: Int64, select: [String]? = nil, expand: [String]? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
         if let select = select {

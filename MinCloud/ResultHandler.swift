@@ -50,7 +50,7 @@ class ResultHandler {
 extension ResultHandler {
     static func dictToLoginUser(dict: [String: Any]?) -> CurrentUser? {
         if let dict = dict {
-            let Id = dict.getInt("id")
+            let Id = dict.getInt64("id")
 
             Storage.shared.userId = Id
             Storage.shared.token = dict.getString("token")
@@ -269,6 +269,8 @@ extension ResultHandler {
                 listResults.limit = meta.getInt("limit")
                 listResults.offset = meta.getInt("offset")
                 listResults.totalCount = meta.getInt("total_count")
+                listResults.next = meta.getString("next")
+                listResults.previous = meta.getString("previous")
             }
 
             var categorys: [FileCategory]!
@@ -323,6 +325,8 @@ extension ResultHandler {
                 listResults.limit = meta.getInt("limit")
                 listResults.offset = meta.getInt("offset")
                 listResults.totalCount = meta.getInt("total_count")
+                listResults.next = meta.getString("next")
+                listResults.previous = meta.getString("previous")
             }
 
             var contents: [Content]!
@@ -369,6 +373,8 @@ extension ResultHandler {
                 listResults.limit = meta.getInt("limit")
                 listResults.offset = meta.getInt("offset")
                 listResults.totalCount = meta.getInt("total_count")
+                listResults.next = meta.getString("next")
+                listResults.previous = meta.getString("previous")
             }
 
             var categorys: [ContentCategory]!

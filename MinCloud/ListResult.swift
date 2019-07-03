@@ -11,11 +11,29 @@ import UIKit
 @objc(BaaSListResult)
 public class ListResult: NSObject {
 
-    @objc public internal(set) var limit: Int = 0
+    @objc public internal(set) var limit: Int = 20
 
     @objc public internal(set) var offset: Int = 0
 
     @objc public internal(set) var totalCount: Int = 0
+
+    @objc public internal(set) var next: String?  // 下一页
+
+    @objc public internal(set) var previous: String? // 上一页
+
+    public override init() {
+        super.init()
+    }
+
+    public init?(dict: [String: Any]?) {
+        guard let dict = dict, let meta = dict["meta"] as? [String: Any] else { return nil }
+        self.limit = meta.getInt("limit")
+        self.offset = meta.getInt("offset")
+        self.totalCount = meta.getInt("total_count")
+        self.next = meta.getString("next")
+        self.previous = meta.getString("previous")
+    }
+
 }
 
 @objc(BaaSUserListResult)
@@ -52,4 +70,33 @@ public class ContentListResult: ListResult {
 public class ContentCategoryListResult: ListResult {
 
     @objc public internal(set) var contentCategorys: [ContentCategory]?
+}
+
+@objc(BaaSOrderInfoListResult)
+public class OrderInfoList: ListResult {
+
+    @objc public internal(set) var orderInfos: [OrderInfo]?
+    var dictInfo: [String: Any]?
+
+    public override init() {
+        super.init()
+    }
+
+    public override init?(dict: [String: Any]?) {
+        guard let dictInfo = dict, let objects = dictInfo["objects"] as? [[String: Any]] else { return nil }
+        self.dictInfo = dictInfo
+        var orderInfos: [OrderInfo] = []
+        for orderDict in objects {
+            if let orderInfo = OrderInfo(dict: orderDict) {
+                orderInfos.append(orderInfo)
+            }
+        }
+        self.orderInfos = orderInfos
+        super.init(dict: dict)
+    }
+
+    override open var description: String {
+        let dict = self.dictInfo ?? [:]
+        return dict.toJsonString
+    }
 }

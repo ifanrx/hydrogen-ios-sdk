@@ -67,10 +67,10 @@ class Storage {
     /**
      *  userId
      */
-    var userId: Int? {
+    var userId: Int64? {
         get {
             let userDefaults = UserDefaults.standard
-            return userDefaults.integer(forKey: userIdIdentity)
+            return Int64(userDefaults.integer(forKey: userIdIdentity))
         }
 
         set {

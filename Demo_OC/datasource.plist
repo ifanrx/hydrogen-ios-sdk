@@ -59,5 +59,12 @@
 		<string>发送手机验证码</string>
 		<string>验证手机验证码</string>
 	</array>
+	<array>
+		<string>微信</string>
+		<string>支付宝</string>
+		<string>查询订单</string>
+		<string>待支付</string>
+		<string>订单列表</string>
+	</array>
 </array>
 </plist>

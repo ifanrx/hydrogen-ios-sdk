@@ -18,6 +18,7 @@
 @property (nonatomic, strong) BaaSRecord *record;
 @property (nonatomic, strong) BaaSFile *file;
 @property (nonatomic, strong) BaaSCurrentUser *currentUser;
+    @property (nonatomic, strong) BaaSOrderInfo *orderInfo;
 @end
 
 @implementation ViewController
@@ -41,7 +42,6 @@
 
     _fileManager = [[BaaSFileManager alloc] init];
 }
-
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
@@ -517,11 +517,86 @@
             }
 
         }
+            case 6:
+        {
+            switch (indexPath.row) {
+                case 0:
+                {
+                    [BaaSPay.shared wxPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+
+                        self.orderInfo = orderInfo;
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                    break;
+                case 1:
+                {
+                    [BaaSPay.shared aliPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+
+                        self.orderInfo = orderInfo;
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                break;
+                case 2:
+                {
+                    [BaaSPay.shared order:self.orderInfo.transactionNo completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                    break;
+                case 3:
+                {
+                    [BaaSPay.shared repayWithOrderInfo:self.orderInfo completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                    break;
+                case 4:
+                {
+                    [BaaSPay.shared orderListWithQuery:nil completion:^(BaaSOrderInfoListResult * _Nullable orders, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orders.description];
+                        }
+
+                        }];
+                }
+                break;
+                default:
+                    break;
+            }
+        }
         default:
             break;
     }
 }
 
-
+- (void)showMessage:(NSString*)message {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    // 2.创建并添加按钮
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 @end
