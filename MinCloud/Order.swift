@@ -9,10 +9,10 @@
 import UIKit
 
 @objc(BaaSOrderInfo)
-open class OrderInfo: NSObject {
+open class Order: NSObject {
     @objc public var Id: Int = -1
-    @objc public var tradeNo: String?
-    @objc public var transactionNo: String?
+    @objc public var tradeNo: String? // 真正的交易 ID, 业务方在微信后台对账时可看到此字段
+    @objc public var transactionNo: String? // 知晓云平台所记录的流水号
     @objc public var currencyType: String?
     @objc public var totalCost: Double = 0
     @objc public var status: String?
