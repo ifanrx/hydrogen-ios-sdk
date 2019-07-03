@@ -47,3 +47,31 @@ open class Query: NSObject {
         queryArgs = [:]
     }
 }
+
+@objc(BaaSOrderQuery)
+open class OrderQuery: Query {
+
+    // 订单状态
+    @objc public func status(_ value: String) {
+        queryArgs["status"] = value
+    }
+
+    //
+    @objc public func tradeNo(_ value: String) {
+        queryArgs["trade_no"] = value
+    }
+
+    @objc public func transactionNo(_ value: String) {
+        queryArgs["transaction_no"] = value
+    }
+
+    // 记录 ID
+    @objc public func merchandiseRecordId(_ value: String) {
+        queryArgs["merchandise_record_id"] = value
+    }
+
+    // 表 ID
+    @objc public func merchandiseSchemaId(_ value: String) {
+        queryArgs["merchandise_schema_id"] = value
+    }
+}

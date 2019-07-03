@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     var tableView: UITableView!
     var data: NSArray!
-    var resultInfo: OrderInfo!
+    var resultInfo: Order!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,22 +76,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 用户名注册
-                Auth.register(username: "test0410", password: "1111") {_, _ in
+                Auth.register(username: "test0703", password: "1111") {_, _ in
 
                 }
             case 1:
                 // 邮箱注册
-                Auth.register(email: "test0410@yeah.net", password: "1111") {_, _ in
+                Auth.register(email: "test0703@yeah.net", password: "1111") {_, _ in
 
                 }
             case 2:
                 // 用户名登录
-                Auth.login(username: "test0410", password: "1111") {_, _ in
+                Auth.login(username: "test0703", password: "1111") {_, _ in
 
                 }
             case 3:
                 // 邮箱登录
-                Auth.login(email: "test0410@yeah.net", password: "1111") {_, _ in
+                Auth.login(email: "test0703@yeah.net", password: "1111") {_, _ in
 
                 }
             case 4:
@@ -424,40 +424,68 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 0:
                 Pay.shared.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", completion: { (result, error) in
                     self.resultInfo = result
-//                    if error != nil {
-//                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
-//                    } else {
-//                        self.showMessage(message: result?.description ?? "")
-//                    }
-                })
-            case 1:
-                Pay.shared.aliPay(totalCost: 0.01, merchandiseDescription: "支付宝", completion: { (result, error) in
-                    self.resultInfo = result
-//                    if error != nil {
-//                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
-//                    } else {
-//                        self.showMessage(message: result?.description ?? "")
-//                    }
-                })
-            case 2:
-                Pay.shared.order(self.resultInfo.transactionNo!) { (result, error) in
-                    if error != nil {
-                        self.showMessage(message: error?.localizedDescription ?? "获取订单失败")
-                    } else {
-                        self.showMessage(message: result?.description ?? "")
-                    }
-                }
-
-            case 3:
-                Pay.shared.repay(orderInfo: self.resultInfo) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "支付失败")
                     } else {
                         self.showMessage(message: result?.description ?? "")
                     }
+                })
+            case 1:
+                Pay.shared.aliPay(totalCost: 0.01, merchandiseDescription: "支付宝", completion: { (result, error) in
+                    self.resultInfo = result
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                })
+            case 2:
+                if self.resultInfo == nil {
+                    self.showMessage(message: "请创建订单")
+                } else {
+                    Pay.shared.order(self.resultInfo.transactionNo!) { (result, error) in
+                        if error != nil {
+                            self.showMessage(message: error?.localizedDescription ?? "获取订单失败")
+                        } else {
+                            self.showMessage(message: result?.description ?? "")
+                        }
+                    }
+                }
+
+            case 3:
+                if self.resultInfo == nil {
+                    self.showMessage(message: "请创建订单")
+                } else {
+                    Pay.shared.repay(orderInfo: self.resultInfo) { (result, error) in
+                        if error != nil {
+                            self.showMessage(message: error?.localizedDescription ?? "支付失败")
+                        } else {
+                            self.showMessage(message: result?.description ?? "")
+                        }
+                    }
                 }
             case 4:
                 Pay.shared.orderList { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+            case 5:
+                let query = OrderQuery()
+                query.status("pending")
+                Pay.shared.orderList(query: query) { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+            case 6:
+                let query = OrderQuery()
+                query.status("success")
+                Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
                     } else {

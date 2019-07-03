@@ -75,7 +75,7 @@ public class ContentCategoryListResult: ListResult {
 @objc(BaaSOrderInfoListResult)
 public class OrderInfoList: ListResult {
 
-    @objc public internal(set) var orderInfos: [OrderInfo]?
+    @objc public internal(set) var orderInfos: [Order]?
     var dictInfo: [String: Any]?
 
     public override init() {
@@ -85,9 +85,9 @@ public class OrderInfoList: ListResult {
     public override init?(dict: [String: Any]?) {
         guard let dictInfo = dict, let objects = dictInfo["objects"] as? [[String: Any]] else { return nil }
         self.dictInfo = dictInfo
-        var orderInfos: [OrderInfo] = []
+        var orderInfos: [Order] = []
         for orderDict in objects {
-            if let orderInfo = OrderInfo(dict: orderDict) {
+            if let orderInfo = Order(dict: orderDict) {
                 orderInfos.append(orderInfo)
             }
         }

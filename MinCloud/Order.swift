@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc(BaaSOrderInfo)
+@objc(BaaSOrder)
 open class Order: NSObject {
     @objc public var Id: Int = -1
     @objc public var tradeNo: String? // 真正的交易 ID, 业务方在微信后台对账时可看到此字段

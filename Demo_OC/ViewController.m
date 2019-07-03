@@ -18,7 +18,7 @@
 @property (nonatomic, strong) BaaSRecord *record;
 @property (nonatomic, strong) BaaSFile *file;
 @property (nonatomic, strong) BaaSCurrentUser *currentUser;
-    @property (nonatomic, strong) BaaSOrderInfo *orderInfo;
+    @property (nonatomic, strong) BaaSOrder *orderInfo;
 @end
 
 @implementation ViewController
@@ -88,7 +88,7 @@
                     case 0:
                     // 用户名注册
                 {
-                    [BaaSAuth registerWithUsername:@"test04101" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth registerWithUsername:@"test0703" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -96,7 +96,7 @@
                     case 1:
                     // 邮箱注册
                 {
-                    [BaaSAuth registerWithEmail:@"test04101@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth registerWithEmail:@"test0703@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -104,7 +104,7 @@
                     case 2:
                     // 用户名登录
                 {
-                    [BaaSAuth loginWithUsername:@"test04101" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth loginWithUsername:@"test0703" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -112,7 +112,7 @@
                     case 3:
                     // 邮箱登录
                 {
-                    [BaaSAuth loginWithEmail:@"test04101@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth loginWithEmail:@"test0703@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -522,7 +522,7 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    [BaaSPay.shared wxPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+                    [BaaSPay.shared wxPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
 
                         self.orderInfo = orderInfo;
                         if(error) {
@@ -535,7 +535,7 @@
                     break;
                 case 1:
                 {
-                    [BaaSPay.shared aliPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+                    [BaaSPay.shared aliPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
 
                         self.orderInfo = orderInfo;
                         if(error) {
@@ -548,7 +548,7 @@
                 break;
                 case 2:
                 {
-                    [BaaSPay.shared order:self.orderInfo.transactionNo completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+                    [BaaSPay.shared order:self.orderInfo.transactionNo completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];
                         } else {
@@ -559,7 +559,7 @@
                     break;
                 case 3:
                 {
-                    [BaaSPay.shared repayWithOrderInfo:self.orderInfo completion:^(BaaSOrderInfo * _Nullable orderInfo, NSError * _Nullable error) {
+                    [BaaSPay.shared repayWithOrderInfo:self.orderInfo completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];
                         } else {
@@ -578,6 +578,34 @@
                         }
 
                         }];
+                }
+                break;
+                case 5:
+                {
+                    BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
+                    [query status:@"pending"];
+                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderInfoListResult * _Nullable orders, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orders.description];
+                        }
+
+                    }];
+                }
+                break;
+                case 6:
+                {
+                    BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
+                    [query status:@"success"];
+                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderInfoListResult * _Nullable orders, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orders.description];
+                        }
+
+                    }];
                 }
                 break;
                 default:

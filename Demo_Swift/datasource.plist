@@ -65,6 +65,8 @@
 		<string>查询订单</string>
 		<string>待支付</string>
 		<string>订单列表</string>
+		<string>订单列表-待支付</string>
+		<string>订单列表-成功</string>
 	</array>
 </array>
 </plist>

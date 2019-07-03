@@ -17,7 +17,7 @@ open class Pay: NSObject {
 
     // 微信支付
     @discardableResult
-    @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderInfoResultCompletion) -> RequestCanceller? {
+    @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderInfoCompletion) -> RequestCanceller? {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return nil
@@ -31,7 +31,7 @@ open class Pay: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let orderInfo = OrderInfo(dict: orderDict)
+                let orderInfo = Order(dict: orderDict)
                 orderInfo?.gateWayType = PayType.weixin.rawValue
                 if let request = orderInfo?.wxPayReq, let appId = orderInfo?.wxAppid {
                     completion(orderInfo, nil)
@@ -48,7 +48,7 @@ open class Pay: NSObject {
 
     // 支付宝支付
     @discardableResult
-    @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderInfoResultCompletion) -> RequestCanceller? {
+    @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderInfoCompletion) -> RequestCanceller? {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return nil
@@ -60,7 +60,7 @@ open class Pay: NSObject {
             if error != nil {
                 completion(nil, error)
             } else {
-                let orderInfo = OrderInfo(dict: orderDict)
+                let orderInfo = Order(dict: orderDict)
                 orderInfo?.gateWayType = PayType.alipay.rawValue
                 if let paymentUrl = orderInfo?.aliPaymenUrl, let appId = orderInfo?.aliAppid {
                     completion(orderInfo, nil)
@@ -75,13 +75,13 @@ open class Pay: NSObject {
 
     // 查询订单
     @discardableResult
-    @objc public func order(_ transactionID: String, completion:@escaping OrderInfoResultCompletion) -> RequestCanceller? {
+    @objc public func order(_ transactionID: String, completion:@escaping OrderInfoCompletion) -> RequestCanceller? {
         let request = PayProvider.request(.order(transactionID: transactionID)) { (result) in
             let (orderDict, error) = ResultHandler.handleResult(result)
             if error != nil {
                 completion(nil, error)
             } else {
-                let orderInfo = OrderInfo(dict: orderDict)
+                let orderInfo = Order(dict: orderDict)
                 completion(orderInfo, nil)
             }
         }
@@ -105,7 +105,7 @@ open class Pay: NSObject {
     }
 
     // 未支付状态，重新支付
-    @objc public func repay(orderInfo: OrderInfo, completion:@escaping OrderInfoResultCompletion) {
+    @objc public func repay(orderInfo: Order, completion:@escaping OrderInfoCompletion) {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return

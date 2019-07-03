@@ -58,7 +58,7 @@
 		4CEC28E6228A6F7700E9F606 /* PayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E5228A6F7700E9F606 /* PayAPI.swift */; };
 		4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E8228A728C00E9F606 /* Pay.swift */; };
 		4CED59142293E4DD00949503 /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		4CED591622967CEF00949503 /* OrderInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED591522967CEF00949503 /* OrderInfo.swift */; };
+		4CED591622967CEF00949503 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED591522967CEF00949503 /* Order.swift */; };
 		4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileManager.swift */; };
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
 		4CEFC084225CEC1000C9238C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC083225CEC1000C9238C /* Storage.swift */; };
@@ -171,7 +171,7 @@
 		4CEC28E5228A6F7700E9F606 /* PayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAPI.swift; sourceTree = "<group>"; };
 		4CEC28E8228A728C00E9F606 /* Pay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pay.swift; sourceTree = "<group>"; };
 		4CEC28EA228AA60300E9F606 /* MinCloud-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MinCloud-Bridging-Header.h"; sourceTree = "<group>"; };
-		4CED591522967CEF00949503 /* OrderInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderInfo.swift; sourceTree = "<group>"; };
+		4CED591522967CEF00949503 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
 		4CEFC083225CEC1000C9238C /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -511,7 +511,7 @@
 			isa = PBXGroup;
 			children = (
 				4CEC28E8228A728C00E9F606 /* Pay.swift */,
-				4CED591522967CEF00949503 /* OrderInfo.swift */,
+				4CED591522967CEF00949503 /* Order.swift */,
 			);
 			name = Pay;
 			sourceTree = "<group>";
@@ -1001,7 +1001,7 @@
 				4C33A5F62240EAA00001C1A7 /* UserAPI.swift in Sources */,
 				4C33A5A9223F6D480001C1A7 /* Auth.swift in Sources */,
 				4C33A5FB224130950001C1A7 /* Table.swift in Sources */,
-				4CED591622967CEF00949503 /* OrderInfo.swift in Sources */,
+				4CED591622967CEF00949503 /* Order.swift in Sources */,
 				4C33A5F82240EFE70001C1A7 /* CurrentUser.swift in Sources */,
 				4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */,
 				4CEFC084225CEC1000C9238C /* Storage.swift in Sources */,
