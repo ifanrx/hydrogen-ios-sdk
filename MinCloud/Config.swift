@@ -109,3 +109,6 @@ struct Config {
         static let orderList = "/hserve/v2.0/idp/pay/order/"
     }
 }
+
+let WXPay = "weixin_tenpay_app"
+let AliPay = "alipay_app"

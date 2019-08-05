@@ -9,9 +9,6 @@
 import Foundation
 import Moya
 
-let WXPay = "weixin_tenpay_app"
-let AliPay = "alipay_app"
-
 @objc(BaaSPay)
 open class Pay: NSObject {
 
@@ -28,7 +25,7 @@ open class Pay: NSObject {
 
         self.isPaying = true
         // 创建订单，并获取预支付信息
-        let canceller = self.pay(type: .weixin, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(orderDict, error) in
+        let canceller = self.pay(type: WXPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(orderDict, error) in
 
             self.isPaying = false
             if error != nil {
@@ -58,7 +55,7 @@ open class Pay: NSObject {
         }
 
         self.isPaying = true
-        let canceller = self.pay(type: .alipay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(orderDict, error) in
+        let canceller = self.pay(type: AliPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(orderDict, error) in
             self.isPaying = false
             if error != nil {
                 completion(nil, error)
@@ -139,9 +136,9 @@ open class Pay: NSObject {
 
 extension Pay {
 
-    fileprivate func pay(type: GateWayType, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    fileprivate func pay(type: String, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
 
-        var parameters: [String: Any] = ["gateway_type": type.rawValue, "total_cost": totalCost, "merchandise_description": merchandiseDescription]
+        var parameters: [String: Any] = ["gateway_type": type, "total_cost": totalCost, "merchandise_description": merchandiseDescription]
         if merchandiseSchemaID != -1 {
             parameters["merchandise_schema_id"] = merchandiseSchemaID
         }

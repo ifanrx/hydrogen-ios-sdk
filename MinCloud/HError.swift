@@ -41,6 +41,14 @@ struct HError: CustomNSError {
         }
     }
 
+    init(kind: ErrorKind, description: String? = nil) {
+        self.code = kind.rawValue
+        self.kind = kind
+        if let description = description, description != "" {
+            self.description = description
+        }
+    }
+
     static var errorDomain: String = "baas.ifanr.error.domain"
     var errorCode: Int {
         switch self.kind {
