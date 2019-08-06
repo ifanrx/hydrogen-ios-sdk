@@ -169,6 +169,6 @@ extension Pay {
 extension Pay: WXApiDelegate {
 
     // 微信支付结果
-    fileprivate func onResp(_ resp: BaseResp) {
+    public func onResp(_ resp: BaseResp) {
     }
 }
