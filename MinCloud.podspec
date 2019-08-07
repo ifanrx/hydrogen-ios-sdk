@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :tag => s.version }
  
   s.ios.deployment_target = '9.0'
-  s.source_files = 'MinCloud/*.swift'
+  s.source_files = 'MinCloud/*.{h,m,swift}'
   s.dependency 'Moya'
   s.dependency 'WechatOpenSDK'
   s.dependency 'AlipaySDK-iOS'
