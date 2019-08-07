@@ -13,8 +13,25 @@ import Result
 @objc(BaaSCurrentUser)
 open class CurrentUser: User {
 
-    override init(Id: Int64) {
+    var token: String?
+    var openid: String?
+    var expiresIn: TimeInterval?
+
+    override init(Id: String) {
         super.init(Id: Id)
+    }
+
+    required public init?(dict: [String: Any]) {
+        if let token = dict.getString("token") {
+            self.token = token
+            self.expiresIn = dict.getDouble("expires_in") + Date().timeIntervalSince1970
+        }
+        super.init(dict: dict)
+    }
+
+    override open var description: String {
+        let dict = self.userInfo
+        return dict.toJsonString
     }
 
     /// 使用邮件重置密码
@@ -32,12 +49,13 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.resetPassword(parameters: ["email": email])) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                completion(true, nil)
-            }
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -57,12 +75,9 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateAccount(parameters: ["username": username])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(userInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -83,12 +98,9 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateAccount(parameters: ["email": email])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(userInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -109,12 +121,9 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateAccount(parameters: ["password": password, "new_password": newPassword])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(userInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -134,12 +143,9 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.updateUserInfo(parameters: userInfo)) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(userInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -157,12 +163,13 @@ open class CurrentUser: User {
         }
 
         let request = UserProvider.request(.requestEmailVerify) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                completion(true, nil)
-            }
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }

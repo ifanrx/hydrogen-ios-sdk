@@ -13,6 +13,8 @@ let BaasProvider = MoyaProvider<BaaSAPI>()
 
 enum BaaSAPI {
     case invokeFunction(parameters: [String: Any])
+    case sendSmsCode(parameters: [String: Any])
+    case verifySmsCode(parameters: [String: Any])
 }
 
 extension BaaSAPI: TargetType {
@@ -23,13 +25,17 @@ extension BaaSAPI: TargetType {
     var path: String {
         switch self {
         case .invokeFunction:
-            return Config.cloudFunction
+            return Config.BaaS.cloudFunction
+        case .sendSmsCode:
+            return Config.BaaS.sendSmsCode
+        case .verifySmsCode:
+            return Config.BaaS.verifySmsCode
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .invokeFunction:
+        case .invokeFunction, .sendSmsCode, .verifySmsCode:
             return .post
         }
     }
@@ -40,7 +46,7 @@ extension BaaSAPI: TargetType {
 
     var task: Task {
         switch self {
-        case .invokeFunction(let parameters):
+        case .invokeFunction(let parameters), .sendSmsCode(let parameters), .verifySmsCode(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }

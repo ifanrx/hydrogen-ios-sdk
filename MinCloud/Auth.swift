@@ -30,13 +30,12 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func register(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.register(.username, ["username": username, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let user = ResultHandler.dictToLoginUser(dict: userInfo)
-                completion(user, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+                Storage.shared.userId = user?.userId
+                Storage.shared.token = user?.token
+                Storage.shared.expiresIn = user?.expiresIn
+                completion(user, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -50,13 +49,12 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func register(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request =  AuthProvider.request(.register(.email, ["email": email, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let user = ResultHandler.dictToLoginUser(dict: userInfo)
-                completion(user, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+                Storage.shared.userId = user?.userId
+                Storage.shared.token = user?.token
+                Storage.shared.expiresIn = user?.expiresIn
+                completion(user, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -72,13 +70,12 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func login(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.username, ["username": username, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let user = ResultHandler.dictToLoginUser(dict: userInfo)
-                completion(user, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+                Storage.shared.userId = user?.userId
+                Storage.shared.token = user?.token
+                Storage.shared.expiresIn = user?.expiresIn
+                completion(user, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -92,13 +89,12 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func login(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.email, ["email": email, "password": password])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let user = ResultHandler.dictToLoginUser(dict: userInfo)
-                completion(user, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+                Storage.shared.userId = user?.userId
+                Storage.shared.token = user?.token
+                Storage.shared.expiresIn = user?.expiresIn
+                completion(user, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -109,13 +105,12 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func anonymousLogin(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.anonymous, [:])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let user = ResultHandler.dictToLoginUser(dict: userInfo)
-                completion(user, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+                Storage.shared.userId = user?.userId
+                Storage.shared.token = user?.token
+                Storage.shared.expiresIn = user?.expiresIn
+                completion(user, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -126,14 +121,15 @@ open class Auth: NSObject {
     @discardableResult
     @objc public static func logout(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.logout) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                Storage.shared.reset()
-                printDebugInfo("logout success!")
-                completion(true, nil)
-            }
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    Storage.shared.reset()
+                    printDebugInfo("logout success!")
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -149,13 +145,11 @@ open class Auth: NSObject {
         }
 
         let request = UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:])) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let user = ResultHandler.dictToCurrentUser(dict: userInfo)
-                completion(user, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+                user?.token = Storage.shared.token
+                user?.expiresIn = Storage.shared.expiresIn
+                completion(user, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }

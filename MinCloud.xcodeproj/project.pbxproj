@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C15F12522A51CC300904B9A /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C33A588223F4E850001C1A7 /* MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; };
 		4C33A5A5223F6B2F0001C1A7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A4223F6B2F0001C1A7 /* AuthAPI.swift */; };
 		4C33A5A9223F6D480001C1A7 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A8223F6D480001C1A7 /* Auth.swift */; };
@@ -23,7 +24,7 @@
 		4C33A5FB224130950001C1A7 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FA224130950001C1A7 /* Table.swift */; };
 		4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FC2241338C0001C1A7 /* Record.swift */; };
 		4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D31682266FCF1001EFA7D /* datasource.plist */; };
-		4C83120E2244725B00B4B33E /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C83120D2244725B00B4B33E /* UserManager.swift */; };
+		4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D316A22670AF1001EFA7D /* video.mp4 */; };
 		4C831211224477E700B4B33E /* TableAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C831210224477E700B4B33E /* TableAPI.swift */; };
 		4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312122244F16000B4B33E /* GeoPoint.swift */; };
 		4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312142245D2C500B4B33E /* TableRecordAPI.swift */; };
@@ -54,6 +55,10 @@
 		4CCB87882266D52100D65A65 /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CCB87862266D52000D65A65 /* datasource.plist */; };
 		4CCB87892266D52100D65A65 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCB87872266D52100D65A65 /* 1.png */; };
 		4CE2BCF922422A960008211C /* NSDictionary+Convenient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */; };
+		4CEC28E6228A6F7700E9F606 /* PayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E5228A6F7700E9F606 /* PayAPI.swift */; };
+		4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E8228A728C00E9F606 /* Pay.swift */; };
+		4CED59142293E4DD00949503 /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4CED591622967CEF00949503 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED591522967CEF00949503 /* Order.swift */; };
 		4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileManager.swift */; };
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
 		4CEFC084225CEC1000C9238C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC083225CEC1000C9238C /* Storage.swift */; };
@@ -63,6 +68,7 @@
 		4CEFC090225EB94800C9238C /* CurrentUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC08F225EB94800C9238C /* CurrentUserTests.swift */; };
 		4CEFC092225ED80600C9238C /* TableTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC091225ED80600C9238C /* TableTestCase.swift */; };
 		4CF1BACC224B81720000CF54 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1BACB224B81720000CF54 /* Content.swift */; };
+		4CF88424227000910071B2EA /* BaaSTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF88423227000910071B2EA /* BaaSTestCase.swift */; };
 		84EDE73CA89609A94E857203 /* Pods_MinCloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */; };
 		A6DF9F9EEC34554F7FB94E8F /* Pods_MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */; };
 		C182A8345EB1B75F62ABA681 /* Pods_Demo_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */; };
@@ -78,6 +84,29 @@
 			remoteInfo = MinCloud;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4C15F12422A51CB100904B9A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4C15F12522A51CC300904B9A /* MinCloud.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CED59132293E4C500949503 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4CED59142293E4DD00949503 /* MinCloud.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1965E55879945EEA140178F7 /* Pods-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -103,7 +132,7 @@
 		4C33A5FA224130950001C1A7 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		4C33A5FC2241338C0001C1A7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		4C4D31682266FCF1001EFA7D /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
-		4C83120D2244725B00B4B33E /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		4C4D316A22670AF1001EFA7D /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		4C831210224477E700B4B33E /* TableAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAPI.swift; sourceTree = "<group>"; };
 		4C8312122244F16000B4B33E /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4C8312142245D2C500B4B33E /* TableRecordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRecordAPI.swift; sourceTree = "<group>"; };
@@ -139,6 +168,10 @@
 		4CCB87862266D52000D65A65 /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
 		4CCB87872266D52100D65A65 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
 		4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+Convenient.swift"; sourceTree = "<group>"; };
+		4CEC28E5228A6F7700E9F606 /* PayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAPI.swift; sourceTree = "<group>"; };
+		4CEC28E8228A728C00E9F606 /* Pay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pay.swift; sourceTree = "<group>"; };
+		4CEC28EA228AA60300E9F606 /* MinCloud-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MinCloud-Bridging-Header.h"; sourceTree = "<group>"; };
+		4CED591522967CEF00949503 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
 		4CEFC083225CEC1000C9238C /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
@@ -148,6 +181,7 @@
 		4CEFC08F225EB94800C9238C /* CurrentUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTests.swift; sourceTree = "<group>"; };
 		4CEFC091225ED80600C9238C /* TableTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTestCase.swift; sourceTree = "<group>"; };
 		4CF1BACB224B81720000CF54 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		4CF88423227000910071B2EA /* BaaSTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaaSTestCase.swift; sourceTree = "<group>"; };
 		653ADE49C87E389508F82094 /* Pods_MinCloud_MinCloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud_MinCloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A02ABC8EDA69977016F7175 /* Pods-MinCloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloudTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests.release.xcconfig"; sourceTree = "<group>"; };
 		6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,6 +295,7 @@
 				4CE2BCF52242282B0008211C /* Utils */,
 				4C33A582223F4E850001C1A7 /* Info.plist */,
 				4C86C6F7225B3DA50040C042 /* MinCloud.h */,
+				4CEC28EA228AA60300E9F606 /* MinCloud-Bridging-Header.h */,
 			);
 			path = MinCloud;
 			sourceTree = "<group>";
@@ -268,6 +303,7 @@
 		4C33A58B223F4E850001C1A7 /* MinCloudTests */ = {
 			isa = PBXGroup;
 			children = (
+				4CF88423227000910071B2EA /* BaaSTestCase.swift */,
 				4CAEF96A225F011300C8A84B /* FileTestCase.swift */,
 				4CAEF968225EF17B00C8A84B /* ContentTestCase.swift */,
 				4CEFC091225ED80600C9238C /* TableTestCase.swift */,
@@ -283,6 +319,7 @@
 		4C33A5A1223F6A6D0001C1A7 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				4CEC28E4228A6EA600E9F606 /* Pay */,
 				4C8312242249B3E800B4B33E /* BaaS */,
 				4C33A5A2223F6AAC0001C1A7 /* Base */,
 				4C33A5A3223F6AB50001C1A7 /* Auth */,
@@ -324,6 +361,7 @@
 				4C33A5FF224135EA0001C1A7 /* File */,
 				4C33A5FE224135CB0001C1A7 /* ContentGroup */,
 				4C33A600224136110001C1A7 /* GeoPoint */,
+				4CEC28E7228A721C00E9F606 /* Pay */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -344,7 +382,6 @@
 			isa = PBXGroup;
 			children = (
 				4C33A5A8223F6D480001C1A7 /* Auth.swift */,
-				4C83120D2244725B00B4B33E /* UserManager.swift */,
 				4C86C72A225CC8740040C042 /* User.swift */,
 				4C33A5F72240EFE70001C1A7 /* CurrentUser.swift */,
 			);
@@ -432,6 +469,7 @@
 				4CCB87612266CF9D00D65A65 /* Assets.xcassets */,
 				4CCB87632266CF9D00D65A65 /* LaunchScreen.storyboard */,
 				4CCB87662266CF9D00D65A65 /* Info.plist */,
+				4C4D316A22670AF1001EFA7D /* video.mp4 */,
 			);
 			path = Demo_Swift;
 			sourceTree = "<group>";
@@ -461,6 +499,23 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		4CEC28E4228A6EA600E9F606 /* Pay */ = {
+			isa = PBXGroup;
+			children = (
+				4CEC28E5228A6F7700E9F606 /* PayAPI.swift */,
+			);
+			name = Pay;
+			sourceTree = "<group>";
+		};
+		4CEC28E7228A721C00E9F606 /* Pay */ = {
+			isa = PBXGroup;
+			children = (
+				4CEC28E8228A728C00E9F606 /* Pay.swift */,
+				4CED591522967CEF00949503 /* Order.swift */,
+			);
+			name = Pay;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -484,6 +539,7 @@
 				4C33A57B223F4E850001C1A7 /* Frameworks */,
 				4C33A57C223F4E850001C1A7 /* Resources */,
 				4C33A5E922409BE60001C1A7 /* ShellScript */,
+				92F9A7334CC96365254E0DE4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -503,6 +559,7 @@
 				4C33A584223F4E850001C1A7 /* Frameworks */,
 				4C33A585223F4E850001C1A7 /* Resources */,
 				49372C2D4D9B3F7743350EEB /* [CP] Embed Pods Frameworks */,
+				1957A9F52CE121B522B6C9A3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -523,6 +580,8 @@
 				4CCB87552266CF9C00D65A65 /* Frameworks */,
 				4CCB87562266CF9C00D65A65 /* Resources */,
 				C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */,
+				4CED59132293E4C500949503 /* CopyFiles */,
+				EFDF9F1E985FA4C853305C6C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -542,6 +601,8 @@
 				4CCB876B2266CFAB00D65A65 /* Frameworks */,
 				4CCB876C2266CFAB00D65A65 /* Resources */,
 				36464E0F946065741DE8B994 /* [CP] Embed Pods Frameworks */,
+				0CAE6D0BA2685C90C307387B /* [CP] Copy Pods Resources */,
+				4C15F12422A51CB100904B9A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -564,13 +625,14 @@
 				TargetAttributes = {
 					4C33A57D223F4E850001C1A7 = {
 						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 					4C33A586223F4E850001C1A7 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 					4CCB87572266CF9C00D65A65 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 					4CCB876D2266CFAB00D65A65 = {
 						CreatedOnToolsVersion = 10.1;
@@ -620,6 +682,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CCB87652266CF9D00D65A65 /* LaunchScreen.storyboard in Resources */,
+				4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */,
 				4CCB87882266D52100D65A65 /* datasource.plist in Resources */,
 				4CCB87622266CF9D00D65A65 /* Assets.xcassets in Resources */,
 				4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */,
@@ -641,6 +704,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0CAE6D0BA2685C90C307387B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		0EA3C2E285C56FB589B68788 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -661,6 +741,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1957A9F52CE121B522B6C9A3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		245A099406CF49D0976A123A /* [CP] Check Pods Manifest.lock */ = {
@@ -691,20 +788,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -717,20 +805,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -798,30 +877,55 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		92F9A7334CC96365254E0DE4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MinCloud/Pods-MinCloud-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MinCloud/Pods-MinCloud-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MinCloud/Pods-MinCloud-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
-				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFDF9F1E985FA4C853305C6C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -842,16 +946,18 @@
 				4C8312172245D70100B4B33E /* File.swift in Sources */,
 				4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */,
 				4C86C72B225CC8740040C042 /* User.swift in Sources */,
+				4CEC28E6228A6F7700E9F606 /* PayAPI.swift in Sources */,
 				4CBD3C7B224C5D0100F0E0F2 /* ResultHandler.swift in Sources */,
 				4CF1BACC224B81720000CF54 /* Content.swift in Sources */,
-				4C83120E2244725B00B4B33E /* UserManager.swift in Sources */,
 				4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */,
 				4C8312192245D71D00B4B33E /* FileAPI.swift in Sources */,
 				4C33A5E0223F9BCD0001C1A7 /* BaaS.swift in Sources */,
 				4C33A5F62240EAA00001C1A7 /* UserAPI.swift in Sources */,
 				4C33A5A9223F6D480001C1A7 /* Auth.swift in Sources */,
 				4C33A5FB224130950001C1A7 /* Table.swift in Sources */,
+				4CED591622967CEF00949503 /* Order.swift in Sources */,
 				4C33A5F82240EFE70001C1A7 /* CurrentUser.swift in Sources */,
+				4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */,
 				4CEFC084225CEC1000C9238C /* Storage.swift in Sources */,
 				4C33A5E4223FA9BE0001C1A7 /* HError.swift in Sources */,
 				4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */,
@@ -874,6 +980,7 @@
 				4CEFC092225ED80600C9238C /* TableTestCase.swift in Sources */,
 				4CAEF96B225F011300C8A84B /* FileTestCase.swift in Sources */,
 				4C33A5E8224082900001C1A7 /* MinCloudTests.swift in Sources */,
+				4CF88424227000910071B2EA /* BaaSTestCase.swift in Sources */,
 				4CAEF969225EF17B00C8A84B /* ContentTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1091,8 +1198,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MinCloud/MinCloud-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1121,7 +1229,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MinCloud/MinCloud-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1174,14 +1283,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_Swift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1194,14 +1303,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_Swift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1211,10 +1320,11 @@
 			baseConfigurationReference = E307ED5482940DF57D58CD16 /* Pods-Demo_OC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1230,10 +1340,11 @@
 			baseConfigurationReference = A66158A59ACAFA9E2774F238 /* Pods-Demo_OC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

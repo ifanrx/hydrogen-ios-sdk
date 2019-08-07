@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 // 坐标点
-@objc(BAASGeoPoint)
+@objc(BaaSGeoPoint)
 open class GeoPoint: NSObject {
     @objc public var longitude: CLLocationDegrees
     @objc public var latitude: CLLocationDegrees
@@ -19,7 +19,7 @@ open class GeoPoint: NSObject {
         return ["type": "Point", "coordinates": [longitude, latitude]]
     }
 
-    @objc public init(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+    @objc public init(longitude: CLLocationDegrees, latitude: CLLocationDegrees) {
         self.longitude = longitude
         self.latitude = latitude
         super.init()
@@ -27,7 +27,7 @@ open class GeoPoint: NSObject {
 }
 
 // 地理形状
-@objc(BAASGeoPolygon)
+@objc(BaaSGeoPolygon)
 public class GeoPolygon: NSObject {
     var coordinates: [[CLLocationDegrees]]
 

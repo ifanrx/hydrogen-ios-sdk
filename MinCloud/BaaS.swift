@@ -17,22 +17,69 @@ import Result
 
     @objc public static var isDebug: Bool = false
 
-    @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) {
-        BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
-            if case let .success(response) = result {
-                let data = try? response.mapJSON()
-                print("response = \(String(describing: data))")
-                if response.statusCode >= 200 && response.statusCode <= 299 {
-                    let dict = data as? [String: Any]
-                    completion(dict, nil)
-                } else {
-                    let dict = data as? NSDictionary
-                    let errorMsg = dict?.getString("error_msg")
-                    completion(nil, HError(code: response.statusCode, description: errorMsg) as NSError)
-                }
-            } else if case let .failure(error) = result {
-                completion(nil, error as NSError)
-            }
+    @discardableResult
+    @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
+            ResultHandler.parse(result, handler: { (invokeResult: MappableDictionary?, error: NSError?) in
+                completion(invokeResult?.value, error)
+            })
         }
+        return RequestCanceller(cancellable: request)
+    }
+
+    @discardableResult
+    @objc public static func sendSmsCode(phone: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.sendSmsCode(parameters: ["phone": phone])) { result in
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
+        }
+        return RequestCanceller(cancellable: request)
+    }
+
+    @discardableResult
+    @objc public static func verifySmsCode(phone: String, code: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.verifySmsCode(parameters: ["phone": phone, "code": code])) { result in
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
+        }
+        return RequestCanceller(cancellable: request)
+    }
+}
+
+// 微信支付
+extension BaaS {
+    /*! @brief 检查微信是否已被用户安装
+     *
+     * @return 微信已安装返回YES，未安装返回NO。
+     */
+    @objc public static func isWXAppInstalled() -> Bool {
+        return WXApi.isWXAppInstalled()
+    }
+
+    /*! @brief 处理微信通过URL启动App时传递的数据
+     *
+     * 需要在 application:openURL:sourceApplication:annotation:或者application:handleOpenURL中调用。
+     * @param url 微信启动第三方应用时传递过来的URL
+     * @param delegate  WXApiDelegate对象，用来接收微信触发的消息。
+     * @return 成功返回YES，失败返回NO。
+     */
+    @objc public static func handleOpenURL(url: URL) -> Bool {
+        if url.host == "safepay" {
+            AlipaySDK.defaultService()?.processOrder(withPaymentResult: url, standbyCallback: nil)
+            return true
+        } else if url.host == "pay" {
+            return WXApi.handleOpen(url, delegate: Pay.shared)
+        }
+        return true
     }
 }

@@ -40,6 +40,7 @@ open class Where: NSObject {
     }
 
     @objc static public func compare(key: String, operator opt: Operator, value: Any) -> Where {
+        var tempValue = value
         var op = "eq"
         switch opt {
         case .equalTo:
@@ -55,7 +56,10 @@ open class Where: NSObject {
         case .lessThanOrEqualTo:
             op = "lte"
         }
-        return Where(conditon: [key: ["$\(op)": value]])
+        if let baseRecord = value as? BaseRecord {
+            tempValue = baseRecord.Id ?? ""
+        }
+        return Where(conditon: [key: ["$\(op)": tempValue]])
     }
 
     @objc static public func matches(key: String, regx: String) -> Where {
@@ -115,7 +119,7 @@ open class Where: NSObject {
     }
 
     @objc static public func within(key: String, polygon: GeoPolygon) -> Where {
-        return Where(conditon: [key: ["$intersects": polygon.geoJson]])
+        return Where(conditon: [key: ["$within": polygon.geoJson]])
     }
 
     @objc static public func include(key: String, point: GeoPoint) -> Where {
@@ -129,7 +133,7 @@ open class Where: NSObject {
     }
 
     @objc static public func withinRegion(key: String, point: GeoPoint, minDistance: Double, maxDistance: Double) -> Where {
-        let data: [String: Any] = ["geometry": point.geoJson, "min_distance": minDistance, "max_distance": maxDistance]
+        let data: [String: Any] = ["geometry": point.geoJson, "min_distance": minDistance * 1000, "max_distance": maxDistance * 1000]
         return Where(conditon: [key: ["$nearsphere": data]])
     }
 }
