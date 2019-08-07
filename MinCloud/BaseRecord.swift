@@ -19,7 +19,7 @@ open class BaseRecord: NSObject, Mappable {
     /**
      *  创建者 Id
      */
-    @objc public internal(set) var createdById: Int64 = -1
+    @objc public internal(set) var createdById: String?
 
     /**
      *  创建者信息，当使用 expand 查询时，该属性才有值
@@ -40,9 +40,9 @@ open class BaseRecord: NSObject, Mappable {
         self.Id = dict.getString("id", "_id")
         if let createdBy = dict.getDict("created_by") as? [String: Any] {
             self.createdBy = createdBy
-            self.createdById = dict.getDict("created_by")?.getInt64("id") ?? -1
+            self.createdById = dict.getDict("created_by")?.getString("id")
         } else {
-            self.createdById = dict.getInt64("created_by")
+            self.createdById = dict.getString("created_by")
         }
         self.createdAt = dict.getDouble("created_at")
         self.updatedAt = dict.getDouble("created_at")

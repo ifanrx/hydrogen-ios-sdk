@@ -54,7 +54,7 @@ struct Config {
     }
 
     struct User {
-        static func getUserInfo(userId: Int64) -> String { return "/hserve/v2.0/user/info/\(userId)/" }
+        static func getUserInfo(userId: String) -> String { return "/hserve/v2.0/user/info/\(userId)/" }
         static let updateAccount = "/hserve/v2.0/user/account/"
         static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
@@ -71,10 +71,10 @@ struct Config {
     struct ContentGroup {
         static let contentList = "/hserve/v1.3/content/detail/"
         static let groupList = "/hserve/v1/content/group/"
-        static func contentDetail(contentId: Int64) -> String { return "/hserve/v1.3/content/detail/\(contentId)/" }
+        static func contentDetail(contentId: String) -> String { return "/hserve/v1.3/content/detail/\(contentId)/" }
         static let groupDetail = "/hserve/v1/content/category/"
         static let categoryList = "/hserve/v1/content/category/"
-        static func categoryDetail(categoryId: Int64) -> String { return "/hserve/v1/content/category/\(categoryId)/" }
+        static func categoryDetail(categoryId: String) -> String { return "/hserve/v1/content/category/\(categoryId)/" }
     }
 
     struct File {

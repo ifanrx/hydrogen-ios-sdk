@@ -38,7 +38,7 @@
     // 数据表
     _table = [[BaaSTable alloc] initWithName:@"Book"];
 
-    _contentGroup = [[BaaSContentGroup alloc] initWithId: 1551697162031508];
+    _contentGroup = [[BaaSContentGroup alloc] initWithId: @"1551697162031508"];
 
     _fileManager = [[BaaSFileManager alloc] init];
 }
@@ -199,7 +199,7 @@
                     break;
                 case 8:
                 {
-                    long long userId = 36845069853014;
+                    NSString *userId = @"36845069853014";
                     [BaaSUser get:userId select:@[@"nickname", @"gender"] expand:nil completion:^(BaaSUser * _Nullable user, NSError * _Nullable error) {
                         
                     }];
@@ -348,7 +348,7 @@
             switch (indexPath.row) {
                     case 0:
                     // 获取内容详情
-                    [_contentGroup get:1551697403189289 select:@[@"title"] expand:nil completion:^(BaaSContent * _Nullable content, NSError * _Nullable error) {
+                    [_contentGroup get:@"1551697403189289" select:@[@"title"] expand:nil completion:^(BaaSContent * _Nullable content, NSError * _Nullable error) {
 
                     }];
                     break;
@@ -361,7 +361,7 @@
                     break;
                     case 2:
                     // 获取分类详情
-                    [_contentGroup getCategory:1551697507400928 completion:^(BaaSContentCategory * _Nullable category, NSError * _Nullable error) {
+                    [_contentGroup getCategory:@"1551697507400928" completion:^(BaaSContentCategory * _Nullable category, NSError * _Nullable error) {
 
                     }];
                     break;
@@ -522,7 +522,7 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    [BaaSPay.shared wxPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
+                    [BaaSPay.shared wxPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: @"" merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
 
                         self.orderInfo = orderInfo;
                         if(error) {
@@ -535,7 +535,7 @@
                     break;
                 case 1:
                 {
-                    [BaaSPay.shared aliPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: -1 merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
+                    [BaaSPay.shared aliPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: @"" merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
 
                         self.orderInfo = orderInfo;
                         if(error) {

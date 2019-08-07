@@ -185,6 +185,10 @@ extension Dictionary where Key == String {
         for key in keys {
             if let result = self[key] as? String {
                 return result
+            } else if let result = self[key] as? Int {
+                return String(result)
+            } else if let result = self[key] as? Int64 {
+                return String(result)
             }
         }
         return defaultValue

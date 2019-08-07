@@ -12,10 +12,10 @@ import Result
 
 @objc(BaaSContentGroup)
 open class ContentGroup: NSObject {
-    var Id: Int64
+    var Id: String?
     var name: String!
 
-    @objc public init(Id: Int64) {
+    @objc public init(Id: String) {
         self.Id = Id
         super.init()
     }
@@ -29,7 +29,7 @@ open class ContentGroup: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func get(_ contentId: Int64, select: [String]? = nil, expand: [String]? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ contentId: String, select: [String]? = nil, expand: [String]? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
         if let select = select {
@@ -78,7 +78,7 @@ open class ContentGroup: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func find(categoryId: Int64, query: Query? = nil, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
+    @objc open func find(categoryId: String, query: Query? = nil, completion: @escaping ContentListResultCompletion) -> RequestCanceller? {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
@@ -116,7 +116,7 @@ open class ContentGroup: NSObject {
     ///   - completion: 结果回调
     /// - Returns: 
     @discardableResult
-    @objc open func getCategory(_ Id: Int64, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
+    @objc open func getCategory(_ Id: String, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
 
         let request = ContentGroupProvider.request(.categoryDetail(id: Id)) { result in
             ResultHandler.parse(result, handler: { (category: ContentCategory?, error: NSError?) in

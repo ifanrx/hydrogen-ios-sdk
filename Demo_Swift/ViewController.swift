@@ -14,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var tableView: UITableView!
     var data: NSArray!
     var resultInfo: Order!
+    var record: Record!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,7 +70,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let table = Table(name: "Book")
-        let contentGroup = ContentGroup(Id: 1551697162031508)
+        let contentGroup = ContentGroup(Id: "1551697162031508")
 
         switch indexPath.section {
         case 0:
@@ -178,7 +179,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 8:
                 // 获取指定用户
-                User.get(36845069853014, select: ["nickname", "gender"]) {_, _ in
+                User.get("36845069853014", select: ["nickname", "gender"]) {_, _ in
 
                 }
             default:
@@ -211,14 +212,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
             case 2:
                 // 更新数据
-                let record = table.getWithoutData(recordId: "5cb550395c29454d25fba03a")
+                record = table.getWithoutData(recordId: "5cdd33c9f795cd1406b2fec5")
                 record.set(key: "color", value: "brown")
                 record.set(record: ["author": "hua", "name": "good book"])
                 record.incrementBy(key: "price", value: 1)
                 record.append(key: "recommender", value: ["hong"])
 
                 record.update {_, _ in
-
                 }
             case 3:
                 // 指定需要删除的记录
@@ -237,7 +237,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 5:
                 // 新增数据，创建一个空的记录项
-                let record = table.createRecord()
+                record = table.createRecord()
 
                 // 逐个赋值
                 record.set(key: "description", value: "这是本好书")
@@ -269,7 +269,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 record.set(key: "author", value: author)
 
                 record.save {_, _ in
-
                 }
 
             case 6:
@@ -297,7 +296,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 获取内容详情
-                contentGroup.get(1551697403189289, select: ["title"]) {_, _ in
+                contentGroup.get("1551697403189289") {_, _ in
 
                 }
             case 1:
@@ -308,12 +307,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 2:
                 // 在分类中，查询内容列表
-                contentGroup.find(categoryId: 1551697507400928) { (_, _) in
+                contentGroup.find(categoryId: "1551697507400928") { (_, _) in
 
                 }
             case 3:
                 // 获取分类详情
-                contentGroup.getCategory(1551697507400928) {_, _ in
+                contentGroup.getCategory("1551697507400928") {_, _ in
 
                 }
             case 4:

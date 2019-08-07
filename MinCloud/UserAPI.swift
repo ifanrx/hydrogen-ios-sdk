@@ -12,7 +12,7 @@ import Moya
 let UserProvider = MoyaProvider<UserAPI>()
 
 enum UserAPI {
-    case getUserInfo(userId: Int64, parameters: [String: Any])
+    case getUserInfo(userId: String, parameters: [String: Any])
     case updateAccount(parameters: [String: Any])
     case updateUserInfo(parameters: [String: Any])
     case resetPassword(parameters: [String: Any])

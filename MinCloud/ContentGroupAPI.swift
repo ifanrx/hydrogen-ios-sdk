@@ -12,11 +12,11 @@ import Moya
 let ContentGroupProvider = MoyaProvider<ContentGroupAPI>()
 
 enum ContentGroupAPI {
-    case conentDetail(id: Int64, parameters: [String: Any])
+    case conentDetail(id: String, parameters: [String: Any])
     case contentList(parameters: [String: Any]) // 某个内容库全部内容，或某个分类的内容
     case contentListInCategory(prameters: [String: Any]) // 某个分类的内容列表
     case categoryList(parameters: [String: Any]) // 某个内容库分类列表
-    case categoryDetail(id: Int64) // 内容详情
+    case categoryDetail(id: String) // 内容详情
 }
 
 extension ContentGroupAPI: TargetType {

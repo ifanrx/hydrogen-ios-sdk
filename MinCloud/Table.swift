@@ -12,12 +12,12 @@ import Result
 
 @objc(BaaSTable)
 public class Table: NSObject {
-    public internal(set) var Id: Int64?
+    public internal(set) var Id: String?
     public internal(set) var name: String?
     var identify: String
 
-    @objc public init(tableId: Int64) {
-        self.identify = String(tableId)
+    @objc public init(tableId: String) {
+        self.identify = tableId
         super.init()
     }
 
@@ -108,6 +108,7 @@ public class Table: NSObject {
         }
         let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: parameters)) { result in
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
+                record?.table = self
                 completion(record, error)
             })
         }
@@ -150,6 +151,9 @@ public class Table: NSObject {
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { result in
             ResultHandler.parse(result, handler: { (listResult: RecordListResult?, error: NSError?) in
+                listResult?.records?.forEach({ (record) in
+                    record.table = self
+                })
                 completion(listResult, error)
             })
         }

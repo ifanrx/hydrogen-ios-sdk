@@ -10,13 +10,13 @@ import UIKit
 
 @objc(BaaSOrder)
 open class Order: NSObject, Mappable {
-    @objc public var Id: Int = -1
+    @objc public var Id: String?
     @objc public var tradeNo: String? // 真正的交易 ID, 业务方在微信后台对账时可看到此字段
     @objc public var transactionNo: String? // 知晓云平台所记录的流水号
     @objc public var currencyType: String?
     @objc public var totalCost: Double = 0
     @objc public var status: String?
-    @objc public var createdBy: Int64 = -1
+    @objc public var createdBy: String?
     @objc public var createdAt: TimeInterval = 0
     @objc public var updatedAt: TimeInterval = 0
     @objc public var payAt: TimeInterval = 0
@@ -35,12 +35,12 @@ open class Order: NSObject, Mappable {
 
     required public init?(dict: [String: Any]) {
         self.dictInfo = dict
-        self.Id = dict.getInt("id")
+        self.Id = dict.getString("id")
         self.tradeNo = dict.getString("trade_no")
         self.transactionNo = dict.getString("transaction_no")
         self.totalCost = dict.getDouble("total_cost")
         self.status = dict.getString("status")
-        self.createdBy = dict.getInt64("created_by")
+        self.createdBy = dict.getString("created_by")
         self.createdAt = dict.getDouble("created_at")
         self.updatedAt = dict.getDouble("updated_at")
         self.payAt = dict.getDouble("pay_at")

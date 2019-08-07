@@ -17,7 +17,7 @@ open class Pay: NSObject {
 
     // 微信支付
     @discardableResult
-    @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
+    @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: String? = nil, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return nil
@@ -47,7 +47,7 @@ open class Pay: NSObject {
 
     // 支付宝支付
     @discardableResult
-    @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
+    @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: String? = nil, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return nil
@@ -126,10 +126,10 @@ open class Pay: NSObject {
 
 extension Pay {
 
-    fileprivate func pay(type: String, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
+    fileprivate func pay(type: String, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: String? = nil, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
 
         var parameters: [String: Any] = ["gateway_type": type, "total_cost": totalCost, "merchandise_description": merchandiseDescription]
-        if merchandiseSchemaID != -1 {
+        if let merchandiseSchemaID = merchandiseSchemaID {
             parameters["merchandise_schema_id"] = merchandiseSchemaID
         }
         if let merchandiseRecordID = merchandiseRecordID {

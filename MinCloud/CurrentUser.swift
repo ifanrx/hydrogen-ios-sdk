@@ -17,7 +17,7 @@ open class CurrentUser: User {
     var openid: String?
     var expiresIn: TimeInterval?
 
-    override init(Id: Int64) {
+    override init(Id: String) {
         super.init(Id: Id)
     }
 

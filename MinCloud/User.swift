@@ -14,7 +14,7 @@ open class User: BaseRecord {
     /**
      * 用户 Id
      */
-    @objc public internal(set) var userId: Int64
+    @objc public internal(set) var userId: String?
 
     /**
      *  用户昵称
@@ -95,15 +95,15 @@ open class User: BaseRecord {
      */
     @objc public internal(set) var provider: [String: Any]?
 
-    init(Id: Int64) {
+    init(Id: String) {
         self.userId = Id
         super.init()
         self.Id = String(Id)
     }
 
     required public init?(dict: [String: Any]) {
-        let Id = dict.getInt64("id", "user_id")
-        guard Id > 0 else { return nil }
+        let Id = dict.getString("id", "user_id")
+        guard Id != nil else { return nil }
 
         self.userId = Id
         self.email = dict.getString("_email")
@@ -163,7 +163,7 @@ open class User: BaseRecord {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func get(_ userId: Int64, select: [String]? = nil, expand: [String]? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
+    @objc public static func get(_ userId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
         if let select = select {
