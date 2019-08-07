@@ -49,7 +49,7 @@ open class FileManager: NSObject {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = FileProvider.request(.findFiles(parameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: FileListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: FileList?, error: NSError?) in
                 completion(listResult, error)
             })
         }
@@ -135,7 +135,7 @@ open class FileManager: NSObject {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = FileProvider.request(.findCategories(parameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: FileCategoryListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: FileCategoryList?, error: NSError?) in
                 completion(listResult, error)
             })
         }
@@ -174,7 +174,7 @@ open class FileManager: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
         let request = FileProvider.request(.findFilesInCategory(parameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: FileListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: FileList?, error: NSError?) in
                 completion(listResult, error)
             })
         }

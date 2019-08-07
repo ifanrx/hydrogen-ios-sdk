@@ -147,7 +147,7 @@ open class User: BaseRecord {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = UserProvider.request(.getUserList(parameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: UserListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: UserList?, error: NSError?) in
                 completion(listResult, error)
             })
         }

@@ -192,7 +192,7 @@
                     BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@15];
                     BaaSQuery *query = [[BaaSQuery alloc] init];
                     [query setWhere:where];
-                    [BaaSUser findWithQuery:query completion:^(BaaSUserListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [BaaSUser findWithQuery:query completion:^(BaaSUserList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                 }
@@ -251,7 +251,7 @@
                     //设置查询条件
                     BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@20];
                     [query setWhere:where];
-                    [_table findWithQuery:query completion:^(BaaSRecordListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [_table findWithQuery:query completion:^(BaaSRecordList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                 }
@@ -355,7 +355,7 @@
                     case 1:
                     // 查询内容列表
                     // 如需查询，过滤，查找 Table的方法
-                    [_contentGroup findWithQuery:nil completion:^(BaaSContentListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [_contentGroup findWithQuery:nil completion:^(BaaSContentList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                     break;
@@ -367,7 +367,7 @@
                     break;
                     case 4:
                     // 在分类中，查询内容列表
-                    [_contentGroup getCategoryListWithQuery:nil completion:^(BaaSContentCategoryListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [_contentGroup getCategoryListWithQuery:nil completion:^(BaaSContentCategoryList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                 default:

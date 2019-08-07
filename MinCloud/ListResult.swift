@@ -36,8 +36,8 @@ public class ListResult: NSObject, Mappable {
 
 }
 
-@objc(BaaSUserListResult)
-public class UserListResult: ListResult {
+@objc(BaaSUserList)
+public class UserList: ListResult {
 
     @objc public internal(set) var users: [User]?
 
@@ -57,8 +57,8 @@ public class UserListResult: ListResult {
     }
 }
 
-@objc(BaaSRecordListResult)
-public class RecordListResult: ListResult {
+@objc(BaaSRecordList)
+public class RecordList: ListResult {
 
     @objc public internal(set) var records: [Record]?
 
@@ -79,7 +79,7 @@ public class RecordListResult: ListResult {
 }
 
 @objc(BaaSFileListResult)
-public class FileListResult: ListResult {
+public class FileList: ListResult {
 
     @objc public internal(set) var files: [File]?
 
@@ -100,7 +100,7 @@ public class FileListResult: ListResult {
 }
 
 @objc(BaaSFileCategoryListResult)
-public class FileCategoryListResult: ListResult {
+public class FileCategoryList: ListResult {
 
     @objc public internal(set) var fileCategorys: [FileCategory]?
 
@@ -120,8 +120,8 @@ public class FileCategoryListResult: ListResult {
     }
 }
 
-@objc(BaaSContentListResult)
-public class ContentListResult: ListResult {
+@objc(BaaSContentList)
+public class ContentList: ListResult {
 
     @objc public internal(set) var contents: [Content]?
 
@@ -141,8 +141,8 @@ public class ContentListResult: ListResult {
     }
 }
 
-@objc(BaaSContentCategoryListResult)
-public class ContentCategoryListResult: ListResult {
+@objc(BaaSContentCategoryList)
+public class ContentCategoryList: ListResult {
 
     @objc public internal(set) var contentCategorys: [ContentCategory]?
 

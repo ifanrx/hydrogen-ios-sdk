@@ -150,7 +150,7 @@ public class Table: NSObject {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: RecordListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: RecordList?, error: NSError?) in
                 listResult?.records?.forEach({ (record) in
                     record.table = self
                 })

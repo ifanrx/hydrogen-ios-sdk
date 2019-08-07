@@ -60,7 +60,7 @@ open class ContentGroup: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
         let request = ContentGroupProvider.request(.contentList(parameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: ContentListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: ContentList?, error: NSError?) in
                 completion(listResult, error)
             })
         }
@@ -83,7 +83,7 @@ open class ContentGroup: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
         let request = ContentGroupProvider.request(.contentListInCategory(prameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: ContentListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: ContentList?, error: NSError?) in
                 completion(listResult, error)
             })
         }
@@ -102,7 +102,7 @@ open class ContentGroup: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
         let request = ContentGroupProvider.request(.categoryList(parameters: queryArgs)) { result in
-            ResultHandler.parse(result, handler: { (listResult: ContentCategoryListResult?, error: NSError?) in
+            ResultHandler.parse(result, handler: { (listResult: ContentCategoryList?, error: NSError?) in
                 completion(listResult, error)
             })
         }
