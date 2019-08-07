@@ -39,13 +39,9 @@ open class ContentGroup: NSObject {
             parameters["expand"] = expand.joined(separator: ",")
         }
         let request = ContentGroupProvider.request(.conentDetail(id: contentId, parameters: parameters)) { result in
-            let (contentInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let content = ResultHandler.dictToContent(dict: contentInfo)
-                completion(content, nil)
-            }
+            ResultHandler.parse(result, handler: { (content: Content?, error: NSError?) in
+                completion(content, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -64,13 +60,9 @@ open class ContentGroup: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
         let request = ContentGroupProvider.request(.contentList(parameters: queryArgs)) { result in
-            let (contentsInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let contents = ResultHandler.dictToContentListResult(dict: contentsInfo)
-                completion(contents, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: ContentListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -91,13 +83,9 @@ open class ContentGroup: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
         let request = ContentGroupProvider.request(.contentListInCategory(prameters: queryArgs)) { result in
-            let (contentsInfo, error) = ResultHandler.handleResult( result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let contents = ResultHandler.dictToContentListResult(dict: contentsInfo)
-                completion(contents, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: ContentListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -114,13 +102,9 @@ open class ContentGroup: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
         let request = ContentGroupProvider.request(.categoryList(parameters: queryArgs)) { result in
-            let (categorysInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let categorys = ResultHandler.dictToContentCategoryListResult(dict: categorysInfo)
-                completion(categorys, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: ContentCategoryListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -135,13 +119,9 @@ open class ContentGroup: NSObject {
     @objc open func getCategory(_ Id: Int64, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
 
         let request = ContentGroupProvider.request(.categoryDetail(id: Id)) { result in
-            let (categoryInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let category = ResultHandler.dictToContentCategory(dict: categoryInfo)
-                completion(category, nil)
-            }
+            ResultHandler.parse(result, handler: { (category: ContentCategory?, error: NSError?) in
+                completion(category, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }

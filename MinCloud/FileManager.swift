@@ -32,13 +32,9 @@ open class FileManager: NSObject {
             parameters["expand"] = expand.joined(separator: ",")
         }
         let request = FileProvider.request(.getFile(fileId: fileId, parameters: parameters)) { result in
-            let (fileInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let file = ResultHandler.dictToFile(dict: fileInfo)
-                completion(file, nil)
-            }
+            ResultHandler.parse(result, handler: { (file: File?, error: NSError?) in
+                completion(file, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -53,13 +49,9 @@ open class FileManager: NSObject {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = FileProvider.request(.findFiles(parameters: queryArgs)) { result in
-            let (filesInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let files = ResultHandler.dictToFileListResult(dict: filesInfo)
-                completion(files, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: FileListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -74,12 +66,13 @@ open class FileManager: NSObject {
     @objc public static func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
         let request = FileProvider.request(.deleteFiles(parameters: ["id__in": fileIds])) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                completion(true, nil)
-            }
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -99,40 +92,34 @@ open class FileManager: NSObject {
         let canceller = RequestCanceller()
 
         let request = FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName as Any])) { result in
-            let (fileInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                guard fileInfo != nil, fileInfo?.getString("policy") != nil, fileInfo?.getString("authorization") != nil, fileInfo?.getString("file_link") != nil  else {
-                    completion(nil, HError.init(code: 500) as NSError)
-                    return
-                }
 
-                let path = fileInfo?.getString("file_link")
-                let id = fileInfo?.getString("id")
-                let parameters: [String: String] = ["policy": (fileInfo?.getString("policy"))!, "authorization": (fileInfo?.getString("authorization"))!]
-                let uploadRequest = FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url"))!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
-                    progressBlock(progress.progressObject)
-                }, completion: { result in
-                    let (fileInfo, error) = ResultHandler.handleResult(result)
-                    if error != nil {
-                        completion(nil, error)
-                    } else {
-                        var file: File!
-                        if let fileInfo = fileInfo {
-                            file = File()
-                            file.Id = id
-                            file.createdAt = fileInfo.getDouble("time")
-                            file.mimeType = fileInfo.getString("mimetype")
-                            file.name = filename
-                            file.size = fileInfo.getInt("file_size")
-                            file.cdnPath = path
-                        }
-                        completion(file, nil)
+            ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
+                if error != nil {
+                    completion(nil, error)
+                } else {
+                    let fileInfo = resultInfo?.value
+                    guard fileInfo != nil, fileInfo?.getString("policy") != nil, fileInfo?.getString("authorization") != nil, fileInfo?.getString("file_link") != nil  else {
+                        completion(nil, HError.init(code: 500) as NSError)
+                        return
                     }
-                })
-                canceller.cancellable = uploadRequest
-            }
+
+                    let path = fileInfo?.getString("file_link")
+                    let id = fileInfo?.getString("id")
+                    let parameters: [String: String] = ["policy": (fileInfo?.getString("policy"))!, "authorization": (fileInfo?.getString("authorization"))!]
+                    let uploadRequest = FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url"))!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
+                        progressBlock(progress.progressObject)
+                    }, completion: { result in
+                        ResultHandler.parse(result, handler: { (file: File?, error: NSError?) in
+                            file?.Id = id
+                            file?.name = filename
+                            file?.cdnPath = path
+                            completion(file, error)
+                        })
+                    })
+                    canceller.cancellable = uploadRequest
+                }
+            })
+
         }
         canceller.cancellable = request
         return canceller
@@ -148,13 +135,9 @@ open class FileManager: NSObject {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = FileProvider.request(.findCategories(parameters: queryArgs)) { result in
-            let (categorysInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let categorys = ResultHandler.dictToFileCategoryListResult(dict: categorysInfo)
-                completion(categorys, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: FileCategoryListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -171,13 +154,9 @@ open class FileManager: NSObject {
     @objc public static func getCategory(_ Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
 
         let request = FileProvider.request(.getCategory(categoryId: Id)) { result in
-            let (categoryInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let category = ResultHandler.dictToFileCategory(dict: categoryInfo)
-                completion(category, nil)
-            }
+            ResultHandler.parse(result, handler: { (category: FileCategory?, error: NSError?) in
+                completion(category, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -195,13 +174,9 @@ open class FileManager: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
         let request = FileProvider.request(.findFilesInCategory(parameters: queryArgs)) { result in
-            let (filesInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let files = ResultHandler.dictToFileListResult(dict: filesInfo)
-                completion(files, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: FileListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -221,12 +196,9 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public static func genVideoSnapshot(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
         let request = FileProvider.request(.genVideoSnapshot(parameters: parameters)) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
 
@@ -245,12 +217,9 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public static func videoConcat(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
         let request = FileProvider.request(.videoConcat(parameters: parameters)) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
 
@@ -272,12 +241,9 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public static func videoClip(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
         let request = FileProvider.request(.videoClip(parameters: parameters)) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
 
@@ -292,12 +258,9 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public static func videoMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
         let request = FileProvider.request(.videoMeta(parameters: ["m3u8": fileId])) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
 
@@ -312,12 +275,9 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public static func videoAudioMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
         let request = FileProvider.request(.videoAudioMeta(parameters: ["source": fileId])) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
 

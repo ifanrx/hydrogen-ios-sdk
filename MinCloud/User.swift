@@ -101,6 +101,33 @@ open class User: BaseRecord {
         self.Id = String(Id)
     }
 
+    required public init?(dict: [String: Any]) {
+        let Id = dict.getInt64("id", "user_id")
+        guard Id > 0 else { return nil }
+
+        self.userId = Id
+        self.email = dict.getString("_email")
+        self.avatar = dict.getString("avatar")
+        self.isAuthorized = dict.getBool("is_authorized")
+        self.username = dict.getString("_username")
+        self.nickname = dict.getString("nickname")
+        self.gender = dict.getInt("gender")
+        self.country = dict.getString("country")
+        self.province = dict.getString("province")
+        self.city = dict.getString("city")
+        self.language = dict.getString("language")
+        self.unionid = dict.getString("unionid")
+        self.emailVerified = dict.getBool("_email_verified")
+        self.provider = dict.getDict("_provider") as? [String: Any]
+        self.userInfo = dict
+        super.init(dict: dict)
+    }
+
+    override open var description: String {
+        let dict = self.userInfo
+        return dict.toJsonString
+    }
+
     /// 通过 字段名 获取用户信息
     ///
     /// - Parameter key: 字段名称
@@ -120,13 +147,9 @@ open class User: BaseRecord {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = UserProvider.request(.getUserList(parameters: queryArgs)) { result in
-            let (usersInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let userListResult = ResultHandler.dictToUserListResult(dict: usersInfo)
-                completion(userListResult, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: UserListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -150,13 +173,9 @@ open class User: BaseRecord {
             parameters["expand"] = expand.joined(separator: ",")
         }
         let request = UserProvider.request(.getUserInfo(userId: userId, parameters: parameters)) { result in
-            let (userInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let user = ResultHandler.dictToUser(dict: userInfo)
-                completion(user, nil)
-            }
+            ResultHandler.parse(result, handler: { (user: User?, error: NSError?) in
+                completion(user, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }

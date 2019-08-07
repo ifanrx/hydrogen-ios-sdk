@@ -20,12 +20,9 @@ import Result
     @discardableResult
     @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
         let request = BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (invokeResult: MappableDictionary?, error: NSError?) in
+                completion(invokeResult?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -33,12 +30,13 @@ import Result
     @discardableResult
     @objc public static func sendSmsCode(phone: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = BaasProvider.request(.sendSmsCode(parameters: ["phone": phone])) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                completion(true, nil)
-            }
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -46,12 +44,13 @@ import Result
     @discardableResult
     @objc public static func verifySmsCode(phone: String, code: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = BaasProvider.request(.verifySmsCode(parameters: ["phone": phone, "code": code])) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                completion(true, nil)
-            }
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }

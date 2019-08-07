@@ -61,12 +61,9 @@ public class Table: NSObject {
 
         let args = options ?? [:]
         let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!, parameters: args)) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
+                completion(resultInfo?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -84,12 +81,9 @@ public class Table: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
         let request = TableProvider.request(.delete(tableId: identify, parameters: queryArgs)) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
+                completion(resultInfo?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -113,13 +107,9 @@ public class Table: NSObject {
             parameters["expand"] = expand.joined(separator: ",")
         }
         let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: parameters)) { result in
-            let (recordInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let record = ResultHandler.dictToRecord(table: self, dict: recordInfo)
-                completion(record, nil)
-            }
+            ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
+                completion(record, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -141,12 +131,9 @@ public class Table: NSObject {
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
         let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.recordParameter)) { result in
-            let (resultInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                completion(resultInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
+                completion(resultInfo?.value, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -162,13 +149,9 @@ public class Table: NSObject {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { result in
-            let (recordsInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let records = ResultHandler.dictToRecordListResult(table: self, dict: recordsInfo)
-                completion(records, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: RecordListResult?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 @objc(BaaSOrder)
-open class Order: NSObject {
+open class Order: NSObject, Mappable {
     @objc public var Id: Int = -1
     @objc public var tradeNo: String? // 真正的交易 ID, 业务方在微信后台对账时可看到此字段
     @objc public var transactionNo: String? // 知晓云平台所记录的流水号
@@ -33,27 +33,25 @@ open class Order: NSObject {
         super.init()
     }
 
-    init?(dict: [String: Any]?) {
-        if let orderInfoDict = dict {
-            self.dictInfo = dict
-            self.Id = orderInfoDict.getInt("id")
-            self.tradeNo = orderInfoDict.getString("trade_no")
-            self.transactionNo = orderInfoDict.getString("transaction_no")
-            self.totalCost = orderInfoDict.getDouble("total_cost")
-            self.status = orderInfoDict.getString("status")
-            self.createdBy = orderInfoDict.getInt64("created_by")
-            self.createdAt = orderInfoDict.getDouble("created_at")
-            self.updatedAt = orderInfoDict.getDouble("updated_at")
-            self.payAt = orderInfoDict.getDouble("pay_at")
-            self.refundStatus = orderInfoDict.getString("refund_status")
-            self.currencyType = orderInfoDict.getString("currency_type")
-            self.gateWayType = orderInfoDict.getString("gateway_type")
-            self.gatewayExtraInfo = orderInfoDict.getDict("gateway_extra_info") as? [String: Any]
-            self.merchandiseRecordId = orderInfoDict.getString("merchandise_record_id")
-            self.merchandiseSchemaId = orderInfoDict.getString("merchandise_schema_id")
-            self.merchandiseSnapshot = orderInfoDict.getDict("merchandise_snapshot") as? [String: Any]
-            self.merchandiseDescription = orderInfoDict.getString("merchandise_description")
-        }
+    required public init?(dict: [String: Any]) {
+        self.dictInfo = dict
+        self.Id = dict.getInt("id")
+        self.tradeNo = dict.getString("trade_no")
+        self.transactionNo = dict.getString("transaction_no")
+        self.totalCost = dict.getDouble("total_cost")
+        self.status = dict.getString("status")
+        self.createdBy = dict.getInt64("created_by")
+        self.createdAt = dict.getDouble("created_at")
+        self.updatedAt = dict.getDouble("updated_at")
+        self.payAt = dict.getDouble("pay_at")
+        self.refundStatus = dict.getString("refund_status")
+        self.currencyType = dict.getString("currency_type")
+        self.gateWayType = dict.getString("gateway_type")
+        self.gatewayExtraInfo = dict.getDict("gateway_extra_info") as? [String: Any]
+        self.merchandiseRecordId = dict.getString("merchandise_record_id")
+        self.merchandiseSchemaId = dict.getString("merchandise_schema_id")
+        self.merchandiseSnapshot = dict.getDict("merchandise_snapshot") as? [String: Any]
+        self.merchandiseDescription = dict.getString("merchandise_description")
     }
 
     var wxAppid: String? {

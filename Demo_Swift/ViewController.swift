@@ -76,22 +76,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 用户名注册
-                Auth.register(username: "test0703", password: "1111") {_, _ in
-
+                Auth.register(username: "test0807", password: "1111") { _, _ in
                 }
             case 1:
                 // 邮箱注册
-                Auth.register(email: "test0703@yeah.net", password: "1111") {_, _ in
+                Auth.register(email: "test0807@yeah.net", password: "1111") {_, _ in
 
                 }
             case 2:
                 // 用户名登录
-                Auth.login(username: "test0703", password: "1111") {_, _ in
+                Auth.login(username: "test0807", password: "1111") {_, _ in
 
                 }
             case 3:
                 // 邮箱登录
-                Auth.login(email: "test0703@yeah.net", password: "1111") {_, _ in
+                Auth.login(email: "test0807@yeah.net", password: "1111") {_, _ in
 
                 }
             case 4:
@@ -116,34 +115,58 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 1:
                 // 更新用户名
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.updateUsername("080701", completion: { (_, _) in
 
+                        })
+                    }
                 }
 
             case 2:
                 // 更新密码
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.resetPassword(email: "1234567", completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 3:
                 // 更新邮箱
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.updateEmail("0807000@ifanr.com", completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 4:
                 // 更新自定义用户信息
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.updateUserInfo(["age": 23], completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 5:
                 // 请求邮箱验证
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.requestEmailVerification({ (_, _) in
 
+                        })
+                    }
                 }
             case 6:
                 // 通过邮箱设置密码
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.resetPassword(email: "", completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 7:
                 // 批量查询用户列表，如 获取年龄小于 25 的用户
@@ -182,7 +205,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
                 let query = Query()
                 query.setWhere(whereArgs)
-                table.find(query: query, completion: {_, _ in
+                table.find(completion: {_, _ in
 
                 })
 
@@ -324,12 +347,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 3:
                 // 删除文件
-//                let file = File()
-//                // file.Id = "5cab1a941feb8f06a883800c"
-//                file.delete({_, _ in
-//
-//                })
-                break
+                let file = File()
+                // file.Id = "5cab1a941feb8f06a883800c"
+                file.delete({_, _ in
+
+                })
             case 4:
                 // 删除多个文件
                 FileManager.delete(["5cab1a981feb8f06a8838011", "5cab1a961feb8f074a68a01a"]) {_, _ in

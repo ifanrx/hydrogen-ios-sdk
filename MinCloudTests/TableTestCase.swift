@@ -85,7 +85,7 @@ class TableTestCase: XCTestCase {
         //                record.set(key: "publish_date", value: dateISO)
 
         // geoPoint 类型
-        let point = GeoPoint(latitude: 10, longitude: 2)
+        let point = GeoPoint(longitude: 2, latitude: 10)
         createdRecord?.set(key: "location", value: point)
 
         // polygon
@@ -128,7 +128,7 @@ class TableTestCase: XCTestCase {
 //        updatedRecord?.set(key: "publish_date", value: dateISO)
 
         // geoPoint 类型
-        let point = GeoPoint(latitude: 11, longitude: 12)
+        let point = GeoPoint(longitude: 12, latitude: 11)
         updatedRecord?.set(key: "location", value: point)
 
         // polygon

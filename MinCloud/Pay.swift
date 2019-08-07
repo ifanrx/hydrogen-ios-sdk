@@ -25,21 +25,20 @@ open class Pay: NSObject {
 
         self.isPaying = true
         // 创建订单，并获取预支付信息
-        let canceller = self.pay(type: WXPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(orderDict, error) in
+        let canceller = self.pay(type: WXPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(order, error) in
 
             self.isPaying = false
             if error != nil {
                 completion(nil, error)
             } else {
-                let orderInfo = Order(dict: orderDict)
-                orderInfo?.gateWayType = WXPay
-                if let request = orderInfo?.wxPayReq, let appId = orderInfo?.wxAppid {
-                    completion(orderInfo, nil)
+                order?.gateWayType = WXPay
+                if let request = order?.wxPayReq, let appId = order?.wxAppid {
+                    completion(order, nil)
                     // 调起微信支付
                     self.payWithWX(request, appId: appId)
                 } else {
                     let payError = HError.init(code: 610) as NSError
-                    completion(orderInfo, payError)
+                    completion(order, payError)
                 }
             }
         })
@@ -55,15 +54,14 @@ open class Pay: NSObject {
         }
 
         self.isPaying = true
-        let canceller = self.pay(type: AliPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(orderDict, error) in
+        let canceller = self.pay(type: AliPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(order, error) in
             self.isPaying = false
             if error != nil {
                 completion(nil, error)
             } else {
-                let orderInfo = Order(dict: orderDict)
-                orderInfo?.gateWayType = AliPay
-                if let paymentUrl = orderInfo?.aliPaymenUrl, let appId = orderInfo?.aliAppid {
-                    completion(orderInfo, nil)
+                order?.gateWayType = AliPay
+                if let paymentUrl = order?.aliPaymenUrl, let appId = order?.aliAppid {
+                    completion(order, nil)
                     self.payWithAli(paymentUrl, appId: appId)
                 } else {
                     completion(nil, HError.init(code: 610) as NSError)
@@ -77,13 +75,9 @@ open class Pay: NSObject {
     @discardableResult
     @objc public func order(_ transactionID: String, completion:@escaping OrderCompletion) -> RequestCanceller? {
         let request = PayProvider.request(.order(transactionID: transactionID)) { (result) in
-            let (orderDict, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let orderInfo = Order(dict: orderDict)
-                completion(orderInfo, nil)
-            }
+            ResultHandler.parse(result, handler: { (order: Order?, error: NSError?) in
+                completion(order, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -93,13 +87,9 @@ open class Pay: NSObject {
     @objc public func orderList(query: Query? = nil, completion:@escaping OrderListCompletion) -> RequestCanceller? {
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
         let request = PayProvider.request(.orderList(parameters: queryArgs)) { (result) in
-            let (orderInfoDict, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(nil, error)
-            } else {
-                let orderInfos = OrderList(dict: orderInfoDict)
-                completion(orderInfos, nil)
-            }
+            ResultHandler.parse(result, handler: { (listResult: OrderList?, error: NSError?) in
+                completion(listResult, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -136,7 +126,7 @@ open class Pay: NSObject {
 
 extension Pay {
 
-    fileprivate func pay(type: String, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    fileprivate func pay(type: String, totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: Int64 = -1, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
 
         var parameters: [String: Any] = ["gateway_type": type, "total_cost": totalCost, "merchandise_description": merchandiseDescription]
         if merchandiseSchemaID != -1 {
@@ -150,8 +140,9 @@ extension Pay {
         }
 
         let request = PayProvider.request(.pay(parameters: parameters)) { result in
-            let (orderInfo, error) = ResultHandler.handleResult(result)
-            completion(orderInfo, error)
+            ResultHandler.parse(result, handler: { (order: Order?, error: NSError?) in
+                completion(order, error)
+            })
         }
         return RequestCanceller(cancellable: request)
     }

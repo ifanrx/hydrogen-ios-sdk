@@ -18,7 +18,7 @@ class BaaSTestCase: XCTestCase {
         let data = NSDictionary(contentsOf: fileUrl!)
         Storage.shared.token = data?.getString("token")
         Storage.shared.expiresIn = data?.getDouble("expireIn")
-        Storage.shared.userId = data?.getInt("userId")
+        Storage.shared.userId = data?.getInt64("userId")
     }
 
     override func tearDown() {
@@ -43,7 +43,7 @@ class BaaSTestCase: XCTestCase {
     func testSendCode() {
         let promise = expectation(description: "Status code: 201")
 
-        BaaS.sendSmsCode(phone: "helloWorld") {result, error in
+        BaaS.sendSmsCode(phone: "15088057274") {result, error in
             XCTAssertTrue(result, "发送失败")
             XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
 
@@ -52,4 +52,19 @@ class BaaSTestCase: XCTestCase {
 
         waitForExpectations(timeout: timeout, handler: nil)
     }
+
+//    // 验证短信
+//    func testVerifyCode() {
+//        let promise = expectation(description: "Status code: 201")
+//
+//        BaaS.verifySmsCode(phone: "15088057274", code: "959985") { (result, error) in
+//            XCTAssertTrue(result, "发送失败")
+//            XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
+//
+//            promise.fulfill()
+//        }
+//
+//        waitForExpectations(timeout: timeout, handler: nil)
+//
+//    }
 }

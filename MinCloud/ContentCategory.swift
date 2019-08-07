@@ -9,9 +9,23 @@
 import Foundation
 
 @objc(BaaSContentCategory)
-open class ContentCategory: NSObject {
+open class ContentCategory: NSObject, Mappable {
     @objc public internal(set) var Id: Int64 = -1
     @objc public internal(set) var name: String!
     @objc public internal(set) var haveChildren: Bool = false
     @objc public internal(set) var children: [ContentCategory]!
+
+    required public init?(dict: [String: Any]) {
+        self.Id = dict.getInt64("id")
+        self.name = dict.getString("name")
+        self.haveChildren = dict.getBool("have_children")
+        let children = dict.getArray("children", type: [String: Any].self)
+        var subCategorys: [ContentCategory] = []
+        for subDict in children {
+            if let subCategory = ContentCategory(dict: subDict) {
+                subCategorys.append(subCategory)
+            }
+        }
+        self.children = subCategorys
+    }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 @objc(BaaSBaseRecord)
-open class BaseRecord: NSObject {
+open class BaseRecord: NSObject, Mappable {
 
     /**
      *  记录 Id
@@ -35,6 +35,22 @@ open class BaseRecord: NSObject {
      *  更新时间，时间戳
      */
     @objc public internal(set) var updatedAt: TimeInterval = 0
+
+    required public init?(dict: [String: Any]) {
+        self.Id = dict.getString("id", "_id")
+        if let createdBy = dict.getDict("created_by") as? [String: Any] {
+            self.createdBy = createdBy
+            self.createdById = dict.getDict("created_by")?.getInt64("id") ?? -1
+        } else {
+            self.createdById = dict.getInt64("created_by")
+        }
+        self.createdAt = dict.getDouble("created_at")
+        self.updatedAt = dict.getDouble("created_at")
+    }
+
+    public override init() {
+        super.init()
+    }
 
     /**
      *  记录需要更新的值

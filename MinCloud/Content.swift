@@ -9,7 +9,7 @@
 import Foundation
 
 @objc(BaaSContent)
-open class Content: NSObject {
+open class Content: NSObject, Mappable {
     @objc public internal(set) var Id: Int64 = -1
     @objc public internal(set) var title: String?
     @objc public internal(set) var desc: String?
@@ -38,4 +38,22 @@ open class Content: NSObject {
      *  更新时间
      */
     @objc public internal(set) var updatedAt: TimeInterval = 0
+
+    required public init?(dict: [String: Any]) {
+        self.Id = dict.getInt64("id")
+        self.title = dict.getString("title")
+        self.cover = dict.getString("cover")
+        self.desc = dict.getString("description")
+        self.categories = dict.getArray("categories", type: Int.self)
+        self.groupId = dict.getInt64("group_id")
+        self.content = dict.getString("content")
+        if let createdBy = dict.getDict("created_by") as? [String: Any] {
+            self.createdBy = createdBy
+            self.createdById = dict.getDict("created_by")?.getInt64("id") ?? -1
+        } else {
+            self.createdById = dict.getInt64("created_by")
+        }
+        self.createdAt = dict.getDouble("created_at")
+        self.updatedAt = dict.getDouble("created_at")
+    }
 }

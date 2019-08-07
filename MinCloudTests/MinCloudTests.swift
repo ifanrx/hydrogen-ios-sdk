@@ -26,7 +26,7 @@ class AuthTestCase: XCTestCase {
     func testUsernameRegister() {
 
         let promise = expectation(description: "Status code: 201")
-        Auth.register(username: "test29", password: "1111") { (user, error) in
+        Auth.register(username: "test30", password: "1111") { (user, error) in
             if error != nil {
                 XCTAssertTrue(error?.code == 400 && error?.localizedDescription == "'Username'lready exists.")
             } else {
@@ -61,7 +61,7 @@ class AuthTestCase: XCTestCase {
     // 用户名登录
     func testUsernameLogin() {
         let promise = expectation(description: "Status code: 201")
-        Auth.login(username: "test29", password: "1111") { (user, error) in
+        Auth.login(username: "test30", password: "1111") { (user, error) in
             if error != nil {
                 XCTAssertTrue(error?.code == 400 && error?.localizedDescription == "You are already logged in.")
             } else {

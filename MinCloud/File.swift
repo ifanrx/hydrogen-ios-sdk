@@ -11,7 +11,7 @@ import Moya
 import Result
 
 @objc(BaaSFile)
-open class File: NSObject {
+open class File: NSObject, Mappable {
 
     @objc public internal(set) var Id: String!
     @objc public internal(set) var mimeType: String!
@@ -21,6 +21,21 @@ open class File: NSObject {
     @objc public internal(set) var category: FileCategory!
     @objc public internal(set) var localPath: String!
     @objc public internal(set) var createdAt: TimeInterval = 0
+
+    required public init?(dict: [String: Any]) {
+        self.Id = dict.getString("id")
+        self.name = dict.getString("name")
+        self.mimeType = dict.getString("mime_type")
+        self.size = dict.getInt("size")
+        self.cdnPath = dict.getString("path")
+        self.createdAt = dict.getDouble("created_at")
+        let category = FileCategory(dict: dict)
+        self.category = category
+    }
+
+    public override init() {
+        super.init()
+    }
 
     /**
      *  文件信息
@@ -48,6 +63,11 @@ open class File: NSObject {
         return info
     }
 
+    override open var description: String {
+        let dict = self.fileInfo
+        return dict.toJsonString
+    }
+
     /// 删除本文件
     ///
     /// 删除文件后，本地文件信息不清空，建议开发者自行清空。
@@ -62,12 +82,15 @@ open class File: NSObject {
         }
 
         let request = FileProvider.request(.deleteFile(fileId: Id!)) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                completion(true, nil)
-            }
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    Storage.shared.reset()
+                    printDebugInfo("logout success!")
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }
