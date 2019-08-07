@@ -138,8 +138,7 @@ class FileTestCase: XCTestCase {
         let promise = expectation(description: "Status code: 201")
 
         let files = (data?.getArray("file_deleteIds", type: String.self))!
-        FileManager.delete(files, completion: { (result, error) in
-            XCTAssertNotNil(result, "结果为 nil")
+        FileManager.delete(files, completion: { (_, error) in
             XCTAssertNil(error, "发生错误: \(String(describing: error?.localizedDescription))")
             promise.fulfill()
         })

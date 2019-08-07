@@ -12,13 +12,13 @@
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *datas;
-@property (nonatomic, strong) BaaSUserManager *userManager;
 @property (nonatomic, strong) BaaSTable *table;
 @property (nonatomic, strong) BaaSContentGroup *contentGroup;
 @property (nonatomic, strong) BaaSFileManager *fileManager;
 @property (nonatomic, strong) BaaSRecord *record;
 @property (nonatomic, strong) BaaSFile *file;
 @property (nonatomic, strong) BaaSCurrentUser *currentUser;
+    @property (nonatomic, strong) BaaSOrder *orderInfo;
 @end
 
 @implementation ViewController
@@ -35,16 +35,13 @@
     NSString *filePath = [NSBundle.mainBundle pathForResource:@"datasource" ofType:@"plist"];
     self.datas = [NSArray arrayWithContentsOfFile:filePath];
 
-    _userManager = [[BaaSUserManager alloc] init];
-
     // 数据表
     _table = [[BaaSTable alloc] initWithName:@"Book"];
 
-    _contentGroup = [[BaaSContentGroup alloc] initWithId: 1551697162031508];
+    _contentGroup = [[BaaSContentGroup alloc] initWithId: @"1551697162031508"];
 
     _fileManager = [[BaaSFileManager alloc] init];
 }
-
 
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
@@ -91,7 +88,7 @@
                     case 0:
                     // 用户名注册
                 {
-                    [BaaSAuth registerWithUsername:@"test04101" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth registerWithUsername:@"test0703" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -99,7 +96,7 @@
                     case 1:
                     // 邮箱注册
                 {
-                    [BaaSAuth registerWithEmail:@"test04101@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth registerWithEmail:@"test0703@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -107,7 +104,7 @@
                     case 2:
                     // 用户名登录
                 {
-                    [BaaSAuth loginWithUsername:@"test04101" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth loginWithUsername:@"test0703" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -115,7 +112,7 @@
                     case 3:
                     // 邮箱登录
                 {
-                    [BaaSAuth loginWithEmail:@"test04101@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth loginWithEmail:@"test0703@ifanr.com" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -195,11 +192,18 @@
                     BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@15];
                     BaaSQuery *query = [[BaaSQuery alloc] init];
                     [query setWhere:where];
-                    [BaaSUserManager findWithQuery:query completion:^(BaaSUserListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [BaaSUser findWithQuery:query completion:^(BaaSUserList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                 }
                     break;
+                case 8:
+                {
+                    NSString *userId = @"36845069853014";
+                    [BaaSUser get:userId select:@[@"nickname", @"gender"] expand:nil completion:^(BaaSUser * _Nullable user, NSError * _Nullable error) {
+                        
+                    }];
+                }
                 default:
                     break;
             }
@@ -247,7 +251,7 @@
                     //设置查询条件
                     BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@20];
                     [query setWhere:where];
-                    [_table findWithQuery:query completion:^(BaaSRecordListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [_table findWithQuery:query completion:^(BaaSRecordList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                 }
@@ -292,17 +296,17 @@
                     [_record setWithRecord:@{@"price": @24, @"name": @"normal"}];
 
                     // geoPoint
-                    BAASGeoPoint *point = [[BAASGeoPoint alloc] initWithLatitude:10 longitude:2];
-                    [_record setWithKey:@"location" value:point.geoJson];
+                    BaaSGeoPoint *point = [[BaaSGeoPoint alloc] initWithLongitude:10 latitude:2];
+                    [_record setWithKey:@"location" value:point];
 
                     // polygon
-                    BAASGeoPolygon *polygon = [[BAASGeoPolygon alloc] initWithCoordinates:@[@[@30, @10], @[@40, @40], @[@20, @40], @[@10, @20], @[@30, @10]]];
-                    [_record setWithKey:@"polygon" value:polygon.geoJson];
+                    BaaSGeoPolygon *polygon = [[BaaSGeoPolygon alloc] initWithCoordinates:@[@[@10, @10], @[@40, @40], @[@20, @40], @[@10, @20], @[@10, @10]]];
+                    [_record setWithKey:@"polygon" value:polygon];
 
                     // date
                     NSISO8601DateFormatter *dateFormatter = [[NSISO8601DateFormatter alloc] init];
                     NSString *dateISO = [dateFormatter stringFromDate:[NSDate date]];
-                    [_record setWithKey:@"" value:dateISO];
+                    [_record setWithKey:@"publish_date" value:dateISO];
 
                     [_record save:^(BOOL success, NSError * _Nullable error) {
 
@@ -320,16 +324,20 @@
                     break;
                     case 7:
                 {
-                    //                    // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
-                    //                    BAASQuery *query = [BAASQuery compareWithKey:@"price" operator:BAASOperatorLessThan value:@15];
-                    //                    [_table setQuery:query];
-                    //
-                    //                    BAASTableRecord *record = [_table createRecord];
-                    //                    [record incrementByKey:@"price" value:@1];
-                    //
-                    //                    [_table update:record enableTrigger:true completion:^(NSDictionary<NSString *,id> * _Nullable records, NSError * _Nullable error) {
-                    //
-                    //                    }];
+                    // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
+                    BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@15];
+
+                    BaaSQuery *query = [[BaaSQuery alloc] init];
+                    [query setWhere:where];
+
+                    NSDictionary *options = @{@"enable_trigger": @YES};
+
+                    BaaSRecord *record = [_table createRecord];
+                    [record incrementByKey:@"price" value:@1];
+
+                    [_table updateWithRecord:record query:query options: options completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
                 }
                     break;
                 default:
@@ -340,14 +348,14 @@
             switch (indexPath.row) {
                     case 0:
                     // 获取内容详情
-                    [_contentGroup get:1551697403189289 select:@[@"title"] expand:nil completion:^(BaaSContent * _Nullable content, NSError * _Nullable error) {
+                    [_contentGroup get:@"1551697403189289" select:@[@"title"] expand:nil completion:^(BaaSContent * _Nullable content, NSError * _Nullable error) {
 
                     }];
                     break;
                     case 1:
                     // 查询内容列表
                     // 如需查询，过滤，查找 Table的方法
-                    [_contentGroup findWithQuery:nil completion:^(BaaSContentListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [_contentGroup findWithQuery:nil completion:^(BaaSContentList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                     break;
@@ -359,7 +367,7 @@
                     break;
                     case 4:
                     // 在分类中，查询内容列表
-                    [_contentGroup getCategoryListWithQuery:nil completion:^(BaaSContentCategoryListResult * _Nullable listResult, NSError * _Nullable error) {
+                    [_contentGroup getCategoryListWithQuery:nil completion:^(BaaSContentCategoryList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
                 default:
@@ -427,22 +435,196 @@
                     [BaaSFileManager findWithCategoryId:@"" query:nil completion:^(BaaSFileListResult * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
+                    case 8:
+                {
+                    NSDictionary *params = @{
+                            @"source": @"xxxxxxxxxx",
+                            @"save_as": @"hello.png",
+                            @"point": @"00:00:10",
+                            @"category_id": @"5c18bc794e1e8d20dbfcddcc",
+                            @"random_file_link": @NO };
+                    [BaaSFileManager genVideoSnapshot:params completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
 
+                    }];
+                }
+                    break;
+                    case 9:
+                {
+                    NSDictionary *params = @{
+                        @"m3u8s": @[@"xxxxxxxxxx", @"xxxxxxxxxx"],
+                        @"save_as": @"hello.m3u8",
+                        @"category_id": @"5c18bc794e1e8d20dbfcddcc",
+                        @"random_file_link": @NO, };
+                    [BaaSFileManager videoConcat:params completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                    case 10:
+                {
+                    NSDictionary *params = @{
+                        @"m3u8": @"xxxxxxxxxx",
+                        @"include": @[@0, @20],
+                        @"save_as": @"0s_20s.m3u8",
+                        @"category_id": @"5c18bc794e1e8d20dbfcddcc",
+                        @"random_file_link": @NO };
+                    [BaaSFileManager videoClip:params completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                    case 11:
+                {
+                    [BaaSFileManager videoMeta:@"xxxx" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                    case 12:
+                {
+                    [BaaSFileManager videoAudioMeta:@"xxxx" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
 
                 default:
                     break;
             }
             case 5:
         {
-            [BaaS invokeWithName:@"helloWorld" data:@{@"name": @"BaaS"} sync:YES completion:^(NSDictionary * _Nullable result, NSError * _Nullable error) {
+            switch (indexPath.row) {
+                case 0:
+                    [BaaS invokeWithName:@"helloWorld" data:@{@"name": @"BaaS"} sync:YES completion:^(NSDictionary * _Nullable result, NSError * _Nullable error) {
 
-            }];
+                    }];
+                    break;
+                case 1:
+                {
+                    [BaaS sendSmsCodeWithPhone:@"1508805****" completion:^(BOOL success, NSError * _Nullable error) {
+
+                    }];
+                }
+                    break;
+                case 2:
+                {
+                    [BaaS verifySmsCodeWithPhone:@"1508805****" code:@"11111" completion:^(BOOL success, NSError * _Nullable error) {
+
+                    }];
+                }
+                default:
+                    break;
+            }
+
+        }
+            case 6:
+        {
+            switch (indexPath.row) {
+                case 0:
+                {
+                    [BaaSPay.shared wxPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: @"" merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
+
+                        self.orderInfo = orderInfo;
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                    break;
+                case 1:
+                {
+                    [BaaSPay.shared aliPayWithTotalCost:0.01 merchandiseDescription:@"微信支付" merchandiseSchemaID: @"" merchandiseRecordID:nil merchandiseSnapshot:nil completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
+
+                        self.orderInfo = orderInfo;
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                break;
+                case 2:
+                {
+                    [BaaSPay.shared order:self.orderInfo.transactionNo completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                    break;
+                case 3:
+                {
+                    [BaaSPay.shared repay:self.orderInfo completion:^(BaaSOrder * _Nullable orderInfo, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orderInfo.description];
+                        }
+                    }];
+                }
+                    break;
+                case 4:
+                {
+                    [BaaSPay.shared orderListWithQuery:nil completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orders.description];
+                        }
+
+                        }];
+                }
+                break;
+                case 5:
+                {
+                    BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
+                    [query status:BaaSOrderStatusPending];
+                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orders.description];
+                        }
+
+                    }];
+                }
+                break;
+                case 6:
+                {
+                    BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
+                    [query status:BaaSOrderStatusSuccess];
+                    [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
+                        if(error) {
+                            [self showMessage:error.localizedDescription];
+                        } else {
+                            [self showMessage:orders.description];
+                        }
+
+                    }];
+                }
+                break;
+                default:
+                    break;
+            }
         }
         default:
             break;
     }
 }
 
-
+- (void)showMessage:(NSString*)message {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    // 2.创建并添加按钮
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 @end

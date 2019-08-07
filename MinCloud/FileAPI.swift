@@ -21,6 +21,11 @@ enum FileAPI {
     case getCategory(categoryId: String)
     case UPUpload(url: String, localPath: String, parameters: [String: String])
     case findFilesInCategory(parameters: [String: Any])
+    case genVideoSnapshot(parameters: [String: Any])
+    case videoConcat(parameters: [String: Any])
+    case videoClip(parameters: [String: Any])
+    case videoMeta(parameters: [String: Any])
+    case videoAudioMeta(parameters: [String: Any])
 }
 
 extension FileAPI: TargetType {
@@ -52,12 +57,22 @@ extension FileAPI: TargetType {
             return ""
         case .findCategories:
             return Config.File.fileCategoryList
+        case .genVideoSnapshot:
+            return Config.File.videoSnapshot
+        case .videoConcat:
+            return Config.File.m3u8Concat
+        case .videoClip:
+            return Config.File.m3u8Clip
+        case .videoMeta:
+            return Config.File.m3u8Meta
+        case .videoAudioMeta:
+            return Config.File.videoAudioMeta
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .upload, .UPUpload:
+        case .upload, .UPUpload, .genVideoSnapshot, .videoConcat, .videoClip, .videoMeta, .videoAudioMeta:
             return .post
         case .getFile, .findFiles, .getCategory, .findCategories, .findFilesInCategory:
             return .get
@@ -90,6 +105,8 @@ extension FileAPI: TargetType {
             return .uploadMultipart(formDatas)
         case .getCategory:
             return .requestPlain
+        case .videoConcat(let parameters), .videoClip(let parameters), .videoMeta(let parameters), .videoAudioMeta(let parameters), .genVideoSnapshot(let parameters):
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         }
     }
 

@@ -47,3 +47,61 @@ open class Query: NSObject {
         queryArgs = [:]
     }
 }
+
+@objc(BaaSOrderQuery)
+open class OrderQuery: Query {
+
+    // 订单状态: 成功 success，待支付 pending
+    @objc public func status(_ value: OrderStatus) {
+        var statusArg: String
+        switch value {
+        case .pending:
+            statusArg = "pending"
+        default:
+            statusArg = "success"
+        }
+        queryArgs["status"] = statusArg
+    }
+
+    // 退款状态: 完成 complete，部分退款 partial
+    @objc public func refundStatus(_ value: RefundStatus) {
+        var statusArg: String
+        switch value {
+        case .partial:
+            statusArg = "partial"
+        default:
+            statusArg = "complete"
+        }
+        queryArgs["refund_status"] = statusArg
+    }
+
+    @objc public func gateWayType(_ value: GateWayType) {
+        var type: String
+        switch value {
+        case .weixin:
+            type = "weixin_tenpay_app"
+        case .alipay:
+            type = "alipay_app"
+        }
+        queryArgs["gateway_type"] = type
+    }
+
+    //
+    @objc public func tradeNo(_ value: String) {
+        queryArgs["trade_no"] = value
+    }
+
+    @objc public func transactionNo(_ value: String) {
+        queryArgs["transaction_no"] = value
+    }
+
+    // 记录 ID
+    @objc public func merchandiseRecordId(_ value: String) {
+        queryArgs["merchandise_record_id"] = value
+    }
+
+    // 表 ID
+    @objc public func merchandiseSchemaId(_ value: String) {
+        queryArgs["merchandise_schema_id"] = value
+    }
+}

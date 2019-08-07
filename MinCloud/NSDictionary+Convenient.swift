@@ -122,6 +122,14 @@ extension Dictionary where Key == String {
                     result = Swift.min(maxValue, result)
                 }
                 return result
+            } else if let resultStr = self[key] as? String, var result = Double(resultStr) {
+                if let minValue = minValue {
+                    result = Swift.max(minValue, result)
+                }
+                if let maxValue = maxValue {
+                    result = Swift.min(maxValue, result)
+                }
+                return result
             }
         }
         return defaultValue
@@ -130,6 +138,14 @@ extension Dictionary where Key == String {
     func getInt(_ keys: String..., defaultValue: Int = 0, minValue: Int? = nil, maxValue: Int? = nil) -> Int {
         for key in keys {
             if var result = self[key] as? Int {
+                if let minValue = minValue {
+                    result = Swift.max(minValue, result)
+                }
+                if let maxValue = maxValue {
+                    result = Swift.min(maxValue, result)
+                }
+                return result
+            } else if let resultStr = self[key] as? String, var result = Int(resultStr) {
                 if let minValue = minValue {
                     result = Swift.max(minValue, result)
                 }
@@ -152,6 +168,14 @@ extension Dictionary where Key == String {
                     result = Swift.min(maxValue, result)
                 }
                 return result
+            } else if let resultStr = self[key] as? String, var result = Int64(resultStr) {
+                if let minValue = minValue {
+                    result = Swift.max(minValue, result)
+                }
+                if let maxValue = maxValue {
+                    result = Swift.min(maxValue, result)
+                }
+                return result
             }
         }
         return defaultValue
@@ -161,6 +185,10 @@ extension Dictionary where Key == String {
         for key in keys {
             if let result = self[key] as? String {
                 return result
+            } else if let result = self[key] as? Int {
+                return String(result)
+            } else if let result = self[key] as? Int64 {
+                return String(result)
             }
         }
         return defaultValue
@@ -169,6 +197,9 @@ extension Dictionary where Key == String {
     func getDict(_ keys: String..., defaultValue: NSDictionary? = nil) -> NSDictionary? {
         for key in keys {
             if let result = self[key] as? NSDictionary {
+                return result
+            } else if let resultStr = self[key] as? String {
+                let result = convertStringToDictionary(text: resultStr)
                 return result
             }
         }
@@ -223,5 +254,16 @@ extension Dictionary where Key == String {
             }
         }
         return "{}"
+    }
+
+    func convertStringToDictionary(text: String) -> NSDictionary? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? NSDictionary
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
     }
 }

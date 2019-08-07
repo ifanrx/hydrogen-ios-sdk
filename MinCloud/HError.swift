@@ -29,11 +29,21 @@ struct HError: CustomNSError {
         case incorrectParameterType = 605
         case paymentCancelled       = 607
         case paymentFailed          = 608
+        case paying                 = 609
+        case orderInfoError         = 610
     }
 
     init(code: Int, description: String? = nil) {
         self.code = code
         self.kind = HError.ErrorKind(rawValue: code)
+        if let description = description, description != "" {
+            self.description = description
+        }
+    }
+
+    init(kind: ErrorKind, description: String? = nil) {
+        self.code = kind.rawValue
+        self.kind = kind
         if let description = description, description != "" {
             self.description = description
         }
@@ -70,6 +80,10 @@ struct HError: CustomNSError {
             return 607
         case .paymentFailed?:
             return 608
+        case .paying?:
+            return 609
+        case .orderInfoError?:
+            return 610
         default:
             return self.code
         }
@@ -106,6 +120,10 @@ struct HError: CustomNSError {
             description = self.description ?? "payment cancelled"
         case .paymentFailed?:
             description = self.description ?? "payment failed"
+        case .paying?:
+            description = self.description ?? "paying now, please wait"
+        case .orderInfoError?:
+            description = self.description ?? "order info error"
         default:
             break
         }

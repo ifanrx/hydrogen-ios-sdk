@@ -10,18 +10,22 @@ import Foundation
 import Moya
 
 @objc public class RequestCanceller: NSObject {
-    var cancellable: Cancellable
+    var cancellable: Cancellable?
 
-    public init(cancellable: Cancellable) {
+    public init(cancellable: Cancellable?) {
         self.cancellable = cancellable
         super.init()
     }
 
+    public convenience override init() {
+        self.init(cancellable: nil)
+    }
+
     @objc public func cancel() {
-        cancellable.cancel()
+        cancellable?.cancel()
     }
 
     @objc public var isCancelled: Bool {
-        return cancellable.isCancelled
+        return cancellable?.isCancelled ?? false
     }
 }

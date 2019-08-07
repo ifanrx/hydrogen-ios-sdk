@@ -19,6 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [BaaS registerWithClientID:@"196ba98487ebc358955d"];
+//    [BaaS registerWithClientID:@"995140f59511a222c937"];
+//    [BaaS registerWithClientID:@"a4d2d62965ddb57fa4d6"];
     BaaS.isDebug = YES;
     return YES;
 }
@@ -48,6 +50,10 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return [BaaS handleOpenURLWithUrl:url];
 }
 
 

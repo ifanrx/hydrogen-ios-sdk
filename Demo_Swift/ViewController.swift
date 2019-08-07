@@ -13,6 +13,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     var tableView: UITableView!
     var data: NSArray!
+    var resultInfo: Order!
+    var record: Record!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,29 +70,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let table = Table(name: "Book")
-        let contentGroup = ContentGroup(Id: 1551697162031508)
+        let contentGroup = ContentGroup(Id: "1551697162031508")
 
         switch indexPath.section {
         case 0:
             switch indexPath.row {
             case 0:
                 // 用户名注册
-                Auth.register(username: "test0410", password: "1111") {_, _ in
-
+                Auth.register(username: "test0807", password: "1111") { _, _ in
                 }
             case 1:
                 // 邮箱注册
-                Auth.register(email: "test0410@yeah.net", password: "1111") {_, _ in
+                Auth.register(email: "test0807@yeah.net", password: "1111") {_, _ in
 
                 }
             case 2:
                 // 用户名登录
-                Auth.login(username: "test0410", password: "1111") {_, _ in
+                Auth.login(username: "test0807", password: "1111") {_, _ in
 
                 }
             case 3:
                 // 邮箱登录
-                Auth.login(email: "test0410@yeah.net", password: "1111") {_, _ in
+                Auth.login(email: "test0807@yeah.net", password: "1111") {_, _ in
 
                 }
             case 4:
@@ -115,43 +116,72 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 1:
                 // 更新用户名
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.updateUsername("080701", completion: { (_, _) in
 
+                        })
+                    }
                 }
 
             case 2:
                 // 更新密码
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.resetPassword(email: "1234567", completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 3:
                 // 更新邮箱
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.updateEmail("0807000@ifanr.com", completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 4:
                 // 更新自定义用户信息
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.updateUserInfo(["age": 23], completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 5:
                 // 请求邮箱验证
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.requestEmailVerification({ (_, _) in
 
+                        })
+                    }
                 }
             case 6:
                 // 通过邮箱设置密码
-                Auth.getCurrentUser {_, _ in
+                Auth.getCurrentUser {user, _ in
+                    if user != nil {
+                        user?.resetPassword(email: "", completion: { (_, _) in
 
+                        })
+                    }
                 }
             case 7:
                 // 批量查询用户列表，如 获取年龄小于 25 的用户
                 let whereArgs = Where.compare(key: "age", operator: .equalTo, value: 19)
                 let query = Query()
                 query.setWhere(whereArgs)
-                UserManager.find(query: query, completion: {_, _ in
+                User.find(query: query, completion: {_, _ in
 
                 })
+            case 8:
+                // 获取指定用户
+                User.get("36845069853014", select: ["nickname", "gender"]) {_, _ in
+
+                }
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
             }
@@ -161,24 +191,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 0:
                 // 获取指定数据详情
 
-                table.get("5cb54fea5c29454dbe6b1884", select: ["color", "created_by"], expand: ["created_by"]) {_, _ in
+                table.get("5cb43f3f66e4804bb158bc4f", select: ["color", "created_by"], expand: ["created_by"]) {_, _ in
 
                 }
             case 1:
+//                let whereArgs = Where.include(key: "polygon", point: GeoPoint(longitude: 5, latitude: 5))
+                // 单位为km
+//                let whereArgs = Where.withinCircle(key: "location", point: GeoPoint(longitude: 113.329632, latitude: 23.109101), radius: 0.5)
+                // 单位为m
+                let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 113.329632, latitude: 23.109101), minDistance: 0.5, maxDistance: 5)
+
+//                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[10, 5], [20, 5], [20, 10], [10, 10], [10, 5]]))
+                //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
+//                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
+                let query = Query()
+                query.setWhere(whereArgs)
                 table.find(completion: {_, _ in
 
                 })
 
             case 2:
                 // 更新数据
-                let record = table.getWithoutData(recordId: "5cb550395c29454d25fba03a")
+                record = table.getWithoutData(recordId: "5cdd33c9f795cd1406b2fec5")
                 record.set(key: "color", value: "brown")
                 record.set(record: ["author": "hua", "name": "good book"])
                 record.incrementBy(key: "price", value: 1)
                 record.append(key: "recommender", value: ["hong"])
 
                 record.update {_, _ in
-
                 }
             case 3:
                 // 指定需要删除的记录
@@ -197,7 +237,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 5:
                 // 新增数据，创建一个空的记录项
-                let record = table.createRecord()
+                record = table.createRecord()
 
                 // 逐个赋值
                 record.set(key: "description", value: "这是本好书")
@@ -210,12 +250,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 //                record.set(key: "publish_date", value: dateISO)
 
                 // geoPoint 类型
-                let point = GeoPoint(latitude: 10, longitude: 2)
-                record.set(key: "location", value: point.geoJson)
+                let point = GeoPoint(longitude: 2, latitude: 10)
+                record.set(key: "location", value: point)
 
                 // polygon
-                let polygon = GeoPolygon(coordinates: [[30, 10], [40, 40], [20, 40], [10, 20], [30, 10]])
-                record.set(key: "polygon", value: polygon.geoJson)
+                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
+                record.set(key: "polygon", value: polygon)
 
                 // object
                 let pulish_info = ["name": "新华出版社"]
@@ -229,27 +269,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 record.set(key: "author", value: author)
 
                 record.save {_, _ in
-
                 }
 
             case 6:
                 // 批量增加数据项
                 let options = ["enable_trigger": true]
-                table.createMany([["name": "麦田里的守望者", "price": 19], ["name": "三体", "price": 19]], options: options) {_, _ in
+                table.createMany([["name": "麦田里的守望者", "price": 30], ["name": "三体", "price": 39]], options: options) {_, _ in
 
                 }
             case 7:
-                //                // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
-                //                let query = Where.compare(key: "price", operator: .lessThan, value: 15)
-                //                let query = Query()
-                //                query.setWhere(whereArgs)
-                //                table.setWhere(query)
-                //                let record = table.createRecord()
-                //                record.incrementBy(key: "price", value: 1)
-                //                table.update(record) { (result, error) in
-                //
-                //                }
-                break
+                // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
+                let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 15)
+                let query = Query()
+                query.setWhere(whereArgs)
+                let options = ["enable_trigger": true]
+                let record = table.createRecord()
+                //record.incrementBy(key: "price", value: 1)
+                record.set(key: "price", value: 35)
+                table.update(record: record, query: query, options: options) { (_, _) in
+
+                }
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
             }
@@ -257,7 +296,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 获取内容详情
-                contentGroup.get(1551697403189289, select: ["title"]) {_, _ in
+                contentGroup.get("1551697403189289") {_, _ in
 
                 }
             case 1:
@@ -268,12 +307,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 2:
                 // 在分类中，查询内容列表
-                contentGroup.find(categoryId: 1551697507400928) { (_, _) in
+                contentGroup.find(categoryId: "1551697507400928") { (_, _) in
 
                 }
             case 3:
                 // 获取分类详情
-                contentGroup.getCategory(1551697507400928) {_, _ in
+                contentGroup.getCategory("1551697507400928") {_, _ in
 
                 }
             case 4:
@@ -307,12 +346,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 3:
                 // 删除文件
-//                let file = File()
-//                // file.Id = "5cab1a941feb8f06a883800c"
-//                file.delete({_, _ in
-//
-//                })
-                break
+                let file = File()
+                // file.Id = "5cab1a941feb8f06a883800c"
+                file.delete({_, _ in
+
+                })
             case 4:
                 // 删除多个文件
                 FileManager.delete(["5cab1a981feb8f06a8838011", "5cab1a961feb8f074a68a01a"]) {_, _ in
@@ -332,7 +370,50 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 7:
                 // 获取文件列表
-                MinCloud.FileManager.find(categoryId: "") { (_, _) in
+                FileManager.find(categoryId: "5ca489bb8c374f5039a8062b") { (_, _) in
+
+                }
+            case 8:
+                let params: [String: Any] = ["source": "xxxxxxxxxx",
+                              "save_as": "hello.png",
+                              "point": "00:00:10",
+                              "category_id": "5c18bc794e1e8d20dbfcddcc",
+                              "random_file_link": false]
+                FileManager.genVideoSnapshot(params) {_, _ in
+
+                }
+            case 9:
+                let params: [String: Any] = ["m3u8s": ["xxxxxxxxxx", "xxxxxxxxxx"],
+                                             "save_as": "hello.m3u8",
+                                             "category_id": "5c18bc794e1e8d20dbfcddcc",
+                                             "random_file_link": false]
+                FileManager.videoConcat(params) {_, _ in
+
+                }
+            case 10:
+                let params: [String: Any] = ["m3u8s": ["xxxxxxxxxx", "xxxxxxxxxx"],
+                                             "save_as": "hello.m3u8",
+                                             "category_id": "5c18bc794e1e8d20dbfcddcc",
+                                             "random_file_link": false]
+                FileManager.videoConcat(params) {_, _ in
+
+                }
+            case 11:
+                let params: [String: Any] = ["m3u8": "xxxxxxxxxx",
+                                             "include": [0, 20],
+                                             "save_as": "0s_20s.m3u8",
+                                             "category_id": "5c18bc794e1e8d20dbfcddcc",
+                                             "random_file_link": false]
+
+                FileManager.videoClip(params) {_, _ in
+
+                }
+            case 12:
+                FileManager.videoMeta("xxxx") {_, _ in
+
+                }
+            case 13:
+                FileManager.videoAudioMeta("xxxx") {_, _ in
 
                 }
             default:
@@ -345,6 +426,93 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 BaaS.invoke(name: "helloWorld", data: ["name": "MinCloud"], sync: true) {_, _ in
 
                 }
+            case 1:
+                // 发送验证码
+                BaaS.sendSmsCode(phone: "15088057274") {_, _ in
+
+                }
+            case 2:
+                // 验证手机验证码
+                BaaS.verifySmsCode(phone: "15088057274", code: "") {_, _ in
+
+                }
+            default:
+                break
+            }
+        case 6:
+
+            switch indexPath.row {
+            case 0:
+                Pay.shared.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", completion: { (result, error) in
+                    self.resultInfo = result
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                })
+            case 1:
+                Pay.shared.aliPay(totalCost: 0.02, merchandiseDescription: "支付宝", completion: { (result, error) in
+                    self.resultInfo = result
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "支付失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                })
+            case 2:
+                if self.resultInfo == nil {
+                    self.showMessage(message: "请创建订单")
+                } else {
+                    Pay.shared.order(self.resultInfo.transactionNo!) { (result, error) in
+                        if error != nil {
+                            self.showMessage(message: error?.localizedDescription ?? "获取订单失败")
+                        } else {
+                            self.showMessage(message: result?.description ?? "")
+                        }
+                    }
+                }
+
+            case 3:
+                if self.resultInfo == nil {
+                    self.showMessage(message: "请创建订单")
+                } else {
+                    Pay.shared.repay(self.resultInfo) { (result, error) in
+                        if error != nil {
+                            self.showMessage(message: error?.localizedDescription ?? "支付失败")
+                        } else {
+                            self.showMessage(message: result?.description ?? "")
+                        }
+                    }
+                }
+            case 4:
+                Pay.shared.orderList { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+            case 5:
+                let query = OrderQuery()
+                query.status(.pending)
+                Pay.shared.orderList(query: query) { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+            case 6:
+                let query = OrderQuery()
+                query.status(.success)
+                Pay.shared.orderList(query: query) { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
             default:
                 break
             }
@@ -354,10 +522,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
-//    func showMessage(message: String) {
-//        let alertController = UIAlertController(title: "提示", message: message, preferredStyle: .alert)
-//        let okAction = UIAlertAction(title: "好的", style: .default, handler: nil)
-//        alertController.addAction(okAction)
-//        self.present(alertController, animated: true, completion: nil)
-//    }
+    func showMessage(message: String) {
+        let alertController = UIAlertController(title: "提示", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "好的", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 }

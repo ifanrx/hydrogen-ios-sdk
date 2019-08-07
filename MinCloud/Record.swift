@@ -15,19 +15,35 @@ public class Record: BaseRecord {
 
     @objc public internal(set) var acl: String?
 
-    @objc public let table: Table
+    @objc public var table: Table?
 
     /// 记录所有的信息
     @objc public internal(set) var recordInfo: [String: Any] = [:]
 
-    @objc public init(table: Table, Id: String?) {
+    @objc init(table: Table, Id: String?) {
         self.table = table
         super.init()
         self.Id = Id
     }
 
-    @objc public convenience init(table: Table) {
+    @objc convenience init(table: Table) {
         self.init(table: table, Id: nil)
+    }
+
+    required init?(dict: [String: Any]) {
+        self.acl = dict.getString("acl")
+        self.recordInfo = dict
+        super.init(dict: dict)
+    }
+
+    convenience public init?(table: Table, dict: [String: Any]) {
+        self.init(dict: dict)
+        self.table = table
+    }
+
+    override open var description: String {
+        let dict = self.recordInfo
+        return dict.toJsonString
     }
 
     @objc public func get(key: String) -> Any? {
@@ -43,26 +59,25 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        let request = TableRecordProvider.request(.save(tableId: table.identify, parameters: record)) { result in
+        let request = TableRecordProvider.request(.save(tableId: table!.identify, parameters: recordParameter)) { result in
             self.clear() // 清除条件
-            let (recordInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                if let recordInfo = recordInfo {
-                    self.Id = recordInfo.getString("id")
-                    self.acl = recordInfo.getString("acl")
-                    if let createdBy = recordInfo.getDict("created_by") as? [String: Any] {
-                        self.createdBy = createdBy
-                    } else {
-                        self.createdById = recordInfo.getInt64("created_by")
+
+            ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    if let record = record {
+                        self.Id = record.Id
+                        self.acl = record.acl
+                        self.createdBy = record.createdBy
+                        self.createdById = record.createdById
+                        self.createdAt = record.createdAt
+                        self.updatedAt = record.updatedAt
+                        self.recordInfo.merge(record.recordInfo)
                     }
-                    self.createdAt = recordInfo.getDouble("created_at")
-                    self.updatedAt = recordInfo.getDouble("updated_at")
-                    self.recordInfo.merge(recordInfo)
+                    completion(true, nil)
                 }
-                completion(true, nil)
-            }
+            })
         }
 
         return RequestCanceller(cancellable: request)
@@ -82,19 +97,20 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.update(tableId: table.identify, recordId: Id!, parameters: record)) { result in
+        let request = TableRecordProvider.request(.update(tableId: table!.identify, recordId: Id!, parameters: recordParameter)) { result in
             self.clear() // 清除条件
-            let (recordInfo, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                if let recordInfo = recordInfo {
-                    self.Id = recordInfo.getString("id")
-                    self.updatedAt = recordInfo.getDouble("updated_at")
-                    self.recordInfo.merge(recordInfo)
+            ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    if let record = record {
+                        self.Id = record.Id
+                        self.updatedAt = record.updatedAt
+                        self.recordInfo.merge(record.recordInfo)
+                    }
+                    completion(true, nil)
                 }
-                completion(true, nil)
-            }
+            })
         }
         return RequestCanceller(cancellable: request)
     }
@@ -113,15 +129,16 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = TableRecordProvider.request(.delete(tableId: table.identify, recordId: Id!)) { result in
-            let (_, error) = ResultHandler.handleResult(result)
-            if error != nil {
-                completion(false, error)
-            } else {
-                self.Id = nil
-                self.recordInfo = [:]
-                completion(true, nil)
-            }
+        let request = TableRecordProvider.request(.delete(tableId: table!.identify, recordId: Id!)) { result in
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    self.Id = nil
+                    self.recordInfo = [:]
+                    completion(true, nil)
+                }
+            })
         }
         return RequestCanceller(cancellable: request)
     }
