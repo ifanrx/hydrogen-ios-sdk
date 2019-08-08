@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '0.2.5'
+  s.version          = '0.2.3'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
@@ -18,4 +18,9 @@ Pod::Spec.new do |s|
   s.dependency 'Moya'
   s.dependency 'WechatOpenSDK'
   s.dependency 'AlipaySDK-iOS'
+  s.static_framework = true
+  #s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/MinCloud/MinCloud" }
+  #s.preserve_path = "MinCloud/module.modulemap"
+  #s.xcconfig = { "SWIFT_INCLUDE_PATHS" => "$(PODS_ROOT)/MinCloud"}
+  #s.module_map = "MinCloud/module.modulemap"
 end
