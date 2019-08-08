@@ -27,3 +27,6 @@ fastlane/test_output
 # cocoapods
 Pods/
 Podfile.lock
+
+# gem
+Gemfile.lock

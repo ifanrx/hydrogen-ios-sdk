@@ -24,7 +24,6 @@
 		4C33A5FB224130950001C1A7 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FA224130950001C1A7 /* Table.swift */; };
 		4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FC2241338C0001C1A7 /* Record.swift */; };
 		4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D31682266FCF1001EFA7D /* datasource.plist */; };
-		4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D316A22670AF1001EFA7D /* video.mp4 */; };
 		4C831211224477E700B4B33E /* TableAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C831210224477E700B4B33E /* TableAPI.swift */; };
 		4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312122244F16000B4B33E /* GeoPoint.swift */; };
 		4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312142245D2C500B4B33E /* TableRecordAPI.swift */; };
@@ -132,7 +131,6 @@
 		4C33A5FA224130950001C1A7 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		4C33A5FC2241338C0001C1A7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		4C4D31682266FCF1001EFA7D /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
-		4C4D316A22670AF1001EFA7D /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		4C831210224477E700B4B33E /* TableAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAPI.swift; sourceTree = "<group>"; };
 		4C8312122244F16000B4B33E /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4C8312142245D2C500B4B33E /* TableRecordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRecordAPI.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 		4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+Convenient.swift"; sourceTree = "<group>"; };
 		4CEC28E5228A6F7700E9F606 /* PayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAPI.swift; sourceTree = "<group>"; };
 		4CEC28E8228A728C00E9F606 /* Pay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pay.swift; sourceTree = "<group>"; };
-		4CEC28EA228AA60300E9F606 /* MinCloud-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MinCloud-Bridging-Header.h"; sourceTree = "<group>"; };
 		4CED591522967CEF00949503 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
@@ -295,7 +292,6 @@
 				4CE2BCF52242282B0008211C /* Utils */,
 				4C33A582223F4E850001C1A7 /* Info.plist */,
 				4C86C6F7225B3DA50040C042 /* MinCloud.h */,
-				4CEC28EA228AA60300E9F606 /* MinCloud-Bridging-Header.h */,
 			);
 			path = MinCloud;
 			sourceTree = "<group>";
@@ -469,7 +465,6 @@
 				4CCB87612266CF9D00D65A65 /* Assets.xcassets */,
 				4CCB87632266CF9D00D65A65 /* LaunchScreen.storyboard */,
 				4CCB87662266CF9D00D65A65 /* Info.plist */,
-				4C4D316A22670AF1001EFA7D /* video.mp4 */,
 			);
 			path = Demo_Swift;
 			sourceTree = "<group>";
@@ -682,7 +677,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CCB87652266CF9D00D65A65 /* LaunchScreen.storyboard in Resources */,
-				4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */,
 				4CCB87882266D52100D65A65 /* datasource.plist in Resources */,
 				4CCB87622266CF9D00D65A65 /* Assets.xcassets in Resources */,
 				4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */,
@@ -1084,7 +1078,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 19;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1149,7 +1143,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 19;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1178,13 +1172,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B32BE11E5B58A524B35322F2 /* Pods-MinCloud.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 19;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1194,11 +1189,14 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MODULEMAP_FILE = "";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
+				PRODUCT_MODULE_NAME = MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MinCloud/MinCloud-Bridging-Header.h";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/MinCloud/";
+				SWIFT_OBJC_BRIDGING_HEADER = MinCloud/MinCloud.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1209,13 +1207,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F8370F74399CA6938D5BD3D2 /* Pods-MinCloud.release.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 19;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1225,11 +1224,14 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MODULEMAP_FILE = "";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
+				PRODUCT_MODULE_NAME = MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MinCloud/MinCloud-Bridging-Header.h";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/MinCloud/";
+				SWIFT_OBJC_BRIDGING_HEADER = MinCloud/MinCloud.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

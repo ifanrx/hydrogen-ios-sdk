@@ -16,3 +16,6 @@ FOUNDATION_EXPORT const unsigned char BaaSSDKVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <BaaSSDK/PublicHeader.h>
 
+#import "WXApi.h"
+#import "WechatAuthSDK.h"
+#import <AlipaySDK/AlipaySDK.h>

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '1.0.0'
+  s.version          = '0.2.3'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
@@ -14,8 +14,13 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :tag => s.version }
  
   s.ios.deployment_target = '9.0'
-  s.source_files = 'MinCloud/*.swift'
+  s.source_files = 'MinCloud/*.{h,m,swift}'
   s.dependency 'Moya'
   s.dependency 'WechatOpenSDK'
   s.dependency 'AlipaySDK-iOS'
+  s.static_framework = true
+  #s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/MinCloud/MinCloud" }
+  #s.preserve_path = "MinCloud/module.modulemap"
+  #s.xcconfig = { "SWIFT_INCLUDE_PATHS" => "$(PODS_ROOT)/MinCloud"}
+  #s.module_map = "MinCloud/module.modulemap"
 end
