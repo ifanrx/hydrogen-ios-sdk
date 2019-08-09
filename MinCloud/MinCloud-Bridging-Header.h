@@ -14,4 +14,4 @@
 
 #import "WXApi.h"
 #import "WechatAuthSDK.h"
-#import <AlipaySDK/AlipaySDK.h>
+#import "AlipaySDK/AlipaySDK.h"
