@@ -16,4 +16,24 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.source_files = 'MinCloud/*.swift'
   s.dependency 'Moya', '<= 12.0.1'
+
+  s.subspec 'WeChat' do |wechat|
+    wechat.source_files = 'MinCloud/PayLibrary/WX/*.{h,m}'
+    wechat.vendored_libraries = 'MinCloud/PayLibrary/WX/*.a'
+    wechat.frameworks = "SystemConfiguration", "Security", "CoreTelephony", "CFNetwork"，"CoreGraphics"
+    wechat.libraries = "z", "sqlite3.0", "c++"
+    #wechat.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -all_load' }
+    #wechat.xcconfig = { 'HEADER_SEARCH_PATHS' => '"$(SRCROOT)/MinCloud/PayLibrary/WX"' }
+  end
+
+  s.subspec 'AliPay' do |alipay|
+    alipay.source_files = 'MinCloud/PayLibrary/AliPay/*.{h,m}'
+    alipay.vendored_frameworks = 'MinCloud/PayLibrary/AliPay/*.framework'
+    alipay.frameworks = "SystemConfiguration", "CoreTelephony", "QuartzCore", "CoreText", "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion"
+    alipay.libraries = "z", "c++"
+    alipay.resource = 'MinCloud/PayLibrary/AliPay/*.bundle'
+  end
+
+  
+
 end

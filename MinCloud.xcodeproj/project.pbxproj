@@ -67,6 +67,25 @@
 		4CEFC08A225EB67400C9238C /* testcase.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CEFC089225EB67400C9238C /* testcase.plist */; };
 		4CEFC090225EB94800C9238C /* CurrentUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC08F225EB94800C9238C /* CurrentUserTests.swift */; };
 		4CEFC092225ED80600C9238C /* TableTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC091225ED80600C9238C /* TableTestCase.swift */; };
+		4CF1252022FD5A4500893604 /* WXApiObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CF1251D22FD5A4400893604 /* WXApiObject.h */; };
+		4CF1252122FD5A4500893604 /* WechatAuthSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */; };
+		4CF1252222FD5A4500893604 /* WXApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CF1251F22FD5A4400893604 /* WXApi.h */; };
+		4CF1252422FD5A4C00893604 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252322FD5A4C00893604 /* libWeChatSDK.a */; };
+		4CF1252622FD5AA200893604 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252522FD5AA200893604 /* SystemConfiguration.framework */; };
+		4CF1252822FD5ABA00893604 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252722FD5ABA00893604 /* libz.tbd */; };
+		4CF1252A22FD5ACE00893604 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252922FD5ACE00893604 /* libsqlite3.0.tbd */; };
+		4CF1252C22FD5ADE00893604 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252B22FD5ADE00893604 /* libc++.tbd */; };
+		4CF1252E22FD5AE900893604 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252D22FD5AE900893604 /* Security.framework */; };
+		4CF1253022FD5AF800893604 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252F22FD5AF800893604 /* CoreTelephony.framework */; };
+		4CF1253222FD5B0000893604 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253122FD5B0000893604 /* CFNetwork.framework */; };
+		4CF1253422FD5B0B00893604 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253322FD5B0B00893604 /* CoreGraphics.framework */; };
+		4CF1253822FD5CA300893604 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1253622FD5CA300893604 /* AlipaySDK.bundle */; };
+		4CF1253922FD5CA300893604 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253722FD5CA300893604 /* AlipaySDK.framework */; };
+		4CF1253B22FD5CF200893604 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253A22FD5CF200893604 /* QuartzCore.framework */; };
+		4CF1253D22FD5CFC00893604 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253C22FD5CFC00893604 /* CoreText.framework */; };
+		4CF1253F22FD5D1300893604 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253E22FD5D1300893604 /* UIKit.framework */; };
+		4CF1254122FD5D2000893604 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1254022FD5D2000893604 /* CoreMotion.framework */; };
+		4CF1254322FD5D3000893604 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1254222FD5D3000893604 /* Foundation.framework */; };
 		4CF1BACC224B81720000CF54 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1BACB224B81720000CF54 /* Content.swift */; };
 		4CF88424227000910071B2EA /* BaaSTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF88423227000910071B2EA /* BaaSTestCase.swift */; };
 		84EDE73CA89609A94E857203 /* Pods_MinCloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */; };
@@ -180,6 +199,25 @@
 		4CEFC089225EB67400C9238C /* testcase.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = testcase.plist; sourceTree = "<group>"; };
 		4CEFC08F225EB94800C9238C /* CurrentUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserTests.swift; sourceTree = "<group>"; };
 		4CEFC091225ED80600C9238C /* TableTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTestCase.swift; sourceTree = "<group>"; };
+		4CF1251D22FD5A4400893604 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		4CF1251F22FD5A4400893604 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		4CF1252322FD5A4C00893604 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		4CF1252522FD5AA200893604 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		4CF1252722FD5ABA00893604 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		4CF1252922FD5ACE00893604 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		4CF1252B22FD5ADE00893604 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		4CF1252D22FD5AE900893604 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		4CF1252F22FD5AF800893604 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		4CF1253122FD5B0000893604 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		4CF1253322FD5B0B00893604 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		4CF1253622FD5CA300893604 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		4CF1253722FD5CA300893604 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		4CF1253A22FD5CF200893604 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4CF1253C22FD5CFC00893604 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		4CF1253E22FD5D1300893604 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		4CF1254022FD5D2000893604 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		4CF1254222FD5D3000893604 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4CF1BACB224B81720000CF54 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		4CF88423227000910071B2EA /* BaaSTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaaSTestCase.swift; sourceTree = "<group>"; };
 		653ADE49C87E389508F82094 /* Pods_MinCloud_MinCloudTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud_MinCloudTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,6 +238,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CF1254322FD5D3000893604 /* Foundation.framework in Frameworks */,
+				4CF1254122FD5D2000893604 /* CoreMotion.framework in Frameworks */,
+				4CF1253F22FD5D1300893604 /* UIKit.framework in Frameworks */,
+				4CF1253422FD5B0B00893604 /* CoreGraphics.framework in Frameworks */,
+				4CF1253D22FD5CFC00893604 /* CoreText.framework in Frameworks */,
+				4CF1253B22FD5CF200893604 /* QuartzCore.framework in Frameworks */,
+				4CF1253222FD5B0000893604 /* CFNetwork.framework in Frameworks */,
+				4CF1253022FD5AF800893604 /* CoreTelephony.framework in Frameworks */,
+				4CF1252E22FD5AE900893604 /* Security.framework in Frameworks */,
+				4CF1252C22FD5ADE00893604 /* libc++.tbd in Frameworks */,
+				4CF1252A22FD5ACE00893604 /* libsqlite3.0.tbd in Frameworks */,
+				4CF1253922FD5CA300893604 /* AlipaySDK.framework in Frameworks */,
+				4CF1252822FD5ABA00893604 /* libz.tbd in Frameworks */,
+				4CF1252622FD5AA200893604 /* SystemConfiguration.framework in Frameworks */,
+				4CF1252422FD5A4C00893604 /* libWeChatSDK.a in Frameworks */,
 				A6DF9F9EEC34554F7FB94E8F /* Pods_MinCloud.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +290,19 @@
 		21F9A129035E1F29D254CB78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1254222FD5D3000893604 /* Foundation.framework */,
+				4CF1254022FD5D2000893604 /* CoreMotion.framework */,
+				4CF1253E22FD5D1300893604 /* UIKit.framework */,
+				4CF1253C22FD5CFC00893604 /* CoreText.framework */,
+				4CF1253A22FD5CF200893604 /* QuartzCore.framework */,
+				4CF1253322FD5B0B00893604 /* CoreGraphics.framework */,
+				4CF1253122FD5B0000893604 /* CFNetwork.framework */,
+				4CF1252F22FD5AF800893604 /* CoreTelephony.framework */,
+				4CF1252D22FD5AE900893604 /* Security.framework */,
+				4CF1252B22FD5ADE00893604 /* libc++.tbd */,
+				4CF1252922FD5ACE00893604 /* libsqlite3.0.tbd */,
+				4CF1252722FD5ABA00893604 /* libz.tbd */,
+				4CF1252522FD5AA200893604 /* SystemConfiguration.framework */,
 				25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */,
 				653ADE49C87E389508F82094 /* Pods_MinCloud_MinCloudTests.framework */,
 				CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */,
@@ -290,6 +356,7 @@
 		4C33A580223F4E850001C1A7 /* MinCloud */ = {
 			isa = PBXGroup;
 			children = (
+				4CF1254622FD64E100893604 /* PayLibrary */,
 				4C33A5A6223F6CBC0001C1A7 /* API */,
 				4C33A5A1223F6A6D0001C1A7 /* Networking */,
 				4CE2BCF52242282B0008211C /* Utils */,
@@ -516,6 +583,35 @@
 			name = Pay;
 			sourceTree = "<group>";
 		};
+		4CF1254422FD606000893604 /* AliPay */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1253622FD5CA300893604 /* AlipaySDK.bundle */,
+				4CF1253722FD5CA300893604 /* AlipaySDK.framework */,
+			);
+			path = AliPay;
+			sourceTree = "<group>";
+		};
+		4CF1254522FD607C00893604 /* WX */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */,
+				4CF1251F22FD5A4400893604 /* WXApi.h */,
+				4CF1251D22FD5A4400893604 /* WXApiObject.h */,
+				4CF1252322FD5A4C00893604 /* libWeChatSDK.a */,
+			);
+			path = WX;
+			sourceTree = "<group>";
+		};
+		4CF1254622FD64E100893604 /* PayLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1254522FD607C00893604 /* WX */,
+				4CF1254422FD606000893604 /* AliPay */,
+			);
+			path = PayLibrary;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -523,6 +619,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CF1252222FD5A4500893604 /* WXApi.h in Headers */,
+				4CF1252022FD5A4500893604 /* WXApiObject.h in Headers */,
+				4CF1252122FD5A4500893604 /* WechatAuthSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,7 +638,6 @@
 				4C33A57B223F4E850001C1A7 /* Frameworks */,
 				4C33A57C223F4E850001C1A7 /* Resources */,
 				4C33A5E922409BE60001C1A7 /* ShellScript */,
-				92F9A7334CC96365254E0DE4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -559,7 +657,6 @@
 				4C33A584223F4E850001C1A7 /* Frameworks */,
 				4C33A585223F4E850001C1A7 /* Resources */,
 				49372C2D4D9B3F7743350EEB /* [CP] Embed Pods Frameworks */,
-				1957A9F52CE121B522B6C9A3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -581,7 +678,6 @@
 				4CCB87562266CF9C00D65A65 /* Resources */,
 				C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */,
 				4CED59132293E4C500949503 /* CopyFiles */,
-				EFDF9F1E985FA4C853305C6C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -601,7 +697,6 @@
 				4CCB876B2266CFAB00D65A65 /* Frameworks */,
 				4CCB876C2266CFAB00D65A65 /* Resources */,
 				36464E0F946065741DE8B994 /* [CP] Embed Pods Frameworks */,
-				0CAE6D0BA2685C90C307387B /* [CP] Copy Pods Resources */,
 				4C15F12422A51CB100904B9A /* CopyFiles */,
 			);
 			buildRules = (
@@ -665,6 +760,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CF1253822FD5CA300893604 /* AlipaySDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -704,23 +800,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0CAE6D0BA2685C90C307387B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo_OC/Pods-Demo_OC-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		0EA3C2E285C56FB589B68788 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -741,23 +820,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1957A9F52CE121B522B6C9A3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		245A099406CF49D0976A123A /* [CP] Check Pods Manifest.lock */ = {
@@ -877,23 +939,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		92F9A7334CC96365254E0DE4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MinCloud/Pods-MinCloud-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MinCloud/Pods-MinCloud-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MinCloud/Pods-MinCloud-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -909,23 +954,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EFDF9F1E985FA4C853305C6C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1186,6 +1214,19 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MinCloud",
+					"$(SRCROOT)/MinCloud/PayLibrary/AliPay",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result/Result.framework/Headers\"",
+					"$(SRCROOT)/MinCloud/PayLibrary/AliPay",
+					"$(SRCROOT)/MinCloud/PayLibrary/WX",
+				);
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1193,6 +1234,24 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MinCloud",
+					"$(SRCROOT)/MinCloud/PayLibrary/WX",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"Result\"",
+					"-Objc",
+					"-all_load",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
@@ -1217,6 +1276,19 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MinCloud",
+					"$(SRCROOT)/MinCloud/PayLibrary/AliPay",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result/Result.framework/Headers\"",
+					"\"$(SRCROOT)/MinCloud/PayLibrary/AliPay\"",
+					"\"$(SRCROOT)/MinCloud/PayLibrary/WX\"",
+				);
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1224,6 +1296,24 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/MinCloud",
+					"$(SRCROOT)/MinCloud/PayLibrary/WX",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"Result\"",
+					"-Objc",
+					"-all_load",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
@@ -1250,7 +1340,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.MinCloudTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1270,7 +1360,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.ifanr.MinCloudTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1331,6 +1421,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-OC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1351,6 +1442,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-OC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
