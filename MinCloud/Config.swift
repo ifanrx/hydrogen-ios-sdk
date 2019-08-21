@@ -22,7 +22,7 @@ enum AuthType: String {
 struct Config {
     static let environment: NetworkEnvironment = .production
     static var clientID: String!
-    static let version: String = "0.0.1"
+    static let version: String = "0.2.0"
     static var baseURL: String {
         if environment == .qa {
             return "https://viac2-p.eng-vm.can.corp.ifanr.com"

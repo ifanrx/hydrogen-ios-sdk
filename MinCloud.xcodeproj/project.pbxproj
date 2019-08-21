@@ -24,7 +24,6 @@
 		4C33A5FB224130950001C1A7 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FA224130950001C1A7 /* Table.swift */; };
 		4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FC2241338C0001C1A7 /* Record.swift */; };
 		4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D31682266FCF1001EFA7D /* datasource.plist */; };
-		4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D316A22670AF1001EFA7D /* video.mp4 */; };
 		4C831211224477E700B4B33E /* TableAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C831210224477E700B4B33E /* TableAPI.swift */; };
 		4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312122244F16000B4B33E /* GeoPoint.swift */; };
 		4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312142245D2C500B4B33E /* TableRecordAPI.swift */; };
@@ -86,6 +85,7 @@
 		4CF1253F22FD5D1300893604 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253E22FD5D1300893604 /* UIKit.framework */; };
 		4CF1254122FD5D2000893604 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1254022FD5D2000893604 /* CoreMotion.framework */; };
 		4CF1254322FD5D3000893604 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1254222FD5D3000893604 /* Foundation.framework */; };
+		4CF1254722FD8A5D00893604 /* MinCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C86C6F7225B3DA50040C042 /* MinCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4CF1BACC224B81720000CF54 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF1BACB224B81720000CF54 /* Content.swift */; };
 		4CF88424227000910071B2EA /* BaaSTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF88423227000910071B2EA /* BaaSTestCase.swift */; };
 		84EDE73CA89609A94E857203 /* Pods_MinCloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */; };
@@ -151,7 +151,7 @@
 		4C33A5FA224130950001C1A7 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		4C33A5FC2241338C0001C1A7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		4C4D31682266FCF1001EFA7D /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
-		4C4D316A22670AF1001EFA7D /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
+		4C722C79230A440000F79016 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		4C831210224477E700B4B33E /* TableAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAPI.swift; sourceTree = "<group>"; };
 		4C8312122244F16000B4B33E /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4C8312142245D2C500B4B33E /* TableRecordAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRecordAPI.swift; sourceTree = "<group>"; };
@@ -189,7 +189,6 @@
 		4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+Convenient.swift"; sourceTree = "<group>"; };
 		4CEC28E5228A6F7700E9F606 /* PayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAPI.swift; sourceTree = "<group>"; };
 		4CEC28E8228A728C00E9F606 /* Pay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pay.swift; sourceTree = "<group>"; };
-		4CEC28EA228AA60300E9F606 /* MinCloud-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MinCloud-Bridging-Header.h"; sourceTree = "<group>"; };
 		4CED591522967CEF00949503 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
@@ -356,13 +355,12 @@
 		4C33A580223F4E850001C1A7 /* MinCloud */ = {
 			isa = PBXGroup;
 			children = (
-				4CF1254622FD64E100893604 /* PayLibrary */,
+				4C722C83230A7E3000F79016 /* Library */,
 				4C33A5A6223F6CBC0001C1A7 /* API */,
 				4C33A5A1223F6A6D0001C1A7 /* Networking */,
 				4CE2BCF52242282B0008211C /* Utils */,
 				4C33A582223F4E850001C1A7 /* Info.plist */,
 				4C86C6F7225B3DA50040C042 /* MinCloud.h */,
-				4CEC28EA228AA60300E9F606 /* MinCloud-Bridging-Header.h */,
 			);
 			path = MinCloud;
 			sourceTree = "<group>";
@@ -492,6 +490,20 @@
 			name = GeoPoint;
 			sourceTree = "<group>";
 		};
+		4C722C83230A7E3000F79016 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				4C722C79230A440000F79016 /* module.modulemap */,
+				4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */,
+				4CF1251F22FD5A4400893604 /* WXApi.h */,
+				4CF1251D22FD5A4400893604 /* WXApiObject.h */,
+				4CF1252322FD5A4C00893604 /* libWeChatSDK.a */,
+				4CF1253722FD5CA300893604 /* AlipaySDK.framework */,
+				4CF1253622FD5CA300893604 /* AlipaySDK.bundle */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
 		4C83120F224475B800B4B33E /* Table */ = {
 			isa = PBXGroup;
 			children = (
@@ -536,7 +548,6 @@
 				4CCB87612266CF9D00D65A65 /* Assets.xcassets */,
 				4CCB87632266CF9D00D65A65 /* LaunchScreen.storyboard */,
 				4CCB87662266CF9D00D65A65 /* Info.plist */,
-				4C4D316A22670AF1001EFA7D /* video.mp4 */,
 			);
 			path = Demo_Swift;
 			sourceTree = "<group>";
@@ -583,35 +594,6 @@
 			name = Pay;
 			sourceTree = "<group>";
 		};
-		4CF1254422FD606000893604 /* AliPay */ = {
-			isa = PBXGroup;
-			children = (
-				4CF1253622FD5CA300893604 /* AlipaySDK.bundle */,
-				4CF1253722FD5CA300893604 /* AlipaySDK.framework */,
-			);
-			path = AliPay;
-			sourceTree = "<group>";
-		};
-		4CF1254522FD607C00893604 /* WX */ = {
-			isa = PBXGroup;
-			children = (
-				4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */,
-				4CF1251F22FD5A4400893604 /* WXApi.h */,
-				4CF1251D22FD5A4400893604 /* WXApiObject.h */,
-				4CF1252322FD5A4C00893604 /* libWeChatSDK.a */,
-			);
-			path = WX;
-			sourceTree = "<group>";
-		};
-		4CF1254622FD64E100893604 /* PayLibrary */ = {
-			isa = PBXGroup;
-			children = (
-				4CF1254522FD607C00893604 /* WX */,
-				4CF1254422FD606000893604 /* AliPay */,
-			);
-			path = PayLibrary;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -622,6 +604,7 @@
 				4CF1252222FD5A4500893604 /* WXApi.h in Headers */,
 				4CF1252022FD5A4500893604 /* WXApiObject.h in Headers */,
 				4CF1252122FD5A4500893604 /* WechatAuthSDK.h in Headers */,
+				4CF1254722FD8A5D00893604 /* MinCloud.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,7 +761,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CCB87652266CF9D00D65A65 /* LaunchScreen.storyboard in Resources */,
-				4C4D316B22670AF1001EFA7D /* video.mp4 in Resources */,
 				4CCB87882266D52100D65A65 /* datasource.plist in Resources */,
 				4CCB87622266CF9D00D65A65 /* Assets.xcassets in Resources */,
 				4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */,
@@ -1217,15 +1199,14 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
-					"$(SRCROOT)/MinCloud/PayLibrary/AliPay",
+					"$(SRCROOT)/MinCloud",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result/Result.framework/Headers\"",
-					"$(SRCROOT)/MinCloud/PayLibrary/AliPay",
-					"$(SRCROOT)/MinCloud/PayLibrary/WX",
+					"$(SRCROOT)/MinCloud",
 				);
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1238,8 +1219,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
-					"$(SRCROOT)/MinCloud/PayLibrary/WX",
 				);
+				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1257,10 +1238,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MinCloud/MinCloud-Bridging-Header.h";
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/MinCloud/";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/MinCloud/MinCloud.h";
 			};
 			name = Debug;
 		};
@@ -1279,15 +1262,16 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
-					"$(SRCROOT)/MinCloud/PayLibrary/AliPay",
+					"$(SRCROOT)/MinCloud/",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result/Result.framework/Headers\"",
-					"\"$(SRCROOT)/MinCloud/PayLibrary/AliPay\"",
 					"\"$(SRCROOT)/MinCloud/PayLibrary/WX\"",
+					"$(SRCROOT)/MinCloud/PayLibrary/AliPay",
+					"$(PROJECT_DIR)/MinCloud/MinCloud.h",
 				);
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1300,8 +1284,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
-					"$(SRCROOT)/MinCloud/PayLibrary/WX",
 				);
+				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1319,9 +1303,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/MinCloud/MinCloud-Bridging-Header.h";
+				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/MinCloud/";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/MinCloud/MinCloud.h";
 			};
 			name = Release;
 		};
@@ -1372,14 +1358,30 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result\"",
+					"$(SRCROOT)/MinCloud",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result/Result.framework/Headers\"",
+					"$(SRCROOT)/MinCloud",
+				);
 				INFOPLIST_FILE = Demo_Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MinCloud/";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1392,14 +1394,30 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3QQR699W45;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result\"",
+					"$(SRCROOT)/MinCloud",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Moya/Moya.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Result/Result.framework/Headers\"",
+					"$(SRCROOT)/MinCloud",
+				);
 				INFOPLIST_FILE = Demo_Swift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MinCloud/";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

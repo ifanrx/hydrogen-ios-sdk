@@ -1,39 +1,29 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0-beta1'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
 知晓云是一个实时的后端云服务。使用它后，开发人员只需简单地在 App 中接入 SDK，而无需管理服务器或编写后端代码，即可轻松构建功能丰富的 App。
                        DESC
  
-  s.swift_version    = '4.2'
+  s.swift_version    = '5.0'
   s.homepage         = 'https://cloud.minapp.com/'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'pengquanhua' => 'pengquanhua@ifanr.com' }
   s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :tag => s.version }
  
   s.ios.deployment_target = '9.0'
-  s.source_files = 'MinCloud/*.swift'
-  s.dependency 'Moya', '<= 12.0.1'
+  s.source_files = 'MinCloud/*.{h,m,swift}'
+  s.dependency 'Moya'
 
-  s.subspec 'WeChat' do |wechat|
-    wechat.source_files = 'MinCloud/PayLibrary/WX/*.{h,m}'
-    wechat.vendored_libraries = 'MinCloud/PayLibrary/WX/*.a'
-    wechat.frameworks = "SystemConfiguration", "Security", "CoreTelephony", "CFNetwork"，"CoreGraphics"
-    wechat.libraries = "z", "sqlite3.0", "c++"
-    #wechat.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -all_load' }
-    #wechat.xcconfig = { 'HEADER_SEARCH_PATHS' => '"$(SRCROOT)/MinCloud/PayLibrary/WX"' }
-  end
+  s.vendored_libraries = 'MinCloud/*.a'
+  s.frameworks = "SystemConfiguration", "Security", "CoreTelephony", "CFNetwork","CoreGraphics", "CoreTelephony", "QuartzCore", "CoreText", "CoreMotion", "UIKit", "Foundation"
+  s.libraries = "z", "sqlite3.0", "c++"
+  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -all_load' }
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => ''$(PODS_ROOT)/MinCloud' }
 
-  s.subspec 'AliPay' do |alipay|
-    alipay.source_files = 'MinCloud/PayLibrary/AliPay/*.{h,m}'
-    alipay.vendored_frameworks = 'MinCloud/PayLibrary/AliPay/*.framework'
-    alipay.frameworks = "SystemConfiguration", "CoreTelephony", "QuartzCore", "CoreText", "CoreGraphics", "UIKit", "Foundation", "CFNetwork", "CoreMotion"
-    alipay.libraries = "z", "c++"
-    alipay.resource = 'MinCloud/PayLibrary/AliPay/*.bundle'
-  end
-
-  
+  s.ios.vendored_frameworks = 'MinCloud/*.framework'
+  s.resource = 'MinCloud/PayLibrary/AliPay/AlipaySDK.bundle'
 
 end

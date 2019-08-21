@@ -7,16 +7,12 @@ target 'MinCloud' do
 
   # Pods for MinCloud
   pod 'Moya'
-#  pod 'WechatOpenSDK'
-#  pod 'AlipaySDK-iOS'
 
   target 'MinCloudTests' do
     inherit! :search_paths
     # Pods for testing
     pod 'Moya'
     pod 'Alamofire'
-#   pod 'WechatOpenSDK'
-#   pod 'AlipaySDK-iOS'
   end
 
 end
@@ -25,14 +21,10 @@ target 'Demo_Swift' do
   use_frameworks!
   platform :ios, '9.0'
   pod 'Moya'
-#  pod 'WechatOpenSDK'
-#  pod 'AlipaySDK-iOS'
 end
 
 target 'Demo_OC' do
   use_frameworks!
   platform :ios, '9.0'
   pod 'Moya'
-#  pod 'WechatOpenSDK'
-#  pod 'AlipaySDK-iOS'
 end
