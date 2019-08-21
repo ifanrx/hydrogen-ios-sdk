@@ -17,13 +17,17 @@ Pod::Spec.new do |s|
   s.source_files = 'MinCloud/*.{h,m,swift}'
   s.dependency 'Moya'
 
+  # 微信
   s.vendored_libraries = 'MinCloud/*.a'
   s.frameworks = "SystemConfiguration", "Security", "CoreTelephony", "CFNetwork","CoreGraphics", "CoreTelephony", "QuartzCore", "CoreText", "CoreMotion", "UIKit", "Foundation"
   s.libraries = "z", "sqlite3.0", "c++"
   s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -all_load' }
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/MinCloud' }
-
+  
+  # 支付宝
   s.ios.vendored_frameworks = 'MinCloud/*.framework'
   s.resource = 'MinCloud/PayLibrary/AliPay/AlipaySDK.bundle'
-
+  
+  s.module_map = 'MinCloud/module.modulemap'
+  s.static_framework = true
 end
