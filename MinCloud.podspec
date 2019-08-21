@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.frameworks = "SystemConfiguration", "Security", "CoreTelephony", "CFNetwork","CoreGraphics", "CoreTelephony", "QuartzCore", "CoreText", "CoreMotion", "UIKit", "Foundation"
   s.libraries = "z", "sqlite3.0", "c++"
   s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -all_load' }
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => ''$(PODS_ROOT)/MinCloud' }
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/MinCloud' }
 
   s.ios.vendored_frameworks = 'MinCloud/*.framework'
   s.resource = 'MinCloud/PayLibrary/AliPay/AlipaySDK.bundle'
