@@ -54,18 +54,18 @@ struct Config {
     }
 
     struct User {
-        static func getUserInfo(userId: String) -> String { return "/hserve/v2.0/user/info/\(userId)/" }
+        static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
         static let updateAccount = "/hserve/v2.0/user/account/"
         static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
-        static let updateUserInfo = "/hserve/v2.0/user/info/"
-        static let getUserList = "/hserve/v2.0/user/info/"
+        static let updateUserInfo = "/hserve/v2.1/user/info/"
+        static let getUserList = "/hserve/v2.1/user/info/"
     }
 
     struct Table {
-        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.0/table/\(tableId)/record/\(recordId)/" }
-        static func recordList(tableId: String) -> String { return "/hserve/v2.0/table/\(tableId)/record/" }
-        static func saveRecord(tableId: String) -> String { return "/hserve/v2.0/table/\(tableId)/record/" }
+        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/\(recordId)/" }
+        static func recordList(tableId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/" }
+        static func saveRecord(tableId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/" }
     }
 
     struct ContentGroup {
