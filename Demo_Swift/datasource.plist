@@ -67,6 +67,8 @@
 		<string>订单列表</string>
 		<string>订单列表-待支付</string>
 		<string>订单列表-成功</string>
+		<string>订单列表-微信支付</string>
+		<string>订单列表- trade_no</string>
 	</array>
 </array>
 </plist>

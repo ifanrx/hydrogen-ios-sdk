@@ -195,18 +195,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 }
             case 1:
-//                let whereArgs = Where.include(key: "polygon", point: GeoPoint(longitude: 5, latitude: 5))
-                // 单位为km
-//                let whereArgs = Where.withinCircle(key: "location", point: GeoPoint(longitude: 113.329632, latitude: 23.109101), radius: 0.5)
-                // 单位为m
-                let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 113.329632, latitude: 23.109101), minDistance: 0.5, maxDistance: 5)
 
-//                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[10, 5], [20, 5], [20, 10], [10, 10], [10, 5]]))
+//                1. include
+//                113.3432006836,23.0683609237
+//                113.3857727051,23.0879434369
+//                113.3524703979,23.0952071923
+//                113.3432006836,23.0683609237
+//                point：113.3299827576,23.1031810803
+//                let whereArgs = Where.include(key: "polygon", point: GeoPoint(longitude: 113.3622550964, latitude: 23.0884171721))
+
+
+//                let whereArgs = Where.withinCircle(key: "location", point: GeoPoint(longitude: 113.4196758270, latitude: 23.1348351120), radius: 3)
+                // 单位为KM
+//                let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 113.4196758270, latitude: 23.1348351120), minDistance: 0.1, maxDistance: 3)
+
+                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[113.4594583511,23.1265079048], [113.4705305099,23.1344010050], [113.4634065628,23.1390577162], [113.4564113617,23.1353481458], [113.4594583511,23.1265079048]]))
                 //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
 //                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
                 let query = Query()
                 query.setWhere(whereArgs)
-                table.find(completion: {_, _ in
+                table.find(query:query, completion: {_, _ in
 
                 })
 
@@ -513,6 +521,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         self.showMessage(message: result?.description ?? "")
                     }
                 }
+            case 7:
+                let query = OrderQuery()
+                query.gateWayType(.weixin)
+                Pay.shared.orderList(query: query) { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+            case 8:
+                let query = OrderQuery()
+                query.transactionNo("fBEyihJVn2QRV5H8bD9JuP7W9wwnm7cD")
+                Pay.shared.orderList(query: query) { (result, error) in
+                    if error != nil {
+                        self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
+                    } else {
+                        self.showMessage(message: result?.description ?? "")
+                    }
+                }
+
             default:
                 break
             }

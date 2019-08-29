@@ -17,6 +17,14 @@ import Result
 
     @objc public static var isDebug: Bool = false
 
+    /// 触发云函数
+    ///
+    /// - Parameters:
+    ///   - name: 云函数名称
+    ///   - data: 云函数参数，具体使用请参照文档：https://doc.minapp.com/ios-sdk/invoke-function.html
+    ///   - sync: 是否等待执行结果
+    ///   - completion: 执行结果
+    /// - Returns:
     @discardableResult
     @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
         let request = BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
@@ -27,6 +35,12 @@ import Result
         return RequestCanceller(cancellable: request)
     }
 
+    /// 发送短信验证码
+    ///
+    /// - Parameters:
+    ///   - phone: 手机号
+    ///   - completion: 发送结果
+    /// - Returns:
     @discardableResult
     @objc public static func sendSmsCode(phone: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = BaasProvider.request(.sendSmsCode(parameters: ["phone": phone])) { result in
@@ -41,6 +55,13 @@ import Result
         return RequestCanceller(cancellable: request)
     }
 
+    /// 验证手机已接收的验证码
+    ///
+    /// - Parameters:
+    ///   - phone: 手机号
+    ///   - code: 验证
+    ///   - completion: 验证结果
+    /// - Returns:
     @discardableResult
     @objc public static func verifySmsCode(phone: String, code: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = BaasProvider.request(.verifySmsCode(parameters: ["phone": phone, "code": code])) { result in
@@ -58,27 +79,25 @@ import Result
 
 // 微信支付
 extension BaaS {
-    /*! @brief 检查微信是否已被用户安装
-     *
-     * @return 微信已安装返回YES，未安装返回NO。
-     */
+
+    /// 检查微信是否已被用户安装
+    ///
+    /// - Returns: 微信已安装返回YES，未安装返回NO。
     @objc public static func isWXAppInstalled() -> Bool {
         return WXApi.isWXAppInstalled()
     }
 
-    /*! @brief 处理微信通过URL启动App时传递的数据
-     *
-     * 需要在 application:openURL:sourceApplication:annotation:或者application:handleOpenURL中调用。
-     * @param url 微信启动第三方应用时传递过来的URL
-     * @param delegate  WXApiDelegate对象，用来接收微信触发的消息。
-     * @return 成功返回YES，失败返回NO。
-     */
+    /// 处理微信或支付宝通过URL启动App时传递的数据
+    /// 需要在 application:openURL:sourceApplication:annotation:或者application:handleOpenURL中调用。
+    ///
+    /// - Parameter url: 微信或支付宝启动第三方应用时传递过来的URL
+    /// - Returns: 成功返回YES，失败返回NO。
     @objc public static func handleOpenURL(url: URL) -> Bool {
         if url.host == "safepay" {
             AlipaySDK.defaultService()?.processOrder(withPaymentResult: url, standbyCallback: nil)
             return true
         } else if url.host == "pay" {
-            return WXApi.handleOpen(url, delegate: Pay.shared)
+            return WXApi.handleOpen(url, delegate: nil)
         }
         return true
     }
