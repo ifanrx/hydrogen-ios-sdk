@@ -18,7 +18,7 @@
 @property (nonatomic, strong) BaaSRecord *record;
 @property (nonatomic, strong) BaaSFile *file;
 @property (nonatomic, strong) BaaSCurrentUser *currentUser;
-    @property (nonatomic, strong) BaaSOrder *orderInfo;
+@property (nonatomic, strong) BaaSOrder *orderInfo;
 @end
 
 @implementation ViewController
@@ -104,7 +104,7 @@
                     case 2:
                     // 用户名登录
                 {
-                    [BaaSAuth loginWithUsername:@"test0703" password:@"111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth loginWithUsername:@"test0807" password:@"1111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }

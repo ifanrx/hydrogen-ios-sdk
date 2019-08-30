@@ -22,7 +22,12 @@ enum AuthType: String {
 struct Config {
     static let environment: NetworkEnvironment = .production
     static var clientID: String!
-    static let version: String = "0.2.0"
+    static var version: String {
+        if let info = Bundle.main.infoDictionary, let version = info["CFBundleShortVersionString"] as? String {
+            return version
+        }
+        return "0.2.0"
+    }
     static var baseURL: String {
         if environment == .qa {
             return "https://viac2-p.eng-vm.can.corp.ifanr.com"
@@ -54,18 +59,18 @@ struct Config {
     }
 
     struct User {
-        static func getUserInfo(userId: String) -> String { return "/hserve/v2.0/user/info/\(userId)/" }
+        static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
         static let updateAccount = "/hserve/v2.0/user/account/"
         static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
-        static let updateUserInfo = "/hserve/v2.0/user/info/"
-        static let getUserList = "/hserve/v2.0/user/info/"
+        static let updateUserInfo = "/hserve/v2.1/user/info/"
+        static let getUserList = "/hserve/v2.1/user/info/"
     }
 
     struct Table {
-        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.0/table/\(tableId)/record/\(recordId)/" }
-        static func recordList(tableId: String) -> String { return "/hserve/v2.0/table/\(tableId)/record/" }
-        static func saveRecord(tableId: String) -> String { return "/hserve/v2.0/table/\(tableId)/record/" }
+        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/\(recordId)/" }
+        static func recordList(tableId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/" }
+        static func saveRecord(tableId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/" }
     }
 
     struct ContentGroup {

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '0.2.0-beta1'
+  s.version          = '0.2.0'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
@@ -14,20 +14,29 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :tag => s.version }
  
   s.ios.deployment_target = '9.0'
-  s.source_files = 'MinCloud/*.{h,m,swift}'
-  s.dependency 'Moya'
+  s.subspec 'Core' do |core|
+    core.source_files = 'MinCloud/*.{swift}'
+    core.dependency 'Moya'
+  end
 
-  # 微信
-  s.vendored_libraries = 'MinCloud/*.a'
-  s.frameworks = "SystemConfiguration", "Security", "CoreTelephony", "CFNetwork","CoreGraphics", "CoreTelephony", "QuartzCore", "CoreText", "CoreMotion", "UIKit", "Foundation"
-  s.libraries = "z", "sqlite3.0", "c++"
-  s.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-ObjC -all_load' }
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/MinCloud' }
-  
-  # 支付宝
-  s.ios.vendored_frameworks = 'MinCloud/*.framework'
-  s.resource = 'MinCloud/PayLibrary/AliPay/AlipaySDK.bundle'
-  
+  s.subspec 'Alipay' do |ali|
+    ali.resource = 'MinCloud/AlipaySDK.bundle'
+    ali.ios.vendored_frameworks = 'MinCloud/AlipaySDK.framework'
+    ali.frameworks = "SystemConfiguration", "CoreTelephony", "CFNetwork", "CoreGraphics", "QuartzCore", "CoreText", "CoreMotion", "UIKit", "Foundation"
+    ali.libraries = "z", "c++"
+    ali.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/MinCloud' }
+    ali.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/MinCloud' }
+  end
+
+  s.subspec 'WeChat' do |wx|
+    wx.source_files = 'MinCloud/*.{h}'
+    wx.vendored_libraries = 'MinCloud/libWeChatSDK.a'
+    wx.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-Objc -all_load' }
+    wx.frameworks = "SystemConfiguration", "CoreTelephony", "Security", "CoreGraphics", "CFNetwork"
+    wx.libraries = "z", "c++", "sqlite3.0"
+    wx.xcconfig = { "HEADER_SEARCH_PATHS" => "$(PODS_ROOT)/MinCloud" }
+  end
+
   s.module_map = 'MinCloud/module.modulemap'
   s.static_framework = true
 end

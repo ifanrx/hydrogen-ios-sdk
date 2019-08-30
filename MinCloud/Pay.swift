@@ -156,10 +156,3 @@ extension Pay {
         AlipaySDK.defaultService()?.payOrder(paymentUrl, fromScheme: appId, callback: nil)
     }
 }
-
-extension Pay: WXApiDelegate {
-
-    // 微信支付结果
-    public func onResp(_ resp: BaseResp) {
-    }
-}
