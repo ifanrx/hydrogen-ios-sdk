@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        BaaS.register(clientID: "995140f59511a222c937") // qa测试环境
 //        BaaS.register(clientID: "a4d2d62965ddb57fa4d6")  // 线上环境-支付
         BaaS.isDebug = true
+        BaaS.getVersion()
         return true
     }
 

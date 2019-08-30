@@ -17,6 +17,10 @@ import Result
 
     @objc public static var isDebug: Bool = false
 
+    @objc public static func getVersion() -> String {
+        return Config.version
+    }
+
     /// 触发云函数
     ///
     /// - Parameters:
