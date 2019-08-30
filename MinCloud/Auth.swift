@@ -13,12 +13,14 @@ import Result
 @objc(BaaSAuth)
 open class Auth: NSObject {
 
+    /// 用户是否已经登录
     @objc public static var hadLogin: Bool {
         if Storage.shared.token != nil, let expiresIn = Storage.shared.expiresIn, expiresIn > Date().timeIntervalSince1970 {
             return true
         }
         return false
     }
+
     // MARK: - 注册
 
     /// 用户名注册
