@@ -1,0 +1,12 @@
+{
+  "created_at" : 1554287059,
+  "id" : "5ca489d3d625d846af4bf453",
+  "name" : "test",
+  "category" : {
+    "id" : "5ca489bb8c374f5039a8062b",
+    "name" : "Book"
+  },
+  "size" : 2299,
+  "path" : "https:\/\/cloud-minapp-25010.cloud.ifanrusercontent.com\/1hBd47RKaLeXkOAF",
+  "mime_type" : "image\/png"
+}

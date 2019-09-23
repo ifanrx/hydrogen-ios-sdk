@@ -14,6 +14,7 @@ open class ContentCategory: NSObject, Mappable {
     @objc public internal(set) var name: String!
     @objc public internal(set) var haveChildren: Bool = false
     @objc public internal(set) var children: [ContentCategory]!
+    @objc public internal(set) var categoryInfo: [String: Any] = [:]
 
     required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")
@@ -27,5 +28,16 @@ open class ContentCategory: NSObject, Mappable {
             }
         }
         self.children = subCategorys
+        self.categoryInfo = dict
+    }
+    
+    override open var description: String {
+        let dict = self.categoryInfo
+        return dict.toJsonString
+    }
+    
+    override open var debugDescription: String {
+        let dict = self.categoryInfo
+        return dict.toJsonString
     }
 }

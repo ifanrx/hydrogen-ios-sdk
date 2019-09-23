@@ -9,8 +9,6 @@
 import UIKit
 import Moya
 
-let PayProvider = MoyaProvider<PayAPI>(plugins: [NetworkLoggerPlugin(verbose: true)])
-
 enum PayAPI {
     case pay(parameters: [String: Any])
     case order(transactionID: String)

@@ -24,7 +24,11 @@ open class Query: NSObject {
     }
 
     @objc public func select(_ args: [String]) {
-        queryArgs["keys"] = args.joined(separator: ",")
+        var selects = args
+        if !selects.contains("id") {
+            selects.append("id")
+        }
+        queryArgs["keys"] = selects.joined(separator: ",")
     }
 
     @objc public func expand(_ args: [String]) {

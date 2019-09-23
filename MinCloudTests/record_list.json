@@ -1,0 +1,150 @@
+{
+  "meta" : {
+    "previous" : null,
+    "next" : null,
+    "offset" : 0,
+    "total_count" : 4,
+    "limit" : 20
+  },
+  "objects" : [
+    {
+      "_id" : "5d5e5bfa03d08f299f3289e4",
+      "created_by" : 72621276,
+      "id" : "5d5e5bfa03d08f299f3289e4",
+      "created_at" : 1566465000,
+      "polygon" : {
+        "type" : "Polygon",
+        "coordinates" : [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              10,
+              0
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        ]
+      },
+      "price" : 35,
+      "read_perm" : [
+        "user:anonymous"
+      ],
+      "updated_at" : 1568716683,
+      "write_perm" : [
+        "user:anonymous"
+      ],
+      "recommender" : [
+
+      ]
+    },
+    {
+      "id" : "5d5e5d2e989c1c336aa7b6bd",
+      "publish_info" : {
+        "name" : "新华出版社"
+      },
+      "polygon" : {
+        "type" : "Polygon",
+        "coordinates" : [
+          [
+            [
+              10,
+              10
+            ],
+            [
+              40,
+              40
+            ],
+            [
+              20,
+              40
+            ],
+            [
+              10,
+              20
+            ],
+            [
+              10,
+              10
+            ]
+          ]
+        ]
+      },
+      "author" : "hua",
+      "created_at" : 1566465326,
+      "created_by" : 77256549978405,
+      "_id" : "5d5e5d2e989c1c336aa7b6bd",
+      "color" : "brown",
+      "price" : 26,
+      "location" : {
+        "type" : "Point",
+        "coordinates" : [
+          2,
+          10
+        ]
+      },
+      "recommender" : [
+        "hua",
+        "ming",
+        "hong",
+        "hong"
+      ],
+      "read_perm" : [
+        "user:anonymous"
+      ],
+      "updated_at" : 1568769964,
+      "name" : "good book",
+      "write_perm" : [
+        "user:anonymous"
+      ]
+    },
+    {
+      "_id" : "5d5e601a03d08f35450f0f52",
+      "created_by" : 72621276,
+      "location" : {
+        "type" : "Point",
+        "coordinates" : [
+          113.43179711230202,
+          23.130590719589033
+        ]
+      },
+      "id" : "5d5e601a03d08f35450f0f52",
+      "created_at" : 1566466020,
+      "price" : 35,
+      "read_perm" : [
+        "user:anonymous"
+      ],
+      "updated_at" : 1568716683,
+      "write_perm" : [
+        "user:anonymous"
+      ],
+      "recommender" : [
+
+      ]
+    },
+    {
+      "_id" : "5d80a0f6b569376e0b1d5065",
+      "created_by" : 91458891731308,
+      "id" : "5d80a0f6b569376e0b1d5065",
+      "created_at" : 1568710902,
+      "price" : 39,
+      "read_perm" : [
+        "user:anonymous"
+      ],
+      "updated_at" : 1568710902,
+      "write_perm" : [
+        "user:anonymous"
+      ],
+      "name" : "三体"
+    }
+  ]
+}

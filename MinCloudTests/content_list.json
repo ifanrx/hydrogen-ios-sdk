@@ -1,0 +1,47 @@
+{
+  "meta" : {
+    "previous" : null,
+    "next" : null,
+    "offset" : 0,
+    "total_count" : 3,
+    "limit" : 20
+  },
+  "objects" : [
+    {
+      "created_by" : 72621276,
+      "group_id" : 1551697162031508,
+      "categories" : [
+        1551697507400928
+      ],
+      "created_at" : 1551697403,
+      "id" : 1551697403189289,
+      "title" : "test",
+      "description" : "test",
+      "updated_at" : 1551697522
+    },
+    {
+      "created_by" : 72621276,
+      "group_id" : 1551697162031508,
+      "categories" : [
+
+      ],
+      "created_at" : 1556069356,
+      "id" : 1556069350726845,
+      "title" : "article",
+      "description" : "",
+      "updated_at" : 1556069356
+    },
+    {
+      "created_by" : 72621276,
+      "group_id" : 1551697162031508,
+      "categories" : [
+
+      ],
+      "created_at" : 1556069356,
+      "id" : 1556069348056225,
+      "title" : "article",
+      "description" : "",
+      "updated_at" : 1556069356
+    }
+  ]
+}

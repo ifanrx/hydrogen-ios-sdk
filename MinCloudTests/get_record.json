@@ -1,0 +1,60 @@
+{
+  "publish_info" : {
+    "name" : "新华出版社"
+  },
+  "recommender" : [
+    "hua",
+    "ming",
+    "hong",
+    "hong"
+  ],
+  "color" : "brown",
+  "id" : "5d5e5d2e989c1c336aa7b6bd",
+  "_id" : "5d5e5d2e989c1c336aa7b6bd",
+  "name" : "good book",
+  "location" : {
+    "type" : "Point",
+    "coordinates" : [
+      2,
+      10
+    ]
+  },
+  "price" : 26,
+  "polygon" : {
+    "type" : "Polygon",
+    "coordinates" : [
+      [
+        [
+          10,
+          10
+        ],
+        [
+          40,
+          40
+        ],
+        [
+          20,
+          40
+        ],
+        [
+          10,
+          20
+        ],
+        [
+          10,
+          10
+        ]
+      ]
+    ]
+  },
+  "created_at" : 1566465326,
+  "write_perm" : [
+    "user:anonymous"
+  ],
+  "created_by" : 77256549978405,
+  "read_perm" : [
+    "user:anonymous"
+  ],
+  "author" : "hua",
+  "updated_at" : 1568769964
+}

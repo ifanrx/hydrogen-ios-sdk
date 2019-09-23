@@ -14,6 +14,8 @@ import Result
 open class ContentGroup: NSObject {
     var Id: String?
     var name: String!
+    
+    static var ContentGroupProvider = MoyaProvider<ContentGroupAPI>(plugins: logPlugin)
 
     @objc public init(Id: String) {
         self.Id = Id
@@ -29,16 +31,16 @@ open class ContentGroup: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc open func get(_ contentId: String, select: [String]? = nil, expand: [String]? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
+    @objc open func get(_ contentId: String, select: [String]? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
-        if let select = select {
+        if var select = select {
+            if !select.contains("id") {
+                select.append("id")
+            }
             parameters["keys"] = select.joined(separator: ",")
         }
-        if let expand = expand {
-            parameters["expand"] = expand.joined(separator: ",")
-        }
-        let request = ContentGroupProvider.request(.conentDetail(id: contentId, parameters: parameters)) { result in
+        let request = ContentGroup.ContentGroupProvider.request(.conentDetail(id: contentId, parameters: parameters)) { result in
             ResultHandler.parse(result, handler: { (content: Content?, error: NSError?) in
                 completion(content, error)
             })
@@ -59,7 +61,7 @@ open class ContentGroup: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
-        let request = ContentGroupProvider.request(.contentList(parameters: queryArgs)) { result in
+        let request = ContentGroup.ContentGroupProvider.request(.contentList(parameters: queryArgs)) { result in
             ResultHandler.parse(result, handler: { (listResult: ContentList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -82,7 +84,7 @@ open class ContentGroup: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
-        let request = ContentGroupProvider.request(.contentListInCategory(prameters: queryArgs)) { result in
+        let request = ContentGroup.ContentGroupProvider.request(.contentListInCategory(prameters: queryArgs)) { result in
             ResultHandler.parse(result, handler: { (listResult: ContentList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -101,7 +103,7 @@ open class ContentGroup: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["content_group_id"] = Id
-        let request = ContentGroupProvider.request(.categoryList(parameters: queryArgs)) { result in
+        let request = ContentGroup.ContentGroupProvider.request(.categoryList(parameters: queryArgs)) { result in
             ResultHandler.parse(result, handler: { (listResult: ContentCategoryList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -118,7 +120,7 @@ open class ContentGroup: NSObject {
     @discardableResult
     @objc open func getCategory(_ Id: String, completion: @escaping ContentCategoryResultCompletion) -> RequestCanceller? {
 
-        let request = ContentGroupProvider.request(.categoryDetail(id: Id)) { result in
+        let request = ContentGroup.ContentGroupProvider.request(.categoryDetail(id: Id)) { result in
             ResultHandler.parse(result, handler: { (category: ContentCategory?, error: NSError?) in
                 completion(category, error)
             })

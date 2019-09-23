@@ -20,7 +20,7 @@ public class ListResult: NSObject, Mappable {
     @objc public internal(set) var next: String?  // 下一页
 
     @objc public internal(set) var previous: String? // 上一页
-
+    
     public override init() {
         super.init()
     }
@@ -33,7 +33,20 @@ public class ListResult: NSObject, Mappable {
         self.next = meta.getString("next")
         self.previous = meta.getString("previous")
     }
-
+    
+    func mapList<T>(dict: [String: Any]) -> [T]? where T: Mappable {
+        var list: [T]!
+        if let objects = dict["objects"] as? [[String: Any]] {
+            list = []
+            for dict in objects {
+                let item = T(dict: dict)
+                if let item = item {
+                    list.append(item)
+                }
+            }
+        }
+        return list
+    }
 }
 
 @objc(BaaSUserList)
@@ -42,18 +55,8 @@ public class UserList: ListResult {
     @objc public internal(set) var users: [User]?
 
     required public init?(dict: [String: Any]) {
-        var users: [User]!
-        if let objects = dict["objects"] as? [[String: Any]] {
-            users = []
-            for userDict in objects {
-                let user = User(dict: userDict)
-                if let user = user {
-                    users.append(user)
-                }
-            }
-        }
-        self.users = users
         super.init(dict: dict)
+        self.users = mapList(dict: dict)
     }
 }
 
@@ -63,18 +66,8 @@ public class RecordList: ListResult {
     @objc public internal(set) var records: [Record]?
 
     required public init?(dict: [String: Any]) {
-        var records: [Record]!
-        if let objects = dict["objects"] as? [[String: Any]] {
-            records = []
-            for recordDict in objects {
-                let record = Record(dict: recordDict)
-                if let record = record {
-                    records.append(record)
-                }
-            }
-        }
-        self.records = records
         super.init(dict: dict)
+        self.records = mapList(dict: dict)
     }
 }
 
@@ -84,18 +77,8 @@ public class FileList: ListResult {
     @objc public internal(set) var files: [File]?
 
     required public init?(dict: [String: Any]) {
-        var files: [File]!
-        if let objects = dict["objects"] as? [[String: Any]] {
-            files = []
-            for fileDict in objects {
-                let file = File(dict: fileDict)
-                if let file = file {
-                    files.append(file)
-                }
-            }
-        }
-        self.files = files
         super.init(dict: dict)
+        self.files = mapList(dict: dict)
     }
 }
 
@@ -105,18 +88,8 @@ public class FileCategoryList: ListResult {
     @objc public internal(set) var fileCategorys: [FileCategory]?
 
     required public init?(dict: [String: Any]) {
-        var categorys: [FileCategory]!
-        if let objects = dict["objects"] as? [[String: Any]] {
-            categorys = []
-            for categoryDict in objects {
-                let category = FileCategory(dict: categoryDict)
-                if let category = category {
-                    categorys.append(category)
-                }
-            }
-        }
-        self.fileCategorys = categorys
         super.init(dict: dict)
+        self.fileCategorys = mapList(dict: dict)
     }
 }
 
@@ -126,18 +99,8 @@ public class ContentList: ListResult {
     @objc public internal(set) var contents: [Content]?
 
     required public init?(dict: [String: Any]) {
-        var contents: [Content]!
-        if let objects = dict["objects"] as? [[String: Any]] {
-            contents = []
-            for contentDict in objects {
-                let content = Content(dict: contentDict)
-                if let content = content {
-                    contents.append(content)
-                }
-            }
-        }
-        self.contents = contents
         super.init(dict: dict)
+        self.contents = mapList(dict: dict)
     }
 }
 
@@ -147,18 +110,8 @@ public class ContentCategoryList: ListResult {
     @objc public internal(set) var contentCategorys: [ContentCategory]?
 
     required public init?(dict: [String: Any]) {
-        var categorys: [ContentCategory]!
-        if let objects = dict["objects"] as? [[String: Any]] {
-            categorys = []
-            for categoryDict in objects {
-                let category = ContentCategory(dict: categoryDict)
-                if let category = category {
-                    categorys.append(category)
-                }
-            }
-        }
-        self.contentCategorys = categorys
         super.init(dict: dict)
+        self.contentCategorys = mapList(dict: dict)
     }
 }
 
@@ -173,16 +126,8 @@ public class OrderList: ListResult {
     }
 
     public required init?(dict: [String: Any]) {
-        guard let objects = dict["objects"] as? [[String: Any]] else { return nil }
-        self.dictInfo = dict
-        var orderInfos: [Order] = []
-        for orderDict in objects {
-            if let orderInfo = Order(dict: orderDict) {
-                orderInfos.append(orderInfo)
-            }
-        }
-        self.orders = orderInfos
         super.init(dict: dict)
+        self.orders = mapList(dict: dict)
     }
 
     override open var description: String {

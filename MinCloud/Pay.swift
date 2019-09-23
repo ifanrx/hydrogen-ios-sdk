@@ -9,11 +9,37 @@
 import Foundation
 import Moya
 
+protocol PayProtocol {
+    var wxPayCalled: Bool { get set }
+    var aliPayCalled: Bool { get set }
+    func payWithWX(_ request: PayReq, appId: String) -> Void
+    func payWithAli(_ paymentUrl: String, appId: String)
+}
+
+class PayTooler: PayProtocol {
+    var wxPayCalled: Bool = false
+    var aliPayCalled: Bool = false
+    
+    func payWithWX(_ request: PayReq, appId: String) {
+        WXApi.registerApp(appId)
+        WXApi.send(request)
+        wxPayCalled = true
+    }
+    
+    func payWithAli(_ paymentUrl: String, appId: String) {
+        AlipaySDK.defaultService()?.payOrder(paymentUrl, fromScheme: appId, callback: nil)
+        aliPayCalled = true
+    }
+}
+
 @objc(BaaSPay)
 open class Pay: NSObject {
 
     @objc public static let shared = Pay()
     @objc public var isPaying: Bool = false
+    var payTooler: PayProtocol = PayTooler()
+    
+    static var PayProvider = MoyaProvider<PayAPI>(plugins: logPlugin)
 
     // 微信支付
     @discardableResult
@@ -25,7 +51,7 @@ open class Pay: NSObject {
 
         self.isPaying = true
         // 创建订单，并获取预支付信息
-        let canceller = self.pay(type: WXPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(order, error) in
+        let canceller = self.pay(type: WXPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, merchandiseSchemaID: merchandiseSchemaID, merchandiseRecordID: merchandiseRecordID, merchandiseSnapshot: merchandiseSnapshot, completion: {(order, error) in
 
             self.isPaying = false
             if error != nil {
@@ -33,9 +59,9 @@ open class Pay: NSObject {
             } else {
                 order?.gateWayType = WXPay
                 if let request = order?.wxPayReq, let appId = order?.wxAppid {
-                    completion(order, nil)
                     // 调起微信支付
-                    self.payWithWX(request, appId: appId)
+                    self.payTooler.payWithWX(request, appId: appId)
+                    completion(order, nil)
                 } else {
                     let payError = HError.init(code: 610) as NSError
                     completion(order, payError)
@@ -54,15 +80,15 @@ open class Pay: NSObject {
         }
 
         self.isPaying = true
-        let canceller = self.pay(type: AliPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, completion: {(order, error) in
+        let canceller = self.pay(type: AliPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, merchandiseSchemaID: merchandiseSchemaID, merchandiseRecordID: merchandiseRecordID, merchandiseSnapshot: merchandiseSnapshot, completion: {(order, error) in
             self.isPaying = false
             if error != nil {
                 completion(nil, error)
             } else {
                 order?.gateWayType = AliPay
                 if let paymentUrl = order?.aliPaymenUrl, let appId = order?.aliAppid {
+                    self.payTooler.payWithAli(paymentUrl, appId: appId)
                     completion(order, nil)
-                    self.payWithAli(paymentUrl, appId: appId)
                 } else {
                     completion(nil, HError.init(code: 610) as NSError)
                 }
@@ -74,7 +100,7 @@ open class Pay: NSObject {
     // 查询订单
     @discardableResult
     @objc public func order(_ transactionID: String, completion:@escaping OrderCompletion) -> RequestCanceller? {
-        let request = PayProvider.request(.order(transactionID: transactionID)) { (result) in
+        let request = Pay.PayProvider.request(.order(transactionID: transactionID)) { (result) in
             ResultHandler.parse(result, handler: { (order: Order?, error: NSError?) in
                 completion(order, error)
             })
@@ -86,7 +112,7 @@ open class Pay: NSObject {
     @discardableResult
     @objc public func orderList(query: Query? = nil, completion:@escaping OrderListCompletion) -> RequestCanceller? {
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = PayProvider.request(.orderList(parameters: queryArgs)) { (result) in
+        let request = Pay.PayProvider.request(.orderList(parameters: queryArgs)) { (result) in
             ResultHandler.parse(result, handler: { (listResult: OrderList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -107,7 +133,7 @@ open class Pay: NSObject {
         if gateWayType == WXPay {
             if let request = order.wxPayReq, let appId = order.wxAppid {
                 // 调起微信支付
-                self.payWithWX(request, appId: appId)
+                self.payTooler.payWithWX(request, appId: appId)
             } else {
                 let error = HError.init(code: 610) as NSError
                 completion(order, error)
@@ -115,7 +141,7 @@ open class Pay: NSObject {
 
         } else if gateWayType == AliPay {
             if let paymentUrl = order.aliPaymenUrl, let appId = order.aliAppid {
-                self.payWithAli(paymentUrl, appId: appId)
+                self.payTooler.payWithAli(paymentUrl, appId: appId)
             } else {
                 completion(nil, HError.init(code: 610) as NSError)
             }
@@ -139,20 +165,11 @@ extension Pay {
             parameters["merchandise_snapshot"] = merchandiseSnapshot
         }
 
-        let request = PayProvider.request(.pay(parameters: parameters)) { result in
+        let request = Pay.PayProvider.request(.pay(parameters: parameters)) { result in
             ResultHandler.parse(result, handler: { (order: Order?, error: NSError?) in
                 completion(order, error)
             })
         }
         return RequestCanceller(cancellable: request)
-    }
-
-    fileprivate func payWithWX(_ request: PayReq, appId: String) {
-        WXApi.registerApp(appId)
-        WXApi.send(request)
-    }
-
-    fileprivate func payWithAli(_ paymentUrl: String, appId: String) {
-        AlipaySDK.defaultService()?.payOrder(paymentUrl, fromScheme: appId, callback: nil)
     }
 }

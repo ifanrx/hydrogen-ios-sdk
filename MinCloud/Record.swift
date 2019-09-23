@@ -16,6 +16,8 @@ public class Record: BaseRecord {
     @objc public internal(set) var acl: String?
 
     @objc public var table: Table?
+    
+    static var TableRecordProvider = MoyaProvider<TableRecordAPI>(plugins: logPlugin)
 
     /// 记录所有的信息
     @objc public internal(set) var recordInfo: [String: Any] = [:]
@@ -45,6 +47,11 @@ public class Record: BaseRecord {
         let dict = self.recordInfo
         return dict.toJsonString
     }
+    
+    override open var debugDescription: String {
+        let dict = self.recordInfo
+        return dict.toJsonString
+    }
 
     @objc public func get(key: String) -> Any? {
         return recordInfo[key]
@@ -58,8 +65,13 @@ public class Record: BaseRecord {
     /// - Returns:
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+        
+        guard let tableId = table?.identify else {
+            completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
+            return nil
+        }
 
-        let request = TableRecordProvider.request(.save(tableId: table!.identify, parameters: recordParameter)) { result in
+        let request = Record.TableRecordProvider.request(.save(tableId: tableId, parameters: recordParameter)) { result in
             self.clear() // 清除条件
 
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
@@ -92,12 +104,13 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        guard Id != nil else {
+        guard Id != nil, let tableId = table?.identify else {
             completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
+        
 
-        let request = TableRecordProvider.request(.update(tableId: table!.identify, recordId: Id!, parameters: recordParameter)) { result in
+        let request = Record.TableRecordProvider.request(.update(tableId: tableId, recordId: Id!, parameters: recordParameter)) { result in
             self.clear() // 清除条件
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
                 if error != nil {
@@ -124,12 +137,12 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        guard Id != nil else {
+        guard Id != nil, let tableId = table?.identify else {
             completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
 
-        let request = TableRecordProvider.request(.delete(tableId: table!.identify, recordId: Id!)) { result in
+        let request = Record.TableRecordProvider.request(.delete(tableId: tableId, recordId: Id!)) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)

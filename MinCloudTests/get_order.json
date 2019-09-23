@@ -1,0 +1,20 @@
+{
+  "transaction_no" : "Zn2tRyp1V8q5YdMuvK8JRhSYyunl8SMd",
+  "currency_type" : "CNY",
+  "id" : 207664,
+  "updated_at" : "2019-09-18T15:10:44.967980",
+  "merchandise_record_id" : null,
+  "trade_no" : "1iAU6ujm3HR7nePPBHR46vtIpJZfa6sk",
+  "gateway_type" : "alipay_app",
+  "merchandise_snapshot" : "{}",
+  "refund_status" : null,
+  "status" : "pending",
+  "merchandise_schema_id" : null,
+  "created_by" : "92118009020754",
+  "total_cost" : "0.02",
+  "created_at" : "2019-09-18T15:10:44.967944",
+  "paid_at" : null,
+  "ip_address" : "54.222.129.56",
+  "gateway_extra_info" : "{\"payment_parameters\": {\"appid\": \"2019011563040122\", \"payment_url\": \"app_id=2019011563040122&method=alipay.trade.app.pay&charset=utf-8&timestamp=2019-09-18+15%3A10%3A44&sign_type=RSA2&version=1.0&notify_url=https%3A%2F%2Fsso.ifanr.com%2Fhserve%2Fv2.0%2Fidp%2Falipay%2Fpay%2Fcallback%2F&out_trade_no=Zn2tRyp1V8q5YdMuvK8JRhSYyunl8SMd&total_amount=0.02&subject=%E6%94%AF%E4%BB%98%E5%AE%9D&body=%E6%94%AF%E4%BB%98%E5%AE%9D&product_code=QUICK_MSECURITY_PAY&biz_content=%7B%22body%22%3A%22%E6%94%AF%E4%BB%98%E5%AE%9D%22%2C%22out_trade_no%22%3A%22Zn2tRyp1V8q5YdMuvK8JRhSYyunl8SMd%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22%E6%94%AF%E4%BB%98%E5%AE%9D%22%2C%22total_amount%22%3A0.02%7D&sign=rKNH88NUz2DbJHYyk1WqNWVrOvC2y3kCT8VQ2mj1%2FBwz32Wc91FpN2d8bEF8cJuWnG4pK4aLRoHX6Z5rkNfJisdeL5ZmcD2KXYD9K4eWqQ0rkUyXNK3Q6j8ei4iobNpsCkcBtiKQ8B4CcNsU0TQcuzpfsXEzbesVI5caG5twagVxNmG9U2af6ujmPv%2FQhwT0p%2BcmJEfR8iqSX85luFWxSH%2BVYVIxOkQKBFe9vo2A%2Bn5PxW0I8zVk8Ny5go4FJObnZGjFQUqE8ZuQ0VbFahbyrPBnjzdXXU2fgxc1ZgeH%2FDEjWFC5plKB8dfh4B%2FyKE6h56rrHXYXL%2BwzhYizaBR4UQ%3D%3D\"}}",
+  "merchandise_description" : "支付宝"
+}

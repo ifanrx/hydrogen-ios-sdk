@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Moya
 
 enum NetworkEnvironment {
     case qa
@@ -19,8 +20,13 @@ enum AuthType: String {
     case anonymous
 }
 
+let logPlugin: [PluginType] = BaaS.isDebug ? [NetworkLoggerPlugin(verbose: true)] : []
+let WXPay = "weixin_tenpay_app"
+let AliPay = "alipay_app"
+
 struct Config {
     static let environment: NetworkEnvironment = .production
+    
     static var clientID: String!
     static var version: String {
         if let info = Bundle.main.infoDictionary, let version = info["CFBundleShortVersionString"] as? String {
@@ -114,6 +120,3 @@ struct Config {
         static let orderList = "/hserve/v2.0/idp/pay/order/"
     }
 }
-
-let WXPay = "weixin_tenpay_app"
-let AliPay = "alipay_app"

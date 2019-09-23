@@ -16,6 +16,8 @@ public class Table: NSObject {
     public internal(set) var name: String?
     var identify: String
 
+    static var TableProvider = MoyaProvider<TableAPI>(plugins: logPlugin)
+    
     @objc public init(tableId: String) {
         self.identify = tableId
         super.init()
@@ -60,7 +62,7 @@ public class Table: NSObject {
         }
 
         let args = options ?? [:]
-        let request = TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!, parameters: args)) { result in
+        let request = Table.TableProvider.request(.createRecords(tableId: identify, recordData: jsonData!, parameters: args)) { result in
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 completion(resultInfo?.value, error)
             })
@@ -80,7 +82,7 @@ public class Table: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
-        let request = TableProvider.request(.delete(tableId: identify, parameters: queryArgs)) { result in
+        let request = Table.TableProvider.request(.delete(tableId: identify, parameters: queryArgs)) { result in
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 completion(resultInfo?.value, error)
             })
@@ -100,13 +102,16 @@ public class Table: NSObject {
     @objc public func get(_ recordId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
-        if let select = select {
+        if var select = select {
+            if !select.contains("id") {
+                select.append("id")
+            }
             parameters["keys"] = select.joined(separator: ",")
         }
         if let expand = expand {
             parameters["expand"] = expand.joined(separator: ",")
         }
-        let request = TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: parameters)) { result in
+        let request = Table.TableProvider.request(.get(tableId: identify, recordId: recordId, parameters: parameters)) { result in
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
                 record?.table = self
                 completion(record, error)
@@ -131,7 +136,7 @@ public class Table: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
-        let request = TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.recordParameter)) { result in
+        let request = Table.TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.recordParameter)) { result in
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 completion(resultInfo?.value, error)
             })
@@ -149,7 +154,7 @@ public class Table: NSObject {
     @objc public func find(query: Query? = nil, completion: @escaping RecordListResultCompletion) -> RequestCanceller? {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { result in
+        let request = Table.TableProvider.request(.find(tableId: identify, parameters: queryArgs)) { result in
             ResultHandler.parse(result, handler: { (listResult: RecordList?, error: NSError?) in
                 listResult?.records?.forEach({ (record) in
                     record.table = self

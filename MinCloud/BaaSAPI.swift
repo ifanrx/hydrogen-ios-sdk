@@ -9,8 +9,6 @@
 import Foundation
 import Moya
 
-let BaasProvider = MoyaProvider<BaaSAPI>()
-
 enum BaaSAPI {
     case invokeFunction(parameters: [String: Any])
     case sendSmsCode(parameters: [String: Any])
