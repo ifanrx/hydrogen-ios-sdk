@@ -21,6 +21,8 @@ public class ListResult: NSObject, Mappable {
 
     @objc public internal(set) var previous: String? // 上一页
     
+    @objc public internal(set) var listInfo: [String: Any] = [:]
+    
     public override init() {
         super.init()
     }
@@ -32,6 +34,17 @@ public class ListResult: NSObject, Mappable {
         self.totalCount = meta.getInt("total_count")
         self.next = meta.getString("next")
         self.previous = meta.getString("previous")
+        self.listInfo = dict
+    }
+    
+    override open var description: String {
+        let dict = self.listInfo
+        return dict.toJsonString
+    }
+    
+    override open var debugDescription: String {
+        let dict = self.listInfo
+        return dict.toJsonString
     }
     
     func mapList<T>(dict: [String: Any]) -> [T]? where T: Mappable {
