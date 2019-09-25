@@ -132,8 +132,7 @@ public class ContentCategoryList: ListResult {
 public class OrderList: ListResult {
 
     @objc public internal(set) var orders: [Order]?
-    var dictInfo: [String: Any]?
-
+    
     public override init() {
         super.init()
     }
@@ -141,10 +140,5 @@ public class OrderList: ListResult {
     public required init?(dict: [String: Any]) {
         super.init(dict: dict)
         self.orders = mapList(dict: dict)
-    }
-
-    override open var description: String {
-        let dict = self.dictInfo ?? [:]
-        return dict.toJsonString
     }
 }

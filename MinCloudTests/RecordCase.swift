@@ -73,16 +73,16 @@ class RecordCase: MinCloudCase {
         let dict =  SampleData.Record.update_record.toDictionary()
         
         let record = table.getWithoutData(recordId: "5d5e5d2e989c1c336aa7b6bd")
-        record.set(key: "color", value: "brown")
         record.set(record: ["author": "hua", "name": "good book"])
         record.incrementBy(key: "price", value: 1)
         record.append(key: "recommender", value: ["hong"])
+        record.unset(key: "color")
 
         record.update { success, error in
             XCTAssertTrue(success)
             XCTAssertEqual(record.Id, dict?.getString("id"))
             XCTAssertEqual(record.updatedAt, dict?.getDouble("updated_at"))
-            XCTAssertEqual(record.get(key: "color") as? String, dict?.getString("color"))
+            XCTAssertFalse(record.recordInfo.keys.contains("color"))
             
         }
     }
@@ -158,7 +158,7 @@ class RecordPlugin: PluginType {
     private func test_params(target: TableRecordAPI) {
         switch target {
         case .update(_, _, let parameters):
-            XCTAssertTrue(parameters.keys.contains("color"))
+            XCTAssertTrue(parameters.keys.contains("$unset"))
             XCTAssertTrue(parameters.keys.contains("author"))
             XCTAssertTrue(parameters.keys.contains("price"))
             XCTAssertTrue(parameters.keys.contains("recommender"))

@@ -108,9 +108,9 @@ public class Record: BaseRecord {
             completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
-        
 
         let request = Record.TableRecordProvider.request(.update(tableId: tableId, recordId: Id!, parameters: recordParameter)) { result in
+            let unsetKeys = self.recordParameter.getDict("$unset") as? [String: Any]
             self.clear() // 清除条件
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
                 if error != nil {
@@ -120,6 +120,12 @@ public class Record: BaseRecord {
                         self.Id = record.Id
                         self.updatedAt = record.updatedAt
                         self.recordInfo.merge(record.recordInfo)
+                        if let unsetKeys = unsetKeys {
+                            for key in unsetKeys.keys {
+                                self.recordInfo.removeValue(forKey: key)
+                            }
+                        }
+                        
                     }
                     completion(true, nil)
                 }
