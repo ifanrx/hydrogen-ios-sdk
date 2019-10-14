@@ -1,0 +1,57 @@
+{
+  "publish_info" : {
+    "name" : "新华出版社"
+  },
+  "created_by" : 91458891731308,
+  "polygon" : {
+    "type" : "Polygon",
+    "coordinates" : [
+      [
+        [
+          10,
+          10
+        ],
+        [
+          40,
+          40
+        ],
+        [
+          20,
+          40
+        ],
+        [
+          10,
+          20
+        ],
+        [
+          10,
+          10
+        ]
+      ]
+    ]
+  },
+  "recommender" : [
+    "hua",
+    "ming"
+  ],
+  "_id" : "5d80bc7c48aa3a573e1ee2c2",
+  "name" : "老人与海",
+  "updated_at" : 1568717948,
+  "id" : "5d80bc7c48aa3a573e1ee2c2",
+  "price" : 24,
+  "location" : {
+    "type" : "Point",
+    "coordinates" : [
+      2,
+      10
+    ]
+  },
+  "author" : "5cb5501466e48071100a0eb0",
+  "read_perm" : [
+    "user:anonymous"
+  ],
+  "created_at" : 1568717948,
+  "write_perm" : [
+    "user:anonymous"
+  ]
+}

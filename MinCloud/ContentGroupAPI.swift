@@ -9,8 +9,6 @@
 import Foundation
 import Moya
 
-let ContentGroupProvider = MoyaProvider<ContentGroupAPI>()
-
 enum ContentGroupAPI {
     case conentDetail(id: String, parameters: [String: Any])
     case contentList(parameters: [String: Any]) // 某个内容库全部内容，或某个分类的内容

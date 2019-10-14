@@ -1,0 +1,21 @@
+{
+  "objects" : [
+    {
+      "id" : 1551697507400928,
+      "have_children" : false,
+      "name" : "test"
+    },
+    {
+      "id" : 1552378058257939,
+      "have_children" : false,
+      "name" : "hello"
+    }
+  ],
+  "meta" : {
+    "previous" : null,
+    "next" : null,
+    "offset" : 0,
+    "total_count" : 2,
+    "limit" : 20
+  }
+}

@@ -9,8 +9,6 @@
 import Foundation
 import Moya
 
-let TableRecordProvider = MoyaProvider<TableRecordAPI>()
-
 enum TableRecordAPI {
     case save(tableId: String, parameters: [String: Any])
     case update(tableId: String, recordId: String, parameters: [String: Any])

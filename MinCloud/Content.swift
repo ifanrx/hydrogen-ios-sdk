@@ -18,6 +18,7 @@ open class Content: NSObject, Mappable {
     @objc public internal(set) var groupId: String?
     @objc public internal(set) var categories: [String]?
     @objc public internal(set) var readCount: Int = 0
+    @objc public internal(set) var contentInfo: [String: Any] = [:]
 
     /**
      *  创建者的 ID
@@ -54,6 +55,17 @@ open class Content: NSObject, Mappable {
             self.createdById = dict.getString("created_by")
         }
         self.createdAt = dict.getDouble("created_at")
-        self.updatedAt = dict.getDouble("created_at")
+        self.updatedAt = dict.getDouble("updated_at")
+        self.contentInfo = dict
+    }
+    
+    override open var description: String {
+        let dict = self.contentInfo
+        return dict.toJsonString
+    }
+    
+    override open var debugDescription: String {
+        let dict = self.contentInfo
+        return dict.toJsonString
     }
 }

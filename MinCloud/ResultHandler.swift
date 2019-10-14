@@ -25,7 +25,6 @@ class ResultHandler {
 
             if response.statusCode >= 200 && response.statusCode <= 299 {
                 if let data = try? response.mapJSON(), let dict = data as? [String: Any] {
-                    printDebugInfo(dict)
                     let model = T.init(dict: dict)
                     handler(model, nil)
                 } else {
@@ -34,19 +33,15 @@ class ResultHandler {
             } else if let data = try? response.mapJSON(), let dict = data as? [String: Any] { // 内部定义网络错误
                 let errorMsg = dict.getString("error_msg")
                 let error = HError(code: response.statusCode, description: errorMsg)
-                printErrorInfo(error)
                 handler(nil, error as NSError)
             } else if let message = try? response.mapString() {
                 let error = HError(code: response.statusCode, description: message)
-                printErrorInfo(error)
                 handler(nil, error as NSError)
             } else {
                 let error = HError(code: response.statusCode, description: nil)
-                printErrorInfo(error)
                 handler(nil, error as NSError)
             }
         case .failure(let error):
-            printErrorInfo(error)
             handler(nil, error as NSError)
         }
     }

@@ -29,8 +29,10 @@ open class File: NSObject, Mappable {
         self.size = dict.getInt("size")
         self.cdnPath = dict.getString("path")
         self.createdAt = dict.getDouble("created_at")
-        let category = FileCategory(dict: dict)
-        self.category = category
+        if let categoryDict = dict.getDict("category") as? [String: Any] {
+            let category = FileCategory(dict: categoryDict)
+            self.category = category
+        }
     }
 
     public override init() {
@@ -67,6 +69,11 @@ open class File: NSObject, Mappable {
         let dict = self.fileInfo
         return dict.toJsonString
     }
+    
+    override open var debugDescription: String {
+        let dict = self.fileInfo
+        return dict.toJsonString
+    }
 
     /// 删除本文件
     ///
@@ -81,13 +88,11 @@ open class File: NSObject, Mappable {
             return nil
         }
 
-        let request = FileProvider.request(.deleteFile(fileId: Id!)) { result in
+        let request = FileManager.FileProvider.request(.deleteFile(fileId: Id!)) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
                 } else {
-                    Storage.shared.reset()
-                    printDebugInfo("logout success!")
                     completion(true, nil)
                 }
             })

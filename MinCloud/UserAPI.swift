@@ -9,8 +9,6 @@
 import Foundation
 import Moya
 
-let UserProvider = MoyaProvider<UserAPI>()
-
 enum UserAPI {
     case getUserInfo(userId: String, parameters: [String: Any])
     case updateAccount(parameters: [String: Any])

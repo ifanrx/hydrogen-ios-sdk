@@ -1,0 +1,17 @@
+{
+  "meta" : {
+    "previous" : null,
+    "next" : null,
+    "offset" : 0,
+    "total_count" : 1,
+    "limit" : 20
+  },
+  "objects" : [
+    {
+      "id" : "5ca489bb8c374f5039a8062b",
+      "updated_at" : 1554287035,
+      "name" : "Book",
+      "created_at" : 1554287035
+    }
+  ]
+}

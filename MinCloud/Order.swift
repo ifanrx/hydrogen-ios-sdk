@@ -121,4 +121,9 @@ open class Order: NSObject, Mappable {
         let dict = self.dictInfo ?? [:]
         return dict.toJsonString
     }
+    
+    override open var debugDescription: String {
+        let dict = self.dictInfo ?? [:]
+        return dict.toJsonString
+    }
 }

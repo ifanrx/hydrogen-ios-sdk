@@ -16,6 +16,8 @@ import Result
     }
 
     @objc public static var isDebug: Bool = false
+    
+    static var BaasProvider = MoyaProvider<BaaSAPI>(plugins: logPlugin)
 
     @objc public static func getVersion() -> String {
         return Config.version

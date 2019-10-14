@@ -9,8 +9,6 @@
 import Foundation
 import Moya
 
-let TableProvider = MoyaProvider<TableAPI>(plugins: [NetworkLoggerPlugin(verbose: true)])
-
 enum TableAPI {
     case get(tableId: String, recordId: String, parameters: [String: Any])
     case find(tableId: String, parameters: [String: Any])
