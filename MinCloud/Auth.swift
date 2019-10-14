@@ -12,6 +12,8 @@ import Result
 
 @objc(BaaSAuth)
 open class Auth: NSObject {
+    
+    static var AuthProvider = MoyaProvider<AuthAPI>(plugins: logPlugin)
 
     /// 用户是否已经登录
     @objc public static var hadLogin: Bool {
@@ -128,7 +130,6 @@ open class Auth: NSObject {
                     completion(false, error)
                 } else {
                     Storage.shared.reset()
-                    printDebugInfo("logout success!")
                     completion(true, nil)
                 }
             })
@@ -146,7 +147,7 @@ open class Auth: NSObject {
             return nil
         }
 
-        let request = UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:])) { result in
+        let request = User.UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:])) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 user?.token = Storage.shared.token
                 user?.expiresIn = Storage.shared.expiresIn

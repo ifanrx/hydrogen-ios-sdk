@@ -9,8 +9,6 @@
 import Foundation
 import Moya
 
-let AuthProvider = MoyaProvider<AuthAPI>()
-
 enum AuthAPI {
     case register(AuthType, [String: Any])
     case login(AuthType, [String: Any])

@@ -1,0 +1,23 @@
+{
+  "created_by" : 91458891731308,
+  "_anonymous" : false,
+  "_email_verified" : false,
+  "expires_in" : 2592000,
+  "_email" : "ifanr@ifanr.com",
+  "is_authorized" : false,
+  "_session" : {
+    "ip_address" : "14.17.86.113",
+    "user_agent" : "Demo_Swift\/0.2.0 (com.ifanr.ifanr.Demo-Swift; build:2; iOS 13.0.0) Alamofire\/4.8.2",
+    "login_method" : "email",
+    "session_key" : "omn817etdl9o1fu2recufguv32e930xp"
+  },
+  "token" : "omn817etdl9o1fu2recufguv32e930xp",
+  "id" : 91458891731308,
+  "_provider" : {
+
+  },
+  "created_at" : 1568629630,
+  "updated_at" : 1568629630,
+  "user_id" : 91458891731308,
+  "avatar" : "https:\/\/media.ifanrusercontent.com\/hydrogen\/default_avatar.png"
+}

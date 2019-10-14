@@ -1,0 +1,23 @@
+{
+  "meta" : {
+    "previous" : null,
+    "next" : null,
+    "offset" : 0,
+    "total_count" : 1,
+    "limit" : 20
+  },
+  "objects" : [
+    {
+      "category" : {
+        "id" : "5ca489bb8c374f5039a8062b",
+        "name" : "Book"
+      },
+      "id" : "5ca489d3d625d846af4bf453",
+      "created_at" : 1554287059,
+      "size" : 2299,
+      "path" : "https:\/\/cloud-minapp-25010.cloud.ifanrusercontent.com\/1hBd47RKaLeXkOAF",
+      "mime_type" : "image\/png",
+      "name" : "test"
+    }
+  ]
+}

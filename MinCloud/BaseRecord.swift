@@ -45,7 +45,7 @@ open class BaseRecord: NSObject, Mappable {
             self.createdById = dict.getString("created_by")
         }
         self.createdAt = dict.getDouble("created_at")
-        self.updatedAt = dict.getDouble("created_at")
+        self.updatedAt = dict.getDouble("updated_at")
     }
 
     public override init() {

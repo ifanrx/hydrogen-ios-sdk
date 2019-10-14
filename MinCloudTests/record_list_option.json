@@ -1,0 +1,47 @@
+{
+  "objects" : [
+    {
+      "color" : null,
+      "id" : "5d5e5bfa03d08f299f3289e4"
+    },
+    {
+      "color" : null,
+      "id" : "5d5e5d2e989c1c336aa7b6bd"
+    },
+    {
+      "color" : null,
+      "id" : "5d5e601a03d08f35450f0f52"
+    },
+    {
+      "color" : null,
+      "id" : "5d5e602c03d08f33e7329a9f"
+    },
+    {
+      "color" : null,
+      "id" : "5d5e603d03d08f33e7329acb"
+    },
+    {
+      "color" : "red",
+      "id" : "5d5e649403d08f4c783283b5"
+    },
+    {
+      "color" : null,
+      "id" : "5d80a0bab569376f586f8fe0"
+    },
+    {
+      "color" : null,
+      "id" : "5d80a0f6b569376e0b1d5064"
+    },
+    {
+      "color" : null,
+      "id" : "5d80a0f6b569376e0b1d5065"
+    }
+  ],
+  "meta" : {
+    "previous" : null,
+    "next" : null,
+    "offset" : 0,
+    "total_count" : 9,
+    "limit" : 20
+  }
+}

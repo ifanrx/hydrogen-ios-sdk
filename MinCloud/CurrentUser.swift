@@ -33,6 +33,11 @@ open class CurrentUser: User {
         let dict = self.userInfo
         return dict.toJsonString
     }
+    
+    override open var debugDescription: String {
+        let dict = self.userInfo
+        return dict.toJsonString
+    }
 
     /// 使用邮件重置密码
     ///
@@ -48,7 +53,7 @@ open class CurrentUser: User {
             return nil
         }
 
-        let request = UserProvider.request(.resetPassword(parameters: ["email": email])) { result in
+        let request = User.UserProvider.request(.resetPassword(parameters: ["email": email])) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
@@ -74,7 +79,7 @@ open class CurrentUser: User {
             return nil
         }
 
-        let request = UserProvider.request(.updateAccount(parameters: ["username": username])) { result in
+        let request = User.UserProvider.request(.updateAccount(parameters: ["username": username])) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -97,7 +102,7 @@ open class CurrentUser: User {
             return nil
         }
 
-        let request = UserProvider.request(.updateAccount(parameters: ["email": email])) { result in
+        let request = User.UserProvider.request(.updateAccount(parameters: ["email": email])) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -120,7 +125,7 @@ open class CurrentUser: User {
             return nil
         }
 
-        let request = UserProvider.request(.updateAccount(parameters: ["password": password, "new_password": newPassword])) { result in
+        let request = User.UserProvider.request(.updateAccount(parameters: ["password": password, "new_password": newPassword])) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -142,7 +147,7 @@ open class CurrentUser: User {
             return nil
         }
 
-        let request = UserProvider.request(.updateUserInfo(parameters: userInfo)) { result in
+        let request = User.UserProvider.request(.updateUserInfo(parameters: userInfo)) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -162,7 +167,7 @@ open class CurrentUser: User {
             return nil
         }
 
-        let request = UserProvider.request(.requestEmailVerify) { result in
+        let request = User.UserProvider.request(.requestEmailVerify) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)

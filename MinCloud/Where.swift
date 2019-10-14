@@ -63,7 +63,7 @@ open class Where: NSObject {
     }
 
     @objc static public func matches(key: String, regx: String) -> Where {
-        let results = regx.split(separator: "/")
+        let results = regx.components(separatedBy: "/").filter { !$0.isEmpty }
         assert(results.count == 1 || results.count == 2, "the regx does not match the schema.")
 
         var regxCondition: [String: Any] = ["$regex": results[0]]

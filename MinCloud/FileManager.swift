@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import Moya
 
 @objc(BaaSFileManager)
 open class FileManager: NSObject {
+    
+    static var FileProvider = MoyaProvider<FileAPI>(plugins: logPlugin)
 
     // MARK: File
 
@@ -22,16 +25,9 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func get(_ fileId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @objc public static func get(_ fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
-        var parameters: [String: String] = [:]
-        if let select = select {
-            parameters["keys"] = select.joined(separator: ",")
-        }
-        if let expand = expand {
-            parameters["expand"] = expand.joined(separator: ",")
-        }
-        let request = FileProvider.request(.getFile(fileId: fileId, parameters: parameters)) { result in
+        let request = FileProvider.request(.getFile(fileId: fileId)) { result in
             ResultHandler.parse(result, handler: { (file: File?, error: NSError?) in
                 completion(file, error)
             })
@@ -109,10 +105,16 @@ open class FileManager: NSObject {
                     let uploadRequest = FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url"))!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
                         progressBlock(progress.progressObject)
                     }, completion: { result in
-                        ResultHandler.parse(result, handler: { (file: File?, error: NSError?) in
-                            file?.Id = id
-                            file?.name = filename
-                            file?.cdnPath = path
+                        ResultHandler.parse(result, handler: { (upyunInfo: MappableDictionary?, error: NSError?) in
+                            var file: File?
+                            if let upyunInfo = upyunInfo {
+                                file = File()
+                                file?.Id = id
+                                file?.cdnPath = path
+                                file?.mimeType = upyunInfo.value.getString("mimetype")
+                                file?.name = filename
+                                file?.size = upyunInfo.value.getInt("file_size")
+                            }
                             completion(file, error)
                         })
                     })

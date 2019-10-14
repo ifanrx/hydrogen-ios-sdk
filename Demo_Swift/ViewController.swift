@@ -77,21 +77,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 用户名注册
-                Auth.register(username: "test0807", password: "1111") { _, _ in
+                Auth.register(username: "ifanr", password: "12345") { _, _ in
                 }
             case 1:
                 // 邮箱注册
-                Auth.register(email: "test0807@yeah.net", password: "1111") {_, _ in
+                Auth.register(email: "pengquanhua@ifanr.com", password: "12345") {_, _ in
 
                 }
             case 2:
                 // 用户名登录
-                Auth.login(username: "test0807", password: "1111") {_, _ in
+                Auth.login(username: "ifanr", password: "12345") {_, _ in
 
                 }
             case 3:
                 // 邮箱登录
-                Auth.login(email: "test0807@yeah.net", password: "1111") {_, _ in
+                Auth.login(email: "ifanr@ifanr.com", password: "12345") {_, _ in
 
                 }
             case 4:
@@ -118,7 +118,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 更新用户名
                 Auth.getCurrentUser {user, _ in
                     if user != nil {
-                        user?.updateUsername("080701", completion: { (_, _) in
+                        user?.updateUsername("ifanr_new", completion: { (_, _) in
 
                         })
                     }
@@ -128,16 +128,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 更新密码
                 Auth.getCurrentUser {user, _ in
                     if user != nil {
-                        user?.resetPassword(email: "1234567", completion: { (_, _) in
+                        user?.updatePassword("12345", newPassword: "123456") { (result, error) in
 
-                        })
+                        }
                     }
                 }
             case 3:
                 // 更新邮箱
                 Auth.getCurrentUser {user, _ in
                     if user != nil {
-                        user?.updateEmail("0807000@ifanr.com", completion: { (_, _) in
+                        user?.updateEmail("ifanr_new@ifanr.com", completion: { (_, _) in
 
                         })
                     }
@@ -146,7 +146,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 更新自定义用户信息
                 Auth.getCurrentUser {user, _ in
                     if user != nil {
-                        user?.updateUserInfo(["age": 23], completion: { (_, _) in
+                        user?.updateUserInfo(["city": "guangzhou"], completion: { (_, _) in
 
                         })
                     }
@@ -164,22 +164,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 通过邮箱设置密码
                 Auth.getCurrentUser {user, _ in
                     if user != nil {
-                        user?.resetPassword(email: "", completion: { (_, _) in
+                        user?.resetPassword(email: "pengquanhua@ifanr.com", completion: { (_, _) in
 
                         })
                     }
                 }
             case 7:
-                // 批量查询用户列表，如 获取年龄小于 25 的用户
-                let whereArgs = Where.compare(key: "age", operator: .equalTo, value: 19)
+                let whereAgrs = Where.compare(key: "age", operator: .equalTo, value: 23)
                 let query = Query()
-                query.setWhere(whereArgs)
+                query.setWhere(whereAgrs)
+                query.limit(10)
+                query.offset(0)
+                query.orderBy(["created_at"])
+                query.expand(["created_by"])
+                query.select(["_username", "created_by"])
                 User.find(query: query, completion: {_, _ in
 
                 })
             case 8:
                 // 获取指定用户
-                User.get("36845069853014", select: ["nickname", "gender"]) {_, _ in
+                User.get("92812581396859", select: ["_username", "created_by"], expand: ["created_by"]) {_, _ in
 
                 }
             default:
@@ -191,7 +195,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 0:
                 // 获取指定数据详情
 
-                table.get("5cb43f3f66e4804bb158bc4f", select: ["color", "created_by"], expand: ["created_by"]) {_, _ in
+                table.get("5d5e5d2e989c1c336aa7b6bd", select: ["color", "created_by"], expand: ["created_by"]) {_, _ in
 
                 }
             case 1:
@@ -209,18 +213,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 单位为KM
 //                let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 113.4196758270, latitude: 23.1348351120), minDistance: 0.1, maxDistance: 3)
 
-                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[113.4594583511,23.1265079048], [113.4705305099,23.1344010050], [113.4634065628,23.1390577162], [113.4564113617,23.1353481458], [113.4594583511,23.1265079048]]))
-                //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
-//                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
+//                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[113.4594583511,23.1265079048], [113.4705305099,23.1344010050], [113.4634065628,23.1390577162], [113.4564113617,23.1353481458], [113.4594583511,23.1265079048]]))
+//                //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
+////                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
+                let whereAgrs = Where.compare(key: "color", operator: .equalTo, value: "brown")
                 let query = Query()
-                query.setWhere(whereArgs)
-                table.find(query:query, completion: {_, _ in
+                query.setWhere(whereAgrs)
+                query.limit(10)
+                query.offset(0)
+                query.orderBy(["created_at"])
+                query.expand(["created_by"])
+                query.select(["color", "created_by"])
+                table.find(query: query, completion: {_, _ in
 
                 })
 
             case 2:
                 // 更新数据
-                record = table.getWithoutData(recordId: "5cdd33c9f795cd1406b2fec5")
+                record = table.getWithoutData(recordId: "5d5e5d2e989c1c336aa7b6bd")
                 record.set(key: "color", value: "brown")
                 record.set(record: ["author": "hua", "name": "good book"])
                 record.incrementBy(key: "price", value: 1)
@@ -230,7 +240,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 3:
                 // 指定需要删除的记录
-                let record = table.getWithoutData(recordId: "5cad89bdcb1e060359405460")
+                let record = table.getWithoutData(recordId: "5d80a0f6b569376e0b1d5064")
                 record.delete(completion: {_, _ in
 
                 })
@@ -304,13 +314,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 获取内容详情
-                contentGroup.get("1551697403189289") {_, _ in
+                contentGroup.get("1551697403189289") {content, error in
 
                 }
             case 1:
                 // 查询内容列表
                 // 如需查询，过滤，查找 Table的方法
-                contentGroup.find(completion: {_, _ in
+                let whereAgrs = Where.compare(key: "title", operator: .equalTo, value: "article")
+                let query = Query()
+                query.setWhere(whereAgrs)
+                query.limit(10)
+                query.offset(0)
+                query.orderBy(["created_at"])
+                query.select(["title"])
+                contentGroup.find(query: query, completion: {_, _ in
 
                 })
             case 2:
@@ -326,7 +343,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 4:
                 // 获取分类列表
                 // 如需查询，过滤，查找 Table的方法
-                contentGroup.getCategoryList {_, _ in
+
+                let query = Query()
+                query.limit(20)
+                query.offset(0)
+                contentGroup.getCategoryList(query: query) {_, _ in
 
                 }
             default:
@@ -342,14 +363,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                    completion: {_, _ in })
             case 1:
                 // 获取文件详情
-                FileManager.get("5cac34631071240a7f8c492d", select: ["size"]) {_, _ in
+                FileManager.get("5ca489d3d625d846af4bf453") {_, _ in
 
                 }
             case 2:
                 // 查询文件列表
                 //                let query = Where.contains(key: "name", value: "test")
                 //                fileManager.setWhere(query)
-                FileManager.find(completion: {_, _ in
+                let whereAgrs = Where.compare(key: "name", operator: .equalTo, value: "3.jpg")
+                let query = Query()
+                query.setWhere(whereAgrs)
+                query.limit(10)
+                query.offset(0)
+                query.orderBy(["size"])
+                FileManager.find(query: query, completion: {_, _ in
 
                 })
             case 3:
@@ -373,6 +400,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 6:
                 // 获取文件分类列表
+                let query = Query()
+                query.limit(10)
+                query.offset(0)
                 FileManager.getCategoryList(completion: {_, _ in
 
                 })
@@ -494,7 +524,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             case 4:
-                Pay.shared.orderList { (result, error) in
+                let query = Query()
+                query.limit(10)
+                query.offset(0)
+                Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
                     } else {

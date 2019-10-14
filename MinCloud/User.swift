@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import Moya
 
 @objc(BaaSUser)
 open class User: BaseRecord {
+    
+    static var UserProvider = MoyaProvider<UserAPI>(plugins: logPlugin)
 
     /**
      * 用户 Id
@@ -94,6 +97,11 @@ open class User: BaseRecord {
      *
      */
     @objc public internal(set) var provider: [String: Any]?
+    
+    /**
+     * 是否匿名
+     */
+    @objc public internal(set) var isAnonymous: Bool = false
 
     init(Id: String) {
         self.userId = Id
@@ -103,8 +111,6 @@ open class User: BaseRecord {
 
     required public init?(dict: [String: Any]) {
         let Id = dict.getString("id", "user_id")
-        guard Id != nil else { return nil }
-
         self.userId = Id
         self.email = dict.getString("_email")
         self.avatar = dict.getString("avatar")
@@ -119,11 +125,17 @@ open class User: BaseRecord {
         self.unionid = dict.getString("unionid")
         self.emailVerified = dict.getBool("_email_verified")
         self.provider = dict.getDict("_provider") as? [String: Any]
+        self.isAnonymous = dict.getBool("_anonymous")
         self.userInfo = dict
         super.init(dict: dict)
     }
 
     override open var description: String {
+        let dict = self.userInfo
+        return dict.toJsonString
+    }
+    
+    override open var debugDescription: String {
         let dict = self.userInfo
         return dict.toJsonString
     }
@@ -166,7 +178,10 @@ open class User: BaseRecord {
     @objc public static func get(_ userId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
-        if let select = select {
+        if var select = select {
+            if !select.contains("id") {
+                select.append("id")
+            }
             parameters["keys"] = select.joined(separator: ",")
         }
         if let expand = expand {
