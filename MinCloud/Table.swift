@@ -53,9 +53,10 @@ public class Table: NSObject {
     @discardableResult
     @objc public func createMany(_ records: [[String: Any]], options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
 
+        let newRecords = records.map { $0.convertToMinDictionary() }
         var jsonData: Data?
         do {
-            jsonData = try JSONSerialization.data(withJSONObject: records, options: .prettyPrinted)
+            jsonData = try JSONSerialization.data(withJSONObject: newRecords, options: .prettyPrinted)
         } catch let error {
             completion(nil, HError.init(code: 400, description: error.localizedDescription) as NSError)
             return nil
@@ -136,7 +137,7 @@ public class Table: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
-        let request = Table.TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.recordParameter)) { result in
+        let request = Table.TableProvider.request(.update(tableId: identify, urlParameters: queryArgs, bodyParameters: record.parameterForMinCloud)) { result in
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 completion(resultInfo?.value, error)
             })

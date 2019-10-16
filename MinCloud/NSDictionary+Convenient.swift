@@ -266,4 +266,20 @@ extension Dictionary where Key == String {
         }
         return nil
     }
+    
+    func convertToMinDictionary() -> [String: Any] {
+        var newDict: [String: Any] = [:]
+        for (key, value) in self {
+            if let baseRecord = value as? BaseRecord {
+                newDict[key] = baseRecord.Id
+            } else if let point = value as? GeoPoint {
+                newDict[key] = point.geoJson
+            } else if let polygon = value as? GeoPolygon {
+                newDict[key] = polygon.geoJson
+            } else {
+                newDict[key] = value
+            }
+        }
+        return newDict
+    }
 }
