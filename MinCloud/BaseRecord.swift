@@ -56,34 +56,24 @@ open class BaseRecord: NSObject, Mappable {
      *  记录需要更新的值
      */
     @objc var recordParameter: [String: Any] = [:]
+    
+    // 提交请求参数时，将 Record、GeoPoint、GeoPolygon 转换成有效参数。
+    var parameterForMinCloud: [String: Any] {
+        return recordParameter.convertToMinDictionary()
+    }
 
+    /// 每次设置一个字段
+    ///
+    /// - Parameter key: 记录值
     @objc public func set(key: String, value: Any) {
-        if let baseRecord = value as? BaseRecord {
-            recordParameter[key] = baseRecord.Id
-        } else if let point = value as? GeoPoint {
-            recordParameter[key] = point.geoJson
-        } else if let polygon = value as? GeoPolygon {
-            recordParameter[key] = polygon.geoJson
-        } else {
-            recordParameter[key] = value
-        }
+        recordParameter[key] = value
     }
 
     /// 一次性给记录赋值
     ///
     /// - Parameter record: 记录值
     @objc public func set(record: [String: Any]) {
-        var parameter = record
-        for (key, value) in record {
-            if let baseRecord = value as? BaseRecord {
-                parameter[key] = baseRecord.Id
-            } else if let point = value as? GeoPoint {
-                parameter[key] = point.geoJson
-            } else if let polygon = value as? GeoPolygon {
-                parameter[key] = polygon.geoJson
-            }
-        }
-        recordParameter.merge(parameter)
+        recordParameter.merge(record)
     }
 
     /// 在服务器上将该 key 对应的值置空
