@@ -28,6 +28,7 @@ class BaseRecordCase: MinCloudCase {
         XCTAssertEqual(record.createdById, dict.getString("created_by"))
     }
     
+    // create_by 为扩展时能否正常解析
     func test_init_created_by_dict() {
         let dict = SampleData.Record.base_record_created_by_dict.toDictionary()!
         let record = BaseRecord(dict: dict)!
@@ -38,86 +39,28 @@ class BaseRecordCase: MinCloudCase {
 
     // MARK: set
     
-    func test_one_set() {
-        let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
-        record.set(key: "price", value: 11.0)
-        XCTAssertTrue(record.recordParameter.keys.contains("price"))
-        XCTAssertEqual(11.0, record.recordParameter.getDouble("price"))
-    }
-    
-    func test_one_set_record() {
-        let author = User(Id: "1001")
-        let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
-        record.set(key: "author", value: author)
-        XCTAssertTrue(record.recordParameter.keys.contains("author"))
-        XCTAssertEqual("1001", record.recordParameter.getString("author"))
-    }
-    
-    func test_one_set_GeoPoint() {
-        let point = GeoPoint(longitude: 1.0, latitude: 2.0)
-        let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
-        record.set(key: "point", value: point)
-        XCTAssertTrue(record.recordParameter.keys.contains("point"))
-        let geojson = record.recordParameter.getDict("point") as? [String: Any]
-        XCTAssertTrue(geojson?.keys.contains("type") ?? false)
-        XCTAssertEqual(geojson?.getString("type"), "Point")
-        XCTAssertTrue(geojson?.keys.contains("coordinates") ?? false)
-    }
-    
-    func test_one_set_GeoPolygon() {
-        let polygon = GeoPolygon(coordinates: [[0,0], [1,1], [0,0]])
-        let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
-        record.set(record: ["polygon": polygon])
-        XCTAssertTrue(record.recordParameter.keys.contains("polygon"))
-        let geojson = record.recordParameter.getDict("polygon") as? [String: Any]
-        XCTAssertTrue(geojson?.keys.contains("type") ?? false)
-        XCTAssertEqual(geojson?.getString("type"), "Polygon")
-        XCTAssertTrue(geojson?.keys.contains("coordinates") ?? false)
-    }
-    
     func test_set() {
         let book = Table(name: "Book")
         let record = book.getWithoutData(recordId: "123")
-        record.set(record: ["price": 11.0])
+        record.set(key: "price", value: 11.0)
+        record.set(key: "name", value: "goodbook")
+        XCTAssertEqual(2, record.recordParameter.keys.count)
         XCTAssertTrue(record.recordParameter.keys.contains("price"))
         XCTAssertEqual(11.0, record.recordParameter.getDouble("price"))
+        XCTAssertTrue(record.recordParameter.keys.contains("name"))
+        XCTAssertEqual("goodbook", record.recordParameter.getString("name"))
     }
     
-    func test_set_record() {
-        let author = User(Id: "1001")
+    func test_set_dict() {
         let book = Table(name: "Book")
         let record = book.getWithoutData(recordId: "123")
-        record.set(key: "author", value: author)
-        XCTAssertTrue(record.recordParameter.keys.contains("author"))
-        XCTAssertEqual("1001", record.recordParameter.getString("author"))
-    }
-    
-    func test_set_GeoPoint() {
-        let point = GeoPoint(longitude: 1.0, latitude: 2.0)
-        let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
-        record.set(record: ["point": point])
-        XCTAssertTrue(record.recordParameter.keys.contains("point"))
-        let geojson = record.recordParameter.getDict("point") as? [String: Any]
-        XCTAssertTrue(geojson?.keys.contains("type") ?? false)
-        XCTAssertEqual(geojson?.getString("type"), "Point")
-        XCTAssertTrue(geojson?.keys.contains("coordinates") ?? false)
-    }
-    
-    func test_set_GeoPolygon() {
-        let polygon = GeoPolygon(coordinates: [[0,0], [1,1], [0,0]])
-        let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
-        record.set(record: ["polygon": polygon])
-        XCTAssertTrue(record.recordParameter.keys.contains("polygon"))
-        let geojson = record.recordParameter.getDict("polygon") as? [String: Any]
-        XCTAssertTrue(geojson?.keys.contains("type") ?? false)
-        XCTAssertEqual(geojson?.getString("type"), "Polygon")
-        XCTAssertTrue(geojson?.keys.contains("coordinates") ?? false)
+        record.set(record: ["price": 11.0])
+        record.set(record: ["name": "goodbook"])
+        XCTAssertEqual(2, record.recordParameter.keys.count)
+        XCTAssertTrue(record.recordParameter.keys.contains("price"))
+        XCTAssertEqual(11.0, record.recordParameter.getDouble("price"))
+        XCTAssertTrue(record.recordParameter.keys.contains("name"))
+        XCTAssertEqual("goodbook", record.recordParameter.getString("name"))
     }
     
     func test_unset_key() {

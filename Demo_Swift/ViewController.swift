@@ -230,11 +230,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
             case 2:
                 // 更新数据
-                record = table.getWithoutData(recordId: "5d5e5d2e989c1c336aa7b6bd")
+                record = table.getWithoutData(recordId: "5d8b20dcea9d7468f11411aa")
                 record.set(key: "color", value: "brown")
                 record.set(record: ["author": "hua", "name": "good book"])
                 record.incrementBy(key: "price", value: 1)
                 record.append(key: "recommender", value: ["hong"])
+                // geoPoint 类型
+                let point = GeoPoint(longitude: 2, latitude: 10)
+                record.set(key: "location", value: point)
+
+                // polygon
+                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
+                record.set(key: "polygon", value: polygon)
+
+                // object
+                let pulish_info = ["name": "新华出版社"]
+                record.set(key: "publish_info", value: pulish_info)
+
+                // array
+                record.set(key: "recommender", value: ["hua", "ming"])
+
+                let authorTable = Table(name: "Author")
+                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
+                record.set(key: "writer", value: author)
 
                 record.update {_, _ in
                 }
@@ -283,16 +301,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 record.set(key: "recommender", value: ["hua", "ming"])
 
                 let authorTable = Table(name: "Author")
-                let author = authorTable.getWithoutData(recordId: "5cb5501466e48071100a0eb0")
-                record.set(key: "author", value: author)
+                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
+                record.set(key: "writer", value: author)
 
                 record.save {_, _ in
+                    
                 }
 
             case 6:
                 // 批量增加数据项
                 let options = ["enable_trigger": true]
-                table.createMany([["name": "麦田里的守望者", "price": 30], ["name": "三体", "price": 39]], options: options) {_, _ in
+                let point = GeoPoint(longitude: 113.3622550964, latitude: 23.0884171721)
+                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
+                let authorTable = Table(name: "Author")
+                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
+                table.createMany([["name": "麦田里的守望者", "price": 30, "location": point, "writer": author], ["name": "三体", "price": 39, "polygon": polygon]], options: options) {_, _ in
 
                 }
             case 7:
@@ -303,7 +326,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let options = ["enable_trigger": true]
                 let record = table.createRecord()
                 //record.incrementBy(key: "price", value: 1)
-                record.set(key: "price", value: 35)
+                record.set(key: "price", value: 9)
+                let point = GeoPoint(longitude: 2, latitude: 10)
+                record.set(key: "location", value: point)
+
+                // polygon
+                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
+                record.set(key: "polygon", value: polygon)
+
+                // object
+                let pulish_info = ["name": "新华出版社"]
+                record.set(key: "publish_info", value: pulish_info)
+
+                // array
+                record.set(key: "recommender", value: ["hua", "ming"])
+
+                let authorTable = Table(name: "Author")
+                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
+                record.set(key: "writer", value: author)
                 table.update(record: record, query: query, options: options) { (_, _) in
 
                 }

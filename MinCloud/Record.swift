@@ -71,7 +71,7 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = Record.TableRecordProvider.request(.save(tableId: tableId, parameters: recordParameter)) { result in
+        let request = Record.TableRecordProvider.request(.save(tableId: tableId, parameters: recordParameter.convertToMinDictionary())) { result in
             self.clear() // 清除条件
 
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
@@ -109,7 +109,7 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = Record.TableRecordProvider.request(.update(tableId: tableId, recordId: Id!, parameters: recordParameter)) { result in
+        let request = Record.TableRecordProvider.request(.update(tableId: tableId, recordId: Id!, parameters: recordParameter.convertToMinDictionary())) { result in
             let unsetKeys = self.recordParameter.getDict("$unset") as? [String: Any]
             self.clear() // 清除条件
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
