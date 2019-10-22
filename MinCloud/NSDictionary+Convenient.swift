@@ -276,7 +276,28 @@ extension Dictionary where Key == String {
                 newDict[key] = point.geoJson
             } else if let polygon = value as? GeoPolygon {
                 newDict[key] = polygon.geoJson
-            } else {
+            } else if let pointArray = value as? [GeoPoint] {
+                var pointValues: [[String: Any]] = []
+                for point in pointArray {
+                    pointValues.append(point.geoJson)
+                }
+                newDict[key] = pointValues
+            } else if let polygonArray = value as? [GeoPolygon] {
+                var polygonValues: [[String: Any]] = []
+                for polygon in polygonArray {
+                    polygonValues.append(polygon.geoJson)
+                }
+                newDict[key] = polygonValues
+            } else if let file  = value as? File {
+                newDict[key] = file.fileInfo
+            } else if let arrayFile = value as? [File] {
+                var fileValues: [[String: Any]] = []
+                for file in arrayFile {
+                    fileValues.append(file.fileInfo)
+                }
+                newDict[key] = fileValues
+            }
+            else {
                 newDict[key] = value
             }
         }
