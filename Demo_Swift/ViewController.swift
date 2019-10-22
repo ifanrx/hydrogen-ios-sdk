@@ -8,8 +8,9 @@
 
 import UIKit
 import MinCloud
+import Photos
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var tableView: UITableView!
     var data: NSArray!
@@ -303,6 +304,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let authorTable = Table(name: "Author")
                 let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
                 record.set(key: "writer", value: author)
+                
+                let file = File(dict: ["created_at": 1554287059, "id": "5ca489d3d625d846af4bf453", "mime_type": "image/png", "name": "test", "path": "https://cloud-minapp-25010.cloud.ifanrusercontent.com/1hBd47RKaLeXkOAF", "size": 2299])
+                record.set(key: "cover", value: file!)
+                record.set(key: "arrayFile", value: [file!])
+                record.set(key: "arrayPoint", value: [point])
+                record.set(key: "arrayPolygon", value: [polygon])
 
                 record.save {_, _ in
                     
@@ -397,13 +404,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 上传文件
-                let filePath = Bundle.main.path(forResource: "1", ofType: "png")
-                FileManager.upload(filename: "test", localPath: filePath!, categoryName: "category1",
-                                   progressBlock: { progress in print("\(String(describing: progress?.fractionCompleted))") },
-                                   completion: {_, _ in })
+                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                    let picker = UIImagePickerController()
+                    picker.delegate = self
+                    picker.sourceType = .photoLibrary
+                    self.present(picker, animated: true) {
+
+                    }
+                }
             case 1:
                 // 获取文件详情
-                FileManager.get("5ca489d3d625d846af4bf453") {_, _ in
+                FileManager.get("5ca489d3d625d846af4bf453") {file, error in
 
                 }
             case 2:
@@ -629,5 +640,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let okAction = UIAlertAction(title: "好的", style: .default, handler: nil)
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        
+        let fileManager = FileManager.default
+        let rootPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
+        let filePath = "\(rootPath)/pickedimage.jpg"
+        let imageData = pickedImage.jpegData(compressionQuality: 1.0)
+        fileManager.createFile(atPath: filePath, contents: imageData, attributes: nil)
+        if fileManager.fileExists(atPath: filePath) {
+            FileManager.upload(filename: "test", localPath: filePath, categoryName: "category1",
+                               progressBlock: { progress in print("\(String(describing: progress?.fractionCompleted))") },
+                               completion: {file, error in
+                                
+            })
+        }
+        
+        picker.dismiss(animated: true) {
+            
+        }
+        
     }
 }
