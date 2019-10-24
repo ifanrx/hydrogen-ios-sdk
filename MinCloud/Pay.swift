@@ -9,35 +9,11 @@
 import Foundation
 import Moya
 
-protocol PayProtocol {
-    var wxPayCalled: Bool { get set }
-    var aliPayCalled: Bool { get set }
-    func payWithWX(_ request: PayReq, appId: String) -> Void
-    func payWithAli(_ paymentUrl: String, appId: String)
-}
-
-class PayTooler: PayProtocol {
-    var wxPayCalled: Bool = false
-    var aliPayCalled: Bool = false
-    
-    func payWithWX(_ request: PayReq, appId: String) {
-        WXApi.registerApp(appId)
-        WXApi.send(request)
-        wxPayCalled = true
-    }
-    
-    func payWithAli(_ paymentUrl: String, appId: String) {
-        AlipaySDK.defaultService()?.payOrder(paymentUrl, fromScheme: appId, callback: nil)
-        aliPayCalled = true
-    }
-}
-
 @objc(BaaSPay)
 open class Pay: NSObject {
 
     @objc public static let shared = Pay()
     @objc public var isPaying: Bool = false
-    var payTooler: PayProtocol = PayTooler()
     
     static var PayProvider = MoyaProvider<PayAPI>(plugins: logPlugin)
 
@@ -60,7 +36,7 @@ open class Pay: NSObject {
                 order?.gateWayType = WXPay
                 if let request = order?.wxPayReq, let appId = order?.wxAppid {
                     // 调起微信支付
-                    self.payTooler.payWithWX(request, appId: appId)
+                    self.payWithWX(request, appId: appId)
                     completion(order, nil)
                 } else {
                     let payError = HError.init(code: 610) as NSError
@@ -87,7 +63,7 @@ open class Pay: NSObject {
             } else {
                 order?.gateWayType = AliPay
                 if let paymentUrl = order?.aliPaymenUrl, let appId = order?.aliAppid {
-                    self.payTooler.payWithAli(paymentUrl, appId: appId)
+                    self.payWithAli(paymentUrl, appId: appId)
                     completion(order, nil)
                 } else {
                     completion(nil, HError.init(code: 610) as NSError)
@@ -133,7 +109,7 @@ open class Pay: NSObject {
         if gateWayType == WXPay {
             if let request = order.wxPayReq, let appId = order.wxAppid {
                 // 调起微信支付
-                self.payTooler.payWithWX(request, appId: appId)
+                self.payWithWX(request, appId: appId)
             } else {
                 let error = HError.init(code: 610) as NSError
                 completion(order, error)
@@ -141,12 +117,21 @@ open class Pay: NSObject {
 
         } else if gateWayType == AliPay {
             if let paymentUrl = order.aliPaymenUrl, let appId = order.aliAppid {
-                self.payTooler.payWithAli(paymentUrl, appId: appId)
+                self.payWithAli(paymentUrl, appId: appId)
             } else {
                 completion(nil, HError.init(code: 610) as NSError)
             }
         }
 
+    }
+    
+    func payWithWX(_ request: PayReq, appId: String) {
+        WXApi.registerApp(appId)
+        WXApi.send(request)
+    }
+    
+    func payWithAli(_ paymentUrl: String, appId: String) {
+        AlipaySDK.defaultService()?.payOrder(paymentUrl, fromScheme: appId, callback: nil)
     }
 }
 
