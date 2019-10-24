@@ -12,42 +12,57 @@ import XCTest
 
 fileprivate var order_list_option = false
 
+class MockPay: Pay {
+    
+    var wxCalled: Bool = false
+    var aliCalled: Bool = false
+    
+    @objc override func payWithWX(_ request: PayReq, appId: String) {
+        wxCalled = true
+    }
+    
+    @objc override func payWithAli(_ paymentUrl: String, appId: String) {
+        aliCalled = true
+    }
+}
+
 class OrderCase: MinCloudCase {
+    
+    var stu: MockPay!
 
     override func setUp() {
         super.setUp()
-        Pay.shared.payTooler = TestPayTooler()
+        self.stu = MockPay()
     }
 
     override func tearDown() {
+        self.stu = nil
         super.tearDown()
     }
     
     func test_wx_pay() {
         let dict = SampleData.Order.wx_pay.toDictionary()
-        Pay.shared.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", merchandiseSchemaID: "123", merchandiseRecordID: "123", merchandiseSnapshot: [:], completion: { (order, error) in
+        stu.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", merchandiseSchemaID: "123", merchandiseRecordID: "123", merchandiseSnapshot: [:], completion: { (order, error) in
             XCTAssertNotNil(order)
             XCTAssertEqual(order?.tradeNo, dict?.getString("trade_no"))
             XCTAssertEqual(order?.transactionNo, dict?.getString("transaction_no"))
-            XCTAssertTrue(Pay.shared.payTooler.wxPayCalled)
-            Pay.shared.payTooler.wxPayCalled = false
+            XCTAssertTrue(self.stu.wxCalled)
         })
     }
 
     func test_ali_pay() {
         let dict = SampleData.Order.ali_pay.toDictionary()
-        Pay.shared.aliPay(totalCost: 0.02, merchandiseDescription: "支付宝", merchandiseSchemaID: "123", merchandiseRecordID: "123", merchandiseSnapshot: [:], completion: { (order, error) in
+        stu.aliPay(totalCost: 0.02, merchandiseDescription: "支付宝", merchandiseSchemaID: "123", merchandiseRecordID: "123", merchandiseSnapshot: [:], completion: { (order, error) in
             XCTAssertNotNil(order)
             XCTAssertEqual(order?.tradeNo, dict?.getString("trade_no"))
             XCTAssertEqual(order?.transactionNo, dict?.getString("transaction_no"))
-            XCTAssertTrue(Pay.shared.payTooler.aliPayCalled)
-            Pay.shared.payTooler.aliPayCalled = false
+            XCTAssertTrue(self.stu.aliCalled)
         })
     }
     
     func test_get_order() {
         let dict = SampleData.Order.get_order.toDictionary()
-        Pay.shared.order("Zn2tRyp1V8q5YdMuvK8JRhSYyunl8SMd") { (order, error) in
+        stu.order("Zn2tRyp1V8q5YdMuvK8JRhSYyunl8SMd") { (order, error) in
             ModelCase.orderEqual(order: order!, dict: dict!)
         }
     }
@@ -57,7 +72,7 @@ class OrderCase: MinCloudCase {
         let query = Query()
         query.limit(10)
         query.offset(0)
-        Pay.shared.orderList(query: query) { (orderList, error) in
+        stu.orderList(query: query) { (orderList, error) in
             ModelCase.orderListEqual(list: orderList!, dict: dict!)
         }
     }
@@ -139,18 +154,5 @@ class OrderPlugin: PluginType {
             XCTAssertTrue(parameters.keys.contains("limit"))
             XCTAssertTrue(parameters.keys.contains("offset"))
         }
-    }
-}
-
-class TestPayTooler: PayProtocol {
-    var wxPayCalled: Bool = false
-    var aliPayCalled: Bool = false
-    
-    func payWithWX(_ request: PayReq, appId: String) {
-        wxPayCalled = true
-    }
-    
-    func payWithAli(_ paymentUrl: String, appId: String) {
-        aliPayCalled = true
     }
 }
