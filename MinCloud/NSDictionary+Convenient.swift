@@ -267,7 +267,7 @@ extension Dictionary where Key == String {
         return nil
     }
     
-    func convertToMinDictionary() -> [String: Any] {
+    func jsonValue() -> [String: Any] {
         var newDict: [String: Any] = [:]
         for (key, value) in self {
             if let baseRecord = value as? BaseRecord {

@@ -77,7 +77,7 @@ class TableCase: MinCloudCase {
         query.setWhere(whereArgs)
         let options = ["enable_trigger": true]
         let record = table.createRecord()
-        record.set(key: "price", value: 35)
+        record.set("price", value: 35)
         table.update(record: record, query: query, options: options) { (result, error) in
             XCTAssertNotNil(result, "批量更新记录")
         }

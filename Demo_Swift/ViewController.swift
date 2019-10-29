@@ -179,6 +179,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.orderBy(["created_at"])
                 query.expand(["created_by"])
                 query.select(["_username", "created_by"])
+                query.returnTotalCount(true)
                 User.find(query: query, completion: {_, _ in
 
                 })
@@ -217,14 +218,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[113.4594583511,23.1265079048], [113.4705305099,23.1344010050], [113.4634065628,23.1390577162], [113.4564113617,23.1353481458], [113.4594583511,23.1265079048]]))
 //                //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
 ////                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
-                let whereAgrs = Where.compare(key: "color", operator: .equalTo, value: "brown")
+//                let whereAgrs = Where.compare(key: "color", operator: .equalTo, value: "brown")
                 let query = Query()
-                query.setWhere(whereAgrs)
+//                query.setWhere(whereAgrs)
                 query.limit(10)
                 query.offset(0)
                 query.orderBy(["created_at"])
                 query.expand(["created_by"])
                 query.select(["color", "created_by"])
+                query.returnTotalCount(true)
                 table.find(query: query, completion: {_, _ in
 
                 })
@@ -232,28 +234,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 2:
                 // 更新数据
                 record = table.getWithoutData(recordId: "5d8b20dcea9d7468f11411aa")
-                record.set(key: "color", value: "brown")
-                record.set(record: ["author": "hua", "name": "good book"])
-                record.incrementBy(key: "price", value: 1)
-                record.append(key: "recommender", value: ["hong"])
+                record.set("color", value: "brown")
+                record.set(["author": "hua", "name": "good book"])
+                record.incrementBy("price", value: 1)
+                record.append("recommender", value: ["hong"])
                 // geoPoint 类型
                 let point = GeoPoint(longitude: 2, latitude: 10)
-                record.set(key: "location", value: point)
+                record.set("location", value: point)
 
                 // polygon
                 let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
-                record.set(key: "polygon", value: polygon)
+                record.set("polygon", value: polygon)
 
                 // object
                 let pulish_info = ["name": "新华出版社"]
-                record.set(key: "publish_info", value: pulish_info)
+                record.set("publish_info", value: pulish_info)
 
                 // array
-                record.set(key: "recommender", value: ["hua", "ming"])
+                record.set("recommender", value: ["hua", "ming"])
 
                 let authorTable = Table(name: "Author")
                 let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
-                record.set(key: "writer", value: author)
+                record.set("writer", value: author)
 
                 record.update {_, _ in
                 }
@@ -269,6 +271,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let query = Query()
                 query.setWhere(whereArgs)
                 let options = ["enable_trigger": true]
+                query.returnTotalCount(true)
                 table.delete(query: query, options: options, completion: {_, _ in
 
                 })
@@ -277,10 +280,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 record = table.createRecord()
 
                 // 逐个赋值
-                record.set(key: "description", value: "这是本好书")
+                record.set("description", value: "这是本好书")
 
                 // 一次性赋值
-                record.set(record: ["price": 24, "name": "老人与海"])
+                record.set(["price": 24, "name": "老人与海"])
 
                 // date 类型
                 //                let dateISO = ISO8601DateFormatter().string(from: Date())
@@ -288,28 +291,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 // geoPoint 类型
                 let point = GeoPoint(longitude: 2, latitude: 10)
-                record.set(key: "location", value: point)
+                record.set("location", value: point)
 
                 // polygon
                 let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
-                record.set(key: "polygon", value: polygon)
+                record.set("polygon", value: polygon)
 
                 // object
                 let pulish_info = ["name": "新华出版社"]
-                record.set(key: "publish_info", value: pulish_info)
+                record.set("publish_info", value: pulish_info)
 
                 // array
-                record.set(key: "recommender", value: ["hua", "ming"])
+                record.set("recommender", value: ["hua", "ming"])
 
                 let authorTable = Table(name: "Author")
                 let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
-                record.set(key: "writer", value: author)
+                record.set("writer", value: author)
                 
                 let file = File(dict: ["created_at": 1554287059, "id": "5ca489d3d625d846af4bf453", "mime_type": "image/png", "name": "test", "path": "https://cloud-minapp-25010.cloud.ifanrusercontent.com/1hBd47RKaLeXkOAF", "size": 2299])
-                record.set(key: "cover", value: file!)
-                record.set(key: "arrayFile", value: [file!])
-                record.set(key: "arrayPoint", value: [point])
-                record.set(key: "arrayPolygon", value: [polygon])
+                record.set("cover", value: file!)
+                record.set("arrayFile", value: [file!])
+                record.set("arrayPoint", value: [point])
+                record.set("arrayPolygon", value: [polygon])
 
                 record.save {_, _ in
                     
@@ -333,24 +336,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let options = ["enable_trigger": true]
                 let record = table.createRecord()
                 //record.incrementBy(key: "price", value: 1)
-                record.set(key: "price", value: 9)
+                record.set("price", value: 9)
                 let point = GeoPoint(longitude: 2, latitude: 10)
-                record.set(key: "location", value: point)
+                record.set("location", value: point)
 
                 // polygon
                 let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
-                record.set(key: "polygon", value: polygon)
+                record.set("polygon", value: polygon)
 
                 // object
                 let pulish_info = ["name": "新华出版社"]
-                record.set(key: "publish_info", value: pulish_info)
+                record.set("publish_info", value: pulish_info)
 
                 // array
-                record.set(key: "recommender", value: ["hua", "ming"])
+                record.set("recommender", value: ["hua", "ming"])
 
                 let authorTable = Table(name: "Author")
                 let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
-                record.set(key: "writer", value: author)
+                record.set("writer", value: author)
+                query.returnTotalCount(true)
                 table.update(record: record, query: query, options: options) { (_, _) in
 
                 }
@@ -374,12 +378,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.offset(0)
                 query.orderBy(["created_at"])
                 query.select(["title"])
+                query.returnTotalCount(true)
                 contentGroup.find(query: query, completion: {_, _ in
 
                 })
             case 2:
                 // 在分类中，查询内容列表
-                contentGroup.find(categoryId: "1551697507400928") { (_, _) in
+                let query = Query()
+                query.returnTotalCount(true)
+                contentGroup.find(categoryId: "1551697507400928", query: query) { (_, _) in
 
                 }
             case 3:
@@ -394,6 +401,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let query = Query()
                 query.limit(20)
                 query.offset(0)
+                query.returnTotalCount(true)
                 contentGroup.getCategoryList(query: query) {_, _ in
 
                 }
@@ -427,6 +435,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.limit(10)
                 query.offset(0)
                 query.orderBy(["size"])
+                query.returnTotalCount(true)
                 FileManager.find(query: query, completion: {_, _ in
 
                 })
@@ -454,12 +463,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let query = Query()
                 query.limit(10)
                 query.offset(0)
-                FileManager.getCategoryList(completion: {_, _ in
+//                query.returnTotalCount(true)
+                FileManager.getCategoryList(query: query, completion: {_, _ in
 
                 })
             case 7:
                 // 获取文件列表
-                FileManager.find(categoryId: "5ca489bb8c374f5039a8062b") { (_, _) in
+                let query = Query()
+                query.returnTotalCount(true)
+                FileManager.find(categoryId: "5ca489bb8c374f5039a8062b", query: query) { (_, _) in
 
                 }
             case 8:
@@ -512,7 +524,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 云函数
-                BaaS.invoke(name: "helloWorld", data: ["name": "MinCloud"], sync: true) {_, _ in
+                BaaS.invoke(name: "helloWorld", data: ["name": "MinCloud", "version": "0.2.0"], sync: true) {result, error in
 
                 }
             case 1:

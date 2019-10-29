@@ -56,30 +56,25 @@ open class BaseRecord: NSObject, Mappable {
      *  记录需要更新的值
      */
     @objc var recordParameter: [String: Any] = [:]
-    
-    // 提交请求参数时，将 Record、GeoPoint、GeoPolygon 转换成有效参数。
-    var parameterForMinCloud: [String: Any] {
-        return recordParameter.convertToMinDictionary()
-    }
 
     /// 每次设置一个字段
     ///
     /// - Parameter key: 记录值
-    @objc public func set(key: String, value: Any) {
+    @objc public func set(_ key: String, value: Any) {
         recordParameter[key] = value
     }
 
     /// 一次性给记录赋值
     ///
     /// - Parameter record: 记录值
-    @objc public func set(record: [String: Any]) {
+    @objc public func set(_ record: [String: Any]) {
         recordParameter.merge(record)
     }
 
     /// 在服务器上将该 key 对应的值置空
     ///
     /// - Parameter key: 需要置为空的字段名
-    @objc public func unset(key: String) {
+    @objc public func unset(_ key: String) {
         recordParameter["$unset"] = [key: ""]
     }
 
@@ -99,7 +94,7 @@ open class BaseRecord: NSObject, Mappable {
     /// - Parameters:
     ///   - key: 字段名称
     ///   - value: 变化的值，原来值的基础上 +/- value
-    @objc public func incrementBy(key: String, value: NSNumber) {
+    @objc public func incrementBy(_ key: String, value: NSNumber) {
         recordParameter[key] = ["$incr_by": value]
     }
 
@@ -108,7 +103,7 @@ open class BaseRecord: NSObject, Mappable {
     /// - Parameters:
     ///   - key: 字段名
     ///   - value: 需要插入的数据
-    @objc public func append(key: String, value: [Any]) {
+    @objc public func append(_ key: String, value: [Any]) {
         recordParameter[key] = ["$append": value]
     }
 
@@ -117,7 +112,7 @@ open class BaseRecord: NSObject, Mappable {
     /// - Parameters:
     ///   - key: 字段名
     ///   - value: 需要插入的数据
-    @objc public func uAppend(key: String, value: [Any]) {
+    @objc public func uAppend(_ key: String, value: [Any]) {
         recordParameter[key] = ["$append_unique": value]
     }
 
@@ -126,7 +121,7 @@ open class BaseRecord: NSObject, Mappable {
     /// - Parameters:
     ///   - key: 字段名
     ///   - value: 需要删除的数据
-    @objc public func remove(key: String, value: [Any]) {
+    @objc public func remove(_ key: String, value: [Any]) {
         recordParameter[key] = ["$remove": value]
     }
 
@@ -135,7 +130,7 @@ open class BaseRecord: NSObject, Mappable {
     /// - Parameters:
     ///   - key: 字段名
     ///   - value: 更新对象
-    @objc public func updateObject(key: String, value: [String: Any]) {
+    @objc public func updateObject(_ key: String, value: [String: Any]) {
         recordParameter[key] = ["$update": value]
     }
 
