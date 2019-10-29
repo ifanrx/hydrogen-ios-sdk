@@ -38,6 +38,16 @@ class BaaSCase: MinCloudCase {
             XCTAssertTrue(success)
         }
     }
+    
+    func test_register_default() {
+        BaaS.register(clientID: "123")
+        XCTAssertEqual(Config.baseURL, "https://123.myminapp.com")
+    }
+    
+    func test_register_with_serverUrl() {
+        BaaS.register(clientID: "123", serverURLString: "https://ifanr.com")
+        XCTAssertEqual(Config.baseURL, "https://ifanr.com")
+    }
 }
 
 extension BaaSAPI {

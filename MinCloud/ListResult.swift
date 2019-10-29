@@ -15,11 +15,11 @@ public class ListResult: NSObject, Mappable {
 
     @objc public internal(set) var offset: Int = 0
 
-    @objc public internal(set) var totalCount: Int = 0
+    @objc public internal(set) var totalCount: Int = -1 // 默认该属性无效
 
-    @objc public internal(set) var next: String?  // 下一页
+    @objc public internal(set) var next: String?  // 下一页地址，nil 表示当前为 最后一页
 
-    @objc public internal(set) var previous: String? // 上一页
+    @objc public internal(set) var previous: String? // 上一页地址，nil 表示当前为 第一页
     
     @objc public internal(set) var listInfo: [String: Any] = [:]
     
@@ -31,7 +31,7 @@ public class ListResult: NSObject, Mappable {
         guard let meta = dict["meta"] as? [String: Any] else { return nil }
         self.limit = meta.getInt("limit")
         self.offset = meta.getInt("offset")
-        self.totalCount = meta.getInt("total_count")
+        self.totalCount = meta.getInt("total_count", defaultValue: -1)
         self.next = meta.getString("next")
         self.previous = meta.getString("previous")
         self.listInfo = dict

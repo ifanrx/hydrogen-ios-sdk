@@ -46,6 +46,10 @@ open class Query: NSObject {
     @objc public func orderBy(_ args: [String]) {
         queryArgs["order_by"] = args.joined(separator: ",")
     }
+    
+    @objc public func returnTotalCount(_ value: Bool = false) {
+        queryArgs["return_total_count"] = value
+    }
 
     func clear() {
         queryArgs = [:]
