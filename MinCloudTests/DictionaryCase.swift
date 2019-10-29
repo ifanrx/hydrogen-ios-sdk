@@ -28,9 +28,9 @@ class DictionaryCase: MinCloudCase {
         let polygon = GeoPolygon(points: [point, point2, point3, point])
         let file = File(dict: ["created_at": 1554287059, "id": "5ca489d3d625d846af4bf453", "mime_type": "image/png", "name": "test", "path": "https://cloud-minapp-25010.cloud.ifanrusercontent.com/1hBd47RKaLeXkOAF", "size": 2299, "category": ["id": "5ca489bb8c374f5039a8062b", "name": "Book"]])
         let user = User(Id: "123")
-        record.set(record: ["price": 11.0, "point": point, "points": [point], "polygon": polygon, "polygons": [polygon], "user": user, "file": file!, "files": [file!]])
+        record.set(["price": 11.0, "point": point, "points": [point], "polygon": polygon, "polygons": [polygon], "user": user, "file": file!, "files": [file!]])
         
-        let parameterForMinCloud = record.recordParameter.convertToMinDictionary()
+        let parameterForMinCloud = record.recordParameter.jsonValue()
         
         XCTAssertTrue(parameterForMinCloud.keys.contains("price"))
         XCTAssertEqual(parameterForMinCloud.getDouble("price"), 11.0)

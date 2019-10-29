@@ -259,10 +259,10 @@
                     case 2:
 
                     _record = [_table getWithoutDataWithRecordId:@"5ca45ee38c374f0864a80ff6"];
-                    [_record setWithKey:@"color" value:@"brown"];
-                    [_record setWithRecord:@{@"author": @"hua", @"name": @"good book"}];
-                    [_record incrementByKey:@"price" value:@1];
-                    [_record appendWithKey:@"recommender" value:@[@"hong"]];
+                    [_record set:@"color" value:@"brown"];
+                    [_record set:@{@"author": @"hua", @"name": @"good book"}];
+                    [_record incrementBy:@"price" value:@1];
+                    [_record append:@"recommender" value:@[@"hong"]];
                     [_record update:^(BOOL success, NSError * _Nullable error) {
 
                     }];
@@ -290,23 +290,23 @@
                 {
                     _record = [_table createRecord];
                     // 逐个赋值
-                    [_record setWithKey:@"color" value:@"red"];
+                    [_record set:@"color" value:@"red"];
 
                     // 一次性赋值
-                    [_record setWithRecord:@{@"price": @24, @"name": @"normal"}];
+                    [_record set:@{@"price": @24, @"name": @"normal"}];
 
                     // geoPoint
                     BaaSGeoPoint *point = [[BaaSGeoPoint alloc] initWithLongitude:10 latitude:2];
-                    [_record setWithKey:@"location" value:point];
+                    [_record set:@"location" value:point];
 
                     // polygon
                     BaaSGeoPolygon *polygon = [[BaaSGeoPolygon alloc] initWithCoordinates:@[@[@10, @10], @[@40, @40], @[@20, @40], @[@10, @20], @[@10, @10]]];
-                    [_record setWithKey:@"polygon" value:polygon];
+                    [_record set:@"polygon" value:polygon];
 
                     // date
                     NSISO8601DateFormatter *dateFormatter = [[NSISO8601DateFormatter alloc] init];
                     NSString *dateISO = [dateFormatter stringFromDate:[NSDate date]];
-                    [_record setWithKey:@"publish_date" value:dateISO];
+                    [_record set:@"publish_date" value:dateISO];
 
                     [_record save:^(BOOL success, NSError * _Nullable error) {
 
@@ -333,7 +333,7 @@
                     NSDictionary *options = @{@"enable_trigger": @YES};
 
                     BaaSRecord *record = [_table createRecord];
-                    [record incrementByKey:@"price" value:@1];
+                    [record incrementBy:@"price" value:@1];
 
                     [_table updateWithRecord:record query:query options: options completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
 
@@ -348,7 +348,7 @@
             switch (indexPath.row) {
                     case 0:
                     // 获取内容详情
-                    [_contentGroup get:@"1551697403189289" select:@[@"title"] expand:nil completion:^(BaaSContent * _Nullable content, NSError * _Nullable error) {
+                    [_contentGroup get:@"1551697403189289" select:@[@"title"] completion:^(BaaSContent * _Nullable content, NSError * _Nullable error) {
 
                     }];
                     break;
@@ -388,7 +388,7 @@
                 }
                     case 1:
                     // 获取文件详情
-                    [BaaSFileManager get:@"5ca48a56d625d8365d972636" select:nil expand:nil completion:^(BaaSFile * _Nullable file, NSError * _Nullable error) {
+                    [BaaSFileManager get:@"5ca48a56d625d8365d972636" completion:^(BaaSFile * _Nullable file, NSError * _Nullable error) {
 
                     }];
                     break;

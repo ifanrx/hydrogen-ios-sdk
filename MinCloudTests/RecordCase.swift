@@ -29,21 +29,21 @@ class RecordCase: MinCloudCase {
         let record = table.createRecord()
 
         // 逐个赋值
-        record.set(key: "description", value: "这是本好书")
+        record.set("description", value: "这是本好书")
 
         // 一次性赋值
-        record.set(record: ["price": 24, "name": "老人与海"])
+        record.set(["price": 24, "name": "老人与海"])
 
         let point = GeoPoint(longitude: 2, latitude: 10)
-        record.set(key: "location", value: point)
+        record.set("location", value: point)
 
         let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
-        record.set(key: "polygon", value: polygon)
+        record.set("polygon", value: polygon)
 
         let pulish_info = ["name": "新华出版社"]
-        record.set(key: "publish_info", value: pulish_info)
+        record.set("publish_info", value: pulish_info)
 
-        record.set(key: "recommender", value: ["hua", "ming"])
+        record.set("recommender", value: ["hua", "ming"])
 
         record.save {success, error in
             // 是否新建记录成功
@@ -73,10 +73,10 @@ class RecordCase: MinCloudCase {
         let dict =  SampleData.Record.update_record.toDictionary()
         
         let record = table.getWithoutData(recordId: "5d5e5d2e989c1c336aa7b6bd")
-        record.set(record: ["author": "hua", "name": "good book"])
-        record.incrementBy(key: "price", value: 1)
-        record.append(key: "recommender", value: ["hong"])
-        record.unset(key: "color")
+        record.set(["author": "hua", "name": "good book"])
+        record.incrementBy("price", value: 1)
+        record.append("recommender", value: ["hong"])
+        record.unset("color")
 
         record.update { success, error in
             XCTAssertTrue(success)
@@ -89,7 +89,7 @@ class RecordCase: MinCloudCase {
     
     func test_update_record_id_invalid() {
         let record = table.createRecord()
-        record.set(key: "price", value: 10)
+        record.set("price", value: 10)
         record.update { (success, error) in
             XCTAssertFalse(success)
             XCTAssertEqual(error?.code, 400)

@@ -20,7 +20,7 @@
     // Override point for customization after application launch.
 //    [BaaS registerWithClientID:@"196ba98487ebc358955d"];
 //    [BaaS registerWithClientID:@"995140f59511a222c937"];
-    [BaaS registerWithClientID:@"a4d2d62965ddb57fa4d6"];
+    [BaaS registerWithClientID:@"a4d2d62965ddb57fa4d6" serverURLString:@"com.example"];
     BaaS.isDebug = YES;
     return YES;
 }

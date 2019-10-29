@@ -11,8 +11,9 @@ import Moya
 import Result
 
 @objc public class BaaS: NSObject {
-    @objc public static func register(clientID: String) {
+    @objc public static func register(clientID: String, serverURLString: String? = nil) {
         Config.clientID = clientID
+        Config.serverURLString = serverURLString
     }
 
     @objc public static var isDebug: Bool = false
