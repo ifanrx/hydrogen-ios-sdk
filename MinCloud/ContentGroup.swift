@@ -12,8 +12,8 @@ import Result
 
 @objc(BaaSContentGroup)
 open class ContentGroup: NSObject {
-    var Id: String?
-    var name: String!
+    @objc public internal(set) var Id: String?
+    @objc public internal(set) var name: String?
     
     static var ContentGroupProvider = MoyaProvider<ContentGroupAPI>(plugins: logPlugin)
 

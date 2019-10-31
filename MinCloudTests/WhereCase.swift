@@ -22,9 +22,9 @@ class WhereCase: MinCloudCase {
     // MARK: or/and
     
     func test_or() {
-        let whereArgs1 = Where.compare(key: "price", operator: .greaterThan, value: 5)
-        let whereArgs2 = Where.compare(key: "price", operator: .lessThan, value: 10)
-        let whereArgs = Where.or(wheres: [whereArgs1, whereArgs2])
+        let whereArgs1 = Where.compare("price", operator: .greaterThan, value: 5)
+        let whereArgs2 = Where.compare("price", operator: .lessThan, value: 10)
+        let whereArgs = Where.or([whereArgs1, whereArgs2])
         XCTAssertTrue(whereArgs.conditon.keys.contains("$or"))
         let conditions = whereArgs.conditon.getArray("$or", type: [String: Any].self)
         XCTAssertTrue(isDictEqual(dict1: whereArgs1.conditon, dict2: conditions[0]))
@@ -32,9 +32,9 @@ class WhereCase: MinCloudCase {
     }
     
     func test_and() {
-        let whereArgs1 = Where.compare(key: "price", operator: .greaterThan, value: 5)
-        let whereArgs2 = Where.compare(key: "price", operator: .lessThan, value: 10)
-        let whereArgs = Where.and(wheres: [whereArgs1, whereArgs2])
+        let whereArgs1 = Where.compare("price", operator: .greaterThan, value: 5)
+        let whereArgs2 = Where.compare("price", operator: .lessThan, value: 10)
+        let whereArgs = Where.and([whereArgs1, whereArgs2])
         XCTAssertTrue(whereArgs.conditon.keys.contains("$and"))
         let conditions = whereArgs.conditon.getArray("$and", type: [String: Any].self)
         XCTAssertTrue(isDictEqual(dict1: whereArgs1.conditon, dict2: conditions[0]))
@@ -46,7 +46,7 @@ class WhereCase: MinCloudCase {
     func test_compare_eq() {
 //        let condition: [String: Any] = ["price": ["$eq": 10.0]]
         
-        let whereArgs = Where.compare(key: "price", operator: .equalTo, value: 10.0)
+        let whereArgs = Where.compare("price", operator: .equalTo, value: 10.0)
         XCTAssertTrue(whereArgs.conditon.keys.contains("price"))
         let valueDict = whereArgs.conditon.getDict("price") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$eq") ?? false)
@@ -56,7 +56,7 @@ class WhereCase: MinCloudCase {
     func test_compare_record_eq() {
         let table = Table(name: "Book")
         let record = table.getWithoutData(recordId: "123")
-        let whereArgs = Where.compare(key: "record", operator: .equalTo, value: record)
+        let whereArgs = Where.compare("record", operator: .equalTo, value: record)
         XCTAssertTrue(whereArgs.conditon.keys.contains("record"))
         let valueDict = whereArgs.conditon.getDict("record") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$eq") ?? false)
@@ -64,7 +64,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_compare_ne() {
-        let whereArgs = Where.compare(key: "price", operator: .notEqualTo, value: 10.0)
+        let whereArgs = Where.compare("price", operator: .notEqualTo, value: 10.0)
         XCTAssertTrue(whereArgs.conditon.keys.contains("price"))
         let valueDict = whereArgs.conditon.getDict("price") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$ne") ?? false)
@@ -72,7 +72,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_compare_lt() {
-        let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 10.0)
+        let whereArgs = Where.compare("price", operator: .lessThan, value: 10.0)
         XCTAssertTrue(whereArgs.conditon.keys.contains("price"))
         let valueDict = whereArgs.conditon.getDict("price") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$lt") ?? false)
@@ -80,7 +80,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_compare_gt() {
-        let whereArgs = Where.compare(key: "price", operator: .greaterThan, value: 10.0)
+        let whereArgs = Where.compare("price", operator: .greaterThan, value: 10.0)
         XCTAssertTrue(whereArgs.conditon.keys.contains("price"))
         let valueDict = whereArgs.conditon.getDict("price") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$gt") ?? false)
@@ -88,7 +88,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_compare_gte() {
-        let whereArgs = Where.compare(key: "price", operator: .greaterThanOrEqualTo, value: 10.0)
+        let whereArgs = Where.compare("price", operator: .greaterThanOrEqualTo, value: 10.0)
         XCTAssertTrue(whereArgs.conditon.keys.contains("price"))
         let valueDict = whereArgs.conditon.getDict("price") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$gte") ?? false)
@@ -96,7 +96,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_compare_lte() {
-        let whereArgs = Where.compare(key: "price", operator: .lessThanOrEqualTo, value: 10.0)
+        let whereArgs = Where.compare("price", operator: .lessThanOrEqualTo, value: 10.0)
         XCTAssertTrue(whereArgs.conditon.keys.contains("price"))
         let valueDict = whereArgs.conditon.getDict("price") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$lte") ?? false)
@@ -106,7 +106,7 @@ class WhereCase: MinCloudCase {
     // MARK: range
     
     func test_range() {
-        let whereArgs = Where.range(key: "price", start: 10.0, end: 20.0)
+        let whereArgs = Where.range("price", start: 10.0, end: 20.0)
         XCTAssertTrue(whereArgs.conditon.keys.contains("price"))
         let valueDict = whereArgs.conditon.getDict("price") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$range") ?? false)
@@ -119,7 +119,7 @@ class WhereCase: MinCloudCase {
     // MARK: String
     
     func test_contains() {
-        let whereArgs = Where.contains(key: "name", value: "hua")
+        let whereArgs = Where.contains("name", value: "hua")
         XCTAssertTrue(whereArgs.conditon.keys.contains("name"))
         let valueDict = whereArgs.conditon.getDict("name") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$contains") ?? false)
@@ -127,7 +127,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_icontains() {
-        let whereArgs = Where.icontains(key: "name", value: "hua")
+        let whereArgs = Where.icontains("name", value: "hua")
         XCTAssertTrue(whereArgs.conditon.keys.contains("name"))
         let valueDict = whereArgs.conditon.getDict("name") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$icontains") ?? false)
@@ -135,7 +135,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_matches() {
-        let whereArgs = Where.matches(key: "title", regx: "/^foo/i")
+        let whereArgs = Where.matches("title", regx: "/^foo/i")
         XCTAssertTrue(whereArgs.conditon.keys.contains("title"))
         let valueDict = whereArgs.conditon.getDict("title") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$regex") ?? false)
@@ -151,26 +151,26 @@ class WhereCase: MinCloudCase {
     
     func test_inList() {
         let condition: [String: Any] = ["array": ["$in": [1, 2, 3]]]
-        let whereArgs = Where.inList(key: "array", list: [1, 2, 3])
+        let whereArgs = Where.inList("array", list: [1, 2, 3])
         XCTAssertTrue(isDictEqual(dict1: condition, dict2: whereArgs.conditon))
     }
     
     func test_notInList() {
         let condition: [String: Any] = ["array": ["$nin": [1, 2, 3]]]
-        let whereArgs = Where.notInList(key: "array", list: [1, 2, 3])
+        let whereArgs = Where.notInList("array", list: [1, 2, 3])
         XCTAssertTrue(isDictEqual(dict1: condition, dict2: whereArgs.conditon))
     }
     
     func test_arrayContains() {
         let condition: [String: Any] = ["array": ["$all": [1, 2, 3]]]
-        let whereArgs = Where.arrayContains(key: "array", list: [1, 2, 3])
+        let whereArgs = Where.arrayContains("array", list: [1, 2, 3])
         XCTAssertTrue(isDictEqual(dict1: condition, dict2: whereArgs.conditon))
     }
     
     // MARK: NULL
     
     func test_isNull() {
-        let whereArgs = Where.isNull(key: "name")
+        let whereArgs = Where.isNull("name")
         XCTAssertTrue(whereArgs.conditon.keys.contains("name"))
         let valueDict = whereArgs.conditon.getDict("name") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$isnull") ?? false)
@@ -178,7 +178,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_isNotNull() {
-        let whereArgs = Where.isNotNull(key: "name")
+        let whereArgs = Where.isNotNull("name")
         XCTAssertTrue(whereArgs.conditon.keys.contains("name"))
         let valueDict = whereArgs.conditon.getDict("name") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$isnull") ?? false)
@@ -188,7 +188,7 @@ class WhereCase: MinCloudCase {
     // MARK: Exist
     
     func test_exists() {
-        let whereArgs = Where.exists(key: "name")
+        let whereArgs = Where.exists("name")
         XCTAssertTrue(whereArgs.conditon.keys.contains("name"))
         let valueDict = whereArgs.conditon.getDict("name") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$exists") ?? false)
@@ -196,7 +196,7 @@ class WhereCase: MinCloudCase {
     }
     
     func test_notExists() {
-        let whereArgs = Where.notExists(key: "name")
+        let whereArgs = Where.notExists("name")
         XCTAssertTrue(whereArgs.conditon.keys.contains("name"))
         let valueDict = whereArgs.conditon.getDict("name") as? [String: Any]
         XCTAssertTrue(valueDict?.keys.contains("$exists") ?? false)
@@ -216,21 +216,21 @@ class WhereCase: MinCloudCase {
     func test_within() {
         let polygon = GeoPolygon(coordinates: [[0,0], [1,0], [1,1], [0,1], [0,0]])
         let condition = ["polygon": ["$within": polygon.geoJson]]
-        let whereArgs = Where.within(key: "polygon", polygon: polygon)
+        let whereArgs = Where.within("polygon", polygon: polygon)
         XCTAssertTrue(isDictEqual(dict1: condition, dict2: whereArgs.conditon))
     }
     
     func test_include() {
         let point = GeoPoint(longitude: 1, latitude: 2)
         let condition = ["point": ["$intersects": point.geoJson]]
-        let whereArgs = Where.include(key: "point", point: point)
+        let whereArgs = Where.include("point", point: point)
         XCTAssertTrue(isDictEqual(dict1: condition, dict2: whereArgs.conditon))
     }
     
     func test_withinCircle() {
         let point = GeoPoint(longitude: 1, latitude: 2)
         _ = ["point": ["$center": ["radius": 10, "coordinates": [point.longitude, point.latitude]]]]
-        let whereArgs = Where.withinCircle(key: "point", point: point, radius: 10)
+        let whereArgs = Where.withinCircle("point", point: point, radius: 10)
         XCTAssertTrue(whereArgs.conditon.keys.contains("point"))
         let centerDict = whereArgs.conditon.getDict("point") as? [String: Any]
         XCTAssertTrue(centerDict?.keys.contains("$center") ?? false)
@@ -245,7 +245,7 @@ class WhereCase: MinCloudCase {
     func test_withinRegion() {
         let point = GeoPoint(longitude: 1, latitude: 2)
         _ = ["point": ["$nearsphere": ["radius": 10, "coordinates": [point.longitude, point.latitude]]]]
-        let whereArgs = Where.withinRegion(key: "point", point: point, minDistance: 5, maxDistance: 10)
+        let whereArgs = Where.withinRegion("point", point: point, minDistance: 5, maxDistance: 10)
         XCTAssertTrue(whereArgs.conditon.keys.contains("point"))
         let centerDict = whereArgs.conditon.getDict("point") as? [String: Any]
         XCTAssertTrue(centerDict?.keys.contains("$nearsphere") ?? false)

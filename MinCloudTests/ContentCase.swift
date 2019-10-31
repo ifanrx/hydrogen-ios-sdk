@@ -52,13 +52,13 @@ class ContentCase: MinCloudCase {
     func test_content_list_option() {
         content_list_option = true
         let dict = SampleData.Content.content_list_option.toDictionary()
-        let whereAgrs = Where.compare(key: "title", operator: .equalTo, value: "article")
+        let whereAgrs = Where.compare("title", operator: .equalTo, value: "article")
         let query = Query()
-        query.setWhere(whereAgrs)
-        query.limit(10)
-        query.offset(0)
-        query.orderBy(["created_at"])
-        query.select(["title"])
+        query.where = whereAgrs
+        query.limit = 10
+        query.offset = 0
+        query.orderBy = ["created_at"]
+        query.select = ["title"]
         contentGroup.find(query: query, completion: {contentList, error in
             ModelCase.contentListEqual(list: contentList!, dict: dict!)
             content_list_option = false
@@ -82,8 +82,8 @@ class ContentCase: MinCloudCase {
     func test_category_list() {
         let dict = SampleData.Content.category_list.toDictionary()
         let query = Query()
-        query.limit(10)
-        query.offset(0)
+        query.limit = 10
+        query.offset = 0
         contentGroup.getCategoryList(query: query) { categoryList, error in
             ModelCase.contentCategoryListEqual(list: categoryList!, dict: dict!)
         }

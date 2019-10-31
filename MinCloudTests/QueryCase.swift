@@ -20,9 +20,9 @@ class QueryCase: MinCloudCase {
     }
     
     func test_setWhere() {
-        let whereArgs = Where.compare(key: "price", operator: .equalTo, value: 10)
+        let whereArgs = Where.compare("price", operator: .equalTo, value: 10)
         let query = Query()
-        query.setWhere(whereArgs)
+        query.where = whereArgs
         XCTAssertTrue(query.queryArgs.keys.contains("where"))
         let value = query.queryArgs.getString("where")
         XCTAssertEqual("{\n  \"price\" : {\n    \"$eq\" : 10\n  }\n}", value)
@@ -30,47 +30,51 @@ class QueryCase: MinCloudCase {
     
     func test_select_without_id() {
         let query = Query()
-        query.select(["created_by", "user_id"])
+        query.select = ["created_by", "user_id"]
         XCTAssertTrue(query.queryArgs.keys.contains("keys"))
         let value = query.queryArgs.getString("keys")
-        XCTAssertEqual("created_by,user_id,id", value)
+        let keys = value?.split(separator: ",")
+        XCTAssertTrue(keys?.count == 3)
     }
     
     func test_select_with_id() {
         let query = Query()
-        query.select(["id", "created_by", "user_id"])
+        query.select = ["id", "created_by", "user_id"]
         XCTAssertTrue(query.queryArgs.keys.contains("keys"))
         let value = query.queryArgs.getString("keys")
-        XCTAssertEqual("id,created_by,user_id", value)
+        let keys = value?.split(separator: ",")
+        XCTAssertTrue(keys?.count == 3)
     }
     
     func test_expand() {
         let query = Query()
-        query.expand(["created_by", "user_id"])
+        query.expand = ["created_by", "user_id"]
         XCTAssertTrue(query.queryArgs.keys.contains("expand"))
         let value = query.queryArgs.getString("expand")
-        XCTAssertEqual("created_by,user_id", value)
+        let keys = value?.split(separator: ",")
+        XCTAssertTrue(keys?.count == 2)
     }
     
     func test_orderBy() {
         let query = Query()
-        query.orderBy(["created_at", "user_id"])
+        query.orderBy = ["created_at", "user_id"]
         XCTAssertTrue(query.queryArgs.keys.contains("order_by"))
         let value = query.queryArgs.getString("order_by")
-        XCTAssertEqual("created_at,user_id", value)
+        let keys = value?.split(separator: ",")
+        XCTAssertTrue(keys?.count == 2)
     }
     
     func test_limit() {
         let query = Query()
-        query.limit(20)
+        query.limit = 5
         XCTAssertTrue(query.queryArgs.keys.contains("limit"))
         let value = query.queryArgs.getInt("limit")
-        XCTAssertEqual(20, value)
+        XCTAssertEqual(5, value)
     }
     
     func test_offset() {
         let query = Query()
-        query.offset(10)
+        query.offset = 10
         XCTAssertTrue(query.queryArgs.keys.contains("offset"))
         let value = query.queryArgs.getInt("offset")
         XCTAssertEqual(10, value)
@@ -78,7 +82,7 @@ class QueryCase: MinCloudCase {
     
     func test_status_pending() {
         let query = OrderQuery()
-        query.status(.pending)
+        query.status = .pending
         XCTAssertTrue(query.queryArgs.keys.contains("status"))
         let value = query.queryArgs.getString("status")
         XCTAssertEqual("pending", value)
@@ -86,7 +90,7 @@ class QueryCase: MinCloudCase {
     
     func test_status_success() {
         let query = OrderQuery()
-        query.status(.success)
+        query.status = .success
         XCTAssertTrue(query.queryArgs.keys.contains("status"))
         let value = query.queryArgs.getString("status")
         XCTAssertEqual("success", value)
@@ -94,7 +98,7 @@ class QueryCase: MinCloudCase {
 
     func test_refundStatus_partial() {
         let query = OrderQuery()
-        query.refundStatus(.partial)
+        query.refundStatus = .partial
         XCTAssertTrue(query.queryArgs.keys.contains("refund_status"))
         let value = query.queryArgs.getString("refund_status")
         XCTAssertEqual("partial", value)
@@ -102,7 +106,7 @@ class QueryCase: MinCloudCase {
     
     func test_refundStatus_complete() {
         let query = OrderQuery()
-        query.refundStatus(.complete)
+        query.refundStatus = .complete
         XCTAssertTrue(query.queryArgs.keys.contains("refund_status"))
         let value = query.queryArgs.getString("refund_status")
         XCTAssertEqual("complete", value)
@@ -110,7 +114,7 @@ class QueryCase: MinCloudCase {
     
     func test_gateWayType_partial() {
         let query = OrderQuery()
-        query.gateWayType(.weixin)
+        query.gateWayType = .weixin
         XCTAssertTrue(query.queryArgs.keys.contains("gateway_type"))
         let value = query.queryArgs.getString("gateway_type")
         XCTAssertEqual("weixin_tenpay_app", value)
@@ -118,7 +122,7 @@ class QueryCase: MinCloudCase {
     
     func test_tradeNo() {
         let query = OrderQuery()
-        query.tradeNo("12345")
+        query.tradeNo = "12345"
         XCTAssertTrue(query.queryArgs.keys.contains("trade_no"))
         let value = query.queryArgs.getString("trade_no")
         XCTAssertEqual("12345", value)
@@ -126,7 +130,7 @@ class QueryCase: MinCloudCase {
     
     func test_transactionNo() {
         let query = OrderQuery()
-        query.transactionNo("12345")
+        query.transactionNo = "12345"
         XCTAssertTrue(query.queryArgs.keys.contains("transaction_no"))
         let value = query.queryArgs.getString("transaction_no")
         XCTAssertEqual("12345", value)
@@ -134,7 +138,7 @@ class QueryCase: MinCloudCase {
     
     func test_merchandiseRecordId() {
         let query = OrderQuery()
-        query.merchandiseRecordId("12345")
+        query.merchandiseRecordId = "12345"
         XCTAssertTrue(query.queryArgs.keys.contains("merchandise_record_id"))
         let value = query.queryArgs.getString("merchandise_record_id")
         XCTAssertEqual("12345", value)
@@ -142,7 +146,7 @@ class QueryCase: MinCloudCase {
     
     func test_merchandiseSchemaId() {
         let query = OrderQuery()
-        query.merchandiseSchemaId("12345")
+        query.merchandiseSchemaId = "12345"
         XCTAssertTrue(query.queryArgs.keys.contains("merchandise_schema_id"))
         let value = query.queryArgs.getString("merchandise_schema_id")
         XCTAssertEqual("12345", value)

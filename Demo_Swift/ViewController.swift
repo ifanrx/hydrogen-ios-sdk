@@ -171,15 +171,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                 }
             case 7:
-                let whereAgrs = Where.compare(key: "age", operator: .equalTo, value: 23)
+                let whereAgrs = Where.compare("age", operator: .equalTo, value: 23)
                 let query = Query()
-                query.setWhere(whereAgrs)
-                query.limit(10)
-                query.offset(0)
-                query.orderBy(["created_at"])
-                query.expand(["created_by"])
-                query.select(["_username", "created_by"])
-                query.returnTotalCount(true)
+                query.where = whereAgrs
+                query.limit = 10
+                query.offset = 0
+                query.orderBy = ["created_at"]
+                query.expand = ["created_by"]
+                query.select = ["_username", "created_by"]
+                query.returnTotalCount = true
                 User.find(query: query, completion: {_, _ in
 
                 })
@@ -215,18 +215,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 单位为KM
 //                let whereArgs = Where.withinRegion(key: "location", point: GeoPoint(longitude: 113.4196758270, latitude: 23.1348351120), minDistance: 0.1, maxDistance: 3)
 
-//                let whereArgs = Where.within(key: "location", polygon: GeoPolygon(coordinates: [[113.4594583511,23.1265079048], [113.4705305099,23.1344010050], [113.4634065628,23.1390577162], [113.4564113617,23.1353481458], [113.4594583511,23.1265079048]]))
+                let whereArgs = Where.within("location", polygon: GeoPolygon(coordinates: [[113.4594583511,23.1265079048], [113.4705305099,23.1344010050], [113.4634065628,23.1390577162], [113.4564113617,23.1353481458], [113.4594583511,23.1265079048]]))
 //                //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
 ////                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
 //                let whereAgrs = Where.compare(key: "color", operator: .equalTo, value: "brown")
                 let query = Query()
+                let `where` = Where.compare("price", operator: .lessThan, value: 15)
+                query.where = `where`
 //                query.setWhere(whereAgrs)
-                query.limit(10)
-                query.offset(0)
-                query.orderBy(["created_at"])
-                query.expand(["created_by"])
-                query.select(["color", "created_by"])
-                query.returnTotalCount(true)
+                //query.where = whereArgs
+                query.limit = 10
+                query.offset = 0
+                query.orderBy = ["created_at"]
+                query.expand = ["created_by"]
+                query.select = ["color", "created_by"]
+                query.returnTotalCount = true
                 table.find(query: query, completion: {_, _ in
 
                 })
@@ -267,11 +270,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 4:
                 // 批量删除，如删除所有 color 为 brown 的记录项。
-                let whereArgs = Where.contains(key: "color", value: "brown")
+                let whereArgs = Where.contains("color", value: "brown")
                 let query = Query()
-                query.setWhere(whereArgs)
+                query.where = whereArgs
                 let options = ["enable_trigger": true]
-                query.returnTotalCount(true)
+                query.returnTotalCount = true
                 table.delete(query: query, options: options, completion: {_, _ in
 
                 })
@@ -330,9 +333,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 7:
                 // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
-                let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 15)
+                let whereArgs = Where.compare("price", operator: .lessThan, value: 15)
                 let query = Query()
-                query.setWhere(whereArgs)
+                query.where = whereArgs
                 let options = ["enable_trigger": true]
                 let record = table.createRecord()
                 //record.incrementBy(key: "price", value: 1)
@@ -354,7 +357,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let authorTable = Table(name: "Author")
                 let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
                 record.set("writer", value: author)
-                query.returnTotalCount(true)
+                query.returnTotalCount = true
                 table.update(record: record, query: query, options: options) { (_, _) in
 
                 }
@@ -371,21 +374,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 1:
                 // 查询内容列表
                 // 如需查询，过滤，查找 Table的方法
-                let whereAgrs = Where.compare(key: "title", operator: .equalTo, value: "article")
+                let whereAgrs = Where.compare("title", operator: .equalTo, value: "article")
                 let query = Query()
-                query.setWhere(whereAgrs)
-                query.limit(10)
-                query.offset(0)
-                query.orderBy(["created_at"])
-                query.select(["title"])
-                query.returnTotalCount(true)
+                query.where = whereAgrs
+                query.limit = 10
+                query.offset = 0
+                query.orderBy = ["created_at"]
+                query.select = ["title"]
+                query.returnTotalCount = true
                 contentGroup.find(query: query, completion: {_, _ in
 
                 })
             case 2:
                 // 在分类中，查询内容列表
                 let query = Query()
-                query.returnTotalCount(true)
+                query.returnTotalCount = true
                 contentGroup.find(categoryId: "1551697507400928", query: query) { (_, _) in
 
                 }
@@ -399,9 +402,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 如需查询，过滤，查找 Table的方法
 
                 let query = Query()
-                query.limit(20)
-                query.offset(0)
-                query.returnTotalCount(true)
+                query.limit = 20
+                query.offset = 0
+                query.returnTotalCount = true
                 contentGroup.getCategoryList(query: query) {_, _ in
 
                 }
@@ -429,13 +432,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 查询文件列表
                 //                let query = Where.contains(key: "name", value: "test")
                 //                fileManager.setWhere(query)
-                let whereAgrs = Where.compare(key: "name", operator: .equalTo, value: "3.jpg")
+                let whereAgrs = Where.compare("name", operator: .equalTo, value: "3.jpg")
                 let query = Query()
-                query.setWhere(whereAgrs)
-                query.limit(10)
-                query.offset(0)
-                query.orderBy(["size"])
-                query.returnTotalCount(true)
+                query.where = whereAgrs
+                query.limit = 10
+                query.offset = 0
+                query.orderBy = ["size"]
+                query.returnTotalCount = true
                 FileManager.find(query: query, completion: {_, _ in
 
                 })
@@ -461,8 +464,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 6:
                 // 获取文件分类列表
                 let query = Query()
-                query.limit(10)
-                query.offset(0)
+                query.limit = 10
+                query.offset = 0
 //                query.returnTotalCount(true)
                 FileManager.getCategoryList(query: query, completion: {_, _ in
 
@@ -470,7 +473,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 7:
                 // 获取文件列表
                 let query = Query()
-                query.returnTotalCount(true)
+                query.returnTotalCount = true
                 FileManager.find(categoryId: "5ca489bb8c374f5039a8062b", query: query) { (_, _) in
 
                 }
@@ -588,8 +591,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 4:
                 let query = Query()
-                query.limit(10)
-                query.offset(0)
+                query.limit = 10
+                query.offset = 0
                 Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
@@ -599,7 +602,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 5:
                 let query = OrderQuery()
-                query.status(.pending)
+                query.status = .pending
                 Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
@@ -609,7 +612,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 6:
                 let query = OrderQuery()
-                query.status(.success)
+                query.status = .success
                 Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
@@ -619,7 +622,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 7:
                 let query = OrderQuery()
-                query.gateWayType(.weixin)
+                query.gateWayType = .weixin
+                query.limit = 10
                 Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")
@@ -629,7 +633,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 8:
                 let query = OrderQuery()
-                query.transactionNo("fBEyihJVn2QRV5H8bD9JuP7W9wwnm7cD")
+                query.transactionNo = "fBEyihJVn2QRV5H8bD9JuP7W9wwnm7cD"
                 Pay.shared.orderList(query: query) { (result, error) in
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "获取订单列表失败")

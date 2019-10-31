@@ -46,12 +46,12 @@ class FileCase: MinCloudCase {
     func test_file_list_option() {
         file_list_option = true
         let dict = SampleData.File.file_list_option.toDictionary()
-        let whereAgrs = Where.compare(key: "name", operator: .equalTo, value: "3.jpg")
+        let whereAgrs = Where.compare("name", operator: .equalTo, value: "3.jpg")
         let query = Query()
-        query.setWhere(whereAgrs)
-        query.limit(10)
-        query.offset(0)
-        query.orderBy(["size"])
+        query.where = whereAgrs
+        query.limit = 10
+        query.offset = 0
+        query.orderBy = ["size"]
         FileManager.find(query: query, completion: {fileList, error in
             ModelCase.fileListEqual(list: fileList!, dict: dict!)
             file_list_option = false
@@ -104,8 +104,8 @@ class FileCase: MinCloudCase {
     func test_get_category_list() {
         let dict = SampleData.File.get_category_list.toDictionary()
         let query = Query()
-        query.limit(10)
-        query.offset(0)
+        query.limit = 10
+        query.offset = 0
         FileManager.getCategoryList(query: query, completion: {categoryList, error in
             ModelCase.fileCategoryListEqual(list: categoryList!, dict: dict!)
         })

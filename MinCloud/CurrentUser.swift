@@ -17,11 +17,11 @@ open class CurrentUser: User {
     var openid: String?
     var expiresIn: TimeInterval?
 
-    override init(Id: String) {
+    @objc override public init(Id: String) {
         super.init(Id: Id)
     }
 
-    required public init?(dict: [String: Any]) {
+    @objc required public init?(dict: [String: Any]) {
         if let token = dict.getString("token") {
             self.token = token
             self.expiresIn = dict.getDouble("expires_in") + Date().timeIntervalSince1970
