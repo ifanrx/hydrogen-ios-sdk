@@ -70,8 +70,8 @@ class OrderCase: MinCloudCase {
     func test_order_list() {
         let dict = SampleData.Order.order_list.toDictionary()
         let query = Query()
-        query.limit(10)
-        query.offset(0)
+        query.limit = 10
+        query.offset = 0
         stu.orderList(query: query) { (orderList, error) in
             ModelCase.orderListEqual(list: orderList!, dict: dict!)
         }

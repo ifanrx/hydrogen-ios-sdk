@@ -11,12 +11,12 @@ import Foundation
 @objc(BaaSContentCategory)
 open class ContentCategory: NSObject, Mappable {
     @objc public internal(set) var Id: String?
-    @objc public internal(set) var name: String!
+    @objc public internal(set) var name: String?
     @objc public internal(set) var haveChildren: Bool = false
-    @objc public internal(set) var children: [ContentCategory]!
-    @objc public internal(set) var categoryInfo: [String: Any] = [:]
+    @objc public internal(set) var children: [ContentCategory]?
+    var categoryInfo: [String: Any] = [:]
 
-    required public init?(dict: [String: Any]) {
+    @objc required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")
         self.name = dict.getString("name")
         self.haveChildren = dict.getBool("have_children")
@@ -31,12 +31,12 @@ open class ContentCategory: NSObject, Mappable {
         self.categoryInfo = dict
     }
     
-    override open var description: String {
+    @objc override open var description: String {
         let dict = self.categoryInfo
         return dict.toJsonString
     }
     
-    override open var debugDescription: String {
+    @objc override open var debugDescription: String {
         let dict = self.categoryInfo
         return dict.toJsonString
     }

@@ -13,16 +13,16 @@ import Result
 @objc(BaaSFile)
 open class File: NSObject, Mappable {
 
-    @objc public internal(set) var Id: String!
-    @objc public internal(set) var mimeType: String!
-    @objc public internal(set) var name: String!
-    @objc public internal(set) var cdnPath: String!
+    @objc public internal(set) var Id: String?
+    @objc public internal(set) var mimeType: String?
+    @objc public internal(set) var name: String?
+    @objc public internal(set) var cdnPath: String?
     @objc public internal(set) var size: Int = 0
-    @objc public internal(set) var category: FileCategory!
-    @objc public internal(set) var localPath: String!
+    @objc public internal(set) var category: FileCategory?
+    @objc public internal(set) var localPath: String?
     @objc public internal(set) var createdAt: TimeInterval = 0
 
-    required public init?(dict: [String: Any]) {
+    @objc required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")
         self.name = dict.getString("name")
         self.mimeType = dict.getString("mime_type")
@@ -35,7 +35,7 @@ open class File: NSObject, Mappable {
         }
     }
 
-    public override init() {
+    @objc public override init() {
         super.init()
     }
 
@@ -43,7 +43,7 @@ open class File: NSObject, Mappable {
      *  文件信息
      *  在给类型为 file 类型的列赋值时，必须以下面方式组织文件信息
      */
-    @objc public  var fileInfo: [String: Any] {
+    var fileInfo: [String: Any] {
         var info: [String: Any] = [:]
         if let fileId = Id {
             info["id"] = fileId
@@ -65,12 +65,12 @@ open class File: NSObject, Mappable {
         return info
     }
 
-    override open var description: String {
+    @objc override open var description: String {
         let dict = self.fileInfo
         return dict.toJsonString
     }
     
-    override open var debugDescription: String {
+    @objc override open var debugDescription: String {
         let dict = self.fileInfo
         return dict.toJsonString
     }

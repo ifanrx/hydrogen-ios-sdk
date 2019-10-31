@@ -50,14 +50,14 @@ class TableCase: MinCloudCase {
     func test_record_list_option() {
         let dict = SampleData.Table.record_list_option.toDictionary()
         record_list_option = true
-        let whereAgrs = Where.compare(key: "color", operator: .equalTo, value: "brown")
+        let whereAgrs = Where.compare("color", operator: .equalTo, value: "brown")
         let query = Query()
-        query.setWhere(whereAgrs)
-        query.limit(10)
-        query.offset(0)
-        query.orderBy(["created_at"])
-        query.expand(["created_by"])
-        query.select(["color", "created_by"])
+        query.where = whereAgrs
+        query.limit = 10
+        query.offset = 0
+        query.orderBy = ["created_at"]
+        query.expand = ["created_by"]
+        query.select = ["color", "created_by"]
         table.find(query: query) { (recordList, error) in
             record_list_option = false
             ModelCase.recordListEqual(recordList: recordList!, dict: dict!)
@@ -72,9 +72,9 @@ class TableCase: MinCloudCase {
     }
     
     func test_batch_update() {
-        let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 15)
+        let whereArgs = Where.compare("price", operator: .lessThan, value: 15)
         let query = Query()
-        query.setWhere(whereArgs)
+        query.where = whereArgs
         let options = ["enable_trigger": true]
         let record = table.createRecord()
         record.set("price", value: 35)
@@ -84,9 +84,9 @@ class TableCase: MinCloudCase {
     }
     
     func test_batch_delete() {
-        let whereArgs = Where.contains(key: "color", value: "brown")
+        let whereArgs = Where.contains("color", value: "brown")
         let query = Query()
-        query.setWhere(whereArgs)
+        query.where = whereArgs
         let options = ["enable_trigger": true]
         table.delete(query: query, options: options, completion: {result, error in
             XCTAssertNotNil(result, "批量删除记录")

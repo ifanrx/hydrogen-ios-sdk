@@ -104,7 +104,7 @@
                     case 2:
                     // 用户名登录
                 {
-                    [BaaSAuth loginWithUsername:@"test0807" password:@"1111" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth loginWithUsername:@"ifanr" password:@"12345" completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -189,7 +189,7 @@
                     case 7:
                 {
                     // 批量查询用户列表，如 获取年龄小于 25 的用户
-                    BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@15];
+                    BaaSWhere *where = [BaaSWhere compare:@"price" operator:BaaSOperatorLessThan value:@15];
                     BaaSQuery *query = [[BaaSQuery alloc] init];
                     [query setWhere:where];
                     [BaaSUser findWithQuery:query completion:^(BaaSUserList * _Nullable listResult, NSError * _Nullable error) {
@@ -234,7 +234,7 @@
                     BaaSQuery *query = [[BaaSQuery alloc] init];
 
                     // 指定返回结果起始位置
-                    [query offset:1];
+                    query.offset = 1;
 
                     // 指定返回结果个数
                     //[query limit:10];
@@ -249,8 +249,11 @@
                     //[query orderBy:@[@"-price", @"-off"]];
 
                     //设置查询条件
-                    BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@20];
-                    [query setWhere:where];
+                    BaaSWhere *where = [BaaSWhere compare:@"price" operator:BaaSOperatorLessThan value:@20];
+                    query.where = where;
+                    query.returnTotalCount = YES;
+                    query.limit = 10;
+                    query.select = @[@"id"];
                     [_table findWithQuery:query completion:^(BaaSRecordList * _Nullable listResult, NSError * _Nullable error) {
 
                     }];
@@ -277,9 +280,9 @@
                     case 4:
                 {
                     // 批量删除，如删除所有 color 为 brown 的记录项。
-                    BaaSWhere *where = [BaaSWhere containsWithKey:@"color" value:@"brown"];
+                    BaaSWhere *where = [BaaSWhere contains:@"color" value:@"brown"];
                     BaaSQuery *query = [[BaaSQuery alloc] init];
-                    [query setWhere:where];
+                    query.where = where;
                     NSDictionary *options = @{@"": @true};
                     [_table deleteWithQuery:query options:options completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
 
@@ -325,7 +328,7 @@
                     case 7:
                 {
                     // 批量更新数据，如将价钱小于15的记录的价钱 增加 1.
-                    BaaSWhere *where = [BaaSWhere compareWithKey:@"price" operator:BaaSOperatorLessThan value:@15];
+                    BaaSWhere *where = [BaaSWhere compare:@"price" operator:BaaSOperatorLessThan value:@15];
 
                     BaaSQuery *query = [[BaaSQuery alloc] init];
                     [query setWhere:where];
@@ -583,7 +586,7 @@
                 case 5:
                 {
                     BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
-                    [query status:BaaSOrderStatusPending];
+                    query.status = BaaSOrderStatusPending;
                     [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];
@@ -597,7 +600,7 @@
                 case 6:
                 {
                     BaaSOrderQuery *query = [[BaaSOrderQuery alloc] init];
-                    [query status:BaaSOrderStatusSuccess];
+                    query.status = BaaSOrderStatusSuccess;
                     [BaaSPay.shared orderListWithQuery:query completion:^(BaaSOrderList * _Nullable orders, NSError * _Nullable error) {
                         if(error) {
                             [self showMessage:error.localizedDescription];

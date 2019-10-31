@@ -45,14 +45,14 @@ class UserCase: MinCloudCase {
         let dict = SampleData.User.userList_option.toDictionary()
         user_list_option = true
         
-        let whereAgrs = Where.compare(key: "age", operator: .equalTo, value: 23)
+        let whereAgrs = Where.compare("age", operator: .equalTo, value: 23)
         let query = Query()
-        query.setWhere(whereAgrs)
-        query.limit(10)
-        query.offset(0)
-        query.orderBy(["created_at"])
-        query.expand(["created_by"])
-        query.select(["_username", "created_by"])
+        query.where = whereAgrs
+        query.limit = 10
+        query.offset = 0
+        query.orderBy = ["created_at"]
+        query.expand = ["created_by"]
+        query.select = ["_username", "created_by"]
         User.find(query: query) {userList, error in
             ModelCase.userListEqual(userList: userList!, dict: dict!)
             user_list_option = false
