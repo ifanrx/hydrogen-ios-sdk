@@ -20,20 +20,24 @@ public enum Operator: Int {
 
 @objc(BaaSOrderStatus)
 public enum OrderStatus: Int {
-    case success = 0           // 支付成功
-    case pending = 1           // 待支付
+    case all = 0               // 全部，默认
+    case success = 1           // 支付成功
+    case pending = 2           // 待支付
 }
 
 @objc(BaaSRefundStatus)
 public enum RefundStatus: Int {
-    case complete = 0          // 退款成功
-    case partial = 1           // 部分退款
+    case all = 0               // 全部，默认
+    case complete = 1          // 退款成功
+    case partial = 2           // 部分退款
 }
 
 @objc(BaaSGateWayType)
 public enum GateWayType: Int {
-    case weixin = 0            // 微信支付
-    case alipay = 1            // 支付宝
+    case all = 0               // 全部，默认
+    case weixin = 1            // 微信支付
+    case alipay = 2            // 支付宝
+    
 }
 
 public typealias BOOLResultCompletion = (_ success: Bool, _ error: NSError?) -> Void

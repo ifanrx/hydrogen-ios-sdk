@@ -10,30 +10,30 @@ import UIKit
 
 @objc(BaaSOrder)
 open class Order: NSObject, Mappable {
-    @objc public var Id: String?
-    @objc public var tradeNo: String? // 真正的交易 ID, 业务方在微信后台对账时可看到此字段
-    @objc public var transactionNo: String? // 知晓云平台所记录的流水号
-    @objc public var currencyType: String?
-    @objc public var totalCost: Double = 0
-    @objc public var status: String?
-    @objc public var createdBy: String?
-    @objc public var createdAt: TimeInterval = 0
-    @objc public var updatedAt: TimeInterval = 0
-    @objc public var payAt: TimeInterval = 0
-    @objc public var refundStatus: String?
-    @objc public var gateWayType: String?
-    @objc public var gatewayExtraInfo: [String: Any]?
-    @objc public var merchandiseRecordId: String?
-    @objc public var merchandiseSchemaId: String?
-    @objc public var merchandiseDescription: String?
-    @objc public var merchandiseSnapshot: [String: Any]?
+    @objc public internal(set) var Id: String?
+    @objc public internal(set) var tradeNo: String? // 真正的交易 ID, 业务方在微信后台对账时可看到此字段
+    @objc public internal(set) var transactionNo: String? // 知晓云平台所记录的流水号
+    @objc public internal(set) var currencyType: String?
+    @objc public internal(set) var totalCost: Double = 0
+    @objc public internal(set) var status: String?
+    @objc public internal(set) var createdBy: String?
+    @objc public internal(set) var createdAt: TimeInterval = 0
+    @objc public internal(set) var updatedAt: TimeInterval = 0
+    @objc public internal(set) var payAt: TimeInterval = 0
+    @objc public internal(set) var refundStatus: String?
+    @objc public internal(set) var gateWayType: String?
+    @objc public internal(set) var gatewayExtraInfo: [String: Any]?
+    @objc public internal(set) var merchandiseRecordId: String?
+    @objc public internal(set) var merchandiseSchemaId: String?
+    @objc public internal(set) var merchandiseDescription: String?
+    @objc public internal(set) var merchandiseSnapshot: [String: Any]?
     var dictInfo: [String: Any]?
 
-    public override init() {
+    @objc public override init() {
         super.init()
     }
 
-    required public init?(dict: [String: Any]) {
+    @objc required public init?(dict: [String: Any]) {
         self.dictInfo = dict
         self.Id = dict.getString("id")
         self.tradeNo = dict.getString("trade_no")
@@ -117,12 +117,12 @@ open class Order: NSObject, Mappable {
         return payReq
     }
 
-    override open var description: String {
+    @objc override open var description: String {
         let dict = self.dictInfo ?? [:]
         return dict.toJsonString
     }
     
-    override open var debugDescription: String {
+    @objc override open var debugDescription: String {
         let dict = self.dictInfo ?? [:]
         return dict.toJsonString
     }

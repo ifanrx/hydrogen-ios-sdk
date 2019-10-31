@@ -9,107 +9,121 @@
 import Foundation
 import Moya
 
-protocol RecordClearer {
-    func clear()
-}
-
 @objc(BaaSQuery)
 open class Query: NSObject {
-
-    lazy var queryArgs: [String: Any] = [:]
-
-    @objc public func setWhere(_ whereArgs: Where) {
-        let conditon = whereArgs.conditon as NSDictionary
-        queryArgs["where"] = conditon.toJsonString
-    }
-
-    @objc public func select(_ args: [String]) {
-        var selects = args
-        if !selects.contains("id") {
-            selects.append("id")
-        }
-        queryArgs["keys"] = selects.joined(separator: ",")
-    }
-
-    @objc public func expand(_ args: [String]) {
-        queryArgs["expand"] = args.joined(separator: ",")
-    }
-
-    @objc public func limit(_ value: Int) {
-        queryArgs["limit"] = value
-    }
-
-    @objc public func offset(_ value: Int) {
-        queryArgs["offset"] = value
-    }
-
-    @objc public func orderBy(_ args: [String]) {
-        queryArgs["order_by"] = args.joined(separator: ",")
-    }
     
-    @objc public func returnTotalCount(_ value: Bool = false) {
-        queryArgs["return_total_count"] = value
-    }
-
-    func clear() {
-        queryArgs = [:]
+    @objc public var limit: Int = 20
+    
+    @objc public var offset: Int = 0
+    
+    @objc public var `where`: Where?
+    
+    @objc public var select: [String]?
+    
+    @objc public var expand: [String]?
+    
+    @objc public var orderBy: [String]?
+    
+    @objc public var returnTotalCount: Bool = false
+    
+    var queryArgs: [String: Any] {
+        var args: [String: Any] = [:]
+        args["limit"] = limit
+        
+        args["offset"] = offset
+        
+        args["return_total_count"] = returnTotalCount
+        
+        if let `where` = `where` {
+            args["where"] = `where`.conditon.toJsonString
+        }
+        
+        if var select = select {
+            if !select.contains("id") {
+                select.append("id")
+            }
+            args["keys"] = select.joined(separator: ",")
+        }
+        
+        if let expand = expand {
+            args["expand"] = expand.joined(separator: ",")
+        }
+        
+        if let orderBy = orderBy {
+            args["order_by"] = orderBy.joined(separator: ",")
+        }
+        
+        return args
+        
     }
 }
 
 @objc(BaaSOrderQuery)
 open class OrderQuery: Query {
+    
+    @objc public var status: OrderStatus = .all
+    
+    @objc public var refundStatus: RefundStatus = .all
+    
+    @objc public var gateWayType: GateWayType = .all
+    
+    @objc public var tradeNo: String?
+    
+    @objc public var transactionNo: String?
+    
+    @objc public var merchandiseRecordId: String?
+    
+    @objc public var merchandiseSchemaId: String?
+    
+    override var queryArgs: [String : Any] {
+        var args = super.queryArgs
+        
+        if let tradeNo = tradeNo {
+            args["trade_no"] = tradeNo
+        }
 
-    // 订单状态: 成功 success，待支付 pending
-    @objc public func status(_ value: OrderStatus) {
-        var statusArg: String
-        switch value {
+        if let transactionNo = transactionNo {
+            args["transaction_no"] = transactionNo
+        }
+
+        // 记录 ID
+        if let merchandiseRecordId = merchandiseRecordId {
+            args["merchandise_record_id"] = merchandiseRecordId
+        }
+
+        // 表 ID
+        if let merchandiseSchemaId = merchandiseSchemaId {
+            args["merchandise_schema_id"] = merchandiseSchemaId
+        }
+        
+        // 订单状态: 成功 success，待支付 pending
+        switch status {
+        case .success:
+             args["status"] = "success"
         case .pending:
-            statusArg = "pending"
+            args["status"] = "pending"
         default:
-            statusArg = "success"
+            break
         }
-        queryArgs["status"] = statusArg
-    }
-
-    // 退款状态: 完成 complete，部分退款 partial
-    @objc public func refundStatus(_ value: RefundStatus) {
-        var statusArg: String
-        switch value {
+        
+        // 退款状态: 完成 complete，部分退款 partial
+        switch refundStatus {
+        case .complete:
+            args["refund_status"] = "complete"
         case .partial:
-            statusArg = "partial"
+            args["refund_status"] = "partial"
         default:
-            statusArg = "complete"
+            break
         }
-        queryArgs["refund_status"] = statusArg
-    }
-
-    @objc public func gateWayType(_ value: GateWayType) {
-        var type: String
-        switch value {
+        
+        switch gateWayType {
         case .weixin:
-            type = "weixin_tenpay_app"
+            args["gateway_type"] = "weixin_tenpay_app"
         case .alipay:
-            type = "alipay_app"
+            args["gateway_type"] = "alipay_app"
+        default:
+            break
         }
-        queryArgs["gateway_type"] = type
-    }
-
-    //
-    @objc public func tradeNo(_ value: String) {
-        queryArgs["trade_no"] = value
-    }
-
-    @objc public func transactionNo(_ value: String) {
-        queryArgs["transaction_no"] = value
-    }
-
-    // 记录 ID
-    @objc public func merchandiseRecordId(_ value: String) {
-        queryArgs["merchandise_record_id"] = value
-    }
-
-    // 表 ID
-    @objc public func merchandiseSchemaId(_ value: String) {
-        queryArgs["merchandise_schema_id"] = value
+        return args
     }
 }

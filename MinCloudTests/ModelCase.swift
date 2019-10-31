@@ -72,8 +72,8 @@ class ModelCase: MinCloudCase {
         XCTAssertEqual(file.size, dict.getInt("size"))
         XCTAssertEqual(file.cdnPath, dict.getString("path"))
         XCTAssertEqual(file.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(file.category.Id, dict.getDict("category")?.getString("id"))
-        XCTAssertEqual(file.category.name, dict.getDict("category")?.getString("name"))
+        XCTAssertEqual(file.category?.Id, dict.getDict("category")?.getString("id"))
+        XCTAssertEqual(file.category?.name, dict.getDict("category")?.getString("name"))
         
     }
     
@@ -122,8 +122,8 @@ class ModelCase: MinCloudCase {
         XCTAssertEqual(category.haveChildren, dict.getBool("have_children"))
         let children = dict.getArray("children", type: [String: Any].self)
         for (index, subDict) in children.enumerated() {
-            XCTAssertEqual(category.children[index].Id, subDict.getString("id"))
-            XCTAssertEqual(category.children[index].name, subDict.getString("name"))
+            XCTAssertEqual(category.children?[index].Id, subDict.getString("id"))
+            XCTAssertEqual(category.children?[index].name, subDict.getString("name"))
         }
     }
     

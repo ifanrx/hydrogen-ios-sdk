@@ -63,11 +63,6 @@ open class User: BaseRecord {
     @objc public internal(set) var avatar: String?
 
     /**
-     *  用户信息
-     */
-    @objc public internal(set) var userInfo: [String: Any] = [:]
-
-    /**
      *  是否授权
      */
 
@@ -102,14 +97,20 @@ open class User: BaseRecord {
      * 是否匿名
      */
     @objc public internal(set) var isAnonymous: Bool = false
+    
+    /**
+     *  用户信息
+     */
+    var userInfo: [String: Any] = [:]
 
-    init(Id: String) {
+    @objc public init(Id: String) {
         self.userId = Id
         super.init()
         self.Id = String(Id)
+        self.userInfo["id"] = Id
     }
 
-    required public init?(dict: [String: Any]) {
+    @objc required public init?(dict: [String: Any]) {
         let Id = dict.getString("id", "user_id")
         self.userId = Id
         self.email = dict.getString("_email")
@@ -130,12 +131,12 @@ open class User: BaseRecord {
         super.init(dict: dict)
     }
 
-    override open var description: String {
+    @objc override open var description: String {
         let dict = self.userInfo
         return dict.toJsonString
     }
     
-    override open var debugDescription: String {
+    @objc override open var debugDescription: String {
         let dict = self.userInfo
         return dict.toJsonString
     }
@@ -144,7 +145,7 @@ open class User: BaseRecord {
     ///
     /// - Parameter key: 字段名称
     /// - Returns: 
-    @objc public func get(key: String) -> Any? {
+    @objc public func get(_ key: String) -> Any? {
         return userInfo[key]
     }
 

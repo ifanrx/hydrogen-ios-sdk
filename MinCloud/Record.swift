@@ -22,13 +22,13 @@ public class Record: BaseRecord {
     /// 记录所有的信息
     @objc public internal(set) var recordInfo: [String: Any] = [:]
 
-    @objc init(table: Table, Id: String?) {
+    @objc public init(table: Table, Id: String?) {
         self.table = table
         super.init()
         self.Id = Id
     }
 
-    @objc convenience init(table: Table) {
+    @objc public convenience init(table: Table) {
         self.init(table: table, Id: nil)
     }
 
@@ -38,17 +38,17 @@ public class Record: BaseRecord {
         super.init(dict: dict)
     }
 
-    convenience public init?(table: Table, dict: [String: Any]) {
+    @objc convenience public init?(table: Table, dict: [String: Any]) {
         self.init(dict: dict)
         self.table = table
     }
 
-    override open var description: String {
+    @objc override open var description: String {
         let dict = self.recordInfo
         return dict.toJsonString
     }
     
-    override open var debugDescription: String {
+    @objc override open var debugDescription: String {
         let dict = self.recordInfo
         return dict.toJsonString
     }
@@ -66,7 +66,7 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func save(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         
-        guard let tableId = table?.identify else {
+        guard let tableId = table?.identifier else {
             completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
@@ -104,7 +104,7 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        guard Id != nil, let tableId = table?.identify else {
+        guard Id != nil, let tableId = table?.identifier else {
             completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
@@ -143,7 +143,7 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        guard Id != nil, let tableId = table?.identify else {
+        guard Id != nil, let tableId = table?.identifier else {
             completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
