@@ -38,10 +38,7 @@ open class Query: NSObject {
             args["where"] = `where`.conditon.toJsonString
         }
         
-        if var select = select {
-            if !select.contains("id") {
-                select.append("id")
-            }
+        if let select = select {
             args["keys"] = select.joined(separator: ",")
         }
         

@@ -34,10 +34,7 @@ open class ContentGroup: NSObject {
     @objc open func get(_ contentId: String, select: [String]? = nil, completion: @escaping ContentResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
-        if var select = select {
-            if !select.contains("id") {
-                select.append("id")
-            }
+        if let select = select {
             parameters["keys"] = select.joined(separator: ",")
         }
         let request = ContentGroup.ContentGroupProvider.request(.conentDetail(id: contentId, parameters: parameters)) { result in
