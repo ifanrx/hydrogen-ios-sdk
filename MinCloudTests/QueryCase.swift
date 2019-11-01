@@ -28,15 +28,6 @@ class QueryCase: MinCloudCase {
         XCTAssertEqual("{\n  \"price\" : {\n    \"$eq\" : 10\n  }\n}", value)
     }
     
-    func test_select_without_id() {
-        let query = Query()
-        query.select = ["created_by", "user_id"]
-        XCTAssertTrue(query.queryArgs.keys.contains("keys"))
-        let value = query.queryArgs.getString("keys")
-        let keys = value?.split(separator: ",")
-        XCTAssertTrue(keys?.count == 3)
-    }
-    
     func test_select_with_id() {
         let query = Query()
         query.select = ["id", "created_by", "user_id"]

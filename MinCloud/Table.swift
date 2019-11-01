@@ -103,10 +103,7 @@ public class Table: NSObject {
     @objc public func get(_ recordId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping RecordResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
-        if var select = select {
-            if !select.contains("id") {
-                select.append("id")
-            }
+        if let select = select {
             parameters["keys"] = select.joined(separator: ",")
         }
         if let expand = expand {
