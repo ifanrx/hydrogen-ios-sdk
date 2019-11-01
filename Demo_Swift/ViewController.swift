@@ -178,14 +178,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.offset = 0
                 query.orderBy = ["created_at"]
                 query.expand = ["created_by"]
-                query.select = ["_username", "created_by"]
+                query.select = ["-_username", "-created_by"]
                 query.returnTotalCount = true
                 User.find(query: query, completion: {_, _ in
 
                 })
             case 8:
                 // 获取指定用户
-                User.get("92812581396859", select: ["_username", "created_by"], expand: ["created_by"]) {_, _ in
+                User.get("92812581396859", select: ["-_username", "-created_by"], expand: ["created_by"]) {_, _ in
 
                 }
             default:
@@ -221,14 +221,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                let whereAgrs = Where.compare(key: "color", operator: .equalTo, value: "brown")
                 let query = Query()
                 let `where` = Where.compare("price", operator: .lessThan, value: 15)
-                query.where = `where`
+                //query.where = `where`
 //                query.setWhere(whereAgrs)
                 //query.where = whereArgs
                 query.limit = 10
                 query.offset = 0
                 query.orderBy = ["created_at"]
                 query.expand = ["created_by"]
-                query.select = ["color", "created_by"]
+                query.select = ["-name", "-price"]
                 query.returnTotalCount = true
                 table.find(query: query, completion: {_, _ in
 
