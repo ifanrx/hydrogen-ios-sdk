@@ -29,12 +29,8 @@ struct Config {
     
     static var clientID: String!
     static var serverURLString: String?
-    static var version: String {
-        if let info = Bundle.main.infoDictionary, let version = info["CFBundleShortVersionString"] as? String {
-            return version
-        }
-        return "0.2.0"
-    }
+    static var version = "1.0.1"    // MinCloud 当前版本号
+    
     static var baseURL: String {
         if environment == .qa {
             return "https://viac2-p.eng-vm.can.corp.ifanr.com"
