@@ -114,6 +114,7 @@ struct Config {
         static let cloudFunction = "/hserve/v1/cloud-function/job/"
         static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
         static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
+        static let serverTime = "/hserve/v2.2/server/time/"
     }
 
     struct Pay {
