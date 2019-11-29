@@ -29,7 +29,7 @@ struct Config {
     
     static var clientID: String!
     static var serverURLString: String?
-    static var version = "1.0.1"    // MinCloud 当前版本号
+    static var version = "1.0.2"    // MinCloud 当前版本号
     
     static var baseURL: String {
         if environment == .qa {

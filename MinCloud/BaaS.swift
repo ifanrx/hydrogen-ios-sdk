@@ -83,12 +83,10 @@ import Result
         return RequestCanceller(cancellable: request)
     }
     
-    /// 验证手机已接收的验证码
+    /// 获取服务器时间
     ///
     /// - Parameters:
-    ///   - phone: 手机号
-    ///   - code: 验证
-    ///   - completion: 验证结果
+    ///   - completion: 获取服务器时间结果
     /// - Returns:
     @discardableResult
     @objc public static func getServerTime(_ completion: @escaping OBJECTResultCompletion) -> RequestCanceller {

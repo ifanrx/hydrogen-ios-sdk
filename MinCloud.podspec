@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
