@@ -540,6 +540,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 BaaS.verifySmsCode(phone: "15088057274", code: "") {_, _ in
 
                 }
+            case 3:
+                //获取服务器时间
+                BaaS.getServerTime() { result, error in
+                    
+                }
             default:
                 break
             }
