@@ -82,6 +82,23 @@ import Result
         }
         return RequestCanceller(cancellable: request)
     }
+    
+    /// 验证手机已接收的验证码
+    ///
+    /// - Parameters:
+    ///   - phone: 手机号
+    ///   - code: 验证
+    ///   - completion: 验证结果
+    /// - Returns:
+    @discardableResult
+    @objc public static func getServerTime(_ completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.getServerTime) { result in
+            ResultHandler.parse(result, handler: { (invokeResult: MappableDictionary?, error: NSError?) in
+                completion(invokeResult?.value, error)
+            })
+        }
+        return RequestCanceller(cancellable: request)
+    }
 }
 
 // 微信支付

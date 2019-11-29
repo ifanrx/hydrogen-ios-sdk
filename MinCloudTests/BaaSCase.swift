@@ -48,6 +48,12 @@ class BaaSCase: MinCloudCase {
         BaaS.register(clientID: "123", serverURLString: "https://ifanr.com")
         XCTAssertEqual(Config.baseURL, "https://ifanr.com")
     }
+    
+    func test_get_server_time() {
+        BaaS.getServerTime { (result, error) in
+            XCTAssertEqual(result?.getString("time"), "2019-11-28T16:39:12.732361+08:00")
+        }
+    }
 }
 
 extension BaaSAPI {
@@ -59,7 +65,8 @@ extension BaaSAPI {
             return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
         case .verifySmsCode:
             return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
-            
+        case .getServerTime:
+            return "{\"time\" : \"2019-11-28T16:39:12.732361+08:00\"}".data(using: String.Encoding.utf8)!
         }
     }
 }
@@ -93,6 +100,8 @@ class BaaSPlugin: PluginType {
             XCTAssertEqual(path, Path.BaaS.sendSmsCode)
         case .verifySmsCode:
             XCTAssertEqual(path, Path.BaaS.verifySmsCode)
+        case .getServerTime:
+            XCTAssertEqual(path, Path.BaaS.getServerTime)
         }
         
     }
@@ -102,6 +111,8 @@ class BaaSPlugin: PluginType {
         switch target {
         case .invokeFunction, .sendSmsCode, .verifySmsCode:
             XCTAssertEqual(method, Moya.Method.post)
+        case .getServerTime:
+            XCTAssertEqual(method, Moya.Method.get)
         }
     }
     
@@ -116,6 +127,8 @@ class BaaSPlugin: PluginType {
         case .verifySmsCode(let parameters):
             XCTAssertTrue(parameters.keys.contains("phone"))
             XCTAssertTrue(parameters.keys.contains("code"))
+        case .getServerTime:
+            break
         }
     }
     

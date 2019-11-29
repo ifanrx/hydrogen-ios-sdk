@@ -58,6 +58,7 @@
 		<string>云函数</string>
 		<string>发送手机验证码</string>
 		<string>验证手机验证码</string>
+		<string>获取服务器时间</string>
 	</array>
 	<array>
 		<string>微信</string>

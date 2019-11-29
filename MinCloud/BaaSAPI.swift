@@ -13,6 +13,7 @@ enum BaaSAPI {
     case invokeFunction(parameters: [String: Any])
     case sendSmsCode(parameters: [String: Any])
     case verifySmsCode(parameters: [String: Any])
+    case getServerTime
 }
 
 extension BaaSAPI: TargetType {
@@ -28,6 +29,8 @@ extension BaaSAPI: TargetType {
             return Config.BaaS.sendSmsCode
         case .verifySmsCode:
             return Config.BaaS.verifySmsCode
+        case .getServerTime:
+            return Config.BaaS.serverTime
         }
     }
 
@@ -35,6 +38,8 @@ extension BaaSAPI: TargetType {
         switch self {
         case .invokeFunction, .sendSmsCode, .verifySmsCode:
             return .post
+        case .getServerTime:
+            return .get
         }
     }
 
@@ -46,6 +51,8 @@ extension BaaSAPI: TargetType {
         switch self {
         case .invokeFunction(let parameters), .sendSmsCode(let parameters), .verifySmsCode(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .getServerTime:
+            return .requestPlain
         }
     }
 

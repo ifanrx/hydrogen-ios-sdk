@@ -494,6 +494,7 @@
                 default:
                     break;
             }
+            break;
             case 5:
         {
             switch (indexPath.row) {
@@ -514,10 +515,19 @@
                     [BaaS verifySmsCodeWithPhone:@"1508805****" code:@"11111" completion:^(BOOL success, NSError * _Nullable error) {
 
                     }];
+                    break;
+                }
+                case 3:
+                {
+                    [BaaS getServerTime:^(NSDictionary * _Nullable result, NSError * _Nullable error) {
+
+                    }];
+                    break;
                 }
                 default:
                     break;
             }
+            break;
 
         }
             case 6:
