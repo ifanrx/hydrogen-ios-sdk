@@ -16,11 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        BaaS.register(clientID: "196ba98487ebc358955d") // 线上环境
+//        BaaS.register(clientID: "196ba98487ebc358955d") // 线上环境
 //        BaaS.register(clientID: "995140f59511a222c937") // qa测试环境
 //        BaaS.register(clientID: "a4d2d62965ddb57fa4d6")  // 线上环境-支付
+        BaaS.register(clientID: "c981f1ec250e46e3e1e7", serverURLString: "https://v5220.eng.szx.ifanrx.com")
         BaaS.isDebug = true
-        BaaS.getVersion()
         return true
     }
 
@@ -47,6 +47,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return BaaS.handleOpenURL(url: url)
+    }
+    
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+        return BaaS.handleOpenURL(url: url)
+    }
+
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return BaaS.handleOpenURL(url: url)
     }
 }

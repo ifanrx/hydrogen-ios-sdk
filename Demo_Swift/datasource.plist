@@ -9,6 +9,9 @@
 		<string>邮箱登录</string>
 		<string>匿名登录</string>
 		<string>登出</string>
+		<string>苹果登录</string>
+		<string>微信登录</string>
+		<string>微博登录</string>
 	</array>
 	<array>
 		<string>获取当前用户</string>

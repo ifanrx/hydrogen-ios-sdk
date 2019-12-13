@@ -9,6 +9,7 @@
 import UIKit
 import MinCloud
 import Photos
+import AuthenticationServices
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -16,6 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var data: NSArray!
     var resultInfo: Order!
     var record: Record!
+    let auth = Auth()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +106,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 登出
                 Auth.logout {_, _ in
 
+                }
+            case 6:
+//                let appleIDProvider = ASAuthorizationAppleIDProvider()
+//                let request = appleIDProvider.createRequest()
+//                request.requestedScopes = [.fullName, .email]
+//
+//                let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+//                authorizationController.delegate = self
+//                authorizationController.presentationContextProvider = self
+//                authorizationController.performRequests()
+                break
+            case 7:
+                ThirdAuth.shared.signIn { (result, error) in
+                    
+                }
+            case 8:
+                ThirdAuth.shared.signInWeibo { (result, error) in
+                    
                 }
             default:
                 break
@@ -686,3 +706,48 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
 }
+
+extension String {
+
+    func base64Encoded() -> String? {
+        if let data = self.data(using: .utf8) {
+            return data.base64EncodedString()
+        }
+        return nil
+    }
+
+    func base64Decoded() -> String? {
+        let str = self.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+        if let data = Data(base64Encoded: str) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
+    }
+}
+
+//extension ViewController: ASAuthorizationControllerDelegate {
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+////        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+////            let userIdentifier = appleIDCredential.user
+////            let fullName = appleIDCredential.fullName
+////            let email = appleIDCredential.email
+////
+////            if let token = appleIDCredential.identityToken {
+////                let tokenStr = String(data: token, encoding: .utf8)
+////                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+////
+////                }
+////            }
+////        }
+//    }
+//
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+//        // Handle error.
+//    }
+//}
+//
+//extension ViewController: ASAuthorizationControllerPresentationContextProviding {
+//    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+//        return self.view.window!
+//    }
+//}

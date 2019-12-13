@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '1.0.2'
+  s.version          = '1.1.0-branch'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://cloud.minapp.com/'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'pengquanhua' => 'pengquanhua@ifanr.com' }
-  s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :tag => s.version }
+  s.source           = { :git => 'https://github.com/ifanrx/hydrogen-ios-sdk.git', :branch => s.version }
  
   s.ios.deployment_target = '9.0'
   s.subspec 'Core' do |core|
@@ -29,12 +29,20 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'WeChat' do |wx|
-    wx.source_files = 'MinCloud/*.{h}'
+    wx.source_files = 'MinCloud/WechatAuthSDK.h', 'MinCloud/WXApiObject.h', 'MinCloud/WXApi.h
     wx.vendored_libraries = 'MinCloud/libWeChatSDK.a'
     wx.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-Objc -all_load' }
     wx.frameworks = "SystemConfiguration", "CoreTelephony", "Security", "CoreGraphics", "CFNetwork"
     wx.libraries = "z", "c++", "sqlite3.0"
     wx.xcconfig = { "HEADER_SEARCH_PATHS" => "$(PODS_ROOT)/MinCloud" }
+  end
+
+  s.subspec 'Sina' do |sina|
+    sina.source_files = 'MinCloud/WeiboSDK.h', 'MinCloud/WBHttpRequest.h'
+    sina.resource     = 'MinCloud/WeiboSDK.bundle'
+    sina.vendored_libraries  = 'MinCloud/libWeiboSDK.a'
+    sina.frameworks   = 'Photos', 'ImageIO', 'SystemConfiguration', 'CoreText', 'QuartzCore', 'Security', 'UIKit', 'Foundation', 'CoreGraphics','CoreTelephony','WebKit'
+    sina.libraries = 'sqlite3', 'z'
   end
 
   s.module_map = 'MinCloud/module.modulemap'

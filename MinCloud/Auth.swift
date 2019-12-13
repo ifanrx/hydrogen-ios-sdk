@@ -156,4 +156,16 @@ open class Auth: NSObject {
         }
         return RequestCanceller(cancellable: request)
     }
+    
+    // 苹果登录
+    @discardableResult
+    @objc static public func signInWithApple(authToken: String, nickname: String, completion: @escaping OBJECTResultCompletion)  -> RequestCanceller? {
+        let request = Auth.AuthProvider.request(.apple(["auth_token": authToken, "nickname": nickname])) { (result) in
+            
+        }
+        
+        return RequestCanceller(cancellable: request)
+    }
+    
+    
 }

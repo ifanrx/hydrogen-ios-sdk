@@ -60,6 +60,9 @@ struct Config {
         static func register(authType: AuthType) -> String { return "/hserve/v2.0/register/\(authType.rawValue)/" }
         static func login(authType: AuthType) -> String { return "/hserve/v2.0/login/\(authType.rawValue)/" }
         static let logout = "/hserve/v2.0/session/destroy/"
+        static let apple = "hserve/v2.2/idp/oauth/apple-native/authenticate/"
+        static let wechat = "/hserve/v2.2/idp/oauth/wechat-native/authenticate/"
+        static let weibo = "/hserve/v2.2/idp/oauth/weibo-native/authenticate/"
     }
 
     struct User {
