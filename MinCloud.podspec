@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'WeChat' do |wx|
-    wx.source_files = 'MinCloud/WechatAuthSDK.h', 'MinCloud/WXApiObject.h', 'MinCloud/WXApi.h
+    wx.source_files = 'MinCloud/WechatAuthSDK.h', 'MinCloud/WXApiObject.h', 'MinCloud/WXApi.h'
     wx.vendored_libraries = 'MinCloud/libWeChatSDK.a'
     wx.pod_target_xcconfig = { 'OTHER_LDFLAGS' => '-Objc -all_load' }
     wx.frameworks = "SystemConfiguration", "CoreTelephony", "Security", "CoreGraphics", "CFNetwork"
