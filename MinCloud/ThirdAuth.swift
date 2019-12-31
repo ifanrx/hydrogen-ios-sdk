@@ -15,7 +15,18 @@ open class ThirdAuth: NSObject {
     
     static public let shared = ThirdAuth()
     
+    private var wechatAppKey: String?
+    private var weiboAppKey: String?
+    
     static var AuthProvider = MoyaProvider<AuthAPI>(plugins: logPlugin)
+    
+    @objc public func setWeChat(with appKey: String) {
+        wechatAppKey = appKey
+    }
+    
+    @objc public func setWeiBo(with appKey: String) {
+        weiboAppKey = appKey
+    }
     
     @objc public func signInWeibo(_ completion: @escaping OBJECTResultCompletion) {
         sendAuthWithWeibo()
@@ -27,22 +38,25 @@ open class ThirdAuth: NSObject {
     }
     
     private func sendAuthWithWeibo() {
-        WeiboSDK.registerApp("542432732")
+        WeiboSDK.enableDebugMode(true)
+        guard let appKey = weiboAppKey else {
+            fatalError("请绑定微博 appKey")
+        }
+        WeiboSDK.registerApp(appKey)
         let req = WBAuthorizeRequest()
         req.scope = "all"
         WeiboSDK.send(req)
     }
     
     private func sendAuthRequest() {
-        WXApi.registerApp("wx4b3c1aff4c5389f5")
+        guard let wechatAppKey = wechatAppKey else {
+            fatalError("请绑定微信 appKey!")
+        }
+        WXApi.registerApp(wechatAppKey)
         let req = SendAuthReq()
         req.scope = "snsapi_userinfo"
         WXApi.send(req)
-//        if WXApi.isWXAppInstalled() {
-//
-//        } else {
-//            fatalError()
-//        }
+
     }
     
     private func singInWechat(code: String) {

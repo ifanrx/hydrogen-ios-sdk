@@ -124,7 +124,6 @@
 		4CEF97FA23A36684008C0136 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CEF97F623A36683008C0136 /* WeiboSDK.bundle */; };
 		4CEF97FB23A36684008C0136 /* WBHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEF97F723A36684008C0136 /* WBHttpRequest.h */; };
 		4CEF97FC23A36684008C0136 /* WeiboSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEF97F823A36684008C0136 /* WeiboSDK.h */; };
-		4CEF97FF23A3670A008C0136 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF97FE23A3670A008C0136 /* Photos.framework */; };
 		4CEF980123A36717008C0136 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980023A36716008C0136 /* ImageIO.framework */; };
 		4CEF980323A36727008C0136 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980223A36727008C0136 /* SystemConfiguration.framework */; };
 		4CEF980523A36730008C0136 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980423A36730008C0136 /* CoreText.framework */; };
@@ -381,7 +380,6 @@
 				4CEF980523A36730008C0136 /* CoreText.framework in Frameworks */,
 				4CEF980323A36727008C0136 /* SystemConfiguration.framework in Frameworks */,
 				4CEF980123A36717008C0136 /* ImageIO.framework in Frameworks */,
-				4CEF97FF23A3670A008C0136 /* Photos.framework in Frameworks */,
 				4CF1254322FD5D3000893604 /* Foundation.framework in Frameworks */,
 				4CF1254122FD5D2000893604 /* CoreMotion.framework in Frameworks */,
 				4CF1253F22FD5D1300893604 /* UIKit.framework in Frameworks */,
@@ -1660,7 +1658,6 @@
 					"-framework",
 					"\"Result\"",
 					"-ObjC",
-					"-all_load",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
@@ -1727,7 +1724,6 @@
 					"-framework",
 					"\"Result\"",
 					"-ObjC",
-					"-all_load",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
@@ -1820,9 +1816,8 @@
 					"\"Moya\"",
 					"-framework",
 					"\"Result\"",
-					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -1869,9 +1864,8 @@
 					"\"Moya\"",
 					"-framework",
 					"\"Result\"",
-					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;

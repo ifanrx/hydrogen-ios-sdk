@@ -108,20 +108,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 }
             case 6:
-//                let appleIDProvider = ASAuthorizationAppleIDProvider()
-//                let request = appleIDProvider.createRequest()
-//                request.requestedScopes = [.fullName, .email]
-//
-//                let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-//                authorizationController.delegate = self
-//                authorizationController.presentationContextProvider = self
-//                authorizationController.performRequests()
+                if #available(iOS 13.0, *) {
+                    let appleIDProvider = ASAuthorizationAppleIDProvider()
+                    let request = appleIDProvider.createRequest()
+                    request.requestedScopes = [.fullName, .email]
+
+                    let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+                    authorizationController.delegate = self
+                    authorizationController.presentationContextProvider = self
+                    authorizationController.performRequests()
+
+                } else {
+                    // Fallback on earlier versions
+                }
+
                 break
             case 7:
+                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
                 ThirdAuth.shared.signIn { (result, error) in
                     
                 }
             case 8:
+                ThirdAuth.shared.setWeiBo(with: "542432732")
                 ThirdAuth.shared.signInWeibo { (result, error) in
                     
                 }
@@ -725,29 +733,32 @@ extension String {
     }
 }
 
-//extension ViewController: ASAuthorizationControllerDelegate {
-//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-////        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-////            let userIdentifier = appleIDCredential.user
-////            let fullName = appleIDCredential.fullName
-////            let email = appleIDCredential.email
-////
-////            if let token = appleIDCredential.identityToken {
-////                let tokenStr = String(data: token, encoding: .utf8)
-////                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
-////
-////                }
-////            }
-////        }
-//    }
-//
-//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-//        // Handle error.
-//    }
-//}
-//
-//extension ViewController: ASAuthorizationControllerPresentationContextProviding {
-//    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-//        return self.view.window!
-//    }
-//}
+extension ViewController: ASAuthorizationControllerDelegate {
+    @available(iOS 13.0, *)
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            let email = appleIDCredential.email
+
+            if let token = appleIDCredential.identityToken {
+                let tokenStr = String(data: token, encoding: .utf8)
+                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+
+                }
+            }
+        }
+    }
+
+    @available(iOS 13.0, *)
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
+    }
+}
+
+extension ViewController: ASAuthorizationControllerPresentationContextProviding {
+    @available(iOS 13.0, *)
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
