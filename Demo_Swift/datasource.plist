@@ -12,6 +12,9 @@
 		<string>苹果登录</string>
 		<string>微信登录</string>
 		<string>微博登录</string>
+		<string>绑定微信</string>
+		<string>绑定微博</string>
+		<string>绑定苹果</string>
 	</array>
 	<array>
 		<string>获取当前用户</string>

@@ -29,7 +29,7 @@ struct Config {
     
     static var clientID: String!
     static var serverURLString: String?
-    static var version = "1.0.2"    // MinCloud 当前版本号
+    static var version = "branch-1.1.0"    // MinCloud 当前版本号
     
     static var baseURL: String {
         if environment == .qa {
@@ -63,6 +63,9 @@ struct Config {
         static let apple = "hserve/v2.2/idp/oauth/apple-native/authenticate/"
         static let wechat = "/hserve/v2.2/idp/oauth/wechat-native/authenticate/"
         static let weibo = "/hserve/v2.2/idp/oauth/weibo-native/authenticate/"
+        static let wbassociation = "/hserve/v2.2/idp/oauth/weibo-native/user-association/"
+        static let wxassociation = "/hserve/v2.2/idp/oauth/wechat-native/user-association/"
+        static let appleassociation = "/hserve/v2.2/idp/oauth/apple-native/user-association/"
     }
 
     struct User {

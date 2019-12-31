@@ -16,6 +16,9 @@ enum AuthAPI {
     case apple([String: Any])
     case wechat([String: Any])
     case weibo([String: Any])
+    case wxassociation([String: Any])
+    case wbassociation([String: Any])
+    case appleassociation([String: Any])
 }
 
 extension AuthAPI: TargetType {
@@ -37,12 +40,18 @@ extension AuthAPI: TargetType {
             return Config.Auth.wechat
         case .weibo:
             return Config.Auth.weibo
+        case .wbassociation:
+            return Config.Auth.wbassociation
+        case .wxassociation:
+            return Config.Auth.wxassociation
+        case .appleassociation:
+            return Config.Auth.appleassociation
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .register, .login, .logout, .apple, .wechat, .weibo:
+        case .register, .login, .logout, .apple, .wechat, .weibo, .appleassociation, .wxassociation, .wbassociation:
             return .post
         }
     }
@@ -53,7 +62,7 @@ extension AuthAPI: TargetType {
 
     var task: Task {
         switch self {
-        case .register(_, let parameters), .login(_, let parameters), .apple(let parameters), .wechat(let parameters), .weibo(let parameters):
+        case .register(_, let parameters), .login(_, let parameters), .apple(let parameters), .wechat(let parameters), .weibo(let parameters), .appleassociation(let parameters), .wxassociation(let parameters), .wbassociation(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .logout:
             return .requestParameters(parameters: [:], encoding: JSONEncoding.default)

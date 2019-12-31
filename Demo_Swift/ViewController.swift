@@ -133,6 +133,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 ThirdAuth.shared.signInWeibo { (result, error) in
                     
                 }
+                
+            case 9:
+                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
+                ThirdAuth.shared.associateWexin { (result, error) in
+                    
+                }
+            case 10:
+                ThirdAuth.shared.setWeiBo(with: "542432732")
+                ThirdAuth.shared.associateWeibo { (result, error) in
+                    
+                }
             default:
                 break
             }

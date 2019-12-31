@@ -10,6 +10,11 @@ import Foundation
 import Moya
 import Result
 
+private enum Type {
+    case association
+    case authenticate
+}
+
 @objc(BaaSThirdAuth)
 open class ThirdAuth: NSObject {
     
@@ -17,6 +22,8 @@ open class ThirdAuth: NSObject {
     
     private var wechatAppKey: String?
     private var weiboAppKey: String?
+    
+    private var type: Type?
     
     static var AuthProvider = MoyaProvider<AuthAPI>(plugins: logPlugin)
     
@@ -29,11 +36,23 @@ open class ThirdAuth: NSObject {
     }
     
     @objc public func signInWeibo(_ completion: @escaping OBJECTResultCompletion) {
+        self.type = .authenticate
         sendAuthWithWeibo()
     }
     
     // 微信登录
     @objc public func signIn(_ completion: @escaping OBJECTResultCompletion) {
+        self.type = .authenticate
+        sendAuthRequest()
+    }
+    
+    @objc public func associateWeibo(_ completion: @escaping OBJECTResultCompletion) {
+        self.type = .association
+        sendAuthWithWeibo()
+    }
+    
+    @objc public func associateWexin(_ completion: @escaping OBJECTResultCompletion) {
+        self.type = .association
         sendAuthRequest()
     }
     
@@ -52,27 +71,49 @@ open class ThirdAuth: NSObject {
         guard let wechatAppKey = wechatAppKey else {
             fatalError("请绑定微信 appKey!")
         }
+        WXApi.startLog(by: .normal) { (log) in
+            print("log: \(log)")
+        }
         WXApi.registerApp(wechatAppKey)
         let req = SendAuthReq()
         req.scope = "snsapi_userinfo"
         WXApi.send(req)
-
     }
     
-    private func singInWechat(code: String) {
+    private func signInWechat(code: String) {
         ThirdAuth.AuthProvider.request(.wechat(["auth_token": code])) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                user?.token = Storage.shared.token
-                user?.expiresIn = Storage.shared.expiresIn
+                Storage.shared.userId = user?.userId
+                Storage.shared.token = user?.token
+                Storage.shared.expiresIn = user?.expiresIn
             })
         }
     }
     
-    private func singInWeibo(code: String) {
+    private func signInWeibo(code: String) {
         ThirdAuth.AuthProvider.request(.weibo(["auth_token": code])) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                user?.token = Storage.shared.token
-                user?.expiresIn = Storage.shared.expiresIn
+                Storage.shared.userId = user?.userId
+                Storage.shared.token = user?.token
+                Storage.shared.expiresIn = user?.expiresIn
+            })
+        }
+    }
+    
+    private func associateWeibo(code: String) {
+        ThirdAuth.AuthProvider.request(.wbassociation(["auth_token": code])) { (result) in
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+//                user?.token = Storage.shared.token
+//                user?.expiresIn = Storage.shared.expiresIn
+            })
+        }
+    }
+    
+    private func associateWechat(code: String) {
+        ThirdAuth.AuthProvider.request(.wxassociation(["auth_token": code])) { (result) in
+            ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
+//                user?.token = Storage.shared.token
+//                user?.expiresIn = Storage.shared.expiresIn
             })
         }
     }
@@ -83,7 +124,12 @@ extension ThirdAuth: WXApiDelegate {
     
     public func onResp(_ resp: BaseResp) {
         if let authResp =  resp as? SendAuthResp, let code = authResp.code {
-            singInWechat(code: code)
+            switch type! {
+            case .association:
+                associateWechat(code: code)
+            case .authenticate:
+                signInWechat(code: code)
+            }
         }
     }
 }
@@ -97,7 +143,12 @@ extension ThirdAuth: WeiboSDKDelegate {
     public func didReceiveWeiboResponse(_ response: WBBaseResponse!) {
         
         if let authResp = response as? WBAuthorizeResponse, let token = authResp.accessToken {
-            singInWechat(code: token)
+            switch type! {
+            case .association:
+                associateWeibo(code: token)
+            case .authenticate:
+                signInWeibo(code: token)
+            }
         }
     }
 }

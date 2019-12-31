@@ -122,7 +122,7 @@ extension BaaS {
             return WXApi.handleOpen(url, delegate: nil)
         } else if url.host == "oauth" {
             return WXApi.handleOpen(url, delegate: ThirdAuth.shared)
-        } else if url.host == "" {
+        } else if url.host == "response" {
             return WeiboSDK.handleOpen(url, delegate: ThirdAuth.shared)
         }
         return true
