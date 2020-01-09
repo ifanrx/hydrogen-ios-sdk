@@ -19,62 +19,65 @@ private enum Type {
 open class ThirdAuth: NSObject {
     
     static public let shared = ThirdAuth()
-    
-    private var wechatAppKey: String?
-    private var weiboAppKey: String?
+
+    private var completion: CurrentUserResultCompletion?
     
     private var type: Type?
     
     static var AuthProvider = MoyaProvider<AuthAPI>(plugins: logPlugin)
     
-    @objc public func setWeChat(with appKey: String) {
-        wechatAppKey = appKey
-    }
-    
-    @objc public func setWeiBo(with appKey: String) {
-        weiboAppKey = appKey
-    }
-    
-    @objc public func signInWeibo(_ completion: @escaping OBJECTResultCompletion) {
+    @objc public func signInWeibo(_ completion: @escaping CurrentUserResultCompletion) {
         self.type = .authenticate
+        self.completion = completion
         sendAuthWithWeibo()
     }
     
     // 微信登录
-    @objc public func signIn(_ completion: @escaping OBJECTResultCompletion) {
+    @objc public func signInWechat(_ completion: @escaping CurrentUserResultCompletion) {
+
         self.type = .authenticate
+        self.completion = completion
         sendAuthRequest()
     }
     
-    @objc public func associateWeibo(_ completion: @escaping OBJECTResultCompletion) {
+    // 苹果登录
+    @objc public func signInApple(_ completion: @escaping CurrentUserResultCompletion) {
+
+        self.type = .authenticate
+        self.completion = completion
+    }
+    
+    @objc public func associateWeibo(_ completion: @escaping CurrentUserResultCompletion) {
         self.type = .association
         sendAuthWithWeibo()
     }
     
-    @objc public func associateWexin(_ completion: @escaping OBJECTResultCompletion) {
+    @objc public func associateWechat(_ completion: @escaping CurrentUserResultCompletion) {
         self.type = .association
+        self.completion = completion
         sendAuthRequest()
+    }
+    
+    @objc public func associateApple(authToken: String, nickname: String, completion: @escaping CurrentUserResultCompletion) {
+
     }
     
     private func sendAuthWithWeibo() {
         WeiboSDK.enableDebugMode(true)
-        guard let appKey = weiboAppKey else {
+        guard let appId = Config.weiboAppid else {
             fatalError("请绑定微博 appKey")
         }
-        WeiboSDK.registerApp(appKey)
+        WeiboSDK.registerApp(appId)
         let req = WBAuthorizeRequest()
         req.scope = "all"
         WeiboSDK.send(req)
     }
     
     private func sendAuthRequest() {
-        guard let wechatAppKey = wechatAppKey else {
+        guard let appId = Config.wechatAppid else {
             fatalError("请绑定微信 appKey!")
         }
-        WXApi.startLog(by: .normal) { (log) in
-            print("log: \(log)")
-        }
-        WXApi.registerApp(wechatAppKey)
+        WXApi.registerApp(appId)
         let req = SendAuthReq()
         req.scope = "snsapi_userinfo"
         WXApi.send(req)
@@ -86,6 +89,8 @@ open class ThirdAuth: NSObject {
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
                 Storage.shared.expiresIn = user?.expiresIn
+                
+                self.completion?(user, error)
             })
         }
     }
@@ -96,6 +101,7 @@ open class ThirdAuth: NSObject {
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
                 Storage.shared.expiresIn = user?.expiresIn
+                self.completion?(user, error)
             })
         }
     }
@@ -105,6 +111,7 @@ open class ThirdAuth: NSObject {
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
 //                user?.token = Storage.shared.token
 //                user?.expiresIn = Storage.shared.expiresIn
+                self.completion?(user, error)
             })
         }
     }
@@ -114,6 +121,7 @@ open class ThirdAuth: NSObject {
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
 //                user?.token = Storage.shared.token
 //                user?.expiresIn = Storage.shared.expiresIn
+                self.completion?(user, error)
             })
         }
     }

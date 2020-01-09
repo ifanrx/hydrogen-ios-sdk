@@ -124,26 +124,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 break
             case 7:
-                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
-                ThirdAuth.shared.signIn { (result, error) in
-                    
+//                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
+                BaaS.registerWechat("wx0479d25aff361645")
+                ThirdAuth.shared.signInWechat { (result, error) in
+
+                    print("aaa")
                 }
+                break
             case 8:
-                ThirdAuth.shared.setWeiBo(with: "542432732")
-                ThirdAuth.shared.signInWeibo { (result, error) in
-                    
-                }
-                
+//                ThirdAuth.shared.setWeiBo(with: "542432732")
+//                ThirdAuth.shared.signInWeibo { (result, error) in
+//
+//                }
+                break
             case 9:
-                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
-                ThirdAuth.shared.associateWexin { (result, error) in
-                    
-                }
+//                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
+//                ThirdAuth.shared.associateWexin { (result, error) in
+//
+//                }
+                break
             case 10:
-                ThirdAuth.shared.setWeiBo(with: "542432732")
-                ThirdAuth.shared.associateWeibo { (result, error) in
-                    
-                }
+//                ThirdAuth.shared.setWeiBo(with: "542432732")
+//                ThirdAuth.shared.associateWeibo { (result, error) in
+//
+//                }
+                break
+            case 11:
+                if #available(iOS 13.0, *) {
+                let appleIDProvider = ASAuthorizationAppleIDProvider()
+                let request = appleIDProvider.createRequest()
+                request.requestedScopes = [.fullName, .email]
+
+                let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+                authorizationController.delegate = self
+                authorizationController.presentationContextProvider = self
+                authorizationController.performRequests()
+
+            } else {
+                // Fallback on earlier versions
+            }
+            
             default:
                 break
             }
@@ -754,7 +774,10 @@ extension ViewController: ASAuthorizationControllerDelegate {
 
             if let token = appleIDCredential.identityToken {
                 let tokenStr = String(data: token, encoding: .utf8)
-                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+//                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+//
+//                }
+                ThirdAuth.shared.associateApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
 
                 }
             }

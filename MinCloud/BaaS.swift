@@ -15,6 +15,14 @@ import Result
         Config.clientID = clientID
         Config.serverURLString = serverURLString
     }
+    
+    @objc public static func registerWechat(_ appId: String) {
+        Config.wechatAppid = appId
+    }
+    
+    @objc public static func registerWeibo(_ appId: String) {
+        Config.weiboAppid = appId
+    }
 
     @objc public static var isDebug: Bool = false
     
