@@ -108,27 +108,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 }
             case 6:
-                if #available(iOS 13.0, *) {
-                    let appleIDProvider = ASAuthorizationAppleIDProvider()
-                    let request = appleIDProvider.createRequest()
-                    request.requestedScopes = [.fullName, .email]
-
-                    let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-                    authorizationController.delegate = self
-                    authorizationController.presentationContextProvider = self
-                    authorizationController.performRequests()
-
-                } else {
-                    // Fallback on earlier versions
-                }
+//                Auth.signIn(with: .apple) { (user, error) in
+//
+//                }
 
                 break
             case 7:
-//                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
-                BaaS.registerWechat("wx0479d25aff361645")
-                ThirdAuth.shared.signInWechat { (result, error) in
-
-                    print("aaa")
+                Auth.signIn(with: .wechat, createUser: true, syncUserProfile: .setnx) { (user, error) in
+                    print("")
                 }
                 break
             case 8:
@@ -138,10 +125,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                }
                 break
             case 9:
-//                ThirdAuth.shared.setWeChat(with: "wx4b3c1aff4c5389f5")
-//                ThirdAuth.shared.associateWexin { (result, error) in
-//
-//                }
+                Auth.associate(with: .wechat, syncUserProfile: .setnx) { (user, error) in
+                    print("")
+                }
                 break
             case 10:
 //                ThirdAuth.shared.setWeiBo(with: "542432732")
@@ -150,20 +136,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                }
                 break
             case 11:
-                if #available(iOS 13.0, *) {
-                let appleIDProvider = ASAuthorizationAppleIDProvider()
-                let request = appleIDProvider.createRequest()
-                request.requestedScopes = [.fullName, .email]
-
-                let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-                authorizationController.delegate = self
-                authorizationController.presentationContextProvider = self
-                authorizationController.performRequests()
-
-            } else {
-                // Fallback on earlier versions
-            }
-            
+//                Auth.associate(with: .apple) { (user, error) in
+//
+//                }
+                break
+            case 12:
+                Auth.signInWithSMS(phone: "15088057274", code: "", createUser: true) { (user, error) in
+                    print("error: \(error)")
+                }
             default:
                 break
             }
@@ -764,35 +744,35 @@ extension String {
     }
 }
 
-extension ViewController: ASAuthorizationControllerDelegate {
-    @available(iOS 13.0, *)
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
-
-            if let token = appleIDCredential.identityToken {
-                let tokenStr = String(data: token, encoding: .utf8)
-//                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+//extension ViewController: ASAuthorizationControllerDelegate {
+//    @available(iOS 13.0, *)
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+//        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+//            let userIdentifier = appleIDCredential.user
+//            let fullName = appleIDCredential.fullName
+//            let email = appleIDCredential.email
+//
+//            if let token = appleIDCredential.identityToken {
+//                let tokenStr = String(data: token, encoding: .utf8)
+////                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+////
+////                }
+//                ThirdAuth.shared.associateApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
 //
 //                }
-                ThirdAuth.shared.associateApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
-
-                }
-            }
-        }
-    }
-
-    @available(iOS 13.0, *)
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // Handle error.
-    }
-}
-
-extension ViewController: ASAuthorizationControllerPresentationContextProviding {
-    @available(iOS 13.0, *)
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
-    }
-}
+//            }
+//        }
+//    }
+//
+//    @available(iOS 13.0, *)
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+//        // Handle error.
+//    }
+//}
+//
+//extension ViewController: ASAuthorizationControllerPresentationContextProviding {
+//    @available(iOS 13.0, *)
+//    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+//        return self.view.window!
+//    }
+//}

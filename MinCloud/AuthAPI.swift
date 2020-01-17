@@ -16,9 +16,10 @@ enum AuthAPI {
     case apple([String: Any])
     case wechat([String: Any])
     case weibo([String: Any])
-    case wxassociation([String: Any])
-    case wbassociation([String: Any])
-    case appleassociation([String: Any])
+    case sms([String: Any])
+    case associationForWechat([String: Any])
+    case associationForWeibo([String: Any])
+    case associationForApple([String: Any])
 }
 
 extension AuthAPI: TargetType {
@@ -40,20 +41,19 @@ extension AuthAPI: TargetType {
             return Config.Auth.wechat
         case .weibo:
             return Config.Auth.weibo
-        case .wbassociation:
+        case .associationForWeibo:
             return Config.Auth.wbassociation
-        case .wxassociation:
+        case .associationForWechat:
             return Config.Auth.wxassociation
-        case .appleassociation:
+        case .associationForApple:
             return Config.Auth.appleassociation
+        case .sms:
+            return Config.Auth.loginSms
         }
     }
 
     var method: Moya.Method {
-        switch self {
-        case .register, .login, .logout, .apple, .wechat, .weibo, .appleassociation, .wxassociation, .wbassociation:
-            return .post
-        }
+        return .post
     }
 
     var sampleData: Data {
@@ -62,7 +62,7 @@ extension AuthAPI: TargetType {
 
     var task: Task {
         switch self {
-        case .register(_, let parameters), .login(_, let parameters), .apple(let parameters), .wechat(let parameters), .weibo(let parameters), .appleassociation(let parameters), .wxassociation(let parameters), .wbassociation(let parameters):
+        case .register(_, let parameters), .login(_, let parameters), .apple(let parameters), .wechat(let parameters), .weibo(let parameters), .associationForApple(let parameters), .associationForWechat(let parameters), .associationForWeibo(let parameters), .sms(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .logout:
             return .requestParameters(parameters: [:], encoding: JSONEncoding.default)

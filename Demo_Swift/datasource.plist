@@ -15,6 +15,7 @@
 		<string>绑定微信</string>
 		<string>绑定微博</string>
 		<string>绑定苹果</string>
+		<string>手机验证码登录</string>
 	</array>
 	<array>
 		<string>获取当前用户</string>

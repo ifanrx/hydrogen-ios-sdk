@@ -20,8 +20,9 @@ import Result
         Config.wechatAppid = appId
     }
     
-    @objc public static func registerWeibo(_ appId: String) {
+    @objc public static func registerWeibo(_ appId: String, redirectURI: String) {
         Config.weiboAppid = appId
+        Config.redirectURI = redirectURI
     }
 
     @objc public static var isDebug: Bool = false
@@ -129,9 +130,9 @@ extension BaaS {
         } else if url.host == "pay" {
             return WXApi.handleOpen(url, delegate: nil)
         } else if url.host == "oauth" {
-            return WXApi.handleOpen(url, delegate: ThirdAuth.shared)
+            return WXApi.handleOpen(url, delegate: ThirdProxy.shared)
         } else if url.host == "response" {
-            return WeiboSDK.handleOpen(url, delegate: ThirdAuth.shared)
+            return WeiboSDK.handleOpen(url, delegate: ThirdProxy.shared)
         }
         return true
     }

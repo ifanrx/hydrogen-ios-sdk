@@ -8,6 +8,7 @@
 
 import UIKit
 import MinCloud
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,10 +18,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         BaaS.register(clientID: "89edf6b8cac513a6d140") // 线上环境
+        BaaS.registerWechat("wx0479d25aff361645")
 //        BaaS.register(clientID: "995140f59511a222c937") // qa测试环境
 //        BaaS.register(clientID: "a4d2d62965ddb57fa4d6")  // 线上环境-支付
 //        BaaS.register(clientID: "c981f1ec250e46e3e1e7", serverURLString: "https://v5220.eng.szx.ifanrx.com")
         BaaS.isDebug = true
+        
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+
+            // If granted comes true you can enabled features based on authorization.
+            guard granted else { return }
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
+        }
         return true
     }
 

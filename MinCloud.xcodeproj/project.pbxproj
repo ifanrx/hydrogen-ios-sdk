@@ -119,7 +119,6 @@
 		4CED591622967CEF00949503 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED591522967CEF00949503 /* Order.swift */; };
 		4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileManager.swift */; };
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
-		4CEF97EF23A337DE008C0136 /* ThirdAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEF97EE23A337DE008C0136 /* ThirdAuth.swift */; };
 		4CEF97F923A36684008C0136 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF97F523A36683008C0136 /* libWeiboSDK.a */; };
 		4CEF97FA23A36684008C0136 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CEF97F623A36683008C0136 /* WeiboSDK.bundle */; };
 		4CEF97FB23A36684008C0136 /* WBHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEF97F723A36684008C0136 /* WBHttpRequest.h */; };
@@ -319,7 +318,6 @@
 		4CED591522967CEF00949503 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
-		4CEF97EE23A337DE008C0136 /* ThirdAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdAuth.swift; sourceTree = "<group>"; };
 		4CEF97F523A36683008C0136 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		4CEF97F623A36683008C0136 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		4CEF97F723A36684008C0136 /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
@@ -784,7 +782,6 @@
 				4C33A5A8223F6D480001C1A7 /* Auth.swift */,
 				4C86C72A225CC8740040C042 /* User.swift */,
 				4C33A5F72240EFE70001C1A7 /* CurrentUser.swift */,
-				4CEF97EE23A337DE008C0136 /* ThirdAuth.swift */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -1361,7 +1358,6 @@
 				4C831211224477E700B4B33E /* TableAPI.swift in Sources */,
 				4C33A5A5223F6B2F0001C1A7 /* AuthAPI.swift in Sources */,
 				4CEFC088225E594C00C9238C /* RequestCanceller.swift in Sources */,
-				4CEF97EF23A337DE008C0136 /* ThirdAuth.swift in Sources */,
 				4C8312232248EB2900B4B33E /* FileCategory.swift in Sources */,
 				4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */,
 				4C33A5DA223F919F0001C1A7 /* Config.swift in Sources */,
@@ -1887,7 +1883,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-OC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1908,7 +1904,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-OC";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
