@@ -18,6 +18,7 @@ import Result
     
     @objc public static func registerWechat(_ appId: String) {
         Config.wechatAppid = appId
+        WXApi.registerApp(appId)
     }
     
     @objc public static func registerWeibo(_ appId: String, redirectURI: String) {
