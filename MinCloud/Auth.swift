@@ -226,7 +226,7 @@ extension Auth {
         
         switch type {
         case .wechat:
-            sendWechatAuthRequset()
+            ThirdProxy.shared.sendWechatAuthRequset()
 //        case .apple:
 //            sendAppleAuthRequest()
 //        case .weibo:
@@ -240,16 +240,17 @@ extension Auth {
         
     }
     
-    /// 将当前账号绑定到第三方平台
+    /// 将当前登录账号关联到第三方平台
     ///
     /// - Parameters:
     ///   - type: 平台类型: wechat-微信，weibo-微博，apple-苹果
+    ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，sentx-仅当字段从未被赋值时才更新，false-不更新
     ///   - completion: 登录结果回调
     @objc static public func associate(with type: SignType, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
         
         switch type {
         case .wechat:
-            sendWechatAuthRequset()
+            ThirdProxy.shared.sendWechatAuthRequset()
 //        case .apple:
 //            sendAppleAuthRequest()
 //        case .weibo:
@@ -280,17 +281,6 @@ extension Auth {
                 Auth.completion?(user, error)
             })
         }
-    }
-    
-    static func sendWeiboAuthRequset() {
-        guard let appId = Config.weiboAppid else {
-            fatalError("请绑定微博 appKey")
-        }
-        WeiboSDK.registerApp(appId)
-        let req = WBAuthorizeRequest()
-        req.redirectURI = Config.redirectURI
-        req.scope = "all"
-        WeiboSDK.send(req)
     }
     
     fileprivate static func authWithWeibo(code: String) {
@@ -333,30 +323,7 @@ extension Auth {
             })
         }
     }
-    
-    static func sendWechatAuthRequset() {
-        guard let appId = Config.wechatAppid else {
-            fatalError("请绑定微信 appId!")
-        }
-        WXApi.registerApp(appId)
-        let req = SendAuthReq()
-        req.scope = "snsapi_userinfo"
-        WXApi.send(req)
-    }
-    
-    static func sendAppleAuthRequest() {
-        if #available(iOS 13.0, *) {
-            let appleIDProvider = ASAuthorizationAppleIDProvider()
-            let request = appleIDProvider.createRequest()
-            request.requestedScopes = [.fullName, .email]
-
-            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-            authorizationController.delegate = ThirdProxy.shared
-            authorizationController.presentationContextProvider = ThirdProxy.shared
-            authorizationController.performRequests()
-        }
-    }
-    
+        
     private static func getSyncProfile(_ sync: SyncUserProfileType?) -> String {
         let type = sync ?? SyncUserProfileType.setnx
         switch type {
@@ -383,6 +350,16 @@ extension ThirdProxy: WXApiDelegate {
             Auth.authWithWechat(code: code)
         }
     }
+    
+    func sendWechatAuthRequset() {
+        guard let appId = Config.wechatAppid else {
+            fatalError("请绑定微信 appId!")
+        }
+        WXApi.registerApp(appId)
+        let req = SendAuthReq()
+        req.scope = "snsapi_userinfo"
+        WXApi.send(req)
+    }
 }
 
 extension ThirdProxy: WeiboSDKDelegate {
@@ -396,9 +373,34 @@ extension ThirdProxy: WeiboSDKDelegate {
             Auth.authWithWeibo(code: token)
         }
     }
+    
+    func sendWeiboAuthRequset() {
+        guard let appId = Config.weiboAppid else {
+            fatalError("请绑定微博 appKey")
+        }
+        WeiboSDK.registerApp(appId)
+        let req = WBAuthorizeRequest()
+        req.redirectURI = Config.redirectURI
+        req.scope = "all"
+        WeiboSDK.send(req)
+    }
 }
 
 extension ThirdProxy: ASAuthorizationControllerDelegate {
+    
+    func sendAppleAuthRequest() {
+        if #available(iOS 13.0, *) {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let request = appleIDProvider.createRequest()
+            request.requestedScopes = [.fullName, .email]
+
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            authorizationController.delegate = ThirdProxy.shared
+            authorizationController.presentationContextProvider = ThirdProxy.shared
+            authorizationController.performRequests()
+        }
+    }
+    
     @available(iOS 13.0, *)
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {

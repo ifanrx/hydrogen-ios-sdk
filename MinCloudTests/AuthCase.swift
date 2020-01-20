@@ -10,6 +10,10 @@ import XCTest
 @testable import MinCloud
 @testable import Moya
 
+class MockAuth: {
+    
+}
+
 
 class AuthCase: MinCloudCase {
 
