@@ -10,6 +10,11 @@ import XCTest
 @testable import MinCloud
 @testable import Moya
 
+class MockAuth: {
+    
+}
+
+
 class AuthCase: MinCloudCase {
 
     override func setUp() {
@@ -84,7 +89,32 @@ class AuthCase: MinCloudCase {
             XCTAssertEqual(Auth.hadLogin, false, "用户登出失败")
         }
     }
-
+    
+    func test_sign_wechat() {
+//        let userDict = SampleData.Auth.anonymous.toDictionary()
+//        Auth.signIn(with: .wechat) { (user, error) in
+//            XCTAssertEqual(user?.Id, userDict?.getString("id"), "用户 id 不相等")
+//            XCTAssertEqual(user?.token, userDict?.getString("token"), "用户 token 不相等")
+//            XCTAssertEqual(Auth.hadLogin, true, "用户登录失败")
+//        }
+    }
+    
+    func test_associate_wechat() {
+        let userDict = SampleData.Auth.anonymous.toDictionary()
+        Auth.signIn(with: .wechat) { (user, error) in
+            XCTAssertEqual(user?.Id, userDict?.getString("id"), "用户 id 不相等")
+            XCTAssertEqual(user?.token, userDict?.getString("token"), "用户 token 不相等")
+        }
+    }
+    
+    func test_sign_sms() {
+        let userDict = SampleData.Auth.anonymous.toDictionary()
+        Auth.signInWithSMS(phone: "15088051234", code: "12345") { (user, error) in
+            XCTAssertEqual(user?.Id, userDict?.getString("id"), "用户 id 不相等")
+            XCTAssertEqual(user?.token, userDict?.getString("token"), "用户 token 不相等")
+            XCTAssertEqual(Auth.hadLogin, true, "用户登录失败")
+        }
+    }
 }
 
 extension AuthAPI {
@@ -110,6 +140,8 @@ extension AuthAPI {
             }
         case .logout:
             return "{}".data(using: String.Encoding.utf8)!
+        default:
+            return SampleData.Auth.anonymous
         }
     }
 }
@@ -141,6 +173,21 @@ class AuthPlugin: PluginType {
             XCTAssertEqual(path, Path.Auth.register(authType: authType))
         case .logout:
             XCTAssertEqual(path, Path.Auth.logout)
+        case .apple:
+            XCTAssertEqual(path, Path.Auth.apple)
+        case .wechat:
+            XCTAssertEqual(path, Path.Auth.wechat)
+        case .weibo:
+            XCTAssertEqual(path, Path.Auth.weibo)
+        case .associationForWeibo:
+            XCTAssertEqual(path, Path.Auth.wbassociation)
+        case .associationForWechat:
+            XCTAssertEqual(path, Path.Auth.wxassociation)
+        case .associationForApple:
+            XCTAssertEqual(path, Path.Auth.appleassociation)
+        case .sms:
+            XCTAssertEqual(path, Path.Auth.loginSms)
+        
         }
     }
     
@@ -167,6 +214,26 @@ class AuthPlugin: PluginType {
                 XCTAssertTrue(params.keys.contains("email"))
                 XCTAssertTrue(params.keys.contains("password"))
             }
+        case .weibo(let params), .wechat(let params):
+            XCTAssertTrue(params.keys.contains("auth_token"))
+            XCTAssertTrue(params.keys.contains("create_user"))
+            XCTAssertTrue(params.keys.contains("sync_user_profile"))
+        case .apple(let params):
+            XCTAssertTrue(params.keys.contains("auth_token"))
+            XCTAssertTrue(params.keys.contains("create_user"))
+            XCTAssertTrue(params.keys.contains("nickname"))
+            XCTAssertTrue(params.keys.contains("sync_user_profile"))
+        case .associationForApple(let params):
+            XCTAssertTrue(params.keys.contains("auth_token"))
+            XCTAssertTrue(params.keys.contains("nickname"))
+            XCTAssertTrue(params.keys.contains("sync_user_profile"))
+        case .associationForWeibo(let params), .associationForWechat(let params):
+            XCTAssertTrue(params.keys.contains("auth_token"))
+            XCTAssertTrue(params.keys.contains("sync_user_profile"))
+        case .sms(let params):
+            XCTAssertTrue(params.keys.contains("phone"))
+            XCTAssertTrue(params.keys.contains("code"))
+            XCTAssertTrue(params.keys.contains("create_user"))
         default: break
         }
     }

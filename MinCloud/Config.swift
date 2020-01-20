@@ -29,7 +29,10 @@ struct Config {
     
     static var clientID: String!
     static var serverURLString: String?
-    static var version = "1.0.2"    // MinCloud 当前版本号
+    static var version = "1.1.0"    // MinCloud 当前版本号
+    static var wechatAppid: String?
+    static var weiboAppid: String?
+    static var redirectURI: String?
     
     static var baseURL: String {
         if environment == .qa {
@@ -60,6 +63,13 @@ struct Config {
         static func register(authType: AuthType) -> String { return "/hserve/v2.0/register/\(authType.rawValue)/" }
         static func login(authType: AuthType) -> String { return "/hserve/v2.0/login/\(authType.rawValue)/" }
         static let logout = "/hserve/v2.0/session/destroy/"
+        static let apple = "hserve/v2.3/idp/oauth/apple-native/authenticate/"
+        static let wechat = "/hserve/v2.3/idp/oauth/wechat-native/authenticate/"
+        static let weibo = "/hserve/v2.3/idp/oauth/weibo-native/authenticate/"
+        static let wbassociation = "/hserve/v2.3/idp/oauth/weibo-native/user-association/"
+        static let wxassociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
+        static let appleassociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
+        static let loginSms = "/hserve/v2.1/login/sms/"
     }
 
     struct User {
@@ -108,7 +118,7 @@ struct Config {
 
     struct BaaS {
         static let cloudFunction = "/hserve/v1/cloud-function/job/"
-        static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
+        static let sendSmsCode = "/hserve/v2.1/sms-verification-code/"
         static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
         static let serverTime = "/hserve/v2.2/server/time/"
     }

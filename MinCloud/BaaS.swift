@@ -15,6 +15,16 @@ import Result
         Config.clientID = clientID
         Config.serverURLString = serverURLString
     }
+    
+    @objc public static func registerWechat(_ appId: String) {
+        Config.wechatAppid = appId
+        WXApi.registerApp(appId)
+    }
+    
+    @objc public static func registerWeibo(_ appId: String, redirectURI: String) {
+        Config.weiboAppid = appId
+        Config.redirectURI = redirectURI
+    }
 
     @objc public static var isDebug: Bool = false
     
@@ -120,6 +130,10 @@ extension BaaS {
             return true
         } else if url.host == "pay" {
             return WXApi.handleOpen(url, delegate: nil)
+        } else if url.host == "oauth" {
+            return WXApi.handleOpen(url, delegate: ThirdProxy.shared)
+        } else if url.host == "response" {
+            return WeiboSDK.handleOpen(url, delegate: ThirdProxy.shared)
         }
         return true
     }

@@ -9,6 +9,7 @@
 import UIKit
 import MinCloud
 import Photos
+import AuthenticationServices
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -16,6 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var data: NSArray!
     var resultInfo: Order!
     var record: Record!
+    let auth = Auth()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +106,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 登出
                 Auth.logout {_, _ in
 
+                }
+            case 6:
+//                Auth.signIn(with: .apple) { (user, error) in
+//
+//                }
+
+                break
+            case 7:
+                Auth.signIn(with: .wechat, createUser: true, syncUserProfile: .setnx) { (user, error) in
+                    print("")
+                }
+                break
+            case 8:
+//                ThirdAuth.shared.setWeiBo(with: "542432732")
+//                ThirdAuth.shared.signInWeibo { (result, error) in
+//
+//                }
+                break
+            case 9:
+                Auth.associate(with: .wechat, syncUserProfile: .setnx) { (user, error) in
+                    print("")
+                }
+                break
+            case 10:
+//                ThirdAuth.shared.setWeiBo(with: "542432732")
+//                ThirdAuth.shared.associateWeibo { (result, error) in
+//
+//                }
+                break
+            case 11:
+//                Auth.associate(with: .apple) { (user, error) in
+//
+//                }
+                break
+            case 12:
+                Auth.signInWithSMS(phone: "15088057274", code: "", createUser: true) { (user, error) in
+                    print("error: \(error)")
                 }
             default:
                 break
@@ -686,3 +725,54 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
 }
+
+extension String {
+
+    func base64Encoded() -> String? {
+        if let data = self.data(using: .utf8) {
+            return data.base64EncodedString()
+        }
+        return nil
+    }
+
+    func base64Decoded() -> String? {
+        let str = self.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+        if let data = Data(base64Encoded: str) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
+    }
+}
+
+//extension ViewController: ASAuthorizationControllerDelegate {
+//    @available(iOS 13.0, *)
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+//        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+//            let userIdentifier = appleIDCredential.user
+//            let fullName = appleIDCredential.fullName
+//            let email = appleIDCredential.email
+//
+//            if let token = appleIDCredential.identityToken {
+//                let tokenStr = String(data: token, encoding: .utf8)
+////                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+////
+////                }
+//                ThirdAuth.shared.associateApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+//
+//                }
+//            }
+//        }
+//    }
+//
+//    @available(iOS 13.0, *)
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+//        // Handle error.
+//    }
+//}
+//
+//extension ViewController: ASAuthorizationControllerPresentationContextProviding {
+//    @available(iOS 13.0, *)
+//    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+//        return self.view.window!
+//    }
+//}

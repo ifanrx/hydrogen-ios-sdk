@@ -132,6 +132,31 @@
 
                     }];
                     break;
+                case 6:
+                    // 微信登录
+                {
+                    [BaaSAuth signInWith:SignTypeWechat createUser:YES syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                        self.currentUser = currentUser;
+                    }];
+                }
+                    break;
+                case 7:
+                    // 微信绑定
+                {
+                    [BaaSAuth associateWith:SignTypeWechat syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                        self.currentUser = currentUser;
+                    }];
+                }
+                    break;
+                    
+                case 8:
+                    // 手机 + 验证码登录
+                {
+                    [BaaSAuth signInWithSMSWithPhone:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                        self.currentUser = currentUser;
+                    }];
+                }
+                    break;
                 default:
                     break;
             }
@@ -505,7 +530,7 @@
                     break;
                 case 1:
                 {
-                    [BaaS sendSmsCodeWithPhone:@"1508805****" completion:^(BOOL success, NSError * _Nullable error) {
+                    [BaaS sendSmsCodeWithPhone:@"15088057274" completion:^(BOOL success, NSError * _Nullable error) {
 
                     }];
                 }
