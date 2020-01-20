@@ -29,7 +29,7 @@ struct Config {
     
     static var clientID: String!
     static var serverURLString: String?
-    static var version = "branch-1.1.0"    // MinCloud 当前版本号
+    static var version = "1.1.0"    // MinCloud 当前版本号
     static var wechatAppid: String?
     static var weiboAppid: String?
     static var redirectURI: String?
