@@ -27,6 +27,7 @@
 		<string>通过邮箱重设密码</string>
 		<string>批量查询用户信息</string>
 		<string>获取指定用户</string>
+		<string>验证当前用户手机号</string>
 	</array>
 	<array>
 		<string>获取记录项</string>

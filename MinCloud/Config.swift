@@ -74,11 +74,12 @@ struct Config {
 
     struct User {
         static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
-        static let updateAccount = "/hserve/v2.0/user/account/"
+        static let updateAccount = "/hserve/v2.1/user/account/"
         static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
         static let updateUserInfo = "/hserve/v2.1/user/info/"
         static let getUserList = "/hserve/v2.2/user/info/"
+        static let verifyPhone = "/hserve/v2.1/sms-phone-verification/"
     }
 
     struct Table {
