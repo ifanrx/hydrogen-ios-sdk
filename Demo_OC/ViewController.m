@@ -233,7 +233,7 @@
                 case 9:
                 {
                     [BaaSAuth getCurrentUser:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
-                        [currentUser updatePhone:@"15088057274" completion:^(NSDictionary<NSString *,id> * _Nullable, NSError * _Nullable) {
+                        [currentUser updatePhone:@"15088057274" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
                             NSLog(@"");
                         }];
                     }];
@@ -243,7 +243,7 @@
                 case 10:
                 {
                     [BaaSAuth getCurrentUser:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
-                        [currentUser verifyPhoneWithCode:@"123" completion:^(BOOL, NSError * _Nullable) {
+                        [currentUser verifyPhoneWithCode:@"123" completion:^(BOOL success, NSError * _Nullable error) {
                             NSLog(@"");
                         }];
                     }];
@@ -428,9 +428,11 @@
                 {
                     // 上传文件
                     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"cover" ofType:@"png"];
-                    [BaaSFileManager uploadWithFilename:@"cover" localPath:filePath categoryName:@"Book" progressBlock:^(NSProgress * _Nullable progress) {
-
+                    NSData *fileData = [[NSData alloc] init];
+                    [BaaSFileManager uploadWithFilename:@"cover" fileData:fileData mimeType:@"image/png" categoryName:@"book" categoryId:nil progressBlock:^(NSProgress * _Nullable progress) {
+                        
                     } completion:^(BaaSFile * _Nullable file, NSError * _Nullable error) {
+                        
                     }];
                     break;
                 }

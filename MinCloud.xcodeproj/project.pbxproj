@@ -1813,7 +1813,7 @@
 					"-framework",
 					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -1861,7 +1861,7 @@
 					"-framework",
 					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
