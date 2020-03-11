@@ -12,8 +12,8 @@ import Result
 import AuthenticationServices
 
 // 第三方授权类型
-@objc(SignType)
-public enum SignType: Int {
+@objc(Provider)
+public enum Provider: Int {
     case wechat
 //    case weibo
 //    case apple
@@ -159,7 +159,7 @@ open class Auth: NSObject {
     ///                 当 createUser 为 false 时，服务端会终止登录过程，返回 404 错误码，开发者可根据该返回结果进行多平台账户绑定的处理。
     ///   - completion: 登录结果回调
     @discardableResult
-    @objc public static func signInWithSMS(phone: String, code: String, createUser: Bool = true, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+    @objc public static func signInWithSMS(_ phone: String, code: String, createUser: Bool = true, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.sms(["phone": phone, "code": code, "create_user": createUser])) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId
@@ -222,9 +222,9 @@ extension Auth {
     ///                 当 createUser 为 false 时，服务端会终止登录过程，返回 404 错误码，开发者可根据该返回结果进行多平台账户绑定的处理。
     ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，sentx-仅当字段从未被赋值时才更新，false-不更新
     ///   - completion: 登录结果回调
-    @objc static public func signIn(with type: SignType, createUser: Bool = true, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
+    @objc static public func signIn(with provider: Provider, createUser: Bool = true, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
         
-        switch type {
+        switch provider {
         case .wechat:
             ThirdProxy.shared.sendWechatAuthRequset()
 //        case .apple:
@@ -246,9 +246,9 @@ extension Auth {
     ///   - type: 平台类型: wechat-微信，weibo-微博，apple-苹果
     ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，sentx-仅当字段从未被赋值时才更新，false-不更新
     ///   - completion: 登录结果回调
-    @objc static public func associate(with type: SignType, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
+    @objc static public func associate(with provider: Provider, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
         
-        switch type {
+        switch provider {
         case .wechat:
             ThirdProxy.shared.sendWechatAuthRequset()
 //        case .apple:

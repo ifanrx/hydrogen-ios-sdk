@@ -135,7 +135,7 @@
                 case 6:
                     // 微信登录
                 {
-                    [BaaSAuth signInWith:SignTypeWechat createUser:YES syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth signInWith:ProviderWechat createUser:YES syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -143,7 +143,7 @@
                 case 7:
                     // 微信绑定
                 {
-                    [BaaSAuth associateWith:SignTypeWechat syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth associateWith:ProviderWechat syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -152,7 +152,7 @@
                 case 8:
                     // 手机 + 验证码登录
                 {
-                    [BaaSAuth signInWithSMSWithPhone:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth signInWithSMS:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -229,6 +229,26 @@
                         
                     }];
                 }
+                    break;
+                case 9:
+                {
+                    [BaaSAuth getCurrentUser:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                        [currentUser updatePhone:@"15088057274" completion:^(NSDictionary<NSString *,id> * _Nullable, NSError * _Nullable) {
+                            NSLog(@"");
+                        }];
+                    }];
+                }
+                    break;
+                    
+                case 10:
+                {
+                    [BaaSAuth getCurrentUser:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                        [currentUser verifyPhoneWithCode:@"123" completion:^(BOOL, NSError * _Nullable) {
+                            NSLog(@"");
+                        }];
+                    }];
+                }
+                    break;
                 default:
                     break;
             }

@@ -141,7 +141,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                }
                 break
             case 12:
-                Auth.signInWithSMS(phone: "15088057274", code: "", createUser: true) { (user, error) in
+                Auth.signInWithSMS("15088057274", code: "", createUser: true) { (user, error) in
                     print("error: \(error)")
                 }
             default:
@@ -230,13 +230,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 9:
                 Auth.getCurrentUser { (currentUser, error) in
                     currentUser?.updatePhone("15088057274", completion: { (result, error) in
-                        if error == nil {
-                            currentUser?.verifyPhone(code: "535176", completion: { (success, error) in
-                                print("验证结果")
-                            })
-                        }
+                        
                     })
-                    
+                }
+            case 10:
+                Auth.getCurrentUser { (currentUser, error) in
+                    currentUser?.verifyPhone(code: "535176", completion: { (success, error) in
+                        print("验证结果")
+                    })
                 }
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
