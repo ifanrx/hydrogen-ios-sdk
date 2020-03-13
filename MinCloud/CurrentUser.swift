@@ -132,6 +132,28 @@ open class CurrentUser: User {
         }
         return RequestCanceller(cancellable: request)
     }
+    
+    /// 更新用户手机
+    ///
+    /// - Parameters:
+    ///   - phone: 用户手机号码
+    ///   - completion: 结果回调
+    @discardableResult
+    @objc open func updatePhone(_ phone: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+        guard Auth.hadLogin else {
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(nil, error as NSError)
+            return nil
+        }
+
+        let request = User.UserProvider.request(.updateAccount(parameters: ["phone": phone])) { result in
+            ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
+                completion(user?.value, error)
+            })
+        }
+        return RequestCanceller(cancellable: request)
+    }
 
     /// 更新自定义用户信息
     ///
@@ -168,6 +190,36 @@ open class CurrentUser: User {
         }
 
         let request = User.UserProvider.request(.requestEmailVerify) { result in
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
+        }
+        return RequestCanceller(cancellable: request)
+    }
+    
+    /// 验证已登录用户的手机号
+    /// 验证前，必须先设置用户手机号，参考 updatePhone 接口。
+    /// 验证后，该用户在用户表中的 _phone_verified 字段为 true。
+    /// 验证后，若更新手机号 phone，_phone_verified 字段会被重置为 false。
+    ///
+    /// - Parameters:
+    ///   - code: 验证码
+    ///   - completion: 验证结果
+    /// - Returns:
+    @discardableResult
+    @objc public func verifyPhone(code: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+        guard Auth.hadLogin else {
+            let error = HError.init(code: 604, description: "please login in")
+            printErrorInfo(error)
+            completion(false, error as NSError)
+            return nil
+        }
+        
+        let request = User.UserProvider.request(.verifyPhone(parameters: ["code": code])) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)

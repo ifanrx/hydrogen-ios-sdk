@@ -17,11 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        BaaS.register(clientID: "89edf6b8cac513a6d140") // 线上环境
-        BaaS.registerWechat("wx0479d25aff361645")
-//        BaaS.register(clientID: "995140f59511a222c937") // qa测试环境
-//        BaaS.register(clientID: "a4d2d62965ddb57fa4d6")  // 线上环境-支付
-//        BaaS.register(clientID: "c981f1ec250e46e3e1e7", serverURLString: "https://v5220.eng.szx.ifanrx.com")
+        BaaS.register(clientID: "fdc4feb5403a98****") // 线上环境
+        BaaS.registerWechat("wx4b3c1aff4c5****")
+//        BaaS.register(clientID: "995140f59511a222*****") // qa测试环境
+//        BaaS.register(clientID: "a4d2d62965ddb57****")  // 线上环境-支付
+//        BaaS.register(clientID: "c981f1ec250e46e3****", serverURLString: "https://v5220.eng.szx.ifanrx.com")
         BaaS.isDebug = true
         
         let center = UNUserNotificationCenter.current()

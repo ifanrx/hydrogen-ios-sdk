@@ -141,7 +141,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                }
                 break
             case 12:
-                Auth.signInWithSMS(phone: "15088057274", code: "", createUser: true) { (user, error) in
+                Auth.signInWithSMSVerificationCode("15088057274", code: "780619", createUser: true) { (user, error) in
                     print("error: \(error)")
                 }
             default:
@@ -226,6 +226,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 获取指定用户
                 User.get("92812581396859", select: ["-_username", "-created_by"], expand: ["created_by"]) {_, _ in
 
+                }
+            case 9:
+                Auth.getCurrentUser { (currentUser, error) in
+                    currentUser?.updatePhone("15088057274", completion: { (result, error) in
+                        
+                    })
+                }
+            case 10:
+                Auth.getCurrentUser { (currentUser, error) in
+                    currentUser?.verifyPhone(code: "535176", completion: { (success, error) in
+                        print("验证结果")
+                    })
                 }
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
@@ -709,13 +721,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let fileManager = FileManager.default
         let rootPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let filePath = "\(rootPath)/pickedimage.jpg"
-        let imageData = pickedImage.jpegData(compressionQuality: 1.0)
+        let imageData = pickedImage.pngData()!
         fileManager.createFile(atPath: filePath, contents: imageData, attributes: nil)
         if fileManager.fileExists(atPath: filePath) {
-            FileManager.upload(filename: "test", localPath: filePath, categoryName: "category1",
+            FileManager.upload(filename: "test", localPath: filePath, mimeType: "image/png", categoryId: "5cb5517266e4800f680a0a28",
                                progressBlock: { progress in print("\(String(describing: progress?.fractionCompleted))") },
                                completion: {file, error in
-                                
+                                print("aaa")
             })
         }
         

@@ -66,19 +66,20 @@ struct Config {
         static let apple = "hserve/v2.3/idp/oauth/apple-native/authenticate/"
         static let wechat = "/hserve/v2.3/idp/oauth/wechat-native/authenticate/"
         static let weibo = "/hserve/v2.3/idp/oauth/weibo-native/authenticate/"
-        static let wbassociation = "/hserve/v2.3/idp/oauth/weibo-native/user-association/"
-        static let wxassociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
-        static let appleassociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
+        static let weiboAssociation = "/hserve/v2.3/idp/oauth/weibo-native/user-association/"
+        static let wechatAssociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
+        static let appleAssociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
         static let loginSms = "/hserve/v2.1/login/sms/"
     }
 
     struct User {
         static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
-        static let updateAccount = "/hserve/v2.0/user/account/"
+        static let updateAccount = "/hserve/v2.1/user/account/"
         static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
         static let updateUserInfo = "/hserve/v2.1/user/info/"
         static let getUserList = "/hserve/v2.2/user/info/"
+        static let verifyPhone = "/hserve/v2.1/sms-phone-verification/"
     }
 
     struct Table {

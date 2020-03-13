@@ -135,7 +135,7 @@
                 case 6:
                     // 微信登录
                 {
-                    [BaaSAuth signInWith:SignTypeWechat createUser:YES syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth signInWith:ProviderWechat createUser:YES syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -143,7 +143,7 @@
                 case 7:
                     // 微信绑定
                 {
-                    [BaaSAuth associateWith:SignTypeWechat syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth associateWith:ProviderWechat syncUserProfile:SyncUserProfileTypeSetnx completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -152,7 +152,7 @@
                 case 8:
                     // 手机 + 验证码登录
                 {
-                    [BaaSAuth signInWithSMSWithPhone:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth signInWithSMSVerificationCode:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -229,6 +229,26 @@
                         
                     }];
                 }
+                    break;
+                case 9:
+                {
+                    [BaaSAuth getCurrentUser:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                        [currentUser updatePhone:@"15088057274" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+                            NSLog(@"");
+                        }];
+                    }];
+                }
+                    break;
+                    
+                case 10:
+                {
+                    [BaaSAuth getCurrentUser:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                        [currentUser verifyPhoneWithCode:@"123" completion:^(BOOL success, NSError * _Nullable error) {
+                            NSLog(@"");
+                        }];
+                    }];
+                }
+                    break;
                 default:
                     break;
             }
@@ -408,9 +428,11 @@
                 {
                     // 上传文件
                     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"cover" ofType:@"png"];
-                    [BaaSFileManager uploadWithFilename:@"cover" localPath:filePath categoryName:@"Book" progressBlock:^(NSProgress * _Nullable progress) {
-
+                    NSData *fileData = [[NSData alloc] init];
+                    [BaaSFileManager uploadWithFilename:@"cover" fileData:fileData mimeType:@"image/png" categoryName:@"book" categoryId:nil progressBlock:^(NSProgress * _Nullable progress) {
+                        
                     } completion:^(BaaSFile * _Nullable file, NSError * _Nullable error) {
+                        
                     }];
                     break;
                 }
