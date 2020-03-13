@@ -152,7 +152,7 @@
                 case 8:
                     // 手机 + 验证码登录
                 {
-                    [BaaSAuth signInWithSMS:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth signInWithSMSVerificationCode:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }

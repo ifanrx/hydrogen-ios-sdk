@@ -141,7 +141,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                }
                 break
             case 12:
-                Auth.signInWithSMS("15088057274", code: "", createUser: true) { (user, error) in
+                Auth.signInWithSMSVerificationCode("15088057274", code: "780619", createUser: true) { (user, error) in
                     print("error: \(error)")
                 }
             default:

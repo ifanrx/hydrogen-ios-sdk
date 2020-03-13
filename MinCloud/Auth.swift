@@ -159,7 +159,7 @@ open class Auth: NSObject {
     ///                 当 createUser 为 false 时，服务端会终止登录过程，返回 404 错误码，开发者可根据该返回结果进行多平台账户绑定的处理。
     ///   - completion: 登录结果回调
     @discardableResult
-    @objc public static func signInWithSMS(_ phone: String, code: String, createUser: Bool = true, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+    @objc public static func signInWithSMSVerificationCode(_ phone: String, code: String, createUser: Bool = true, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.sms(["phone": phone, "code": code, "create_user": createUser])) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId

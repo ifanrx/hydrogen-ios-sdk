@@ -66,9 +66,9 @@ struct Config {
         static let apple = "hserve/v2.3/idp/oauth/apple-native/authenticate/"
         static let wechat = "/hserve/v2.3/idp/oauth/wechat-native/authenticate/"
         static let weibo = "/hserve/v2.3/idp/oauth/weibo-native/authenticate/"
-        static let wbassociation = "/hserve/v2.3/idp/oauth/weibo-native/user-association/"
-        static let wxassociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
-        static let appleassociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
+        static let weiboAssociation = "/hserve/v2.3/idp/oauth/weibo-native/user-association/"
+        static let wechatAssociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
+        static let appleAssociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
         static let loginSms = "/hserve/v2.1/login/sms/"
     }
 

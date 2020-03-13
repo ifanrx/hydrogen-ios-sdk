@@ -42,11 +42,11 @@ extension AuthAPI: TargetType {
         case .weibo:
             return Config.Auth.weibo
         case .associationForWeibo:
-            return Config.Auth.wbassociation
+            return Config.Auth.weiboAssociation
         case .associationForWechat:
-            return Config.Auth.wxassociation
+            return Config.Auth.wechatAssociation
         case .associationForApple:
-            return Config.Auth.appleassociation
+            return Config.Auth.appleAssociation
         case .sms:
             return Config.Auth.loginSms
         }
