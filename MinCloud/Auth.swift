@@ -152,7 +152,7 @@ open class Auth: NSObject {
     /// 手机号 + 短信验证码登录
     ///
     /// - Parameters:
-    ///   - phoneNum: 手机号
+    ///   - phone: 手机号
     ///   - code: 验证码
     ///   - createUser: 该参数决定了一个新用户第一次登录时的服务端处理行为。
     ///                 默认为 true，服务端会有该用户创建一个知晓云用户记录。
@@ -220,7 +220,7 @@ extension Auth {
     ///   - createUser: 是否创建用户。该参数决定了一个新的微信用户第一次登录时的服务端处理行为。
     ///                 默认为 true，服务端会有该用户创建一个知晓云用户记录。
     ///                 当 createUser 为 false 时，服务端会终止登录过程，返回 404 错误码，开发者可根据该返回结果进行多平台账户绑定的处理。
-    ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，sentx-仅当字段从未被赋值时才更新，false-不更新
+    ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，setnx-仅当字段从未被赋值时才更新，false-不更新
     ///   - completion: 登录结果回调
     @objc static public func signIn(with provider: Provider, createUser: Bool = true, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
         
@@ -244,7 +244,7 @@ extension Auth {
     ///
     /// - Parameters:
     ///   - type: 平台类型: wechat-微信，weibo-微博，apple-苹果
-    ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，sentx-仅当字段从未被赋值时才更新，false-不更新
+    ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，setnx-仅当字段从未被赋值时才更新，false-不更新
     ///   - completion: 登录结果回调
     @objc static public func associate(with provider: Provider, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
         

@@ -112,7 +112,7 @@ open class FileManager: NSObject {
     ///
     /// - Parameters:
     ///   - filename: 文件名称
-    ///   - localPath: 文件数据
+    ///   - fileData: 文件的内容数据
     ///   - mimeType: 文件类型
     ///   - categoryName: 文件分类名称
     ///   - categoryId: 文件分类 Id
