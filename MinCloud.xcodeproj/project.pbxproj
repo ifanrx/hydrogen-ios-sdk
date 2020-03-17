@@ -1611,7 +1611,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1641,7 +1641,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1675,7 +1675,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1707,7 +1707,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1780,6 +1780,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Demo_Swift/Demo_Swift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1802,6 +1803,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MinCloud/";
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1813,7 +1815,7 @@
 					"-framework",
 					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -1828,6 +1830,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Demo_Swift/Demo_Swift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1850,6 +1853,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MinCloud/";
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1861,7 +1865,7 @@
 					"-framework",
 					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -1876,6 +1880,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1883,7 +1888,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
+				MARKETING_VERSION = 1.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1897,6 +1903,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1904,7 +1911,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
+				MARKETING_VERSION = 1.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
