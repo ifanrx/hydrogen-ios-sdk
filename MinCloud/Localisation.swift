@@ -14,10 +14,12 @@ protocol StringLocalable {
 
 extension StringLocalable {
     static func localized(_ key: String) -> String {
-        let bundlePath = Bundle.main.path(forResource: "MinCloud", ofType: "bundle")
-        let bundle = Bundle(path: bundlePath!)
-        let result = NSLocalizedString(key, tableName: "Localizable", bundle: bundle!, value: "", comment: "")
-        return result != key ? result : ""
+        let bundlePath = Bundle.main.path(forResource: "MinCloud", ofType: "bundle") ?? ""
+        if let bundle = Bundle(path: bundlePath) {
+           let result = NSLocalizedString(key, tableName: "Localizable", bundle: bundle, value: "", comment: "")
+            return result != key ? result : ""
+        }
+        return ""
     }
 }
 
