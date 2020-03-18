@@ -353,7 +353,7 @@ extension ThirdProxy: WXApiDelegate {
     
     func sendWechatAuthRequset() {
         guard let appId = Config.wechatAppid else {
-            fatalError("请绑定微信 appId!")
+            fatalError(Localisation.Wechat.registerAppId)
         }
         WXApi.registerApp(appId)
         let req = SendAuthReq()
@@ -376,7 +376,7 @@ extension ThirdProxy: WeiboSDKDelegate {
     
     func sendWeiboAuthRequset() {
         guard let appId = Config.weiboAppid else {
-            fatalError("请绑定微博 appKey")
+            fatalError(Localisation.Weibo.registerAppId)
         }
         WeiboSDK.registerApp(appId)
         let req = WBAuthorizeRequest()

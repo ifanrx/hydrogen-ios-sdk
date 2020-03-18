@@ -28,13 +28,13 @@ class BaaSCase: MinCloudCase {
     }
     
     func test_send_sms_code() {
-        BaaS.sendSmsCode(phone: "15088057274") { (success, error) in
+        BaaS.sendSmsCode(phone: "150****7274") { (success, error) in
             XCTAssertTrue(success)
         }
     }
     
     func test_verify_sms_code() {
-        BaaS.verifySmsCode(phone: "15088057274", code: "123") { (success, error) in
+        BaaS.verifySmsCode(phone: "150****7274", code: "123") { (success, error) in
             XCTAssertTrue(success)
         }
     }

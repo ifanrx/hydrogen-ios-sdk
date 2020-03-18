@@ -152,7 +152,7 @@
                 case 8:
                     // 手机 + 验证码登录
                 {
-                    [BaaSAuth signInWithSMSVerificationCode:@"15088057274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
+                    [BaaSAuth signInWithSMSVerificationCode:@"150****7274" code:@"281545" createUser:true completion:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
                         self.currentUser = currentUser;
                     }];
                 }
@@ -233,7 +233,7 @@
                 case 9:
                 {
                     [BaaSAuth getCurrentUser:^(BaaSCurrentUser * _Nullable currentUser, NSError * _Nullable error) {
-                        [currentUser updatePhone:@"15088057274" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
+                        [currentUser updatePhone:@"150****7274" completion:^(NSDictionary<NSString *,id> * _Nullable result, NSError * _Nullable error) {
                             NSLog(@"");
                         }];
                     }];
@@ -552,14 +552,14 @@
                     break;
                 case 1:
                 {
-                    [BaaS sendSmsCodeWithPhone:@"15088057274" completion:^(BOOL success, NSError * _Nullable error) {
+                    [BaaS sendSmsCodeWithPhone:@"150****7274" completion:^(BOOL success, NSError * _Nullable error) {
 
                     }];
                 }
                     break;
                 case 2:
                 {
-                    [BaaS verifySmsCodeWithPhone:@"1508805****" code:@"11111" completion:^(BOOL success, NSError * _Nullable error) {
+                    [BaaS verifySmsCodeWithPhone:@"150****7274" code:@"11111" completion:^(BOOL success, NSError * _Nullable error) {
 
                     }];
                     break;
