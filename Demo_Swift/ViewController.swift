@@ -141,7 +141,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                }
                 break
             case 12:
-                Auth.signInWithSMSVerificationCode("15088057274", code: "780619", createUser: true) { (user, error) in
+                Auth.signInWithSMSVerificationCode("150****7274", code: "780619", createUser: true) { (user, error) in
                     print("error: \(error)")
                 }
             default:
@@ -229,7 +229,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 9:
                 Auth.getCurrentUser { (currentUser, error) in
-                    currentUser?.updatePhone("15088057274", completion: { (result, error) in
+                    currentUser?.updatePhone("150****7274", completion: { (result, error) in
                         
                     })
                 }
@@ -583,12 +583,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 1:
                 // 发送验证码
-                BaaS.sendSmsCode(phone: "15088057274") {_, _ in
+                BaaS.sendSmsCode(phone: "150****7274") {_, _ in
 
                 }
             case 2:
                 // 验证手机验证码
-                BaaS.verifySmsCode(phone: "15088057274", code: "") {_, _ in
+                BaaS.verifySmsCode(phone: "150****7274", code: "") {_, _ in
 
                 }
             case 3:

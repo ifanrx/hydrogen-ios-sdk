@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.subspec 'Core' do |core|
     core.source_files = 'MinCloud/*.{swift}'
     core.dependency 'Moya'
+    core.resource = 'MinCloud/MinCloud.bundle'
   end
 
   s.subspec 'Alipay' do |ali|
