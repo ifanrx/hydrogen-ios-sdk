@@ -40,14 +40,14 @@ struct Config {
         }
 
         guard clientID != nil else {
-            fatalError("请注册 clientID")
+            fatalError(Localisation.Common.registerClientId)
         }
         
         return serverURLString ?? "https://\(clientID!).myminapp.com"
     }
 
     static var HTTPHeaders: [String: String] {
-        guard clientID != nil else { fatalError("请注册 clientID") }
+        guard clientID != nil else { fatalError(Localisation.Common.registerClientId) }
         var headers: [String: String] = [:]
         headers["X-Hydrogen-Client-ID"] = clientID
         headers["Content-Type"] = "application/json"

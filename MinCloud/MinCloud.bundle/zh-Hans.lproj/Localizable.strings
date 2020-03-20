@@ -8,3 +8,4 @@
 
 "RegisterWechatAppId" = "请注册微信 appId";
 "RegisterWeiboAppId" = "请注册微博 appId";
+"RegisterMinCloudAppId" = "请注册知晓云 clientId";

@@ -153,6 +153,7 @@ open class FileManager: NSObject {
                     }
 
                     let id = fileInfo?.getString("id")
+                    let cdnPath = fileInfo?.getString("cdn_path")
                     let parameters: [String: String] = ["policy": policy, "authorization": authorization]
                     var formDatas: [MultipartFormData] = []
                     formDatas.append(fileFormData)
@@ -169,6 +170,7 @@ open class FileManager: NSObject {
                                 file = File()
                                 file?.Id = id
                                 file?.path = path
+                                file?.cdnPath = cdnPath
                                 file?.mimeType = upyunInfo.value.getString("mimetype")
                                 file?.name = filename
                                 file?.size = upyunInfo.value.getInt("file_size")

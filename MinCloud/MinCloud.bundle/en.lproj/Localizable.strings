@@ -8,3 +8,4 @@
 
 "RegisterWechatAppId" = "please register wechat appId";
 "RegisterWeiboAppId" = "please register weibo appId";
+"RegisterMinCloudAppId" = "please register mincloud clientId";
