@@ -146,7 +146,7 @@ open class FileManager: NSObject {
                     let fileInfo = resultInfo?.value
                     guard let policy = fileInfo?.getString("policy"),
                         let authorization = fileInfo?.getString("authorization"),
-                        let fileLink = fileInfo?.getString("file_link"),
+                        let path = fileInfo?.getString("path"),
                         let uploadUrl = fileInfo?.getString("upload_url") else {
                         completion(nil, HError.init(code: 500) as NSError)
                         return
@@ -168,7 +168,7 @@ open class FileManager: NSObject {
                             if let upyunInfo = upyunInfo {
                                 file = File()
                                 file?.Id = id
-                                file?.cdnPath = fileLink
+                                file?.path = path
                                 file?.mimeType = upyunInfo.value.getString("mimetype")
                                 file?.name = filename
                                 file?.size = upyunInfo.value.getInt("file_size")

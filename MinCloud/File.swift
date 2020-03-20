@@ -16,7 +16,7 @@ open class File: NSObject, Mappable {
     @objc public internal(set) var Id: String?
     @objc public internal(set) var mimeType: String?
     @objc public internal(set) var name: String?
-    @objc public internal(set) var cdnPath: String?
+    @objc public internal(set) var path: String?
     @objc public internal(set) var size: Int = 0
     @objc public internal(set) var category: FileCategory?
     @objc public internal(set) var localPath: String?
@@ -27,7 +27,7 @@ open class File: NSObject, Mappable {
         self.name = dict.getString("name")
         self.mimeType = dict.getString("mime_type")
         self.size = dict.getInt("size")
-        self.cdnPath = dict.getString("path")
+        self.path = dict.getString("path")
         self.createdAt = dict.getDouble("created_at")
         if let categoryDict = dict.getDict("category") as? [String: Any] {
             let category = FileCategory(dict: categoryDict)
@@ -57,7 +57,7 @@ open class File: NSObject, Mappable {
             info["mime_type"] = mimeType
         }
 
-        if let cdnPath = cdnPath {
+        if let cdnPath = path {
             info["cdn_path"] = cdnPath
         }
         info["size"] = size
