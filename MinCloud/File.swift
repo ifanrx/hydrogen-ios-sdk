@@ -40,6 +40,38 @@ open class File: NSObject, Mappable {
     @objc public override init() {
         super.init()
     }
+    
+    @objc public var metaInfo: [String: Any] {
+        var info: [String: Any] = [:]
+        if let fileId = Id {
+            info["id"] = fileId
+        }
+
+        if let name = name {
+            info["name"] = name
+        }
+
+        if let mimeType = mimeType {
+            info["mime_type"] = mimeType
+        }
+        
+        if let cdnPath = cdnPath {
+            info["cdn_path"] = cdnPath
+        }
+        
+        if let path = path {
+            info["path"] = path
+        }
+        
+        if let category = category {
+            info["category"] = category.categoryInfo
+        }
+        
+        info["size"] = size
+        info["created_at"] = createdAt
+        return info
+    }
+    
 
     /**
      *  文件信息
@@ -59,6 +91,9 @@ open class File: NSObject, Mappable {
             info["mime_type"] = mimeType
         }
 
+        // 此处 cdn_path 为文件的访问全路径，
+        // 用于更新数据表的 file 字段，
+        // 注意与 cdnPath 属性的区别。
         if let cdnPath = path {
             info["cdn_path"] = cdnPath
         }
@@ -68,12 +103,12 @@ open class File: NSObject, Mappable {
     }
 
     @objc override open var description: String {
-        let dict = self.fileInfo
+        let dict = self.metaInfo
         return dict.toJsonString
     }
     
     @objc override open var debugDescription: String {
-        let dict = self.fileInfo
+        let dict = self.metaInfo
         return dict.toJsonString
     }
 
