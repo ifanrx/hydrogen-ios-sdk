@@ -39,4 +39,8 @@ public struct Localisation {
     public struct Weibo: StringLocalable {
         public static let registerAppId = { localized("RegisterWeiboAppId") }()
     }
+    
+    public struct Common: StringLocalable {
+        public static let registerClientId = { localized("RegisterMinCloudAppId") }()
+    }
 }
