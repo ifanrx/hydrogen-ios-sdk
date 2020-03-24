@@ -16,6 +16,7 @@ open class File: NSObject, Mappable {
     @objc public internal(set) var Id: String?
     @objc public internal(set) var mimeType: String?
     @objc public internal(set) var name: String?
+    @objc public internal(set) var path: String?
     @objc public internal(set) var cdnPath: String?
     @objc public internal(set) var size: Int = 0
     @objc public internal(set) var category: FileCategory?
@@ -27,7 +28,8 @@ open class File: NSObject, Mappable {
         self.name = dict.getString("name")
         self.mimeType = dict.getString("mime_type")
         self.size = dict.getInt("size")
-        self.cdnPath = dict.getString("path")
+        self.path = dict.getString("path")
+        self.cdnPath = dict.getString("cdn_path")
         self.createdAt = dict.getDouble("created_at")
         if let categoryDict = dict.getDict("category") as? [String: Any] {
             let category = FileCategory(dict: categoryDict)
@@ -38,6 +40,38 @@ open class File: NSObject, Mappable {
     @objc public override init() {
         super.init()
     }
+    
+    @objc public var metaInfo: [String: Any] {
+        var info: [String: Any] = [:]
+        if let fileId = Id {
+            info["id"] = fileId
+        }
+
+        if let name = name {
+            info["name"] = name
+        }
+
+        if let mimeType = mimeType {
+            info["mime_type"] = mimeType
+        }
+        
+        if let cdnPath = cdnPath {
+            info["cdn_path"] = cdnPath
+        }
+        
+        if let path = path {
+            info["path"] = path
+        }
+        
+        if let category = category {
+            info["category"] = category.categoryInfo
+        }
+        
+        info["size"] = size
+        info["created_at"] = createdAt
+        return info
+    }
+    
 
     /**
      *  文件信息
@@ -57,7 +91,10 @@ open class File: NSObject, Mappable {
             info["mime_type"] = mimeType
         }
 
-        if let cdnPath = cdnPath {
+        // 此处 cdn_path 为文件的访问全路径，
+        // 用于更新数据表的 file 字段，
+        // 注意与 cdnPath 属性的区别。
+        if let cdnPath = path {
             info["cdn_path"] = cdnPath
         }
         info["size"] = size
@@ -66,12 +103,12 @@ open class File: NSObject, Mappable {
     }
 
     @objc override open var description: String {
-        let dict = self.fileInfo
+        let dict = self.metaInfo
         return dict.toJsonString
     }
     
     @objc override open var debugDescription: String {
-        let dict = self.fileInfo
+        let dict = self.metaInfo
         return dict.toJsonString
     }
 

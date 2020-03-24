@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		4C15F12522A51CC300904B9A /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C3028E1233DEDF5005F1CCF /* DictionaryCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */; };
+		4C322AF22420E6D000B9F40E /* Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C322AF12420E6D000B9F40E /* Localisation.swift */; };
+		4C322B0C2422405200B9F40E /* MinCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C322B0024222D2900B9F40E /* MinCloud.bundle */; };
+		4C322B0D2422452B00B9F40E /* MinCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C322B0024222D2900B9F40E /* MinCloud.bundle */; };
 		4C32FDEC232F7B3100744BB9 /* MinCloudCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C32FDEB232F7B3000744BB9 /* MinCloudCase.swift */; };
 		4C32FDEE232F7B6300744BB9 /* AuthCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C32FDED232F7B6300744BB9 /* AuthCase.swift */; };
 		4C32FDF2232F822600744BB9 /* login_username.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C32FDF1232F822600744BB9 /* login_username.json */; };
@@ -119,6 +122,17 @@
 		4CED591622967CEF00949503 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED591522967CEF00949503 /* Order.swift */; };
 		4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileManager.swift */; };
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
+		4CEF97F923A36684008C0136 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF97F523A36683008C0136 /* libWeiboSDK.a */; };
+		4CEF97FA23A36684008C0136 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CEF97F623A36683008C0136 /* WeiboSDK.bundle */; };
+		4CEF97FB23A36684008C0136 /* WBHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEF97F723A36684008C0136 /* WBHttpRequest.h */; };
+		4CEF97FC23A36684008C0136 /* WeiboSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEF97F823A36684008C0136 /* WeiboSDK.h */; };
+		4CEF980123A36717008C0136 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980023A36716008C0136 /* ImageIO.framework */; };
+		4CEF980323A36727008C0136 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980223A36727008C0136 /* SystemConfiguration.framework */; };
+		4CEF980523A36730008C0136 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980423A36730008C0136 /* CoreText.framework */; };
+		4CEF980723A36742008C0136 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980623A36742008C0136 /* QuartzCore.framework */; };
+		4CEF980923A36756008C0136 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980823A36756008C0136 /* WebKit.framework */; };
+		4CEF980B23A36769008C0136 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980A23A36769008C0136 /* Security.framework */; };
+		4CEF980D23A37BD6008C0136 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980C23A37BD5008C0136 /* libsqlite3.tbd */; };
 		4CEFC084225CEC1000C9238C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC083225CEC1000C9238C /* Storage.swift */; };
 		4CEFC086225D760F00C9238C /* ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC085225D760F00C9238C /* ListResult.swift */; };
 		4CEFC088225E594C00C9238C /* RequestCanceller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC087225E594C00C9238C /* RequestCanceller.swift */; };
@@ -188,6 +202,13 @@
 		25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCase.swift; sourceTree = "<group>"; };
+		4C322AE92420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		4C322AEA2420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		4C322AEB2420E67E00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		4C322AEC2420E67E00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		4C322AF12420E6D000B9F40E /* Localisation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localisation.swift; sourceTree = "<group>"; };
+		4C322B0024222D2900B9F40E /* MinCloud.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MinCloud.bundle; sourceTree = "<group>"; };
+		4C322B08242234D400B9F40E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C32FDEB232F7B3000744BB9 /* MinCloudCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinCloudCase.swift; sourceTree = "<group>"; };
 		4C32FDED232F7B6300744BB9 /* AuthCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCase.swift; sourceTree = "<group>"; };
 		4C32FDF1232F822600744BB9 /* login_username.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = login_username.json; path = MinCloudTests/login_username.json; sourceTree = SOURCE_ROOT; };
@@ -267,6 +288,7 @@
 		4C33A5F72240EFE70001C1A7 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		4C33A5FA224130950001C1A7 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		4C33A5FC2241338C0001C1A7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		4C43CF37239A358200D0D14C /* Demo_Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo_Swift.entitlements; sourceTree = "<group>"; };
 		4C4D31682266FCF1001EFA7D /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
 		4C722C79230A440000F79016 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		4C831210224477E700B4B33E /* TableAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAPI.swift; sourceTree = "<group>"; };
@@ -306,6 +328,18 @@
 		4CED591522967CEF00949503 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
+		4CEF97F523A36683008C0136 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		4CEF97F623A36683008C0136 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		4CEF97F723A36684008C0136 /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
+		4CEF97F823A36684008C0136 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		4CEF97FE23A3670A008C0136 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
+		4CEF980023A36716008C0136 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		4CEF980223A36727008C0136 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		4CEF980423A36730008C0136 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreText.framework; sourceTree = DEVELOPER_DIR; };
+		4CEF980623A36742008C0136 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		4CEF980823A36756008C0136 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
+		4CEF980A23A36769008C0136 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		4CEF980C23A37BD5008C0136 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
 		4CEFC083225CEC1000C9238C /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		4CEFC085225D760F00C9238C /* ListResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResult.swift; sourceTree = "<group>"; };
 		4CEFC087225E594C00C9238C /* RequestCanceller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCanceller.swift; sourceTree = "<group>"; };
@@ -347,11 +381,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CEF980D23A37BD6008C0136 /* libsqlite3.tbd in Frameworks */,
+				4CEF980B23A36769008C0136 /* Security.framework in Frameworks */,
+				4CEF980923A36756008C0136 /* WebKit.framework in Frameworks */,
+				4CEF980723A36742008C0136 /* QuartzCore.framework in Frameworks */,
+				4CEF980523A36730008C0136 /* CoreText.framework in Frameworks */,
+				4CEF980323A36727008C0136 /* SystemConfiguration.framework in Frameworks */,
+				4CEF980123A36717008C0136 /* ImageIO.framework in Frameworks */,
 				4CF1254322FD5D3000893604 /* Foundation.framework in Frameworks */,
 				4CF1254122FD5D2000893604 /* CoreMotion.framework in Frameworks */,
 				4CF1253F22FD5D1300893604 /* UIKit.framework in Frameworks */,
 				4CF1253422FD5B0B00893604 /* CoreGraphics.framework in Frameworks */,
 				4CF1253D22FD5CFC00893604 /* CoreText.framework in Frameworks */,
+				4CEF97F923A36684008C0136 /* libWeiboSDK.a in Frameworks */,
 				4CF1253B22FD5CF200893604 /* QuartzCore.framework in Frameworks */,
 				4CF1253222FD5B0000893604 /* CFNetwork.framework in Frameworks */,
 				4CF1253022FD5AF800893604 /* CoreTelephony.framework in Frameworks */,
@@ -399,6 +441,14 @@
 		21F9A129035E1F29D254CB78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CEF980C23A37BD5008C0136 /* libsqlite3.tbd */,
+				4CEF980A23A36769008C0136 /* Security.framework */,
+				4CEF980823A36756008C0136 /* WebKit.framework */,
+				4CEF980623A36742008C0136 /* QuartzCore.framework */,
+				4CEF980423A36730008C0136 /* CoreText.framework */,
+				4CEF980223A36727008C0136 /* SystemConfiguration.framework */,
+				4CEF980023A36716008C0136 /* ImageIO.framework */,
+				4CEF97FE23A3670A008C0136 /* Photos.framework */,
 				4CF1254222FD5D3000893604 /* Foundation.framework */,
 				4CF1254022FD5D2000893604 /* CoreMotion.framework */,
 				4CF1253E22FD5D1300893604 /* UIKit.framework */,
@@ -436,6 +486,22 @@
 				6A02ABC8EDA69977016F7175 /* Pods-MinCloudTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		4C322AFF24222D1F00B9F40E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4C322B0024222D2900B9F40E /* MinCloud.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		4C322B07242234D400B9F40E /* MinCloudSDK */ = {
+			isa = PBXGroup;
+			children = (
+				4C322B08242234D400B9F40E /* Info.plist */,
+			);
+			path = MinCloudSDK;
 			sourceTree = "<group>";
 		};
 		4C32FDF0232F81F200744BB9 /* result_json */ = {
@@ -626,6 +692,7 @@
 				4C33A58B223F4E850001C1A7 /* MinCloudTests */,
 				4CCB87592266CF9C00D65A65 /* Demo_Swift */,
 				4CCB876F2266CFAB00D65A65 /* Demo_OC */,
+				4C322B07242234D400B9F40E /* MinCloudSDK */,
 				4C33A57F223F4E850001C1A7 /* Products */,
 				28FC9CAADA0363B72A188047 /* Pods */,
 				21F9A129035E1F29D254CB78 /* Frameworks */,
@@ -646,6 +713,7 @@
 		4C33A580223F4E850001C1A7 /* MinCloud */ = {
 			isa = PBXGroup;
 			children = (
+				4C322AFF24222D1F00B9F40E /* Resources */,
 				4C722C83230A7E3000F79016 /* Library */,
 				4C33A5A6223F6CBC0001C1A7 /* API */,
 				4C33A5A1223F6A6D0001C1A7 /* Networking */,
@@ -786,13 +854,14 @@
 		4C722C83230A7E3000F79016 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				4CEF97FD23A36688008C0136 /* Ali */,
+				4CEF97F423A36675008C0136 /* Sina */,
+				4CEF97F323A36663008C0136 /* WX */,
 				4C722C79230A440000F79016 /* module.modulemap */,
-				4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */,
-				4CF1251F22FD5A4400893604 /* WXApi.h */,
-				4CF1251D22FD5A4400893604 /* WXApiObject.h */,
-				4CF1252322FD5A4C00893604 /* libWeChatSDK.a */,
-				4CF1253722FD5CA300893604 /* AlipaySDK.framework */,
-				4CF1253622FD5CA300893604 /* AlipaySDK.bundle */,
+				4CEF97F523A36683008C0136 /* libWeiboSDK.a */,
+				4CEF97F723A36684008C0136 /* WBHttpRequest.h */,
+				4CEF97F623A36683008C0136 /* WeiboSDK.bundle */,
+				4CEF97F823A36684008C0136 /* WeiboSDK.h */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -833,6 +902,7 @@
 		4CCB87592266CF9C00D65A65 /* Demo_Swift */ = {
 			isa = PBXGroup;
 			children = (
+				4C43CF37239A358200D0D14C /* Demo_Swift.entitlements */,
 				4CCB875A2266CF9C00D65A65 /* AppDelegate.swift */,
 				4CCB875C2266CF9C00D65A65 /* ViewController.swift */,
 				4CCB87872266D52100D65A65 /* 1.png */,
@@ -866,6 +936,7 @@
 			isa = PBXGroup;
 			children = (
 				4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */,
+				4C322AF12420E6D000B9F40E /* Localisation.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -887,6 +958,33 @@
 			name = Pay;
 			sourceTree = "<group>";
 		};
+		4CEF97F323A36663008C0136 /* WX */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */,
+				4CF1251F22FD5A4400893604 /* WXApi.h */,
+				4CF1251D22FD5A4400893604 /* WXApiObject.h */,
+				4CF1252322FD5A4C00893604 /* libWeChatSDK.a */,
+			);
+			name = WX;
+			sourceTree = "<group>";
+		};
+		4CEF97F423A36675008C0136 /* Sina */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Sina;
+			sourceTree = "<group>";
+		};
+		4CEF97FD23A36688008C0136 /* Ali */ = {
+			isa = PBXGroup;
+			children = (
+				4CF1253722FD5CA300893604 /* AlipaySDK.framework */,
+				4CF1253622FD5CA300893604 /* AlipaySDK.bundle */,
+			);
+			name = Ali;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -896,7 +994,9 @@
 			files = (
 				4CF1252222FD5A4500893604 /* WXApi.h in Headers */,
 				4CF1252022FD5A4500893604 /* WXApiObject.h in Headers */,
+				4CEF97FB23A36684008C0136 /* WBHttpRequest.h in Headers */,
 				4CF1252122FD5A4500893604 /* WechatAuthSDK.h in Headers */,
+				4CEF97FC23A36684008C0136 /* WeiboSDK.h in Headers */,
 				4CF1254722FD8A5D00893604 /* MinCloud.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1017,6 +1117,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 4C33A574223F4E850001C1A7;
 			productRefGroup = 4C33A57F223F4E850001C1A7 /* Products */;
@@ -1037,6 +1138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4CF1253822FD5CA300893604 /* AlipaySDK.bundle in Resources */,
+				4CEF97FA23A36684008C0136 /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1101,6 +1203,7 @@
 				4CCB87882266D52100D65A65 /* datasource.plist in Resources */,
 				4CCB87622266CF9D00D65A65 /* Assets.xcassets in Resources */,
 				4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */,
+				4C322B0C2422405200B9F40E /* MinCloud.bundle in Resources */,
 				4CCB87892266D52100D65A65 /* 1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1112,6 +1215,7 @@
 				4CCB877D2266CFAB00D65A65 /* LaunchScreen.storyboard in Resources */,
 				4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */,
 				4CCB877A2266CFAB00D65A65 /* Assets.xcassets in Resources */,
+				4C322B0D2422452B00B9F40E /* MinCloud.bundle in Resources */,
 				4CCB87782266CFAB00D65A65 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1284,6 +1388,7 @@
 			files = (
 				4C33A5F22240E7A40001C1A7 /* Where.swift in Sources */,
 				4C831211224477E700B4B33E /* TableAPI.swift in Sources */,
+				4C322AF22420E6D000B9F40E /* Localisation.swift in Sources */,
 				4C33A5A5223F6B2F0001C1A7 /* AuthAPI.swift in Sources */,
 				4CEFC088225E594C00C9238C /* RequestCanceller.swift in Sources */,
 				4C8312232248EB2900B4B33E /* FileCategory.swift in Sources */,
@@ -1377,6 +1482,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				4CCB875F2266CF9C00D65A65 /* Base */,
+				4C322AE92420E67D00B9F40E /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1385,6 +1491,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				4CCB87642266CF9D00D65A65 /* Base */,
+				4C322AEA2420E67D00B9F40E /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1393,6 +1500,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				4CCB87772266CFAB00D65A65 /* Base */,
+				4C322AEB2420E67E00B9F40E /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1401,6 +1509,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				4CCB877C2266CFAB00D65A65 /* Base */,
+				4C322AEC2420E67E00B9F40E /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1412,6 +1521,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1477,6 +1587,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1539,7 +1650,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1569,7 +1680,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1581,8 +1692,7 @@
 					"\"Moya\"",
 					"-framework",
 					"\"Result\"",
-					"-Objc",
-					"-all_load",
+					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
@@ -1604,7 +1714,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1636,7 +1746,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.1.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1648,8 +1758,7 @@
 					"\"Moya\"",
 					"-framework",
 					"\"Result\"",
-					"-Objc",
-					"-all_load",
+					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.MinCloud;
@@ -1708,7 +1817,9 @@
 			baseConfigurationReference = DD4C3DC340F9068D9A4624DE /* Pods-Demo_Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Demo_Swift/Demo_Swift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1725,13 +1836,25 @@
 					"$(SRCROOT)/MinCloud",
 				);
 				INFOPLIST_FILE = Demo_Swift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MinCloud/";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-Swift";
+				MARKETING_VERSION = 1.1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"Result\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -1744,7 +1867,9 @@
 			baseConfigurationReference = BA557BB13AC653342E830773 /* Pods-Demo_Swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Demo_Swift/Demo_Swift.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1761,13 +1886,25 @@
 					"$(SRCROOT)/MinCloud",
 				);
 				INFOPLIST_FILE = Demo_Swift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/MinCloud/";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-Swift";
+				MARKETING_VERSION = 1.1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"Moya\"",
+					"-framework",
+					"\"Result\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -1782,6 +1919,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1789,7 +1927,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-OC";
+				MARKETING_VERSION = 1.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1803,6 +1942,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1810,7 +1950,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ifanr.Demo-OC";
+				MARKETING_VERSION = 1.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

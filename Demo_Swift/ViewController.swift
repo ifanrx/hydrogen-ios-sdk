@@ -9,6 +9,7 @@
 import UIKit
 import MinCloud
 import Photos
+import AuthenticationServices
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -16,6 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var data: NSArray!
     var resultInfo: Order!
     var record: Record!
+    let auth = Auth()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +107,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 Auth.logout {_, _ in
 
                 }
+            case 6:
+//                Auth.signIn(with: .apple) { (user, error) in
+//
+//                }
+
+                break
+            case 7:
+                Auth.signIn(with: .wechat, createUser: true, syncUserProfile: .setnx) { (user, error) in
+                    print("")
+                }
+                break
+            case 8:
+//                ThirdAuth.shared.setWeiBo(with: "542432732")
+//                ThirdAuth.shared.signInWeibo { (result, error) in
+//
+//                }
+                break
+            case 9:
+                Auth.associate(with: .wechat, syncUserProfile: .setnx) { (user, error) in
+                    print("")
+                }
+                break
+            case 10:
+//                ThirdAuth.shared.setWeiBo(with: "542432732")
+//                ThirdAuth.shared.associateWeibo { (result, error) in
+//
+//                }
+                break
+            case 11:
+//                Auth.associate(with: .apple) { (user, error) in
+//
+//                }
+                break
+            case 12:
+                Auth.signInWithSMSVerificationCode("150****7274", code: "780619", createUser: true) { (user, error) in
+                    print("error: \(error)")
+                }
             default:
                 break
             }
@@ -187,6 +226,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 获取指定用户
                 User.get("92812581396859", select: ["-_username", "-created_by"], expand: ["created_by"]) {_, _ in
 
+                }
+            case 9:
+                Auth.getCurrentUser { (currentUser, error) in
+                    currentUser?.updatePhone("150****7274", completion: { (result, error) in
+                        
+                    })
+                }
+            case 10:
+                Auth.getCurrentUser { (currentUser, error) in
+                    currentUser?.verifyPhone(code: "535176", completion: { (success, error) in
+                        print("验证结果")
+                    })
                 }
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
@@ -532,12 +583,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 1:
                 // 发送验证码
-                BaaS.sendSmsCode(phone: "15088057274") {_, _ in
+                BaaS.sendSmsCode(phone: "150****7274") {_, _ in
 
                 }
             case 2:
                 // 验证手机验证码
-                BaaS.verifySmsCode(phone: "15088057274", code: "") {_, _ in
+                BaaS.verifySmsCode(phone: "150****7274", code: "") {_, _ in
 
                 }
             case 3:
@@ -670,13 +721,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let fileManager = FileManager.default
         let rootPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
         let filePath = "\(rootPath)/pickedimage.jpg"
-        let imageData = pickedImage.jpegData(compressionQuality: 1.0)
+        let imageData = pickedImage.pngData()!
         fileManager.createFile(atPath: filePath, contents: imageData, attributes: nil)
         if fileManager.fileExists(atPath: filePath) {
-            FileManager.upload(filename: "test", localPath: filePath, categoryName: "category1",
+            FileManager.upload(filename: "test", localPath: filePath, mimeType: "image/png", categoryId: "5cb5517266e4800f680a0a28",
                                progressBlock: { progress in print("\(String(describing: progress?.fractionCompleted))") },
                                completion: {file, error in
-                                
+                                print("aaa")
             })
         }
         
@@ -686,3 +737,54 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
 }
+
+extension String {
+
+    func base64Encoded() -> String? {
+        if let data = self.data(using: .utf8) {
+            return data.base64EncodedString()
+        }
+        return nil
+    }
+
+    func base64Decoded() -> String? {
+        let str = self.replacingOccurrences(of: "-", with: "+").replacingOccurrences(of: "_", with: "/")
+        if let data = Data(base64Encoded: str) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
+    }
+}
+
+//extension ViewController: ASAuthorizationControllerDelegate {
+//    @available(iOS 13.0, *)
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+//        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+//            let userIdentifier = appleIDCredential.user
+//            let fullName = appleIDCredential.fullName
+//            let email = appleIDCredential.email
+//
+//            if let token = appleIDCredential.identityToken {
+//                let tokenStr = String(data: token, encoding: .utf8)
+////                Auth.signInWithApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+////
+////                }
+//                ThirdAuth.shared.associateApple(authToken: tokenStr!, nickname: "apple") { (result, error) in
+//
+//                }
+//            }
+//        }
+//    }
+//
+//    @available(iOS 13.0, *)
+//    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+//        // Handle error.
+//    }
+//}
+//
+//extension ViewController: ASAuthorizationControllerPresentationContextProviding {
+//    @available(iOS 13.0, *)
+//    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+//        return self.view.window!
+//    }
+//}

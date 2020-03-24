@@ -101,7 +101,7 @@ open class User: BaseRecord {
     /**
      *  用户信息
      */
-    var userInfo: [String: Any] = [:]
+    @objc public var userInfo: [String: Any] = [:]
 
     @objc public init(Id: String) {
         self.userId = Id

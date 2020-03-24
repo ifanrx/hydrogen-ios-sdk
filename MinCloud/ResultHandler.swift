@@ -31,7 +31,7 @@ class ResultHandler {
                     handler(nil, nil)
                 }
             } else if let data = try? response.mapJSON(), let dict = data as? [String: Any] { // 内部定义网络错误
-                let errorMsg = dict.getString("error_msg")
+                let errorMsg = dict.getString("error_msg") ?? dict.getString("message")
                 let error = HError(code: response.statusCode, description: errorMsg)
                 handler(nil, error as NSError)
             } else if let message = try? response.mapString() {

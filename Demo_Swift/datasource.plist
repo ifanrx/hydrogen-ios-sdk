@@ -9,6 +9,13 @@
 		<string>邮箱登录</string>
 		<string>匿名登录</string>
 		<string>登出</string>
+		<string>苹果登录</string>
+		<string>微信登录</string>
+		<string>微博登录</string>
+		<string>绑定微信账号</string>
+		<string>绑定微博账号</string>
+		<string>绑定苹果账号</string>
+		<string>手机验证码登录</string>
 	</array>
 	<array>
 		<string>获取当前用户</string>
@@ -20,6 +27,8 @@
 		<string>通过邮箱重设密码</string>
 		<string>批量查询用户信息</string>
 		<string>获取指定用户</string>
+		<string>更新用户手机号</string>
+		<string>验证当前用户手机号</string>
 	</array>
 	<array>
 		<string>获取记录项</string>

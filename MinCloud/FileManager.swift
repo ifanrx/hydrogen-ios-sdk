@@ -72,37 +72,96 @@ open class FileManager: NSObject {
         }
         return RequestCanceller(cancellable: request)
     }
-
+    
     /// 上传文件
     ///
     /// - Parameters:
     ///   - filename: 文件名称
     ///   - localPath: 文件本地路径
-    ///   - categoryName: 文件分类
+    ///   - categoryName: 文件分类名称
     ///   - progressBlock: progressBlock
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
     @objc public static func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
+        let url = URL(fileURLWithPath: localPath)
+        let formData = MultipartFormData(provider: .file(url), name: "file")
+        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: nil, progressBlock: progressBlock, completion: completion)
+    }
+    
+    /// 上传文件
+    ///
+    /// - Parameters:
+    ///   - filename: 文件名称
+    ///   - localPath: 文件本地路径
+    ///   - mimeType: 文件类型
+    ///   - categoryName: 文件分类名称
+    ///   - categoryId: 文件分类 Id
+    ///   - progressBlock: progressBlock
+    ///   - completion: 结果回调
+    /// - Returns:
+    @discardableResult
+    @objc public static func upload(filename: String, localPath: String, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+        let url = URL(fileURLWithPath: localPath)
+        let formData = MultipartFormData(provider: .file(url), name: "file", mimeType: mimeType)
+        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
+    }
+    
+    /// 上传文件
+    ///
+    /// - Parameters:
+    ///   - filename: 文件名称
+    ///   - fileData: 文件的内容数据
+    ///   - mimeType: 文件类型
+    ///   - categoryName: 文件分类名称
+    ///   - categoryId: 文件分类 Id
+    ///   - progressBlock: progressBlock
+    ///   - completion: 结果回调
+    /// - Returns:
+    @discardableResult
+    @objc public static func upload(filename: String, fileData: Data, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+        let formData = MultipartFormData(provider: .data(fileData), name: "file", fileName: filename, mimeType: mimeType)
+        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
+    }
+
+    @discardableResult
+    static func upload(filename: String, fileFormData: MultipartFormData, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+
         let canceller = RequestCanceller()
 
-        let request = FileProvider.request(.upload(parameters: ["filename": filename, "category_name": categoryName as Any])) { result in
+        var parameters = ["filename": filename]
+        if let categoryName = categoryName {
+            parameters["category_name"] = categoryName
+        }
+        if let categoryId = categoryId {
+            parameters["category_id"] = categoryId
+        }
+        let request = FileProvider.request(.upload(parameters: parameters)) { result in
 
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 if error != nil {
                     completion(nil, error)
                 } else {
                     let fileInfo = resultInfo?.value
-                    guard fileInfo != nil, fileInfo?.getString("policy") != nil, fileInfo?.getString("authorization") != nil, fileInfo?.getString("file_link") != nil  else {
+                    guard let policy = fileInfo?.getString("policy"),
+                        let authorization = fileInfo?.getString("authorization"),
+                        let path = fileInfo?.getString("path"),
+                        let uploadUrl = fileInfo?.getString("upload_url") else {
                         completion(nil, HError.init(code: 500) as NSError)
                         return
                     }
 
-                    let path = fileInfo?.getString("file_link")
                     let id = fileInfo?.getString("id")
-                    let parameters: [String: String] = ["policy": (fileInfo?.getString("policy"))!, "authorization": (fileInfo?.getString("authorization"))!]
-                    let uploadRequest = FileProvider.request(.UPUpload(url: (fileInfo?.getString("upload_url"))!, localPath: localPath, parameters: parameters), callbackQueue: nil, progress: { progress in
+                    let cdnPath = fileInfo?.getString("cdn_path")
+                    let parameters: [String: String] = ["policy": policy, "authorization": authorization]
+                    var formDatas: [MultipartFormData] = []
+                    formDatas.append(fileFormData)
+                    for (key, value) in parameters {
+                        let formData = MultipartFormData(provider: .data(value.data(using: .utf8)!), name: key)
+                        formDatas.append(formData)
+                    }
+                    let uploadRequest = FileProvider.request(.UPUpload(url: uploadUrl, formDatas: formDatas), callbackQueue: nil, progress: { progress in
                         progressBlock(progress.progressObject)
                     }, completion: { result in
                         ResultHandler.parse(result, handler: { (upyunInfo: MappableDictionary?, error: NSError?) in
@@ -110,7 +169,8 @@ open class FileManager: NSObject {
                             if let upyunInfo = upyunInfo {
                                 file = File()
                                 file?.Id = id
-                                file?.cdnPath = path
+                                file?.path = path
+                                file?.cdnPath = cdnPath
                                 file?.mimeType = upyunInfo.value.getString("mimetype")
                                 file?.name = filename
                                 file?.size = upyunInfo.value.getInt("file_size")
@@ -126,6 +186,7 @@ open class FileManager: NSObject {
         canceller.cancellable = request
         return canceller
     }
+
 
     /// 获取文件分类
     /// - Parameter:

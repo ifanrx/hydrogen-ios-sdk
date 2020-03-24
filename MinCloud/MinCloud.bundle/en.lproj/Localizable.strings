@@ -1,0 +1,11 @@
+/* 
+  Localisation.strings
+  MinCloud
+
+  Created by quanhua on 2020/3/17.
+  Copyright © 2020 ifanr. All rights reserved.
+*/
+
+"RegisterWechatAppId" = "please register wechat appId";
+"RegisterWeiboAppId" = "please register weibo appId";
+"RegisterMinCloudAppId" = "please register mincloud clientId";

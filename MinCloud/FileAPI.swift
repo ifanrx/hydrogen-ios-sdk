@@ -17,7 +17,7 @@ enum FileAPI {
     case deleteFile(fileId: String)
     case deleteFiles(parameters: [String: Any])
     case getCategory(categoryId: String)
-    case UPUpload(url: String, localPath: String, parameters: [String: String])
+    case UPUpload(url: String, formDatas: [MultipartFormData])
     case findFilesInCategory(parameters: [String: Any])
     case genVideoSnapshot(parameters: [String: Any])
     case videoConcat(parameters: [String: Any])
@@ -29,7 +29,7 @@ enum FileAPI {
 extension FileAPI: TargetType {
     var baseURL: URL {
         switch self {
-        case .UPUpload(let url, _, _):
+        case .UPUpload(let url, _):
             return URL(string: url)!
         default:
             return URL(string: Config.baseURL)!
@@ -91,15 +91,7 @@ extension FileAPI: TargetType {
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .findFiles(let parameters), .findCategories(let parameters), .findFilesInCategory(let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
-        case .UPUpload(_, let localPath, let parameters):
-            let url = URL(fileURLWithPath: localPath)
-            var formDatas: [MultipartFormData] = []
-            var formData = MultipartFormData(provider: .file(url), name: "file")
-            formDatas.append(formData)
-            for (key, value) in parameters {
-                formData = MultipartFormData(provider: .data(value.data(using: .utf8)!), name: key)
-                formDatas.append(formData)
-            }
+        case .UPUpload(_, let formDatas):
             return .uploadMultipart(formDatas)
         case .getCategory, .getFile:
             return .requestPlain

@@ -29,7 +29,10 @@ struct Config {
     
     static var clientID: String!
     static var serverURLString: String?
-    static var version = "1.0.2"    // MinCloud 当前版本号
+    static var version = "1.1.0"    // MinCloud 当前版本号
+    static var wechatAppid: String?
+    static var weiboAppid: String?
+    static var redirectURI: String?
     
     static var baseURL: String {
         if environment == .qa {
@@ -37,14 +40,14 @@ struct Config {
         }
 
         guard clientID != nil else {
-            fatalError("请注册 clientID")
+            fatalError(Localisation.Common.registerClientId)
         }
         
         return serverURLString ?? "https://\(clientID!).myminapp.com"
     }
 
     static var HTTPHeaders: [String: String] {
-        guard clientID != nil else { fatalError("请注册 clientID") }
+        guard clientID != nil else { fatalError(Localisation.Common.registerClientId) }
         var headers: [String: String] = [:]
         headers["X-Hydrogen-Client-ID"] = clientID
         headers["Content-Type"] = "application/json"
@@ -60,15 +63,23 @@ struct Config {
         static func register(authType: AuthType) -> String { return "/hserve/v2.0/register/\(authType.rawValue)/" }
         static func login(authType: AuthType) -> String { return "/hserve/v2.0/login/\(authType.rawValue)/" }
         static let logout = "/hserve/v2.0/session/destroy/"
+        static let apple = "hserve/v2.3/idp/oauth/apple-native/authenticate/"
+        static let wechat = "/hserve/v2.3/idp/oauth/wechat-native/authenticate/"
+        static let weibo = "/hserve/v2.3/idp/oauth/weibo-native/authenticate/"
+        static let weiboAssociation = "/hserve/v2.3/idp/oauth/weibo-native/user-association/"
+        static let wechatAssociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
+        static let appleAssociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
+        static let loginSms = "/hserve/v2.1/login/sms/"
     }
 
     struct User {
         static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
-        static let updateAccount = "/hserve/v2.0/user/account/"
+        static let updateAccount = "/hserve/v2.1/user/account/"
         static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
         static let updateUserInfo = "/hserve/v2.1/user/info/"
         static let getUserList = "/hserve/v2.2/user/info/"
+        static let verifyPhone = "/hserve/v2.1/sms-phone-verification/"
     }
 
     struct Table {
@@ -87,7 +98,7 @@ struct Config {
     }
 
     struct File {
-        static let upload = "/hserve/v1/upload/"
+        static let upload = "/hserve/v2.1/upload/"
         static func fileDetail(fileId: String) -> String { return "/hserve/v1.3/uploaded-file/\(fileId)/" }
         static let fileList = "/hserve/v2.2/uploaded-file/"
         static func deleteFile(fileId: String) -> String { return "/hserve/v1.3/uploaded-file/\(fileId)/" }
@@ -108,7 +119,7 @@ struct Config {
 
     struct BaaS {
         static let cloudFunction = "/hserve/v1/cloud-function/job/"
-        static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
+        static let sendSmsCode = "/hserve/v2.1/sms-verification-code/"
         static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
         static let serverTime = "/hserve/v2.2/server/time/"
     }
