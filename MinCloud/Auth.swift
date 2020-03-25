@@ -274,9 +274,11 @@ extension Auth {
         
         Auth.AuthProvider.request(apiType) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                Storage.shared.userId = user?.userId
-                Storage.shared.token = user?.token
-                Storage.shared.expiresIn = user?.expiresIn
+                if case .authenticate = Auth.thirdAuthType {
+                    Storage.shared.userId = user?.userId
+                    Storage.shared.token = user?.token
+                    Storage.shared.expiresIn = user?.expiresIn
+                }
                 
                 Auth.completion?(user, error)
             })
@@ -294,9 +296,11 @@ extension Auth {
         
         Auth.AuthProvider.request(apiType) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                Storage.shared.userId = user?.userId
-                Storage.shared.token = user?.token
-                Storage.shared.expiresIn = user?.expiresIn
+                if case .authenticate = Auth.thirdAuthType {
+                    Storage.shared.userId = user?.userId
+                    Storage.shared.token = user?.token
+                    Storage.shared.expiresIn = user?.expiresIn
+                }
                 
                 Auth.completion?(user, error)
             })
@@ -315,9 +319,11 @@ extension Auth {
         
         Auth.AuthProvider.request(apiType) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                Storage.shared.userId = user?.userId
-                Storage.shared.token = user?.token
-                Storage.shared.expiresIn = user?.expiresIn
+                if case .authenticate = Auth.thirdAuthType {
+                    Storage.shared.userId = user?.userId
+                    Storage.shared.token = user?.token
+                    Storage.shared.expiresIn = user?.expiresIn
+                }
                 
                 Auth.completion?(user, error)
             })
