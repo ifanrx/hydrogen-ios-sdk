@@ -65,6 +65,7 @@ struct Config {
         static let logout = "/hserve/v2.0/session/destroy/"
         static let apple = "hserve/v2.3/idp/oauth/apple-native/authenticate/"
         static let wechat = "/hserve/v2.3/idp/oauth/wechat-native/authenticate/"
+        static let wechatTangzhi = "/hserve/v2.4/idp/oauth/wechat-native/sso-authenticate/" // 内部使用
         static let weibo = "/hserve/v2.3/idp/oauth/weibo-native/authenticate/"
         static let weiboAssociation = "/hserve/v2.3/idp/oauth/weibo-native/user-association/"
         static let wechatAssociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"

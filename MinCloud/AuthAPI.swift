@@ -38,7 +38,7 @@ extension AuthAPI: TargetType {
         case .apple:
             return Config.Auth.apple
         case .wechat:
-            return Config.Auth.wechat
+            return Config.Auth.wechatTangzhi
         case .weibo:
             return Config.Auth.weibo
         case .associationForWeibo:
