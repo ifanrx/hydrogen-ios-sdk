@@ -16,7 +16,7 @@ import AuthenticationServices
 public enum Provider: Int {
     case wechat
 //    case weibo
-//    case apple
+    case apple
 }
 
 @objc(SyncUserProfileType)
@@ -227,8 +227,8 @@ extension Auth {
         switch provider {
         case .wechat:
             ThirdProxy.shared.sendWechatAuthRequset()
-//        case .apple:
-//            sendAppleAuthRequest()
+        case .apple:
+            ThirdProxy.shared.sendAppleAuthRequest()
 //        case .weibo:
 //            sendWeiboAuthRequset()
         }
@@ -251,8 +251,8 @@ extension Auth {
         switch provider {
         case .wechat:
             ThirdProxy.shared.sendWechatAuthRequset()
-//        case .apple:
-//            sendAppleAuthRequest()
+        case .apple:
+            ThirdProxy.shared.sendAppleAuthRequest()
 //        case .weibo:
 //            sendWeiboAuthRequset()
         }
@@ -410,15 +410,12 @@ extension ThirdProxy: ASAuthorizationControllerDelegate {
     @available(iOS 13.0, *)
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let nickname = appleIDCredential.fullName?.nickname ?? ""
-            
-            if case appleIDCredential.realUserStatus = ASUserDetectionStatus.unsupported {
-                
-            }
+            let givenName = appleIDCredential.fullName?.givenName ?? ""
+            let familyName = appleIDCredential.fullName?.familyName ?? ""
+            let userName = familyName + givenName
 
             if let token = appleIDCredential.identityToken, let tokenStr = String(data: token, encoding: .utf8) {
-                
-                Auth.authWithApple(authToken: tokenStr, nickname: nickname)
+                Auth.authWithApple(authToken: tokenStr, nickname: userName)
             }
         }
     }
