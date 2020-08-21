@@ -34,10 +34,16 @@ public struct Localisation {
     
     public struct Wechat: StringLocalable {
         public static let registerAppId = { localized("RegisterWechatAppId") }()
+        public static let authorizeFail = { localized("AuthorizeWechatUserInfoFailed") }()
     }
     
     public struct Weibo: StringLocalable {
         public static let registerAppId = { localized("RegisterWeiboAppId") }()
+        public static let authorizeFail = { localized("AuthorizeWeiboUserInfoFailed") }()
+    }
+    
+    public struct Apple: StringLocalable {
+        public static let authorizeFail = { localized("AuthorizeAppleUserInfoFailed") }()
     }
     
     public struct Common: StringLocalable {

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C007F1424B81C2D00BE98F5 /* WXApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C007F1024B81C2A00BE98F5 /* WXApi.h */; };
+		4C007F1524B81C2D00BE98F5 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C007F1124B81C2C00BE98F5 /* libWeChatSDK.a */; };
+		4C007F1624B81C2D00BE98F5 /* WechatAuthSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C007F1224B81C2D00BE98F5 /* WechatAuthSDK.h */; };
+		4C007F1724B81C2D00BE98F5 /* WXApiObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C007F1324B81C2D00BE98F5 /* WXApiObject.h */; };
+		4C007F1A24B8385900BE98F5 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C007F1824B8385800BE98F5 /* AlipaySDK.framework */; };
+		4C007F1B24B8385900BE98F5 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */; };
 		4C15F12522A51CC300904B9A /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C3028E1233DEDF5005F1CCF /* DictionaryCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */; };
 		4C322AF22420E6D000B9F40E /* Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C322AF12420E6D000B9F40E /* Localisation.swift */; };
@@ -99,6 +105,8 @@
 		4C8312232248EB2900B4B33E /* FileCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312222248EB2900B4B33E /* FileCategory.swift */; };
 		4C8312262249B3FF00B4B33E /* BaaSAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312252249B3FF00B4B33E /* BaaSAPI.swift */; };
 		4C86C72B225CC8740040C042 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C86C72A225CC8740040C042 /* User.swift */; };
+		4CB7333A24EF6DE10054E8AA /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */; };
+		4CB7333B24EF6DE20054E8AA /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */; };
 		4CBD3C7B224C5D0100F0E0F2 /* ResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */; };
 		4CCB875B2266CF9C00D65A65 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB875A2266CF9C00D65A65 /* AppDelegate.swift */; };
 		4CCB875D2266CF9C00D65A65 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB875C2266CF9C00D65A65 /* ViewController.swift */; };
@@ -115,6 +123,12 @@
 		4CCB87852266D41C00D65A65 /* MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; };
 		4CCB87882266D52100D65A65 /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CCB87862266D52000D65A65 /* datasource.plist */; };
 		4CCB87892266D52100D65A65 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCB87872266D52100D65A65 /* 1.png */; };
+		4CD4ACBB24EE429F0080C46C /* WBHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CD4ACB724EE429E0080C46C /* WBHttpRequest.h */; };
+		4CD4ACBC24EE429F0080C46C /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CD4ACB824EE429F0080C46C /* libWeiboSDK.a */; };
+		4CD4ACBD24EE429F0080C46C /* WeiboSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CD4ACB924EE429F0080C46C /* WeiboSDK.h */; };
+		4CD4ACBE24EE429F0080C46C /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CD4ACBA24EE429F0080C46C /* WeiboSDK.bundle */; };
+		4CD4ACDF24EE49B10080C46C /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CD4ACBA24EE429F0080C46C /* WeiboSDK.bundle */; };
+		4CD4ACE024EE49B20080C46C /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CD4ACBA24EE429F0080C46C /* WeiboSDK.bundle */; };
 		4CE2BCF922422A960008211C /* NSDictionary+Convenient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */; };
 		4CEC28E6228A6F7700E9F606 /* PayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E5228A6F7700E9F606 /* PayAPI.swift */; };
 		4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E8228A728C00E9F606 /* Pay.swift */; };
@@ -122,10 +136,6 @@
 		4CED591622967CEF00949503 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED591522967CEF00949503 /* Order.swift */; };
 		4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileManager.swift */; };
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
-		4CEF97F923A36684008C0136 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF97F523A36683008C0136 /* libWeiboSDK.a */; };
-		4CEF97FA23A36684008C0136 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CEF97F623A36683008C0136 /* WeiboSDK.bundle */; };
-		4CEF97FB23A36684008C0136 /* WBHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEF97F723A36684008C0136 /* WBHttpRequest.h */; };
-		4CEF97FC23A36684008C0136 /* WeiboSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CEF97F823A36684008C0136 /* WeiboSDK.h */; };
 		4CEF980123A36717008C0136 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980023A36716008C0136 /* ImageIO.framework */; };
 		4CEF980323A36727008C0136 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980223A36727008C0136 /* SystemConfiguration.framework */; };
 		4CEF980523A36730008C0136 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CEF980423A36730008C0136 /* CoreText.framework */; };
@@ -136,10 +146,6 @@
 		4CEFC084225CEC1000C9238C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC083225CEC1000C9238C /* Storage.swift */; };
 		4CEFC086225D760F00C9238C /* ListResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC085225D760F00C9238C /* ListResult.swift */; };
 		4CEFC088225E594C00C9238C /* RequestCanceller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEFC087225E594C00C9238C /* RequestCanceller.swift */; };
-		4CF1252022FD5A4500893604 /* WXApiObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CF1251D22FD5A4400893604 /* WXApiObject.h */; };
-		4CF1252122FD5A4500893604 /* WechatAuthSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */; };
-		4CF1252222FD5A4500893604 /* WXApi.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CF1251F22FD5A4400893604 /* WXApi.h */; };
-		4CF1252422FD5A4C00893604 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252322FD5A4C00893604 /* libWeChatSDK.a */; };
 		4CF1252622FD5AA200893604 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252522FD5AA200893604 /* SystemConfiguration.framework */; };
 		4CF1252822FD5ABA00893604 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252722FD5ABA00893604 /* libz.tbd */; };
 		4CF1252A22FD5ACE00893604 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252922FD5ACE00893604 /* libsqlite3.0.tbd */; };
@@ -148,8 +154,6 @@
 		4CF1253022FD5AF800893604 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1252F22FD5AF800893604 /* CoreTelephony.framework */; };
 		4CF1253222FD5B0000893604 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253122FD5B0000893604 /* CFNetwork.framework */; };
 		4CF1253422FD5B0B00893604 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253322FD5B0B00893604 /* CoreGraphics.framework */; };
-		4CF1253822FD5CA300893604 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CF1253622FD5CA300893604 /* AlipaySDK.bundle */; };
-		4CF1253922FD5CA300893604 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253722FD5CA300893604 /* AlipaySDK.framework */; };
 		4CF1253B22FD5CF200893604 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253A22FD5CF200893604 /* QuartzCore.framework */; };
 		4CF1253D22FD5CFC00893604 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253C22FD5CFC00893604 /* CoreText.framework */; };
 		4CF1253F22FD5D1300893604 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF1253E22FD5D1300893604 /* UIKit.framework */; };
@@ -160,6 +164,7 @@
 		84EDE73CA89609A94E857203 /* Pods_MinCloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */; };
 		A6DF9F9EEC34554F7FB94E8F /* Pods_MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */; };
 		C182A8345EB1B75F62ABA681 /* Pods_Demo_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */; };
+		C4F2227BA3589D9C184BBE7A /* Pods_WechatTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */; };
 		FF9E40B3EA795597D8F79126 /* Pods_Demo_OC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */; };
 /* End PBXBuildFile section */
 
@@ -199,8 +204,16 @@
 /* Begin PBXFileReference section */
 		1965E55879945EEA140178F7 /* Pods-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1D22E5C4AB5E39CB3D550850 /* Pods-MinCloud-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WechatTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WechatTest/Pods-WechatTest.debug.xcconfig"; sourceTree = "<group>"; };
 		25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C007F1024B81C2A00BE98F5 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		4C007F1124B81C2C00BE98F5 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		4C007F1224B81C2D00BE98F5 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		4C007F1324B81C2D00BE98F5 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		4C007F1824B8385800BE98F5 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		4C007F2424BC7CF000BE98F5 /* WechatTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WechatTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCase.swift; sourceTree = "<group>"; };
 		4C322AE92420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		4C322AEA2420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -322,16 +335,16 @@
 		4CCB877F2266CFAB00D65A65 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4CCB87862266D52000D65A65 /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
 		4CCB87872266D52100D65A65 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		4CD4ACB724EE429E0080C46C /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
+		4CD4ACB824EE429F0080C46C /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		4CD4ACB924EE429F0080C46C /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		4CD4ACBA24EE429F0080C46C /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDictionary+Convenient.swift"; sourceTree = "<group>"; };
 		4CEC28E5228A6F7700E9F606 /* PayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAPI.swift; sourceTree = "<group>"; };
 		4CEC28E8228A728C00E9F606 /* Pay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pay.swift; sourceTree = "<group>"; };
 		4CED591522967CEF00949503 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4CEEBC0B224CD087007511E0 /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentCategory.swift; sourceTree = "<group>"; };
-		4CEF97F523A36683008C0136 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
-		4CEF97F623A36683008C0136 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
-		4CEF97F723A36684008C0136 /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
-		4CEF97F823A36684008C0136 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		4CEF97FE23A3670A008C0136 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Photos.framework; sourceTree = DEVELOPER_DIR; };
 		4CEF980023A36716008C0136 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
 		4CEF980223A36727008C0136 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
@@ -343,10 +356,6 @@
 		4CEFC083225CEC1000C9238C /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		4CEFC085225D760F00C9238C /* ListResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListResult.swift; sourceTree = "<group>"; };
 		4CEFC087225E594C00C9238C /* RequestCanceller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCanceller.swift; sourceTree = "<group>"; };
-		4CF1251D22FD5A4400893604 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
-		4CF1251F22FD5A4400893604 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		4CF1252322FD5A4C00893604 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		4CF1252522FD5AA200893604 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4CF1252722FD5ABA00893604 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		4CF1252922FD5ACE00893604 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
@@ -355,8 +364,6 @@
 		4CF1252F22FD5AF800893604 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		4CF1253122FD5B0000893604 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		4CF1253322FD5B0B00893604 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		4CF1253622FD5CA300893604 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
-		4CF1253722FD5CA300893604 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		4CF1253A22FD5CF200893604 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CF1253C22FD5CFC00893604 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		4CF1253E22FD5D1300893604 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -369,20 +376,31 @@
 		A66158A59ACAFA9E2774F238 /* Pods-Demo_OC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_OC.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_OC/Pods-Demo_OC.release.xcconfig"; sourceTree = "<group>"; };
 		B32BE11E5B58A524B35322F2 /* Pods-MinCloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.debug.xcconfig"; sourceTree = "<group>"; };
 		BA557BB13AC653342E830773 /* Pods-Demo_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift.release.xcconfig"; sourceTree = "<group>"; };
+		C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WechatTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-WechatTest/Pods-WechatTest.release.xcconfig"; sourceTree = "<group>"; };
 		CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_OC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4C3DC340F9068D9A4624DE /* Pods-Demo_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		E307ED5482940DF57D58CD16 /* Pods-Demo_OC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_OC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_OC/Pods-Demo_OC.debug.xcconfig"; sourceTree = "<group>"; };
 		E82CE092A9C01A2B0AEB622F /* Pods-MinCloud-MinCloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.release.xcconfig"; sourceTree = "<group>"; };
+		EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WechatTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8370F74399CA6938D5BD3D2 /* Pods-MinCloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4C007F2124BC7CF000BE98F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4F2227BA3589D9C184BBE7A /* Pods_WechatTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C33A57B223F4E850001C1A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4CEF980D23A37BD6008C0136 /* libsqlite3.tbd in Frameworks */,
 				4CEF980B23A36769008C0136 /* Security.framework in Frameworks */,
+				4C007F1524B81C2D00BE98F5 /* libWeChatSDK.a in Frameworks */,
 				4CEF980923A36756008C0136 /* WebKit.framework in Frameworks */,
 				4CEF980723A36742008C0136 /* QuartzCore.framework in Frameworks */,
 				4CEF980523A36730008C0136 /* CoreText.framework in Frameworks */,
@@ -393,17 +411,16 @@
 				4CF1253F22FD5D1300893604 /* UIKit.framework in Frameworks */,
 				4CF1253422FD5B0B00893604 /* CoreGraphics.framework in Frameworks */,
 				4CF1253D22FD5CFC00893604 /* CoreText.framework in Frameworks */,
-				4CEF97F923A36684008C0136 /* libWeiboSDK.a in Frameworks */,
 				4CF1253B22FD5CF200893604 /* QuartzCore.framework in Frameworks */,
 				4CF1253222FD5B0000893604 /* CFNetwork.framework in Frameworks */,
 				4CF1253022FD5AF800893604 /* CoreTelephony.framework in Frameworks */,
+				4C007F1A24B8385900BE98F5 /* AlipaySDK.framework in Frameworks */,
 				4CF1252E22FD5AE900893604 /* Security.framework in Frameworks */,
 				4CF1252C22FD5ADE00893604 /* libc++.tbd in Frameworks */,
+				4CD4ACBC24EE429F0080C46C /* libWeiboSDK.a in Frameworks */,
 				4CF1252A22FD5ACE00893604 /* libsqlite3.0.tbd in Frameworks */,
-				4CF1253922FD5CA300893604 /* AlipaySDK.framework in Frameworks */,
 				4CF1252822FD5ABA00893604 /* libz.tbd in Frameworks */,
 				4CF1252622FD5AA200893604 /* SystemConfiguration.framework in Frameworks */,
-				4CF1252422FD5A4C00893604 /* libWeChatSDK.a in Frameworks */,
 				A6DF9F9EEC34554F7FB94E8F /* Pods_MinCloud.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,6 +484,7 @@
 				CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */,
 				4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */,
 				6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */,
+				EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -484,6 +502,8 @@
 				BA557BB13AC653342E830773 /* Pods-Demo_Swift.release.xcconfig */,
 				1965E55879945EEA140178F7 /* Pods-MinCloudTests.debug.xcconfig */,
 				6A02ABC8EDA69977016F7175 /* Pods-MinCloudTests.release.xcconfig */,
+				1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */,
+				C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -706,6 +726,7 @@
 				4C33A587223F4E850001C1A7 /* MinCloudTests.xctest */,
 				4CCB87582266CF9C00D65A65 /* Demo_Swift.app */,
 				4CCB876E2266CFAB00D65A65 /* Demo_OC.app */,
+				4C007F2424BC7CF000BE98F5 /* WechatTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -858,10 +879,6 @@
 				4CEF97F423A36675008C0136 /* Sina */,
 				4CEF97F323A36663008C0136 /* WX */,
 				4C722C79230A440000F79016 /* module.modulemap */,
-				4CEF97F523A36683008C0136 /* libWeiboSDK.a */,
-				4CEF97F723A36684008C0136 /* WBHttpRequest.h */,
-				4CEF97F623A36683008C0136 /* WeiboSDK.bundle */,
-				4CEF97F823A36684008C0136 /* WeiboSDK.h */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -961,10 +978,10 @@
 		4CEF97F323A36663008C0136 /* WX */ = {
 			isa = PBXGroup;
 			children = (
-				4CF1251E22FD5A4400893604 /* WechatAuthSDK.h */,
-				4CF1251F22FD5A4400893604 /* WXApi.h */,
-				4CF1251D22FD5A4400893604 /* WXApiObject.h */,
-				4CF1252322FD5A4C00893604 /* libWeChatSDK.a */,
+				4C007F1124B81C2C00BE98F5 /* libWeChatSDK.a */,
+				4C007F1224B81C2D00BE98F5 /* WechatAuthSDK.h */,
+				4C007F1024B81C2A00BE98F5 /* WXApi.h */,
+				4C007F1324B81C2D00BE98F5 /* WXApiObject.h */,
 			);
 			name = WX;
 			sourceTree = "<group>";
@@ -972,6 +989,10 @@
 		4CEF97F423A36675008C0136 /* Sina */ = {
 			isa = PBXGroup;
 			children = (
+				4CD4ACB824EE429F0080C46C /* libWeiboSDK.a */,
+				4CD4ACB724EE429E0080C46C /* WBHttpRequest.h */,
+				4CD4ACBA24EE429F0080C46C /* WeiboSDK.bundle */,
+				4CD4ACB924EE429F0080C46C /* WeiboSDK.h */,
 			);
 			name = Sina;
 			sourceTree = "<group>";
@@ -979,8 +1000,8 @@
 		4CEF97FD23A36688008C0136 /* Ali */ = {
 			isa = PBXGroup;
 			children = (
-				4CF1253722FD5CA300893604 /* AlipaySDK.framework */,
-				4CF1253622FD5CA300893604 /* AlipaySDK.bundle */,
+				4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */,
+				4C007F1824B8385800BE98F5 /* AlipaySDK.framework */,
 			);
 			name = Ali;
 			sourceTree = "<group>";
@@ -992,11 +1013,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CF1252222FD5A4500893604 /* WXApi.h in Headers */,
-				4CF1252022FD5A4500893604 /* WXApiObject.h in Headers */,
-				4CEF97FB23A36684008C0136 /* WBHttpRequest.h in Headers */,
-				4CF1252122FD5A4500893604 /* WechatAuthSDK.h in Headers */,
-				4CEF97FC23A36684008C0136 /* WeiboSDK.h in Headers */,
+				4C007F1724B81C2D00BE98F5 /* WXApiObject.h in Headers */,
+				4C007F1624B81C2D00BE98F5 /* WechatAuthSDK.h in Headers */,
+				4CD4ACBB24EE429F0080C46C /* WBHttpRequest.h in Headers */,
+				4C007F1424B81C2D00BE98F5 /* WXApi.h in Headers */,
+				4CD4ACBD24EE429F0080C46C /* WeiboSDK.h in Headers */,
 				4CF1254722FD8A5D00893604 /* MinCloud.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1004,6 +1025,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		4C007F2324BC7CF000BE98F5 /* WechatTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4C007F3524BC7CF500BE98F5 /* Build configuration list for PBXNativeTarget "WechatTest" */;
+			buildPhases = (
+				67C99705BEF47F9A3583C980 /* [CP] Check Pods Manifest.lock */,
+				4C007F2024BC7CF000BE98F5 /* Sources */,
+				4C007F2124BC7CF000BE98F5 /* Frameworks */,
+				4C007F2224BC7CF000BE98F5 /* Resources */,
+				AC2B16D569CCC71E52B29A26 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WechatTest;
+			productName = WechatTest;
+			productReference = 4C007F2424BC7CF000BE98F5 /* WechatTest.app */;
+			productType = "com.apple.product-type.application";
+		};
 		4C33A57D223F4E850001C1A7 /* MinCloud */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C33A592223F4E850001C1A7 /* Build configuration list for PBXNativeTarget "MinCloud" */;
@@ -1090,10 +1130,13 @@
 		4C33A575223F4E850001C1A7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = ifanr;
 				TargetAttributes = {
+					4C007F2324BC7CF000BE98F5 = {
+						CreatedOnToolsVersion = 11.4;
+					};
 					4C33A57D223F4E850001C1A7 = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
@@ -1128,17 +1171,25 @@
 				4C33A586223F4E850001C1A7 /* MinCloudTests */,
 				4CCB87572266CF9C00D65A65 /* Demo_Swift */,
 				4CCB876D2266CFAB00D65A65 /* Demo_OC */,
+				4C007F2324BC7CF000BE98F5 /* WechatTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4C007F2224BC7CF000BE98F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C33A57C223F4E850001C1A7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CF1253822FD5CA300893604 /* AlipaySDK.bundle in Resources */,
-				4CEF97FA23A36684008C0136 /* WeiboSDK.bundle in Resources */,
+				4C007F1B24B8385900BE98F5 /* AlipaySDK.bundle in Resources */,
+				4CD4ACBE24EE429F0080C46C /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1201,8 +1252,10 @@
 			files = (
 				4CCB87652266CF9D00D65A65 /* LaunchScreen.storyboard in Resources */,
 				4CCB87882266D52100D65A65 /* datasource.plist in Resources */,
+				4CB7333A24EF6DE10054E8AA /* AlipaySDK.bundle in Resources */,
 				4CCB87622266CF9D00D65A65 /* Assets.xcassets in Resources */,
 				4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */,
+				4CD4ACDF24EE49B10080C46C /* WeiboSDK.bundle in Resources */,
 				4C322B0C2422405200B9F40E /* MinCloud.bundle in Resources */,
 				4CCB87892266D52100D65A65 /* 1.png in Resources */,
 			);
@@ -1214,9 +1267,11 @@
 			files = (
 				4CCB877D2266CFAB00D65A65 /* LaunchScreen.storyboard in Resources */,
 				4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */,
+				4CB7333B24EF6DE20054E8AA /* AlipaySDK.bundle in Resources */,
 				4CCB877A2266CFAB00D65A65 /* Assets.xcassets in Resources */,
 				4C322B0D2422452B00B9F40E /* MinCloud.bundle in Resources */,
 				4CCB87782266CFAB00D65A65 /* Main.storyboard in Resources */,
+				4CD4ACE024EE49B20080C46C /* WeiboSDK.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1362,6 +1417,45 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		67C99705BEF47F9A3583C980 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WechatTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC2B16D569CCC71E52B29A26 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1382,6 +1476,13 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4C007F2024BC7CF000BE98F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4C33A57A223F4E850001C1A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1517,6 +1618,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4C007F3624BC7CF500BE98F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3QQR699W45;
+				INFOPLIST_FILE = WechatTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4C007F3724BC7CF500BE98F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3QQR699W45;
+				INFOPLIST_FILE = WechatTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.tangzhi;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		4C33A590223F4E850001C1A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1961,6 +2102,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4C007F3524BC7CF500BE98F5 /* Build configuration list for PBXNativeTarget "WechatTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4C007F3624BC7CF500BE98F5 /* Debug */,
+				4C007F3724BC7CF500BE98F5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4C33A578223F4E850001C1A7 /* Build configuration list for PBXProject "MinCloud" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -51,10 +51,11 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>LSAPPlicationQueriesSchemes</key>
+	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>wechat</string>
 		<string>weixin</string>
+		<string>wechat</string>
+		<string>weixinULAPI</string>
 		<string>alipay</string>
 		<string>sinaweibo</string>
 		<string>weibosdk</string>

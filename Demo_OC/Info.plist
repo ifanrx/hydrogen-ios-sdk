@@ -41,6 +41,17 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>wechat</string>
+		<string>weixinULAPI</string>
+		<string>alipay</string>
+		<string>weixin</string>
+		<string>sinaweibo</string>
+		<string>weibosdk</string>
+		<string>sinaweibohd</string>
+		<string>weibosdk2.5</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
