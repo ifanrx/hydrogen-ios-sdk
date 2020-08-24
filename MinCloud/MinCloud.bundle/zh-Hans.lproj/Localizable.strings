@@ -12,6 +12,6 @@
 "RegisterMinCloudAppId" = "请注册知晓云 clientId";
 
 // 第三方平台授权
-"AuthorizeWechatUserInfoFailed" = "微博授权失败";
-"AuthorizeWeiboUserInfoFailed" = "微信授权失败";
+"AuthorizeWechatUserInfoFailed" = "微信授权失败";
+"AuthorizeWeiboUserInfoFailed" = "微博授权失败";
 "AuthorizeAppleUserInfoFailed" = "苹果授权失败";

@@ -22,10 +22,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>weixin</string>
+			<string>weibo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx</string>
+				<string>wb12345678</string>
 			</array>
 		</dict>
 		<dict>

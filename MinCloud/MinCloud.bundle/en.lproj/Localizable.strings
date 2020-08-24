@@ -12,6 +12,6 @@
 "RegisterMinCloudAppId" = "please register mincloud clientId";
 
 // 第三方平台授权
-"AuthorizeWechatUserInfoFailed" = "weibo authorization failed";
-"AuthorizeWeiboUserInfoFailed" = "wechat authorization failed";
+"AuthorizeWechatUserInfoFailed" = "wechat authorization failed";
+"AuthorizeWeiboUserInfoFailed" = "weibo authorization failed";
 "AuthorizeAppleUserInfoFailed" = "apple authorization failed";
