@@ -126,7 +126,7 @@ open class Pay: NSObject {
     }
     
     func payWithWX(_ request: PayReq, appId: String) {
-        assert(Config.wechatAppid != nil, Localisation.Wechat.registerAppId)
+        assert(Config.wechatAppId != nil, Localisation.Wechat.registerAppId)
         
         WXApi.send(request)
     }

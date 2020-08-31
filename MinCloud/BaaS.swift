@@ -17,12 +17,12 @@ import Result
     }
     
     @objc public static func registerWechat(_ appId: String, universalLink: String) {
-        Config.wechatAppid = appId
+        Config.wechatAppId = appId
         WXApi.registerApp(appId, universalLink: universalLink)
     }
     
     @objc public static func registerWeibo(_ appId: String, redirectURI: String) {
-        Config.weiboAppid = appId
+        Config.weiboAppId = appId
         Config.redirectURI = redirectURI
         WeiboSDK.registerApp(appId)
     }

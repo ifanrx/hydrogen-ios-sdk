@@ -355,12 +355,12 @@ extension ThirdProxy: WXApiDelegate {
         if let authResp =  resp as? SendAuthResp, let code = authResp.code {
             Auth.authWithWechat(code: code)
         } else {
-            Auth.completion?(nil, HError(code: 400, description: Localisation.Wechat.authorizeFail) as NSError)
+            Auth.completion?(nil, HError(code: 500, description: Localisation.Wechat.authorizeFail) as NSError)
         }
     }
     
     func sendWechatAuthRequset() {
-        assert(Config.wechatAppid != nil, Localisation.Wechat.registerAppId)
+        assert(Config.wechatAppId != nil, Localisation.Wechat.registerAppId)
         let req = SendAuthReq()
         req.scope = "snsapi_userinfo"
         WXApi.send(req)
@@ -377,12 +377,12 @@ extension ThirdProxy: WeiboSDKDelegate {
         if let authResp = response as? WBAuthorizeResponse, let token = authResp.accessToken, let uid = authResp.userID {
             Auth.authWithWeibo(code: token, uid: uid)
         } else {
-            Auth.completion?(nil, HError(code: 400, description: Localisation.Weibo.authorizeFail) as NSError)
+            Auth.completion?(nil, HError(code: 500, description: Localisation.Weibo.authorizeFail) as NSError)
         }
     }
     
     func sendWeiboAuthRequset() {
-        assert(Config.weiboAppid != nil, Localisation.Weibo.registerAppId)
+        assert(Config.weiboAppId != nil, Localisation.Weibo.registerAppId)
         
         let req = WBAuthorizeRequest()
         req.redirectURI = Config.redirectURI
@@ -418,7 +418,7 @@ extension ThirdProxy: ASAuthorizationControllerDelegate {
             if let token = appleIDCredential.identityToken, let tokenStr = String(data: token, encoding: .utf8) {
                 Auth.authWithApple(authToken: tokenStr, nickname: nickname)
             } else {
-                Auth.completion?(nil, HError(code: 400, description: Localisation.Apple.authorizeFail) as NSError)
+                Auth.completion?(nil, HError(code: 500, description: Localisation.Apple.authorizeFail) as NSError)
             }
         }
     }
