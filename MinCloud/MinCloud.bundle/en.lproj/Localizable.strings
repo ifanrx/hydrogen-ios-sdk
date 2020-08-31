@@ -6,6 +6,12 @@
   Copyright © 2020 ifanr. All rights reserved.
 */
 
+// 注册 AppId
 "RegisterWechatAppId" = "please register wechat appId";
 "RegisterWeiboAppId" = "please register weibo appId";
 "RegisterMinCloudAppId" = "please register mincloud clientId";
+
+// 第三方平台授权
+"AuthorizeWechatUserInfoFailed" = "wechat authorization failed";
+"AuthorizeWeiboUserInfoFailed" = "weibo authorization failed";
+"AuthorizeAppleUserInfoFailed" = "apple authorization failed";

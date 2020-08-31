@@ -15,8 +15,8 @@ import AuthenticationServices
 @objc(Provider)
 public enum Provider: Int {
     case wechat
-//    case weibo
-//    case apple
+    case weibo
+    case apple
 }
 
 @objc(SyncUserProfileType)
@@ -227,10 +227,10 @@ extension Auth {
         switch provider {
         case .wechat:
             ThirdProxy.shared.sendWechatAuthRequset()
-//        case .apple:
-//            sendAppleAuthRequest()
-//        case .weibo:
-//            sendWeiboAuthRequset()
+        case .apple:
+            ThirdProxy.shared.sendAppleAuthRequest()
+        case .weibo:
+            ThirdProxy.shared.sendWeiboAuthRequset()
         }
 
         Auth.syncUserProfile = syncUserProfile
@@ -251,10 +251,10 @@ extension Auth {
         switch provider {
         case .wechat:
             ThirdProxy.shared.sendWechatAuthRequset()
-//        case .apple:
-//            sendAppleAuthRequest()
-//        case .weibo:
-//            sendWeiboAuthRequset()
+        case .apple:
+            ThirdProxy.shared.sendAppleAuthRequest()
+        case .weibo:
+            ThirdProxy.shared.sendWeiboAuthRequset()
         }
 
         Auth.syncUserProfile = syncUserProfile
@@ -274,29 +274,33 @@ extension Auth {
         
         Auth.AuthProvider.request(apiType) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                Storage.shared.userId = user?.userId
-                Storage.shared.token = user?.token
-                Storage.shared.expiresIn = user?.expiresIn
+                if case .authenticate = Auth.thirdAuthType {
+                    Storage.shared.userId = user?.userId
+                    Storage.shared.token = user?.token
+                    Storage.shared.expiresIn = user?.expiresIn
+                }
                 
                 Auth.completion?(user, error)
             })
         }
     }
     
-    fileprivate static func authWithWeibo(code: String) {
+    fileprivate static func authWithWeibo(code: String, uid: String) {
         let apiType: AuthAPI
         switch Auth.thirdAuthType! {
         case .associate:
-            apiType = .associationForWeibo(["auth_token": code])
+            apiType = .associationForWeibo(["access_token": code, "uid": uid])
         case .authenticate:
-            apiType = .weibo(["auth_token": code, "create_user": Auth.createUser ?? true])
+            apiType = .weibo(["access_token": code, "uid": uid, "create_user": Auth.createUser ?? true])
         }
         
         Auth.AuthProvider.request(apiType) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                Storage.shared.userId = user?.userId
-                Storage.shared.token = user?.token
-                Storage.shared.expiresIn = user?.expiresIn
+                if case .authenticate = Auth.thirdAuthType {
+                    Storage.shared.userId = user?.userId
+                    Storage.shared.token = user?.token
+                    Storage.shared.expiresIn = user?.expiresIn
+                }
                 
                 Auth.completion?(user, error)
             })
@@ -315,9 +319,11 @@ extension Auth {
         
         Auth.AuthProvider.request(apiType) { (result) in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
-                Storage.shared.userId = user?.userId
-                Storage.shared.token = user?.token
-                Storage.shared.expiresIn = user?.expiresIn
+                if case .authenticate = Auth.thirdAuthType {
+                    Storage.shared.userId = user?.userId
+                    Storage.shared.token = user?.token
+                    Storage.shared.expiresIn = user?.expiresIn
+                }
                 
                 Auth.completion?(user, error)
             })
@@ -348,14 +354,13 @@ extension ThirdProxy: WXApiDelegate {
     public func onResp(_ resp: BaseResp) {
         if let authResp =  resp as? SendAuthResp, let code = authResp.code {
             Auth.authWithWechat(code: code)
+        } else {
+            Auth.completion?(nil, HError(code: 500, description: Localisation.Wechat.authorizeFail) as NSError)
         }
     }
     
     func sendWechatAuthRequset() {
-        guard let appId = Config.wechatAppid else {
-            fatalError(Localisation.Wechat.registerAppId)
-        }
-        WXApi.registerApp(appId)
+        assert(Config.wechatAppId != nil, Localisation.Wechat.registerAppId)
         let req = SendAuthReq()
         req.scope = "snsapi_userinfo"
         WXApi.send(req)
@@ -369,16 +374,16 @@ extension ThirdProxy: WeiboSDKDelegate {
     
     public func didReceiveWeiboResponse(_ response: WBBaseResponse!) {
         
-        if let authResp = response as? WBAuthorizeResponse, let token = authResp.accessToken {
-            Auth.authWithWeibo(code: token)
+        if let authResp = response as? WBAuthorizeResponse, let token = authResp.accessToken, let uid = authResp.userID {
+            Auth.authWithWeibo(code: token, uid: uid)
+        } else {
+            Auth.completion?(nil, HError(code: 500, description: Localisation.Weibo.authorizeFail) as NSError)
         }
     }
     
     func sendWeiboAuthRequset() {
-        guard let appId = Config.weiboAppid else {
-            fatalError(Localisation.Weibo.registerAppId)
-        }
-        WeiboSDK.registerApp(appId)
+        assert(Config.weiboAppId != nil, Localisation.Weibo.registerAppId)
+        
         let req = WBAuthorizeRequest()
         req.redirectURI = Config.redirectURI
         req.scope = "all"
@@ -411,8 +416,9 @@ extension ThirdProxy: ASAuthorizationControllerDelegate {
             }
 
             if let token = appleIDCredential.identityToken, let tokenStr = String(data: token, encoding: .utf8) {
-                
                 Auth.authWithApple(authToken: tokenStr, nickname: nickname)
+            } else {
+                Auth.completion?(nil, HError(code: 500, description: Localisation.Apple.authorizeFail) as NSError)
             }
         }
     }

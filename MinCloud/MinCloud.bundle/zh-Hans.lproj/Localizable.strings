@@ -6,6 +6,12 @@
   Copyright © 2020 ifanr. All rights reserved.
 */
 
+// 注册 AppId
 "RegisterWechatAppId" = "请注册微信 appId";
 "RegisterWeiboAppId" = "请注册微博 appId";
 "RegisterMinCloudAppId" = "请注册知晓云 clientId";
+
+// 第三方平台授权
+"AuthorizeWechatUserInfoFailed" = "微信授权失败";
+"AuthorizeWeiboUserInfoFailed" = "微博授权失败";
+"AuthorizeAppleUserInfoFailed" = "苹果授权失败";
