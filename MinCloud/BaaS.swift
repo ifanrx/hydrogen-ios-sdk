@@ -16,14 +16,15 @@ import Result
         Config.serverURLString = serverURLString
     }
     
-    @objc public static func registerWechat(_ appId: String) {
-        Config.wechatAppid = appId
-        WXApi.registerApp(appId)
+    @objc public static func registerWechat(_ appId: String, universalLink: String) {
+        Config.wechatAppId = appId
+        WXApi.registerApp(appId, universalLink: universalLink)
     }
     
     @objc public static func registerWeibo(_ appId: String, redirectURI: String) {
-        Config.weiboAppid = appId
+        Config.weiboAppId = appId
         Config.redirectURI = redirectURI
+        WeiboSDK.registerApp(appId)
     }
 
     @objc public static var isDebug: Bool = false
@@ -136,5 +137,12 @@ extension BaaS {
             return WeiboSDK.handleOpen(url, delegate: ThirdProxy.shared)
         }
         return true
+    }
+    
+    /// 适配了 SceneDelegate 的 App，
+    /// 系统将会回调 SceneDelegate 的 continueUserActivity 方法，
+    /// 所以需要重写 SceneDelegate 的该方法，并在 continueUserActivity 内调用 handleOpenUniversalLink 方法。
+    @objc public static func handleOpenUniversalLink(userActivity: NSUserActivity) -> Bool {
+        return WXApi.handleOpenUniversalLink(userActivity, delegate: ThirdProxy.shared)
     }
 }

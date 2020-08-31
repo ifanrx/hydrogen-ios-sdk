@@ -126,7 +126,8 @@ open class Pay: NSObject {
     }
     
     func payWithWX(_ request: PayReq, appId: String) {
-        WXApi.registerApp(appId)
+        assert(Config.wechatAppId != nil, Localisation.Wechat.registerAppId)
+        
         WXApi.send(request)
     }
     
@@ -147,7 +148,10 @@ extension Pay {
             parameters["merchandise_record_id"] = merchandiseRecordID
         }
         if let merchandiseSnapshot = merchandiseSnapshot {
-            parameters["merchandise_snapshot"] = merchandiseSnapshot
+            var merchandiseSnapshotStr = merchandiseSnapshot.toJsonString
+            merchandiseSnapshotStr = merchandiseSnapshotStr.trimmingCharacters(in: NSCharacterSet.whitespaces)
+            merchandiseSnapshotStr = merchandiseSnapshotStr.trimmingCharacters(in: NSCharacterSet.newlines)
+            parameters["merchandise_snapshot"] = merchandiseSnapshotStr
         }
 
         let request = Pay.PayProvider.request(.pay(parameters: parameters)) { result in

@@ -18,7 +18,7 @@ open class Content: NSObject, Mappable {
     @objc public internal(set) var groupId: String?
     @objc public internal(set) var categories: [String]?
     @objc public internal(set) var readCount: Int = 0
-    var contentInfo: [String: Any] = [:]
+    @objc public internal(set) var contentInfo: [String: Any] = [:]
 
     /**
      *  创建者的 ID
