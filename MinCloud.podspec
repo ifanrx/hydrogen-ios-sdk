@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-  s.version          = '1.2.0'
+  s.version          = '1.2.1'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '10.0'
   s.subspec 'Core' do |core|
     core.source_files = 'MinCloud/*.{swift}'
-    core.dependency 'Moya'
+    core.dependency 'Moya', '~> 13.0'
     core.resource = 'MinCloud/MinCloud.bundle'
   end
 
