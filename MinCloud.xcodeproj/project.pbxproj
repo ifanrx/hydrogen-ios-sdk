@@ -164,7 +164,6 @@
 		84EDE73CA89609A94E857203 /* Pods_MinCloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */; };
 		A6DF9F9EEC34554F7FB94E8F /* Pods_MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */; };
 		C182A8345EB1B75F62ABA681 /* Pods_Demo_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */; };
-		C4F2227BA3589D9C184BBE7A /* Pods_WechatTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */; };
 		FF9E40B3EA795597D8F79126 /* Pods_Demo_OC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */; };
 /* End PBXBuildFile section */
 
@@ -204,7 +203,6 @@
 /* Begin PBXFileReference section */
 		1965E55879945EEA140178F7 /* Pods-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1D22E5C4AB5E39CB3D550850 /* Pods-MinCloud-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
-		1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WechatTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WechatTest/Pods-WechatTest.debug.xcconfig"; sourceTree = "<group>"; };
 		25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C007F1024B81C2A00BE98F5 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -376,12 +374,10 @@
 		A66158A59ACAFA9E2774F238 /* Pods-Demo_OC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_OC.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_OC/Pods-Demo_OC.release.xcconfig"; sourceTree = "<group>"; };
 		B32BE11E5B58A524B35322F2 /* Pods-MinCloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.debug.xcconfig"; sourceTree = "<group>"; };
 		BA557BB13AC653342E830773 /* Pods-Demo_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift.release.xcconfig"; sourceTree = "<group>"; };
-		C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WechatTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-WechatTest/Pods-WechatTest.release.xcconfig"; sourceTree = "<group>"; };
 		CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_OC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4C3DC340F9068D9A4624DE /* Pods-Demo_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		E307ED5482940DF57D58CD16 /* Pods-Demo_OC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_OC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_OC/Pods-Demo_OC.debug.xcconfig"; sourceTree = "<group>"; };
 		E82CE092A9C01A2B0AEB622F /* Pods-MinCloud-MinCloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.release.xcconfig"; sourceTree = "<group>"; };
-		EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WechatTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8370F74399CA6938D5BD3D2 /* Pods-MinCloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -390,7 +386,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F2227BA3589D9C184BBE7A /* Pods_WechatTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,7 +479,6 @@
 				CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */,
 				4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */,
 				6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */,
-				EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -502,8 +496,6 @@
 				BA557BB13AC653342E830773 /* Pods-Demo_Swift.release.xcconfig */,
 				1965E55879945EEA140178F7 /* Pods-MinCloudTests.debug.xcconfig */,
 				6A02ABC8EDA69977016F7175 /* Pods-MinCloudTests.release.xcconfig */,
-				1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */,
-				C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1029,11 +1021,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C007F3524BC7CF500BE98F5 /* Build configuration list for PBXNativeTarget "WechatTest" */;
 			buildPhases = (
-				67C99705BEF47F9A3583C980 /* [CP] Check Pods Manifest.lock */,
 				4C007F2024BC7CF000BE98F5 /* Sources */,
 				4C007F2124BC7CF000BE98F5 /* Frameworks */,
 				4C007F2224BC7CF000BE98F5 /* Resources */,
-				AC2B16D569CCC71E52B29A26 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1417,45 +1407,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		67C99705BEF47F9A3583C980 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WechatTest-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC2B16D569CCC71E52B29A26 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1620,7 +1571,6 @@
 /* Begin XCBuildConfiguration section */
 		4C007F3624BC7CF500BE98F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -1640,7 +1590,6 @@
 		};
 		4C007F3724BC7CF500BE98F5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

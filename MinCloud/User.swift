@@ -127,6 +127,7 @@ open class User: BaseRecord {
         self.emailVerified = dict.getBool("_email_verified")
         self.provider = dict.getDict("_provider") as? [String: Any]
         self.isAnonymous = dict.getBool("_anonymous")
+        self.phone = dict.getString("_phone")
         self.userInfo = dict
         super.init(dict: dict)
     }
