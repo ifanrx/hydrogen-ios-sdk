@@ -15,8 +15,9 @@ Pod::Spec.new do |s|
  
   s.ios.deployment_target = '10.0'
   s.subspec 'Core' do |core|
-    core.source_files = 'MinCloud/*.{swift}'
+    core.source_files = 'MinCloud/*.{swift}', 'MinCloud/Swamp/*.{swift}'
     core.dependency 'Moya', '~> 13.0'
+    core.dependency 'Starscream'
     core.resource = 'MinCloud/MinCloud.bundle'
   end
 
