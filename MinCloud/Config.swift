@@ -45,6 +45,29 @@ struct Config {
         
         return serverURLString ?? "https://\(clientID!).myminapp.com"
     }
+    
+    struct Wamp {
+        static var wsURLString: String {
+            guard let clientID = clientID else {
+                fatalError(Localisation.Common.registerClientId)
+            }
+            
+            guard let token = Storage.shared.token else {
+                fatalError("please login.")
+            }
+            var urlString = "wss://api.ws.myminapp.com/ws/hydrogen/?x-hydrogen-client-id=\(clientID)&authorization=Hydrogen-r1 \(token)"
+            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            return  urlString
+        }
+        
+        // wamp's realm
+        static let realm: String = "com.ifanrcloud"
+        
+        static func topic(for table: String, event: SubscriptionEvent) -> String {
+            return "com.ifanrcloud.schema_event.\(table).\(event.eventValue)"
+        }
+     }
+    
 
     static var HTTPHeaders: [String: String] {
         guard clientID != nil else { fatalError(Localisation.Common.registerClientId) }

@@ -40,6 +40,26 @@ public enum GateWayType: Int {
     
 }
 
+// MARK: - Wamp
+@objc(BaaSSubscriptionEvent)
+public enum SubscriptionEvent: Int {
+    case onCreate = 0
+    case onUpdate = 1
+    case onDelete = 2
+    
+    internal var eventValue: String {
+        switch self {
+        case .onCreate:
+            return "on_create"
+        case .onUpdate:
+            return "on_update"
+        case .onDelete:
+            return "on_delete"
+        }
+    }
+}
+
+// MARK: - 通用回调函数
 public typealias BOOLResultCompletion = (_ success: Bool, _ error: NSError?) -> Void
 public typealias COUNTResultCompletion = (_ count: Int?, _ error: NSError?) -> Void
 public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: NSError?) -> Void
@@ -50,17 +70,20 @@ public typealias UserListResultCompletion = (_ listResult: UserList?, _ error: N
 public typealias RecordResultCompletion = (_ record: Record?, _ error: NSError?) -> Void
 public typealias RecordListResultCompletion = (_ records: RecordList?, _ error: NSError?) -> Void
 
+// MARK: - 文件回调函数
 public typealias FileResultCompletion = (_ file: File?, _ error: NSError?) -> Void
 public typealias FileListResultCompletion = (_ listResult: FileList?, _ error: NSError?) -> Void
 public typealias FileCategoryResultCompletion = (_ file: FileCategory?, _ error: NSError?) -> Void
 public typealias FileCategoryListResultCompletion = (_ listResult: FileCategoryList?, _ error: NSError?) -> Void
 
+public typealias ProgressBlock = (_ progress: Progress?) -> Void
+
+// MARK: - 内容库回调函数
 public typealias ContentResultCompletion = (_ content: Content?, _ error: NSError?) -> Void
 public typealias ContentListResultCompletion = (_ listResult: ContentList?, _ error: NSError?) -> Void
 public typealias ContentCategoryResultCompletion = (_ file: ContentCategory?, _ error: NSError?) -> Void
 public typealias ContentCategoryListResultCompletion = (_ listResult: ContentCategoryList?, _ error: NSError?) -> Void
 
+// MARK: - 订单回调函数
 public typealias OrderCompletion = (_ order: Order?, _ error: NSError?) -> Void
 public typealias OrderListCompletion = (_ listResult: OrderList?, _ error: NSError?) -> Void
-
-public typealias ProgressBlock = (_ progress: Progress?) -> Void

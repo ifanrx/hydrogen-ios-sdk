@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        BaaS.register(clientID: "fdc4feb5403a98****") // 线上环境
+        BaaS.register(clientID: "a4d2d62965ddb57fa4d6") // 线上环境
         BaaS.registerWechat("wx4b3c1aff4c5****", universalLink: "https://xxxxx")
 //        BaaS.register(clientID: "995140f59511a222*****") // qa测试环境
 //        BaaS.register(clientID: "a4d2d62965ddb57****")  // 线上环境-支付
