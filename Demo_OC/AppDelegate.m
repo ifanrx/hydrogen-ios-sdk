@@ -19,7 +19,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [BaaS registerWithClientID:@"a4d2d62965ddb57****" serverURLString:nil];
-    [BaaS registerWechat:@"wx0479d25aff****"];
+//    [BaaS registerWechat:@"wx0479d25aff****"];
 //    [BaaS registerWithClientID:@"995140f59511a****"];
 //    [BaaS registerWithClientID:@"a4d2d62965ddb*****" serverURLString:nil];
     BaaS.isDebug = YES;

@@ -174,7 +174,7 @@ public class Table: NSObject {
     ///   - onInit: 事件订阅成功回调函数
     ///   - onError: 事件订阅失败回调函数
     ///   - onEvent: 事件触发回调函数
-    public func subscribe(_ event: SubscriptionEvent,
+    @objc public func subscribe(_ event: SubscriptionEvent,
                           where: Where? = nil,
                           callbackQueue: DispatchQueue? = nil,
                           onInit: @escaping SubscribeCallback,

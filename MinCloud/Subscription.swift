@@ -12,7 +12,7 @@ import Foundation
 /// 表示一个订阅事件
 /// 通过调用 unsubscribe 可以取消订阅该事件
 @objc(BaaSSubscription)
-open class Subscription: NSObject {
+public class Subscription: NSObject {
     internal let key: Int32
     internal var subscription: WampSubscription
     internal let topic: String
@@ -22,7 +22,7 @@ open class Subscription: NSObject {
     internal let onError: ErrorSubscribeCallback
     internal let onEvent: EventCallback
     
-    internal init(key: Int32,
+    init(key: Int32,
          subscription: WampSubscription,
          topic: String,
          options: [String: Any],
@@ -47,7 +47,7 @@ open class Subscription: NSObject {
     ///   - callbackQueue： 指定回调函数运行的队列。默认为当前队列
     ///   - onSuccess: 取消订阅成功回调
     ///   - onError:   取消订阅失败回调
-    open func unsubscribe(callbackQueue: DispatchQueue? = nil,
+    @objc public func unsubscribe(callbackQueue: DispatchQueue? = nil,
                           onSuccess: @escaping UnsubscribeCallback,
                           onError: @escaping ErrorUnsubscribeCallback) {
 

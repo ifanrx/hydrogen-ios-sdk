@@ -438,6 +438,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 11:
                 let danmuTable = Table(name: "danmu")
+                let queue = DispatchQueue(label: "com.ifanr.mincloud")
                 danmuTable.subscribe(.onUpdate, where: Where.compare("desc", operator: .equalTo, value: "更新")) { [weak self] (subscription) in
                     self?.subscription = subscription
                 } onError: { error in
