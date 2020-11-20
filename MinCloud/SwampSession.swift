@@ -12,13 +12,25 @@ enum AppState {
     case foreground
 }
 
-protocol SwampSessionDelegate {
+// 连接状态
+internal enum SessionState {
+    case connected      // 已连接
+    case disconnected  // 未连接
+    case connecting    // 连接中
+}
+
+internal protocol SwampSessionDelegate {
     func swampSessionHandleChallenge(_ authMethod: String, extra: [String: Any]) -> String
     func swampSessionConnected(_ session: SwampSession, sessionId: Int)
     func swampSessionFailed(_ reason: String)
 }
 
-final class SwampSession: SwampTransportDelegate {
+/// SwampSession
+/// 实现 wamp 协议以及心跳重连机制
+/// 1. wamp 协议：connect() -> 收到connected，发送 hello -> 收到 welcome 建立连接
+/// 2. 服务器 20 秒发送一次 ping，客户端立即回复 pong。服务器 30 秒收不到 pong，断开连接；客户端 30 秒收不到 ping，断开连接并发起重连。
+/// 3. app 进入后台/网络断开，主动断开连接；app 进入前台/恢复网络发起重连。
+final internal class SwampSession: SwampTransportDelegate {
     // MARK: delegate
     var delegate: SwampSessionDelegate?
 
@@ -169,10 +181,6 @@ extension SwampSession {
 
 // MARK: - 连接/心跳
 extension SwampSession {
-    
-    func disconnect(_ reason: String = GOODGYE) {
-        self.sendMessage(GoodbyeSwampMessage(details: [:], reason: reason))
-    }
 
     // MARK: SwampTransportDelegate
     func swampTransportConnectFailed(_ error: NSError?, reason: String?) {
@@ -215,28 +223,30 @@ extension SwampSession {
     
     // 尝试连接
     func tryConnecting() {
-        guard self.sessionState != .connecting else {
-            return
-        }
+        serialQueue.async {
+            guard self.sessionState != .connecting else {
+                return
+            }
 
-        self.sessionState = .connecting
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(connectingDelayInterval)) {
-            self.transport.connect()
+            self.sessionState = .connecting
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(self.connectingDelayInterval)) {
+                self.transport.connect()
+            }
+            
+            self.connectingDelayInterval = (self.connectingDelayInterval < 300) ? (15 + self.connectingDelayInterval) : 300
         }
-        
-        connectingDelayInterval = (connectingDelayInterval < 300) ? (15 + connectingDelayInterval) : 300
     }
     
     // 取消连接
-    private func tryDisconnecting(reason: String) {
-        self.disconnect(reason)
+    func tryDisconnecting(reason: String = GOODGYE) {
+        self.sendMessage(GoodbyeSwampMessage(details: [:], reason: reason))
         self.sessionState = .disconnected
         self.heartBeat?.invalidate()
         self.heartBeat = nil
     }
     
     private func resetConnectingDelayInterval() {
-        connectingDelayInterval = 1
+        self.connectingDelayInterval = 1
     }
 }
 
@@ -335,13 +345,8 @@ extension SwampSession {
         switch message {
         // MARK: Auth responses
         case _ as ChallengeSwampMessage:
-            // 没有这种认证方式
+            // 没有使用这种认证方式
             break
-//            if let authResponse = self.delegate?.swampSessionHandleChallenge(message.authMethod, extra: message.extra) {
-//                self.sendMessage(AuthenticateSwampMessage(signature: authResponse, extra: [:]))
-//            } else {
-//                print("There was no delegate, aborting.")
-//            }
         
         // MARK: Session responses
         case let message as WelcomeSwampMessage:
@@ -461,13 +466,12 @@ extension SwampSession {
     }
 
     private func generateRequestId() -> Int {
-        requestIdLock.lock()
+        self.requestIdLock.lock()
         defer {
-            requestIdLock.unlock()
+            self.requestIdLock.unlock()
         }
-        var currRequestId = self.currRequestId
-        currRequestId += 1
-        self.currRequestId = currRequestId
-        return currRequestId
+        self.currRequestId += 1
+       
+        return self.currRequestId
     }
 }

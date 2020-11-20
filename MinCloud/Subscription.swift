@@ -17,7 +17,6 @@ public class Subscription: NSObject {
     internal var subscription: SwampSubscription
     internal let topic: String
     internal let options: [String: Any]
-    internal let callbackQueue: DispatchQueue?
     internal let onInit: SubscribeCallback
     internal let onError: ErrorSubscribeCallback
     internal let onEvent: EventCallback
@@ -26,7 +25,6 @@ public class Subscription: NSObject {
          subscription: SwampSubscription,
          topic: String,
          options: [String: Any],
-         callbackQueue: DispatchQueue?,
          onInit: @escaping SubscribeCallback,
          onError: @escaping ErrorSubscribeCallback,
          onEvent: @escaping EventCallback) {
@@ -38,43 +36,27 @@ public class Subscription: NSObject {
         self.onInit = onInit
         self.onError = onError
         self.onEvent = onEvent
-        self.callbackQueue = callbackQueue
     }
     
     
     /// 取消当前订阅
     /// - Parameters:
-    ///   - callbackQueue： 指定回调函数运行的队列。默认为当前队列
     ///   - onSuccess: 取消订阅成功回调
     ///   - onError:   取消订阅失败回调
-    @objc public func unsubscribe(callbackQueue: DispatchQueue? = nil,
-                          onSuccess: @escaping UnsubscribeCallback,
+    @objc public func unsubscribe(onSuccess: @escaping UnsubscribeCallback,
                           onError: @escaping ErrorUnsubscribeCallback) {
 
         self.subscription.cancel { [weak self] in
             guard let self = self else { return }
             SubscriptionManager.shared.delete(self)
 
-            self.execteCallback(callbackQueue, callback: {
-                onSuccess()
-            })
+            onSuccess()
             
-        } onError: { (result, message) in
+        } onError: { (_, message) in
             let error = HError(reason: message)
             printErrorInfo(error)
-            self.execteCallback(callbackQueue, callback: {
-                onError(error as NSError)
-            })
+            onError(error as NSError)
         }
     }
     
-    private func execteCallback(_ callbackQueue: DispatchQueue?, callback: @escaping () -> Void) {
-        if let callbackQueue = callbackQueue {
-            callbackQueue.async {
-                callback()
-            }
-        } else {
-            callback()
-        }
-    }
 }

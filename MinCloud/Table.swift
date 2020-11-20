@@ -15,8 +15,6 @@ public class Table: NSObject {
     public internal(set) var Id: String?
     public internal(set) var name: String?
     var identifier: String
-
-    let serialQueue = DispatchQueue(label: ".mincloucd.table.serialQueue")
     
     static var TableProvider = MoyaProvider<TableAPI>(plugins: logPlugin)
     
@@ -167,16 +165,15 @@ public class Table: NSObject {
     
     
     /// 订阅事件
+    ///
     /// - Parameters:
     ///   - event: 事件类型
     ///   - where: 订阅条件，满足条件的事件将被订阅。默认为 nil，表示该事件所有情况都会触发
-    ///   - callbackQueue: 指定回调函数运行的队列。默认为当前队列
     ///   - onInit: 事件订阅成功回调函数
     ///   - onError: 事件订阅失败回调函数
     ///   - onEvent: 事件触发回调函数
     @objc public func subscribe(_ event: SubscriptionEvent,
                           where: Where? = nil,
-                          callbackQueue: DispatchQueue? = nil,
                           onInit: @escaping SubscribeCallback,
                           onError: @escaping ErrorSubscribeCallback,
                           onEvent: @escaping EventCallback) {
@@ -190,6 +187,6 @@ public class Table: NSObject {
 
         let topic = Config.Wamp.topic(for: identifier, event: event)
         let whereArgs = ["where": `where`?.conditon ?? [:]]
-        WampSessionManager.shared.subscribe(topic, options: whereArgs, callbackQueue: callbackQueue, onInit: onInit, onError: onError, onEvent: onEvent)
+        WampSessionManager.shared.subscribe(topic, options: whereArgs, onInit: onInit, onError: onError, onEvent: onEvent)
     }
 }

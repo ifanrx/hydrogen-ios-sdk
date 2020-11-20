@@ -420,7 +420,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 break
             case 9:
                 let danmuTable = Table(name: "danmu")
-                danmuTable.subscribe(.onCreate) { [weak self] (subscription) in
+                danmuTable.subscribe(.onCreate, where: Where.compare("notExists", operator: .greaterThan, value: 10)) { [weak self] (subscription) in
                     self?.subscription = subscription
                 } onError: { error in
                     print("error: \(error?.localizedDescription ?? "")")
@@ -428,7 +428,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     print("result: \(result ?? [:])")
                 }
             case 10:
-                let danmuTable = Table(name: "danm")
+                let danmuTable = Table(name: "danmu")
                 danmuTable.subscribe(.onDelete) { [weak self] (subscription) in
                     self?.subscription = subscription
                 } onError: { error in
@@ -438,8 +438,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 11:
                 let danmuTable = Table(name: "danmu")
-                let queue = DispatchQueue(label: "com.ifanr.mincloud")
-                danmuTable.subscribe(.onUpdate, where: Where.compare("desc", operator: .equalTo, value: "更新")) { [weak self] (subscription) in
+                danmuTable.subscribe(.onUpdate, where: Where.compare("notExists", operator: .greaterThan, value: 10)) { [weak self] (subscription) in
                     self?.subscription = subscription
                 } onError: { error in
                     print("error: \(error?.localizedDescription ?? "")")

@@ -8,22 +8,22 @@
 
 import Foundation
 
-// 连接状态
-public enum SessionState {
-    case connected      // 已连接
-    case disconnected  // 未连接
-    case connecting    // 连接中
-}
-
+/// 对 wamp session 的封装和管理
+/// 对外接口为 subscribe(_:options:onInit:onError:onEvent:)
+/// 主要流程：
+/// 1. 发起订阅：如果未建立，先建立连接，连接成功后再发起订阅；如果已连接，直接发起订阅
+/// 2. 订阅成功后，将订阅保存起来，并回调 onInit
+/// 3. 连接发生错误，向所有已保存的订阅回调 onError 连接错误
+/// 4. 事件发生时，回调 onEvent
+/// 5. 当连接意外断开时（app 进入后台，网络无连接），当 app 恢复正常时，SwampSession 会自动重连，
+///    重连成功后（swampSessionConnected），会重新订阅之前的事件。
 internal class WampSessionManager {
     
     typealias SubscriptionKey = Int32
     
     static let shared = WampSessionManager()
     private let session: SwampSession
-    
-    // 读写 sessionState/subscribingCallbacks 可能在不同线程，需加锁
-    
+        
     // 等待建立连接的订阅回调
     typealias SubscribingCallback = () -> Void
     private var subscribingCallbacks = [SubscribingCallback]()
@@ -35,30 +35,29 @@ internal class WampSessionManager {
         self.session.delegate = self
     }
     
-    func connect() {
+    private func connect() {
         session.tryConnecting()
     }
     
-    func disconnect() {
-        session.disconnect()
+    private func disconnect() {
+        session.tryDisconnecting()
     }
     
     func subscribe(_ topic: String,
-                   options: [String: Any]=[:],
-                   callbackQueue: DispatchQueue? = nil,
+                   options: [String: Any] = [:],
                    onInit: @escaping SubscribeCallback,
                    onError: @escaping ErrorSubscribeCallback,
                    onEvent: @escaping EventCallback) {
         
         serialQueue.async {
             self.waitingForConnection { [weak self] in
-                self?.subscribing(topic, options: options, callbackQueue: callbackQueue, subscriptionKey: nil, onInit: onInit, onError: onError, onEvent: onEvent)
+                self?.subscribing(topic, options: options, subscriptionKey: nil, onInit: onInit, onError: onError, onEvent: onEvent)
             }
         }
     }
     
     // 等待 wamp 建立连接
-    fileprivate func waitingForConnection(_ callback: @escaping (() -> Void)) {
+    private func waitingForConnection(_ callback: @escaping (() -> Void)) {
         // 若未连接，先建立连接
         switch session.sessionState {
         case .disconnected:
@@ -77,47 +76,29 @@ internal class WampSessionManager {
         }
     }
     
-    fileprivate func subscribing(_ topic: String,
-                               options: [String: Any]=[:],
-                               callbackQueue: DispatchQueue? = nil,
+    private func subscribing(_ topic: String,
+                               options: [String: Any] = [:],
                                subscriptionKey: SubscriptionKey?,
                                onInit: @escaping SubscribeCallback,
                                onError: @escaping ErrorSubscribeCallback,
                                onEvent: @escaping EventCallback) {
         
-        session.subscribe(topic, options: options) { [weak self] (subscription) in
+        session.subscribe(topic, options: options) { (subscription) in
             // 保存订阅
             let key = subscriptionKey ?? SubscriptionManager.shared.generateKey()
-            let mcSubscription = Subscription(key: key, subscription: subscription, topic: topic, options: options, callbackQueue: callbackQueue, onInit: onInit, onError: onError, onEvent: onEvent)
+            let mcSubscription = Subscription(key: key, subscription: subscription, topic: topic, options: options, onInit: onInit, onError: onError, onEvent: onEvent)
             SubscriptionManager.shared.save(mcSubscription)
             
-            self?.execteCallback(callbackQueue, callback: {
-                onInit(mcSubscription)
-            })
-        } onError: { [weak self] (result, message) in
+            onInit(mcSubscription)
+        } onError: { (_, message) in
             
-            self?.execteCallback(callbackQueue, callback: {
-        
-                let error = HError(reason: message)
-                printErrorInfo(error)
-                onError(error as NSError)
-            })
+            let error = HError(reason: message)
+            printErrorInfo(error)
+            onError(error as NSError)
             
-        } onEvent: { [weak self] (result1, result2, result) in
+        } onEvent: { (_, _, result) in
             
-            self?.execteCallback(callbackQueue, callback: {
-                onEvent(result)
-            })
-        }
-    }
-    
-    private func execteCallback(_ callbackQueue: DispatchQueue?, callback: @escaping () -> Void) {
-        if let callbackQueue = callbackQueue {
-            callbackQueue.async {
-                callback()
-            }
-        } else {
-            callback()
+            onEvent(result)
         }
     }
 }
@@ -137,7 +118,7 @@ extension WampSessionManager: SwampSessionDelegate {
         // 之前已成功的订阅，连接成功（意外断开连接），重新订阅
         let subscriptions = SubscriptionManager.shared.subscriptions
         for (key, subscription) in subscriptions {
-            subscribing(subscription.topic, options: subscription.options, callbackQueue: subscription.callbackQueue, subscriptionKey: key, onInit: subscription.onInit, onError: subscription.onError, onEvent: subscription.onEvent)
+            subscribing(subscription.topic, options: subscription.options, subscriptionKey: key, onInit: subscription.onInit, onError: subscription.onError, onEvent: subscription.onEvent)
         }
     }
     

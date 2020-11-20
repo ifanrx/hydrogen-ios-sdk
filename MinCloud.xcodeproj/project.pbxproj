@@ -1017,7 +1017,6 @@
 				4CCB0662255BCCF3005FFCAF /* SwampMessages.swift */,
 				4CCB066C255BCCF4005FFCAF /* SwampRole.swift */,
 				4CCB0664255BCCF3005FFCAF /* SwampSerializer.swift */,
-				4CCB0658255BCCF1005FFCAF /* SwampSession.swift */,
 				4CCB065C255BCCF2005FFCAF /* SwampTransport.swift */,
 				4CCB0669255BCCF4005FFCAF /* UnregisteredSwampMessage.swift */,
 				4CCB0657255BCCF1005FFCAF /* UnregisterSwampMessage.swift */,
@@ -1070,6 +1069,7 @@
 			children = (
 				4CCB064B255BCCD4005FFCAF /* Swamp */,
 				4CCCFD53255A6B570045E56B /* WampSessionManager.swift */,
+				4CCB0658255BCCF1005FFCAF /* SwampSession.swift */,
 				4CCCFD5B255A7AD20045E56B /* SubscriptionManager.swift */,
 				4CCB0691255BCFCC005FFCAF /* Subscription.swift */,
 			);

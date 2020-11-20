@@ -37,6 +37,7 @@ internal class SubscriptionManager {
     }
     
     func generateKey() -> Int32 {
+        
         return OSAtomicIncrement32(&_key)
     }
 }
