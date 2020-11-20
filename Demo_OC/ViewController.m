@@ -394,7 +394,7 @@
                     BaaSSubscription *subscription = nil;
                     BaaSTable *table = [[BaaSTable alloc] initWithName:@"danmu"];
                     BaaSWhere *where = [BaaSWhere compare:@"type" operator:BaaSOperatorEqualTo value:@"user"];
-                    [table subscribe:BaaSSubscriptionEventOnCreate where:where callbackQueue:nil onInit:^(BaaSSubscription * _Nonnull subscription) {
+                    [table subscribe:BaaSSubscriptionEventOnCreate where:where onInit:^(BaaSSubscription * _Nonnull subscription) {
                         NSLog(@"订阅成功");
                     } onError:^(NSError * _Nullable error) {
                         NSLog(@"订阅错误：%@", error.localizedDescription);
@@ -406,9 +406,8 @@
                 case 9:
                 {
                     BaaSSubscription *subscription = nil;
-                    dispatch_queue_t queues = dispatch_queue_create("com.ifanr.mincloud", DISPATCH_QUEUE_SERIAL);
 
-                    [subscription unsubscribeWithCallbackQueue:queues onSuccess:^{
+                    [subscription unsubscribeOnSuccess:^{
                         NSLog(@"取消订阅成功");
                     } onError:^(NSError * _Nullable error) {
                         NSLog(@"取消订阅错误：%@", error.localizedDescription);

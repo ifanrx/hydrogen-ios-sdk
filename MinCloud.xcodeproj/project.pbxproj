@@ -1913,7 +1913,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1943,7 +1943,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 2.0.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1977,7 +1977,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2009,7 +2009,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 2.0.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2117,7 +2117,7 @@
 					"-framework",
 					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -2167,7 +2167,7 @@
 					"-framework",
 					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
