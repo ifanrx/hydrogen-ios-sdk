@@ -186,7 +186,8 @@ public class Table: NSObject {
         }
 
         let topic = Config.Wamp.topic(for: identifier, event: event)
-        let whereArgs = ["where": `where`?.conditon ?? [:]]
+        let _where = (`where` == nil) ? nil : Where.and([`where`!])
+        let whereArgs = ["where": _where?.conditon ?? [:]]
         WampSessionManager.shared.subscribe(topic, options: whereArgs, onInit: onInit, onError: onError, onEvent: onEvent)
     }
 }

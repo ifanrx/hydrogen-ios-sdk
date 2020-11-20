@@ -82,6 +82,9 @@ struct HError: CustomNSError {
         case "wamp.error.connection_timeout":
             code = 601
             description = "request timeout"
+        case "wamp.error.invalid_options":
+            code = 400
+            description = "invalid options"
         default:
             code = 520
         }

@@ -438,7 +438,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 11:
                 let danmuTable = Table(name: "danmu")
-                danmuTable.subscribe(.onUpdate, where: Where.compare("notExists", operator: .greaterThan, value: 10)) { [weak self] (subscription) in
+                danmuTable.subscribe(.onUpdate, where: Where.compare("count", operator: .greaterThan, value: 10)) { [weak self] (subscription) in
                     self?.subscription = subscription
                 } onError: { error in
                     print("error: \(error?.localizedDescription ?? "")")
