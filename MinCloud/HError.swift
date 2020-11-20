@@ -54,9 +54,9 @@ struct HError: CustomNSError {
     init(reason: String) {
         switch reason {
         case "wamp.close.session_destory":
-            code = 402
-        case "wamp.close.disable_connection":
             code = 401
+        case "wamp.close.disable_connection":
+            code = 402
         case "wamp.close.server_erro":
             code = 500
         case "wamp.error.not_authorized":
