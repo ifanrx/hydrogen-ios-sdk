@@ -428,7 +428,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     print("result: \(result ?? [:])")
                 }
             case 10:
-                let danmuTable = Table(name: "danmu")
+                let danmuTable = Table(name: "danm")
                 danmuTable.subscribe(.onDelete) { [weak self] (subscription) in
                     self?.subscription = subscription
                 } onError: { error in

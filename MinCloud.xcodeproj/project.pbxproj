@@ -13,6 +13,8 @@
 		4C007F1724B81C2D00BE98F5 /* WXApiObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C007F1324B81C2D00BE98F5 /* WXApiObject.h */; };
 		4C007F1A24B8385900BE98F5 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C007F1824B8385800BE98F5 /* AlipaySDK.framework */; };
 		4C007F1B24B8385900BE98F5 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */; };
+		4C05B3AC2566244B006E0EB6 /* SwampSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C05B3AB2566244B006E0EB6 /* SwampSubscription.swift */; };
+		4C05B3B125662493006E0EB6 /* SwampContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C05B3B025662493006E0EB6 /* SwampContants.swift */; };
 		4C15F12522A51CC300904B9A /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C3028E1233DEDF5005F1CCF /* DictionaryCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */; };
 		4C322AF22420E6D000B9F40E /* Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C322AF12420E6D000B9F40E /* Localisation.swift */; };
@@ -249,6 +251,8 @@
 		4C007F1824B8385800BE98F5 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		4C007F2424BC7CF000BE98F5 /* WechatTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WechatTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C05B3AB2566244B006E0EB6 /* SwampSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwampSubscription.swift; sourceTree = "<group>"; };
+		4C05B3B025662493006E0EB6 /* SwampContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwampContants.swift; sourceTree = "<group>"; };
 		4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCase.swift; sourceTree = "<group>"; };
 		4C322AE92420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		4C322AEA2420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -1022,6 +1026,8 @@
 				4CCB0661255BCCF3005FFCAF /* WebSocketSwampTransport.swift */,
 				4CCB0654255BCCF0005FFCAF /* WelcomeSwampMessage.swift */,
 				4CCB064D255BCCEF005FFCAF /* YieldSwampMessage.swift */,
+				4C05B3AB2566244B006E0EB6 /* SwampSubscription.swift */,
+				4C05B3B025662493006E0EB6 /* SwampContants.swift */,
 			);
 			path = Swamp;
 			sourceTree = "<group>";
@@ -1606,11 +1612,13 @@
 				4CCB0683255BCCF4005FFCAF /* SwampMessages.swift in Sources */,
 				4C33A5FB224130950001C1A7 /* Table.swift in Sources */,
 				4CED591622967CEF00949503 /* Order.swift in Sources */,
+				4C05B3AC2566244B006E0EB6 /* SwampSubscription.swift in Sources */,
 				4CCB0675255BCCF4005FFCAF /* WelcomeSwampMessage.swift in Sources */,
 				4C33A5F82240EFE70001C1A7 /* CurrentUser.swift in Sources */,
 				4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */,
 				4CEFC084225CEC1000C9238C /* Storage.swift in Sources */,
 				4CCB0689255BCCF4005FFCAF /* UnsubscribeSwampMessage.swift in Sources */,
+				4C05B3B125662493006E0EB6 /* SwampContants.swift in Sources */,
 				4C33A5E4223FA9BE0001C1A7 /* HError.swift in Sources */,
 				4CCB0680255BCCF4005FFCAF /* InvocationSwampMessage.swift in Sources */,
 				4CCB067E255BCCF4005FFCAF /* GoodbyeSwampMessage.swift in Sources */,

@@ -9,11 +9,10 @@
 import Foundation
 
 // 连接状态
-internal enum SessionState {
+public enum SessionState {
     case connected      // 已连接
     case disconnected  // 未连接
     case connecting    // 连接中
-    case failture      // 连接失败
 }
 
 internal class WampSessionManager {
@@ -24,7 +23,6 @@ internal class WampSessionManager {
     private let session: SwampSession
     
     // 读写 sessionState/subscribingCallbacks 可能在不同线程，需加锁
-    private var sessionState: SessionState = .disconnected
     
     // 等待建立连接的订阅回调
     typealias SubscribingCallback = () -> Void
@@ -32,24 +30,17 @@ internal class WampSessionManager {
     
     private init() {
         
-        let transport = WebSocketSwampTransport(wsEndpoint: URL(string: Config.Wamp.wsURLString)!)
+        let transport = WebSocketSwampTransport()
         self.session = SwampSession(realm: Config.Wamp.realm, transport: transport)
         self.session.delegate = self
     }
     
     func connect() {
-        
-        objc_sync_enter(self)
-        guard sessionState != .connected && sessionState != .connecting else {
-            return
-        }
-        sessionState = .connecting
-        session.connect()
-        objc_sync_exit(self)
+        session.tryConnecting()
     }
     
     func disconnect() {
-        session.disconnect("wamp.disconnect")
+        session.disconnect()
     }
     
     func subscribe(_ topic: String,
@@ -59,31 +50,31 @@ internal class WampSessionManager {
                    onError: @escaping ErrorSubscribeCallback,
                    onEvent: @escaping EventCallback) {
         
-        self.waitingForConnection { [weak self] in
-            self?.subscribing(topic, options: options, callbackQueue: callbackQueue, subscriptionKey: nil, onInit: onInit, onError: onError, onEvent: onEvent)
+        serialQueue.async {
+            self.waitingForConnection { [weak self] in
+                self?.subscribing(topic, options: options, callbackQueue: callbackQueue, subscriptionKey: nil, onInit: onInit, onError: onError, onEvent: onEvent)
+            }
         }
     }
     
     // 等待 wamp 建立连接
     fileprivate func waitingForConnection(_ callback: @escaping (() -> Void)) {
-        objc_sync_enter(self)
         // 若未连接，先建立连接
-        switch sessionState {
-        case .disconnected, .failture:
+        switch session.sessionState {
+        case .disconnected:
             connect()
         case .connecting, .connected:
             break
         }
         
-        switch sessionState {
-        case .disconnected, .failture, .connecting:
+        switch session.sessionState {
+        case .disconnected, .connecting:
             // 未建立连接，先保存 callback，等待建立后再调用
             subscribingCallbacks.append(callback)
         case .connected:
             // 已建立连接，直接调用 callback
             callback()
         }
-        objc_sync_exit(self)
     }
     
     fileprivate func subscribing(_ topic: String,
@@ -106,7 +97,8 @@ internal class WampSessionManager {
         } onError: { [weak self] (result, message) in
             
             self?.execteCallback(callbackQueue, callback: {
-                let error = HError.init(code: 604, description: message)
+        
+                let error = HError(reason: message)
                 printErrorInfo(error)
                 onError(error as NSError)
             })
@@ -136,10 +128,6 @@ extension WampSessionManager: SwampSessionDelegate {
     }
     
     func swampSessionConnected(_ session: SwampSession, sessionId: Int) {
-        
-        objc_sync_enter(self)
-        sessionState = .connected
-        
         // wamp 未连接前发起的订阅，再次发起订阅
         for callback in subscribingCallbacks {
             callback()
@@ -151,12 +139,16 @@ extension WampSessionManager: SwampSessionDelegate {
         for (key, subscription) in subscriptions {
             subscribing(subscription.topic, options: subscription.options, callbackQueue: subscription.callbackQueue, subscriptionKey: key, onInit: subscription.onInit, onError: subscription.onError, onEvent: subscription.onEvent)
         }
-        objc_sync_exit(self)
     }
     
-    func swampSessionEnded(_ reason: String) {
-        objc_sync_enter(self)
-        sessionState = .disconnected
-        objc_sync_exit(self)
+    func swampSessionFailed(_ reason: String) {
+        
+        // 给所有订阅发送断开连接的错误
+        let subscriptions = SubscriptionManager.shared.subscriptions
+        for (_, subscription) in subscriptions {
+            let error =  HError(reason: reason)
+            subscription.onError(error as NSError?)
+        }
+        SubscriptionManager.shared.removeAll()
     }
 }

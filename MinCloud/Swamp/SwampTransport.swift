@@ -10,15 +10,14 @@ import Foundation
 
 public protocol SwampTransportDelegate: class {
     func swampTransportDidConnectWithSerializer(_ serializer: SwampSerializer)
-    func swampTransportDidDisconnect(_ error: NSError?, reason: String?)
+    func swampTransportConnectFailed(_ error: NSError?, reason: String?)
     func swampTransportReceivedData(_ data: Data)
+    func swampTransportReceivedPing()
 }
 
 public protocol SwampTransport {
     var delegate: SwampTransportDelegate? { get set }
-    var isConnected: Bool { get }
     func connect()
     func disconnect(_ reason: String)
     func sendData(_ data: Data)
-    func sendPing(_ data: Data)
 }

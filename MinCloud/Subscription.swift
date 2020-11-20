@@ -14,7 +14,7 @@ import Foundation
 @objc(BaaSSubscription)
 public class Subscription: NSObject {
     internal let key: Int32
-    internal var subscription: WampSubscription
+    internal var subscription: SwampSubscription
     internal let topic: String
     internal let options: [String: Any]
     internal let callbackQueue: DispatchQueue?
@@ -23,7 +23,7 @@ public class Subscription: NSObject {
     internal let onEvent: EventCallback
     
     init(key: Int32,
-         subscription: WampSubscription,
+         subscription: SwampSubscription,
          topic: String,
          options: [String: Any],
          callbackQueue: DispatchQueue?,
@@ -54,17 +54,13 @@ public class Subscription: NSObject {
         self.subscription.cancel { [weak self] in
             guard let self = self else { return }
             SubscriptionManager.shared.delete(self)
-            
-            // 当前无订阅，关闭连接
-            if SubscriptionManager.shared.isEmpty {
-                WampSessionManager.shared.disconnect()
-            }
+
             self.execteCallback(callbackQueue, callback: {
                 onSuccess()
             })
             
         } onError: { (result, message) in
-            let error = HError.init(code: 604, description: message)
+            let error = HError(reason: message)
             printErrorInfo(error)
             self.execteCallback(callbackQueue, callback: {
                 onError(error as NSError)

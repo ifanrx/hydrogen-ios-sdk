@@ -3,136 +3,248 @@
 //
 
 import Foundation
+import Alamofire
 
-// MARK: Call callbacks
-public typealias CallCallback = (_ details: [String: Any], _ results: [Any]?, _ kwResults: [String: Any]?) -> Void
-public typealias ErrorCallCallback = (_ details: [String: Any], _ error: String, _ args: [Any]?, _ kwargs: [String: Any]?) -> Void
-// MARK: Callee callbacks
+let serialQueue = DispatchQueue(label: "com.mincloud.websocket")
 
-// MARK: Subscribe callbacks
-internal typealias WampSubscribeCallback = (_ subscription: WampSubscription) -> Void
-public typealias SubscribeCallback = (_ subscription: Subscription) -> Void
-internal typealias WampErrorSubscribeCallback = (_ details: [String: Any], _ error: String) -> Void
-public typealias ErrorSubscribeCallback = (_ error: NSError?) -> Void
-internal typealias WampEventCallback = (_ details: [String: Any], _ results: [Any]?, _ kwResults: [String: Any]?) -> Void
-public typealias EventCallback = (_ result: [String: Any]?) -> Void
-public typealias UnsubscribeCallback = () -> Void
-internal typealias WampErrorUnsubscribeCallback = (_ details: [String: Any], _ error: String) -> Void
-public typealias ErrorUnsubscribeCallback = (_ error: NSError?) -> Void
-// MARK: Publish callbacks
-public typealias PublishCallback = () -> Void
-public typealias ErrorPublishCallback = (_ details: [String: Any], _ error: String) -> Void
-
-// TODO: Expose only an interface (like Cancellable) to user
-internal class WampSubscription {
-    fileprivate let session: SwampSession
-    internal let subscription: Int
-    internal let eventCallback: WampEventCallback
-    fileprivate var isActive: Bool = true
-
-    internal init(session: SwampSession, subscription: Int, onEvent: @escaping WampEventCallback) {
-        self.session = session
-        self.subscription = subscription
-        self.eventCallback = onEvent
-    }
-
-    internal func invalidate() {
-        self.isActive = false
-    }
-
-    internal func cancel(_ onSuccess: @escaping UnsubscribeCallback, onError: @escaping WampErrorUnsubscribeCallback) {
-        if !self.isActive {
-            onError([:], "WampSubscription already inactive.")
-        }
-        self.session.unsubscribe(self.subscription, onSuccess: onSuccess, onError: onError)
-    }
+enum AppState {
+    case background
+    case foreground
 }
-
-// For now callee is irrelevant
-//public class Registration {
-//    private let session: SwampSession
-//}
 
 protocol SwampSessionDelegate {
     func swampSessionHandleChallenge(_ authMethod: String, extra: [String: Any]) -> String
     func swampSessionConnected(_ session: SwampSession, sessionId: Int)
-    func swampSessionEnded(_ reason: String)
+    func swampSessionFailed(_ reason: String)
 }
 
-class SwampSession: SwampTransportDelegate {
-    // MARK: Public typealiases
-
+final class SwampSession: SwampTransportDelegate {
     // MARK: delegate
-    open var delegate: SwampSessionDelegate?
+    var delegate: SwampSessionDelegate?
 
     // MARK: Constants
     // No callee role for now
-    fileprivate let supportedRoles: [SwampRole] = [SwampRole.Caller, SwampRole.Subscriber, SwampRole.Publisher]
-    fileprivate let clientName = "Swamp-dev-0.1.0"
+    private let supportedRoles: [SwampRole] = [SwampRole.Caller, SwampRole.Subscriber, SwampRole.Publisher]
+    private let clientName = "Swamp-1.0.0"
 
     // MARK: Members
-    fileprivate let realm: String
-    fileprivate var transport: SwampTransport
-    fileprivate let authmethods: [String]?
-    fileprivate let authid: String?
-    fileprivate let authrole: String?
-    fileprivate let authextra: [String: Any]?
+    private let realm: String
+    private var transport: SwampTransport
+    private let authmethods: [String]?
+    private let authid: String?
+    private let authrole: String?
+    private let authextra: [String: Any]?
 
     // MARK: State members
-    fileprivate var currRequestId: Int = 1
-
+    private var currRequestId: Int = 1
+    private let requestIdLock: NSLock
+    
     // MARK: Session state
-    fileprivate var serializer: SwampSerializer?
-    fileprivate var sessionId: Int?
-    fileprivate var routerSupportedRoles: [SwampRole]?
+    private var serializer: SwampSerializer?
+    private var sessionId: Int?
+    private var routerSupportedRoles: [SwampRole]?
+    
+    // MARK: - HeartBeat
+    private var heartBeat: Timer?
+    private var lastReceivedPingTimeInterval: TimeInterval = Date().timeIntervalSince1970 // 上次收到 ping 的时间戳
+    private let receivedPingTimeout: TimeInterval = 30.0
+    private let reachabilityManager = NetworkReachabilityManager()
+    private var connectingDelayInterval = 0
+    private var previousReachabilityStatus: NetworkReachabilityManager.NetworkReachabilityStatus = .unknown
+    
+    private var enterForegroundObserver: NSObjectProtocol?
+    private var enterBackgroundObserver: NSObjectProtocol?
 
     // MARK: Call role
-    //                         requestId
-    fileprivate var callRequests: [Int: (callback: CallCallback, errorCallback: ErrorCallCallback)] = [:]
+    //                           requestId
+    private var callRequests: [Int: (callback: CallCallback, errorCallback: ErrorCallCallback)] = [:]
 
     // MARK: Subscriber role
     //                              requestId
-    fileprivate var subscribeRequests: [Int: (callback: WampSubscribeCallback, errorCallback: WampErrorSubscribeCallback, eventCallback: WampEventCallback)] = [:]
+    private var subscribeRequests: [Int: (callback: WampSubscribeCallback, errorCallback: WampErrorSubscribeCallback, eventCallback: WampEventCallback)] = [:]
     //                          subscription
-    fileprivate var subscriptions: [Int: WampSubscription] = [:]
+    private var subscriptions: [Int: SwampSubscription] = [:]
     //                                requestId
-    fileprivate var unsubscribeRequests: [Int: (subscription: Int, callback: UnsubscribeCallback, errorCallback: WampErrorUnsubscribeCallback)] = [:]
+    private var unsubscribeRequests: [Int: (subscription: Int, callback: UnsubscribeCallback, errorCallback: WampErrorUnsubscribeCallback)] = [:]
 
     // MARK: Publisher role
     //                            requestId
-    fileprivate var publishRequests: [Int: (callback: PublishCallback, errorCallback: ErrorPublishCallback)] = [:]
-
+    private var publishRequests: [Int: (callback: PublishCallback, errorCallback: ErrorPublishCallback)] = [:]
+    
+    var sessionState: SessionState = .disconnected
+    
     // MARK: C'tor
-    required public init(realm: String, transport: SwampTransport, authmethods: [String]?=nil, authid: String?=nil, authrole: String?=nil, authextra: [String: Any]?=nil){
+    required init(realm: String, transport: SwampTransport, authmethods: [String]?=nil, authid: String?=nil, authrole: String?=nil, authextra: [String: Any]?=nil){
         self.realm = realm
         self.transport = transport
         self.authmethods = authmethods
         self.authid = authid
         self.authrole = authrole
         self.authextra = authextra
+        self.requestIdLock = NSLock()
         self.transport.delegate = self
+        
+        // app 状态及网络状态
+        self.sessionStateObserving()
     }
-
-    // MARK: Public API
-
-    final public var isConnected: Bool {
-        return self.transport.isConnected && (self.sessionId != nil)
-    }
-
-    final public func connect() {
-        guard !isConnected else {
-            return
+    
+    deinit {
+        if let observer = self.enterForegroundObserver {
+            NotificationCenter.default.removeObserver(observer)
+            self.enterForegroundObserver = nil
         }
         
-        self.transport.connect()
+        if let observer = self.enterBackgroundObserver {
+            NotificationCenter.default.removeObserver(observer)
+            self.enterBackgroundObserver = nil
+        }
+        
+        reachabilityManager?.stopListening()
+        tryDisconnecting(reason: GOODGYE)
     }
+    
+}
 
-    final public func disconnect(_ reason: String="wamp.error.close_realm") {
+// MARK: - app 状态及网络状态
+extension SwampSession {
+    
+    /// app 进入后台/网络断开，主动断开 session
+    /// app 进入前台/网络恢复，主动建立 session
+    private func sessionStateObserving() {
+        
+        let operationQueue = OperationQueue()
+        operationQueue.underlyingQueue = serialQueue
+        self.enterBackgroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.didEnterBackgroundNotification,
+            object: nil,
+            queue: operationQueue)
+        { [weak self] _ in
+            self?.applicationStateChanged(with: .background)
+        }
+        
+        self.enterForegroundObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.willEnterForegroundNotification,
+            object: nil,
+            queue: operationQueue)
+        { [weak self] _ in
+            self?.applicationStateChanged(with: .foreground)
+        }
+        
+        self.reachabilityManager?.listenerQueue = serialQueue
+        self.reachabilityManager?.startListening()
+        self.reachabilityManager?.listener = { [weak self] newStatus in
+            self?.networkReachabilityStatusChanged(with: newStatus)
+        }
+    }
+    
+    private func applicationStateChanged(with appState: AppState) {
+        
+        switch appState {
+        case .background:
+            resetConnectingDelayInterval()
+            tryDisconnecting(reason: GOODGYE)
+        case .foreground:
+            resetConnectingDelayInterval()
+            tryConnecting()
+        }
+    }
+    
+    private func networkReachabilityStatusChanged(
+        with newStatus: NetworkReachabilityManager.NetworkReachabilityStatus)
+    {
+        let oldStatus = self.previousReachabilityStatus
+        self.previousReachabilityStatus = newStatus
+    
+        if oldStatus != .notReachable
+            &&  newStatus == .notReachable {
+            resetConnectingDelayInterval()
+            tryDisconnecting(reason: GOODGYE)
+        } else if oldStatus != newStatus &&
+            newStatus != .notReachable {
+            self.resetConnectingDelayInterval()
+            self.tryConnecting()
+        }
+    }
+}
+
+// MARK: - 连接/心跳
+extension SwampSession {
+    
+    func disconnect(_ reason: String = GOODGYE) {
         self.sendMessage(GoodbyeSwampMessage(details: [:], reason: reason))
     }
 
+    // MARK: SwampTransportDelegate
+    func swampTransportConnectFailed(_ error: NSError?, reason: String?) {
+        tryDisconnecting(reason: GOODGYE)
+        tryConnecting()
+    }
+    
+    func swampTransportReceivedPing() {
+        lastReceivedPingTimeInterval = Date().timeIntervalSince1970
+    }
+    
+    func swampTransportConnected() {
+        sessionState = .connected
+        resetConnectingDelayInterval()
+        DispatchQueue.main.sync {
+            self.setupHeartBeat()
+        }
+    }
+    
+    // 建立心跳
+    private func setupHeartBeat() {
+        lastReceivedPingTimeInterval = Date().timeIntervalSince1970
+        
+        heartBeat = Timer(timeInterval: 20, repeats: true, block: { [weak self] (_) in
+            guard let self = self else { return }
+            
+            let currentInterval = Date().timeIntervalSince1970
+            let shouldReceivePingNow = (currentInterval - self.lastReceivedPingTimeInterval) > self.receivedPingTimeout
+            let isReachable = self.reachabilityManager?.isReachable ?? false
+            
+            if shouldReceivePingNow && isReachable {
+                // 已超时，且网络正常，发起重连
+                self.tryConnecting()
+            }
+        })
+        
+        RunLoop.current.add(heartBeat!, forMode: .common)
+        heartBeat?.fire()
+    }
+    
+    // 尝试连接
+    func tryConnecting() {
+        guard self.sessionState != .connecting else {
+            return
+        }
+
+        self.sessionState = .connecting
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(connectingDelayInterval)) {
+            self.transport.connect()
+        }
+        
+        connectingDelayInterval = (connectingDelayInterval < 300) ? (15 + connectingDelayInterval) : 300
+    }
+    
+    // 取消连接
+    private func tryDisconnecting(reason: String) {
+        self.disconnect(reason)
+        self.sessionState = .disconnected
+        self.heartBeat?.invalidate()
+        self.heartBeat = nil
+    }
+    
+    private func resetConnectingDelayInterval() {
+        connectingDelayInterval = 1
+    }
+}
+
+// MARK: - wamp 协议
+extension SwampSession {
+    
     // MARK: Caller role
-    open func call(_ proc: String, options: [String: Any]=[:], args: [Any]?=nil, kwargs: [String: Any]?=nil, onSuccess: @escaping CallCallback, onError: @escaping ErrorCallCallback) {
+    func call(_ proc: String, options: [String: Any]=[:], args: [Any]?=nil, kwargs: [String: Any]?=nil, onSuccess: @escaping CallCallback, onError: @escaping ErrorCallCallback) {
         let callRequestId = self.generateRequestId()
         // Tell router to dispatch call
         self.sendMessage(CallSwampMessage(requestId: callRequestId, options: options, proc: proc, args: args, kwargs: kwargs))
@@ -140,14 +252,9 @@ class SwampSession: SwampTransportDelegate {
         self.callRequests[callRequestId] = (callback: onSuccess, errorCallback: onError )
     }
 
-    // MARK: Callee role
-    // For now callee is irrelevant
-    // public func register(proc: String, options: [String: AnyObject]=[:], onSuccess: RegisterCallback, onError: ErrorRegisterCallback, onFire: SwampProc) {
-    // }
-
     // MARK: Subscriber role
 
-    open func subscribe(_ topic: String, options: [String: Any]=[:], onSuccess: @escaping WampSubscribeCallback, onError: @escaping WampErrorSubscribeCallback, onEvent: @escaping WampEventCallback) {
+    func subscribe(_ topic: String, options: [String: Any]=[:], onSuccess: @escaping WampSubscribeCallback, onError: @escaping WampErrorSubscribeCallback, onEvent: @escaping WampEventCallback) {
         // TODO: assert topic is a valid WAMP uri
         let subscribeRequestId = self.generateRequestId()
         // Tell router to subscribe client on a topic
@@ -157,7 +264,7 @@ class SwampSession: SwampTransportDelegate {
     }
 
     // Internal because only a Subscription object can call this
-    internal func unsubscribe(_ subscription: Int, onSuccess: @escaping UnsubscribeCallback, onError: @escaping WampErrorUnsubscribeCallback) {
+    func unsubscribe(_ subscription: Int, onSuccess: @escaping UnsubscribeCallback, onError: @escaping WampErrorUnsubscribeCallback) {
         let unsubscribeRequestId = self.generateRequestId()
         // Tell router to unsubscribe me from some subscription
         self.sendMessage(UnsubscribeSwampMessage(requestId: unsubscribeRequestId, subscription: subscription))
@@ -167,7 +274,7 @@ class SwampSession: SwampTransportDelegate {
 
     // MARK: Publisher role
     // without acknowledging
-    open func publish(_ topic: String, options: [String: Any]=[:], args: [Any]?=nil, kwargs: [String: Any]?=nil) {
+    func publish(_ topic: String, options: [String: Any]=[:], args: [Any]?=nil, kwargs: [String: Any]?=nil) {
         // TODO: assert topic is a valid WAMP uri
         let publishRequestId = self.generateRequestId()
         // Tell router to publish the event
@@ -176,7 +283,7 @@ class SwampSession: SwampTransportDelegate {
     }
 
     // with acknowledging
-    open func publish(_ topic: String, options: [String: Any]=[:], args: [Any]?=nil, kwargs: [String: Any]?=nil, onSuccess: @escaping PublishCallback, onError: @escaping ErrorPublishCallback) {
+    func publish(_ topic: String, options: [String: Any]=[:], args: [Any]?=nil, kwargs: [String: Any]?=nil, onSuccess: @escaping PublishCallback, onError: @escaping ErrorPublishCallback) {
         // add acknowledge to options, so we get callbacks
         var options = options
         options["acknowledge"] = true
@@ -188,20 +295,7 @@ class SwampSession: SwampTransportDelegate {
         self.publishRequests[publishRequestId] = (callback: onSuccess, errorCallback: onError)
     }
 
-    // MARK: SwampTransportDelegate
-
-    open func swampTransportDidDisconnect(_ error: NSError?, reason: String?) {
-        if reason != nil {
-            self.delegate?.swampSessionEnded(reason!)
-        }
-        else if error != nil {
-            self.delegate?.swampSessionEnded("Unexpected error: \(error!.description)")
-        } else {
-            self.delegate?.swampSessionEnded("Unknown error.")
-        }
-    }
-
-    open func swampTransportDidConnectWithSerializer(_ serializer: SwampSerializer) {
+    func swampTransportDidConnectWithSerializer(_ serializer: SwampSerializer) {
         self.serializer = serializer
         // Start session by sending a Hello message!
 
@@ -231,37 +325,47 @@ class SwampSession: SwampTransportDelegate {
         self.sendMessage(HelloSwampMessage(realm: self.realm, details: details))
     }
 
-    open func swampTransportReceivedData(_ data: Data) {
+    func swampTransportReceivedData(_ data: Data) {
         if let payload = self.serializer?.unpack(data), let message = SwampMessages.createMessage(payload) {
             self.handleMessage(message)
         }
     }
 
-    fileprivate func handleMessage(_ message: SwampMessage) {
+    private func handleMessage(_ message: SwampMessage) {
         switch message {
         // MARK: Auth responses
-        case let message as ChallengeSwampMessage:
-            if let authResponse = self.delegate?.swampSessionHandleChallenge(message.authMethod, extra: message.extra) {
-                self.sendMessage(AuthenticateSwampMessage(signature: authResponse, extra: [:]))
-            } else {
-                print("There was no delegate, aborting.")
-                self.abort()
-            }
+        case _ as ChallengeSwampMessage:
+            // 没有这种认证方式
+            break
+//            if let authResponse = self.delegate?.swampSessionHandleChallenge(message.authMethod, extra: message.extra) {
+//                self.sendMessage(AuthenticateSwampMessage(signature: authResponse, extra: [:]))
+//            } else {
+//                print("There was no delegate, aborting.")
+//            }
+        
         // MARK: Session responses
         case let message as WelcomeSwampMessage:
             self.sessionId = message.sessionId
             let routerRoles = message.details["roles"]! as! [String : [String : Any]]
             self.routerSupportedRoles = routerRoles.keys.map { SwampRole(rawValue: $0)! }
             self.delegate?.swampSessionConnected(self, sessionId: message.sessionId)
+            self.swampTransportConnected()
         case let message as GoodbyeSwampMessage:
-            if message.reason != "wamp.error.goodbye_and_out" {
-                // Means it's not our initiated goodbye, and we should reply with goodbye
-                self.sendMessage(GoodbyeSwampMessage(details: [:], reason: "wamp.error.goodbye_and_out"))
+            
+            // 如果 reason 为 wamp.close.goodbye_and_out，表示客户端主动断开：1. 当前无订阅 2. 网络无效 3. app 进入后台
+            // 否则，表示服务器主动断开：1. 用户登出 2. 欠费 3. 服务器坏了，这时客户端需回应 goodbye，且断开连接。
+            if message.reason != GOODGYE {
+                self.delegate?.swampSessionFailed(message.reason)
+                self.sendMessage(GoodbyeSwampMessage(details: [:], reason: message.reason))
+                self.tryDisconnecting(reason: message.reason)
             }
-            self.transport.disconnect(message.reason)
+            
         case let message as AbortSwampMessage:
             sessionId = nil
-            self.transport.disconnect(message.reason)
+            
+            // 收到 abort，连接结束
+            self.delegate?.swampSessionFailed(message.reason)
+            self.tryDisconnecting(reason: message.reason)
         // MARK: Call role
         case let message as ResultSwampMessage:
             let requestId = message.requestId
@@ -275,7 +379,7 @@ class SwampSession: SwampTransportDelegate {
             let requestId = message.requestId
             if let (callback, _, eventCallback) = self.subscribeRequests.removeValue(forKey: requestId) {
                 // Notify user and delegate him to unsubscribe this subscription
-                let subscription = WampSubscription(session: self, subscription: message.subscription, onEvent: eventCallback)
+                let subscription = SwampSubscription(session: self, subscription: message.subscription, onEvent: eventCallback)
                 callback(subscription)
                 // Subscription succeeded, we should store event callback for when it's fired
                 self.subscriptions[message.subscription] = subscription
@@ -345,26 +449,25 @@ class SwampSession: SwampTransportDelegate {
             return
         }
     }
-
+    
     // MARK: Private methods
 
-    fileprivate func abort() {
-        if self.sessionId != nil {
-            return
-        }
-        self.sessionId = nil
-        self.sendMessage(AbortSwampMessage(details: [:], reason: "wamp.error.system_shutdown"))
-        self.transport.disconnect("No challenge delegate found.")
-    }
-
-    fileprivate func sendMessage(_ message: SwampMessage){
+    private func sendMessage(_ message: SwampMessage){
+        
         let marshalledMessage = message.marshal()
-        let data = self.serializer!.pack(marshalledMessage as [Any])!
-        self.transport.sendData(data)
+        if let data = self.serializer?.pack(marshalledMessage as [Any]) {
+            self.transport.sendData(data)
+        }
     }
 
-    fileprivate func generateRequestId() -> Int {
-        self.currRequestId += 1
-        return self.currRequestId
+    private func generateRequestId() -> Int {
+        requestIdLock.lock()
+        defer {
+            requestIdLock.unlock()
+        }
+        var currRequestId = self.currRequestId
+        currRequestId += 1
+        self.currRequestId = currRequestId
+        return currRequestId
     }
 }

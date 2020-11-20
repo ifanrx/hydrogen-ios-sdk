@@ -32,6 +32,10 @@ internal class SubscriptionManager {
         return subscriptions[key]
     }
     
+    func removeAll() {
+        subscriptions.removeAll()
+    }
+    
     func generateKey() -> Int32 {
         return OSAtomicIncrement32(&_key)
     }
