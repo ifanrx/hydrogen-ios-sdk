@@ -363,7 +363,7 @@ extension SwampSession {
             
             // 如果 reason 为 wamp.close.goodbye_and_out，表示客户端主动断开：1. 当前无订阅 2. 网络无效 3. app 进入后台
             // 否则，表示服务器主动断开：1. 用户登出 2. 欠费 3. 服务器坏了，这时客户端需回应 goodbye，且断开连接。
-            if message.reason != GOODGYE {
+            if message.reason != GOODBYEANDOUT {
                 self.delegate?.swampSessionFailed(message.reason)
                 self.sendMessage(GoodbyeSwampMessage(details: [:], reason: message.reason))
                 self.tryDisconnecting(reason: message.reason)

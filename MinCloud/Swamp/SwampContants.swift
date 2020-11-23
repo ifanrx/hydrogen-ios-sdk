@@ -8,7 +8,8 @@
 
 import Foundation
 
-let GOODGYE = "wamp.close.goodbye_and_out"
+let GOODGYE = "wamp.close.normal"
+let GOODBYEANDOUT = "wamp.close.goodbye_and_out"
 
 // MARK: Call callbacks
 internal typealias CallCallback = (_ details: [String: Any], _ results: [Any]?, _ kwResults: [String: Any]?) -> Void
