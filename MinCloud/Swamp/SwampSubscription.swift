@@ -27,7 +27,8 @@ internal class SwampSubscription {
 
     internal func cancel(_ onSuccess: @escaping UnsubscribeCallback, onError: @escaping WampErrorUnsubscribeCallback) {
         if !self.isActive {
-            onError([:], "WampSubscription already inactive.")
+            onError([:], "wamp.error.no_such_subscription")
+            return
         }
         self.session.unsubscribe(self.subscription, onSuccess: onSuccess, onError: onError)
     }
