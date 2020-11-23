@@ -50,6 +50,9 @@ public class Subscription: NSObject {
             guard let self = self else { return }
             SubscriptionManager.shared.delete(self)
 
+            if SubscriptionManager.shared.isEmpty {
+                WampSessionManager.shared.disconnect()
+            }
             onSuccess()
             
         } onError: { (_, message) in

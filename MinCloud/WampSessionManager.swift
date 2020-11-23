@@ -39,7 +39,7 @@ internal class WampSessionManager {
         session.tryConnecting()
     }
     
-    private func disconnect() {
+    func disconnect() {
         session.tryDisconnecting()
     }
     
@@ -92,6 +92,12 @@ internal class WampSessionManager {
             onInit(mcSubscription)
         } onError: { (_, message) in
             
+            serialQueue.asyncAfter(deadline: .now() + .seconds(5)) {
+                if SubscriptionManager.shared.isEmpty {
+                    WampSessionManager.shared.disconnect()
+                }
+            }
+            
             let error = HError(reason: message)
             printErrorInfo(error)
             onError(error as NSError)
@@ -131,5 +137,9 @@ extension WampSessionManager: SwampSessionDelegate {
             subscription.onError(error as NSError?)
         }
         SubscriptionManager.shared.removeAll()
+    }
+    
+    func swampSessionIsActive() -> Bool {
+        return !SubscriptionManager.shared.isEmpty
     }
 }

@@ -23,6 +23,7 @@ internal protocol SwampSessionDelegate {
     func swampSessionHandleChallenge(_ authMethod: String, extra: [String: Any]) -> String
     func swampSessionConnected(_ session: SwampSession, sessionId: Int)
     func swampSessionFailed(_ reason: String)
+    func swampSessionIsActive() -> Bool
 }
 
 /// SwampSession
@@ -157,7 +158,10 @@ extension SwampSession {
             tryDisconnecting(reason: GOODGYE)
         case .foreground:
             resetConnectingDelayInterval()
-            tryConnecting()
+            let isActive = delegate?.swampSessionIsActive() ?? false
+            if isActive {
+                tryConnecting()
+            }
         }
     }
     
@@ -166,13 +170,13 @@ extension SwampSession {
     {
         let oldStatus = self.previousReachabilityStatus
         self.previousReachabilityStatus = newStatus
-    
+        let isActive = delegate?.swampSessionIsActive() ?? false
         if oldStatus != .notReachable
             &&  newStatus == .notReachable {
             resetConnectingDelayInterval()
             tryDisconnecting(reason: GOODGYE)
         } else if oldStatus != newStatus &&
-            newStatus != .notReachable {
+            newStatus != .notReachable && isActive {
             self.resetConnectingDelayInterval()
             self.tryConnecting()
         }

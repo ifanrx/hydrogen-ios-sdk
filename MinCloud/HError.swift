@@ -85,6 +85,9 @@ struct HError: CustomNSError {
         case "wamp.error.invalid_options":
             code = 400
             description = "invalid options"
+        case "wamp.error.no_such_subscription":
+            code = 400
+            description = "no such subscription"
         default:
             code = 520
         }
