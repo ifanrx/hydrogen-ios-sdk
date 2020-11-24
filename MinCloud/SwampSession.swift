@@ -113,7 +113,7 @@ final internal class SwampSession: SwampTransportDelegate {
         }
         
         reachabilityManager?.stopListening()
-        tryDisconnecting(reason: GOODGYE)
+        tryDisconnecting(reason: GOODBYE)
     }
     
 }
@@ -155,7 +155,7 @@ extension SwampSession {
         switch appState {
         case .background:
             resetConnectingDelayInterval()
-            tryDisconnecting(reason: GOODGYE)
+            tryDisconnecting(reason: GOODBYE)
         case .foreground:
             resetConnectingDelayInterval()
             let isActive = delegate?.swampSessionIsActive() ?? false
@@ -174,7 +174,7 @@ extension SwampSession {
         if oldStatus != .notReachable
             &&  newStatus == .notReachable {
             resetConnectingDelayInterval()
-            tryDisconnecting(reason: GOODGYE)
+            tryDisconnecting(reason: GOODBYE)
         } else if oldStatus != newStatus &&
             newStatus != .notReachable && isActive {
             self.resetConnectingDelayInterval()
@@ -188,7 +188,7 @@ extension SwampSession {
 
     // MARK: SwampTransportDelegate
     func swampTransportConnectFailed(_ error: NSError?, reason: String?) {
-        tryDisconnecting(reason: GOODGYE)
+        tryDisconnecting(reason: GOODBYE)
         tryConnecting()
     }
     
@@ -242,7 +242,7 @@ extension SwampSession {
     }
     
     // 取消连接
-    func tryDisconnecting(reason: String = GOODGYE) {
+    func tryDisconnecting(reason: String = GOODBYE) {
         self.sendMessage(GoodbyeSwampMessage(details: [:], reason: reason))
         self.sessionState = .disconnected
         self.heartBeat?.invalidate()
@@ -363,7 +363,7 @@ extension SwampSession {
             
             // 如果 reason 为 wamp.close.goodbye_and_out，表示客户端主动断开：1. 当前无订阅 2. 网络无效 3. app 进入后台
             // 否则，表示服务器主动断开：1. 用户登出 2. 欠费 3. 服务器坏了，这时客户端需回应 goodbye，且断开连接。
-            if message.reason != GOODBYEANDOUT {
+            if message.reason != GOODBYE {
                 self.delegate?.swampSessionFailed(message.reason)
                 self.sendMessage(GoodbyeSwampMessage(details: [:], reason: message.reason))
                 self.tryDisconnecting(reason: message.reason)
