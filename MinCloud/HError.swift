@@ -73,7 +73,7 @@ struct HError: CustomNSError {
         case "wamp.error.invalid_event":
             code = 400
             description = "invalid event"
-        case "not_allow_to_subscribe_builtin_schema":
+        case "wamp.error.not_allow_to_subscribe_builtin_schema":
             code = 400
             description = "not allow to subscribe builtin schema"
         case "wamp.error.schema_does_not_exists":
