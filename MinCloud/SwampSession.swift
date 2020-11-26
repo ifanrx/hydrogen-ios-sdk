@@ -62,7 +62,7 @@ final internal class SwampSession: SwampTransportDelegate {
     private var lastReceivedPingTimeInterval: TimeInterval = Date().timeIntervalSince1970 // 上次收到 ping 的时间戳
     private let receivedPingTimeout: TimeInterval = 30.0
     private let reachabilityManager = NetworkReachabilityManager()
-    private var connectingDelayInterval = 0
+    private var connectingDelayInterval = 1
     private var previousReachabilityStatus: NetworkReachabilityManager.NetworkReachabilityStatus = .unknown
     
     private var enterForegroundObserver: NSObjectProtocol?
@@ -231,13 +231,17 @@ extension SwampSession {
             guard self.sessionState != .connecting else {
                 return
             }
+            // 超时不再重连
+            if self.connectingDelayInterval >= 300 {
+                return
+            }
 
             self.sessionState = .connecting
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(self.connectingDelayInterval)) {
                 self.transport.connect()
             }
             
-            self.connectingDelayInterval = (self.connectingDelayInterval < 300) ? (15 + self.connectingDelayInterval) : 300
+            self.connectingDelayInterval = (self.connectingDelayInterval < 300) ? (2 * self.connectingDelayInterval) : 300
         }
     }
     

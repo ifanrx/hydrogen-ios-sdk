@@ -96,8 +96,6 @@ extension WebSocketSwampTransport: WebSocketDelegate {
             case .cancelled:
                 break
             case .error(let error):
-                let error = error as NSError?
-                printDebugInfo("websocket error: \(error?.localizedDescription ?? "")")
                 delegate?.swampTransportConnectFailed(error as NSError?, reason: nil)
             }
     }

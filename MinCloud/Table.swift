@@ -179,7 +179,7 @@ public class Table: NSObject {
                           onEvent: @escaping EventCallback) {
         
         guard Auth.hadLogin else {
-            let error = HError.init(code: 401, description: "please login in")
+            let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
             onError(error as NSError)
             return
