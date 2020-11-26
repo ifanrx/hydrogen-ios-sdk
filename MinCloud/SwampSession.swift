@@ -232,7 +232,8 @@ extension SwampSession {
                 return
             }
             // 超时不再重连
-            if self.connectingDelayInterval >= 300 {
+            if self.connectingDelayInterval >= 60 {
+                self.delegate?.swampSessionFailed(CONNECTIONT_IMEOUT)
                 return
             }
 
@@ -241,7 +242,7 @@ extension SwampSession {
                 self.transport.connect()
             }
             
-            self.connectingDelayInterval = (self.connectingDelayInterval < 300) ? (2 * self.connectingDelayInterval) : 300
+            self.connectingDelayInterval = (self.connectingDelayInterval < 60) ? (2 * self.connectingDelayInterval) : 60
         }
     }
     

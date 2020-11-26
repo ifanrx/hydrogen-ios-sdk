@@ -8,6 +8,19 @@
 
 import Foundation
 
+// 正在订阅中，用于第一次连接时，超时后返回错误
+class Subscripting: NSObject {
+    internal let key: Int32
+    internal let onError: ErrorSubscribeCallback
+    
+    init(key: Int32,
+         onError: @escaping ErrorSubscribeCallback) {
+        
+        self.key = key
+        self.onError = onError
+    }
+}
+
 /// Subscription
 /// 表示一个订阅事件
 /// 通过调用 unsubscribe 可以取消订阅该事件

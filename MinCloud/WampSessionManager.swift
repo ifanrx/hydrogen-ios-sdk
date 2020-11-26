@@ -50,8 +50,11 @@ internal class WampSessionManager {
                    onEvent: @escaping EventCallback) {
         
         serialQueue.async {
+            let key = SubscriptionManager.shared.generateKey()
+            let subscripting = Subscripting(key: key, onError: onError)
+            SubscriptingManager.shared.save(subscripting)
             self.waitingForConnection { [weak self] in
-                self?.subscribing(topic, options: options, subscriptionKey: nil, onInit: onInit, onError: onError, onEvent: onEvent)
+                self?.subscribing(topic, options: options, subscriptionKey: key, onInit: onInit, onError: onError, onEvent: onEvent)
             }
         }
     }
@@ -78,19 +81,23 @@ internal class WampSessionManager {
     
     private func subscribing(_ topic: String,
                                options: [String: Any] = [:],
-                               subscriptionKey: SubscriptionKey?,
+                               subscriptionKey: SubscriptionKey,
                                onInit: @escaping SubscribeCallback,
                                onError: @escaping ErrorSubscribeCallback,
                                onEvent: @escaping EventCallback) {
         
         session.subscribe(topic, options: options) { (subscription) in
-            // 保存订阅
-            let key = subscriptionKey ?? SubscriptionManager.shared.generateKey()
-            let mcSubscription = Subscription(key: key, subscription: subscription, topic: topic, options: options, onInit: onInit, onError: onError, onEvent: onEvent)
+            // 删除正在订阅的事件
+            SubscriptingManager.shared.delete(for: subscriptionKey)
+            
+            // 保存订阅成功的事件
+            let mcSubscription = Subscription(key: subscriptionKey, subscription: subscription, topic: topic, options: options, onInit: onInit, onError: onError, onEvent: onEvent)
             SubscriptionManager.shared.save(mcSubscription)
             
             onInit(mcSubscription)
         } onError: { (_, message) in
+            // 删除正在订阅的事件
+            SubscriptingManager.shared.delete(for: subscriptionKey)
             
             serialQueue.asyncAfter(deadline: .now() + .seconds(5)) {
                 if SubscriptionManager.shared.isEmpty {
@@ -129,6 +136,15 @@ extension WampSessionManager: SwampSessionDelegate {
     }
     
     func swampSessionFailed(_ reason: String) {
+        
+        // 正在订阅中的事件
+        let subscriptings = SubscriptingManager.shared.subscriptings
+        for (_, subscripting) in subscriptings {
+            let error =  HError(reason: reason)
+            subscripting.onError(error as NSError?)
+        }
+        SubscriptingManager.shared.removeAll()
+        
         
         // 给所有订阅发送断开连接的错误
         let subscriptions = SubscriptionManager.shared.subscriptions

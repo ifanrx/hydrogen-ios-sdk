@@ -8,7 +8,8 @@
 
 import Foundation
 
-let GOODBYE = "wamp.close.goodbye_and_out"
+internal let GOODBYE = "wamp.close.goodbye_and_out"
+internal let CONNECTIONT_IMEOUT = "wamp.error.connection_timeout"
 
 // MARK: Call callbacks
 internal typealias CallCallback = (_ details: [String: Any], _ results: [Any]?, _ kwResults: [String: Any]?) -> Void

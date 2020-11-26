@@ -41,3 +41,23 @@ internal class SubscriptionManager {
         return OSAtomicIncrement32(&_key)
     }
 }
+
+// 管理正在订阅的事件
+internal class SubscriptingManager {
+    static let shared = SubscriptingManager()
+    
+    private(set) var subscriptings: [Int32: Subscripting] = [:] // 正在订阅
+    
+    func save(_ subscripting: Subscripting) {
+        let key = subscripting.key
+        subscriptings[key] = subscripting
+    }
+    
+    func delete(for key: Int32) {
+        subscriptings.removeValue(forKey: key)
+    }
+    
+    func removeAll() {
+        subscriptings.removeAll()
+    }
+}
