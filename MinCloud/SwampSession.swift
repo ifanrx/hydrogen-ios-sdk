@@ -62,7 +62,6 @@ final internal class SwampSession: SwampTransportDelegate {
     private var lastReceivedPingTimeInterval: TimeInterval = Date().timeIntervalSince1970 // 上次收到 ping 的时间戳
     private let receivedPingTimeout: TimeInterval = 30.0
     private let reachabilityManager = NetworkReachabilityManager()
-    private var connectingDelayInterval = 1
     private var previousReachabilityStatus: NetworkReachabilityManager.NetworkReachabilityStatus = .unknown
     
     private var enterForegroundObserver: NSObjectProtocol?
@@ -154,10 +153,8 @@ extension SwampSession {
         
         switch appState {
         case .background:
-            resetConnectingDelayInterval()
             tryDisconnecting(reason: GOODBYE)
         case .foreground:
-            resetConnectingDelayInterval()
             let isActive = delegate?.swampSessionIsActive() ?? false
             if isActive {
                 tryConnecting()
@@ -173,11 +170,9 @@ extension SwampSession {
         let isActive = delegate?.swampSessionIsActive() ?? false
         if oldStatus != .notReachable
             &&  newStatus == .notReachable {
-            resetConnectingDelayInterval()
             tryDisconnecting(reason: GOODBYE)
         } else if oldStatus != newStatus &&
             newStatus != .notReachable && isActive {
-            self.resetConnectingDelayInterval()
             self.tryConnecting()
         }
     }
@@ -189,7 +184,7 @@ extension SwampSession {
     // MARK: SwampTransportDelegate
     func swampTransportConnectFailed(_ error: NSError?, reason: String?) {
         tryDisconnecting(reason: GOODBYE)
-        tryConnecting()
+        self.delegate?.swampSessionFailed(CONNECTIONT_IMEOUT)
     }
     
     func swampTransportReceivedPing() {
@@ -198,7 +193,6 @@ extension SwampSession {
     
     func swampTransportConnected() {
         sessionState = .connected
-        resetConnectingDelayInterval()
         DispatchQueue.main.sync {
             self.setupHeartBeat()
         }
@@ -231,18 +225,8 @@ extension SwampSession {
             guard self.sessionState != .connecting else {
                 return
             }
-            // 超时不再重连
-            if self.connectingDelayInterval >= 60 {
-                self.delegate?.swampSessionFailed(CONNECTIONT_IMEOUT)
-                return
-            }
-
             self.sessionState = .connecting
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(self.connectingDelayInterval)) {
-                self.transport.connect()
-            }
-            
-            self.connectingDelayInterval = (self.connectingDelayInterval < 60) ? (2 * self.connectingDelayInterval) : 60
+            self.transport.connect()
         }
     }
     
@@ -252,10 +236,6 @@ extension SwampSession {
         self.sessionState = .disconnected
         self.heartBeat?.invalidate()
         self.heartBeat = nil
-    }
-    
-    private func resetConnectingDelayInterval() {
-        self.connectingDelayInterval = 1
     }
 }
 

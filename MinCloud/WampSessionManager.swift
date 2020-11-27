@@ -137,6 +137,8 @@ extension WampSessionManager: SwampSessionDelegate {
     
     func swampSessionFailed(_ reason: String) {
         
+        subscribingCallbacks.removeAll()
+        
         // 正在订阅中的事件
         let subscriptings = SubscriptingManager.shared.subscriptings
         for (_, subscripting) in subscriptings {
@@ -144,7 +146,6 @@ extension WampSessionManager: SwampSessionDelegate {
             subscripting.onError(error as NSError?)
         }
         SubscriptingManager.shared.removeAll()
-        
         
         // 给所有订阅发送断开连接的错误
         let subscriptions = SubscriptionManager.shared.subscriptions
