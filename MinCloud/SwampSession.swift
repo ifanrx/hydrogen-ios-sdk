@@ -184,7 +184,7 @@ extension SwampSession {
     // MARK: SwampTransportDelegate
     func swampTransportConnectFailed(_ error: NSError?, reason: String?) {
         tryDisconnecting(reason: GOODBYE)
-        self.delegate?.swampSessionFailed(CONNECTIONT_IMEOUT)
+        self.delegate?.swampSessionFailed(CONNECTIONT_ERROR)
     }
     
     func swampTransportReceivedPing() {

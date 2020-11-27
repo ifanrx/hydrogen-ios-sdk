@@ -32,6 +32,7 @@ struct HError: CustomNSError {
         case paymentFailed          = 608
         case paying                 = 609
         case orderInfoError         = 610
+        case connectionError        = 616
     }
 
     init(code: Int, description: String? = nil) {
@@ -88,6 +89,9 @@ struct HError: CustomNSError {
         case "wamp.error.no_such_subscription":
             code = 400
             description = "no such subscription"
+        case "wamp.error.connection_error":
+            code = 616
+            description = "connection error"
         default:
             code = 520
         }
@@ -131,6 +135,8 @@ struct HError: CustomNSError {
             return 609
         case .orderInfoError?:
             return 610
+        case .connectionError:
+            return 616
         default:
             return self.code
         }
@@ -173,6 +179,8 @@ struct HError: CustomNSError {
             description = self.description ?? "order info error"
         case .unknownError:
             description = self.description ?? "unknown error"
+        case .connectionError:
+            description = self.description ?? "connection error"
         default:
             break
         }
