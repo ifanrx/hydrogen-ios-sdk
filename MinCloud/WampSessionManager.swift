@@ -23,6 +23,9 @@ internal class WampSessionManager {
     
     static let shared = WampSessionManager()
     private let session: SwampSession
+    
+    // 处理所有内部回调以及状态更新
+    private let rootQueue = DispatchQueue(label: "com.ifanr.mincloud.websocket.rootqueue")
         
     // 等待建立连接的订阅回调
     typealias SubscribingCallback = () -> Void
@@ -30,8 +33,8 @@ internal class WampSessionManager {
     
     private init() {
         
-        let transport = WebSocketSwampTransport()
-        self.session = SwampSession(realm: Config.Wamp.realm, transport: transport)
+        let transport = WebSocketSwampTransport(underlyingQueue: rootQueue)
+        self.session = SwampSession(realm: Config.Wamp.realm, transport: transport, underlyingQueue: rootQueue)
         self.session.delegate = self
     }
     
@@ -49,7 +52,7 @@ internal class WampSessionManager {
                    onError: @escaping ErrorSubscribeCallback,
                    onEvent: @escaping EventCallback) {
         
-        serialQueue.async {
+        rootQueue.async {
             let key = SubscriptionManager.shared.generateKey()
             let subscripting = Subscripting(key: key, onError: onError)
             SubscriptingManager.shared.save(subscripting)
@@ -61,6 +64,8 @@ internal class WampSessionManager {
     
     // 等待 wamp 建立连接
     private func waitingForConnection(_ callback: @escaping (() -> Void)) {
+        dispatchPrecondition(condition: .onQueue(rootQueue))
+        
         // 若未连接，先建立连接
         switch session.sessionState {
         case .disconnected:
@@ -86,7 +91,11 @@ internal class WampSessionManager {
                                onError: @escaping ErrorSubscribeCallback,
                                onEvent: @escaping EventCallback) {
         
+        dispatchPrecondition(condition: .onQueue(rootQueue))
+        
         session.subscribe(topic, options: options) { (subscription) in
+            
+            dispatchPrecondition(condition: .onQueue(self.rootQueue))
             // 删除正在订阅的事件
             SubscriptingManager.shared.delete(for: subscriptionKey)
             
@@ -96,10 +105,11 @@ internal class WampSessionManager {
             
             onInit(mcSubscription)
         } onError: { (_, message) in
+            dispatchPrecondition(condition: .onQueue(self.rootQueue))
             // 删除正在订阅的事件
             SubscriptingManager.shared.delete(for: subscriptionKey)
             
-            serialQueue.asyncAfter(deadline: .now() + .seconds(5)) {
+            self.rootQueue.asyncAfter(deadline: .now() + .seconds(5)) {
                 if SubscriptionManager.shared.isEmpty {
                     WampSessionManager.shared.disconnect()
                 }
@@ -122,6 +132,8 @@ extension WampSessionManager: SwampSessionDelegate {
     }
     
     func swampSessionConnected(_ session: SwampSession, sessionId: Int) {
+        dispatchPrecondition(condition: .onQueue(self.rootQueue))
+        
         // wamp 未连接前发起的订阅，再次发起订阅
         for callback in subscribingCallbacks {
             callback()
@@ -136,6 +148,7 @@ extension WampSessionManager: SwampSessionDelegate {
     }
     
     func swampSessionFailed(_ reason: String) {
+        dispatchPrecondition(condition: .onQueue(self.rootQueue))
         
         subscribingCallbacks.removeAll()
         

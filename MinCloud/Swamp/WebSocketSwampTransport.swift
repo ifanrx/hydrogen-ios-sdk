@@ -20,11 +20,13 @@ open class WebSocketSwampTransport: SwampTransport {
     var socket: WebSocket!
     let mode: WebsocketMode
     public var isConnected: Bool = false
+    private let underlyingQueue: DispatchQueue
     
     fileprivate var disconnectionReason: String?
     
-    public init() {
+    public init(underlyingQueue: DispatchQueue) {
         self.mode = .text
+        self.underlyingQueue = underlyingQueue
     }
     
     fileprivate func setupSockect() {
@@ -35,7 +37,7 @@ open class WebSocketSwampTransport: SwampTransport {
         request.timeoutInterval = 5.0
         request.addValue("wamp.2.json", forHTTPHeaderField: "Sec-WebSocket-Protocol")
         self.socket = WebSocket(request: request)
-        socket.callbackQueue = serialQueue
+        socket.callbackQueue = underlyingQueue
         socket.delegate = self
         self.socket.connect()
     }
