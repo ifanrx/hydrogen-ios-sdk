@@ -40,9 +40,6 @@ class ModelCase: MinCloudCase {
         XCTAssertEqual(user.unionid, dict.getString("unionid"))
         XCTAssertEqual(user.emailVerified, dict.getBool("_email_verified"))
         XCTAssertEqual(user.isAnonymous, dict.getBool("_anonymous"))
-        XCTAssertEqual(user.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(user.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(user.createdById, dict.getString("created_by"))
     }
     
     func test_record() {
@@ -53,10 +50,6 @@ class ModelCase: MinCloudCase {
     
     static func recordEqual(record: Record, dict: [String: Any]) {
         XCTAssertEqual(record.Id, dict.getString("id", "_id"))
-        XCTAssertEqual(record.createdById, dict.getString("created_by"))
-        XCTAssertEqual(record.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(record.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(record.acl, dict.getString("acl"))
     }
     
     func test_file() {

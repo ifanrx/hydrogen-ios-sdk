@@ -13,8 +13,6 @@ import Result
 @objc(BaaSRecord)
 public class Record: BaseRecord {
 
-    @objc public internal(set) var acl: String?
-
     @objc public var table: Table?
     
     static var TableRecordProvider = MoyaProvider<TableRecordAPI>(plugins: logPlugin)
@@ -33,7 +31,6 @@ public class Record: BaseRecord {
     }
 
     required init?(dict: [String: Any]) {
-        self.acl = dict.getString("acl")
         self.recordInfo = dict
         super.init(dict: dict)
     }
@@ -81,11 +78,6 @@ public class Record: BaseRecord {
                 } else {
                     if let record = record {
                         self.Id = record.Id
-                        self.acl = record.acl
-                        self.createdBy = record.createdBy
-                        self.createdById = record.createdById
-                        self.createdAt = record.createdAt
-                        self.updatedAt = record.updatedAt
                         self.recordInfo.merge(record.recordInfo)
                     }
                     completion(true, nil)
@@ -123,7 +115,6 @@ public class Record: BaseRecord {
                 } else {
                     if let record = record {
                         self.Id = record.Id
-                        self.updatedAt = record.updatedAt
                         self.recordInfo.merge(record.recordInfo)
                         if let unsetKeys = unsetKeys {
                             for key in unsetKeys.keys {

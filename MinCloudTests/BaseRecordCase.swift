@@ -23,18 +23,12 @@ class BaseRecordCase: MinCloudCase {
     func test_init() {
         let dict = SampleData.Record.base_record.toDictionary()!
         let record = BaseRecord(dict: dict)!
-        XCTAssertEqual(record.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(record.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(record.createdById, dict.getString("created_by"))
     }
     
     // create_by 为扩展时能否正常解析
     func test_init_created_by_dict() {
         let dict = SampleData.Record.base_record_created_by_dict.toDictionary()!
         let record = BaseRecord(dict: dict)!
-        XCTAssertEqual(record.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(record.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(record.createdById, dict.getDict("created_by")?.getString("id"))
     }
 
     // MARK: set

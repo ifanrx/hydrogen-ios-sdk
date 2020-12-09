@@ -81,7 +81,6 @@ class RecordCase: MinCloudCase {
         record.update { success, error in
             XCTAssertTrue(success)
             XCTAssertEqual(record.Id, dict?.getString("id"))
-            XCTAssertEqual(record.updatedAt, dict?.getDouble("updated_at"))
             XCTAssertFalse(record.recordInfo.keys.contains("color"))
             
         }

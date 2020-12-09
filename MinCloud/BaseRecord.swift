@@ -16,36 +16,8 @@ open class BaseRecord: NSObject, Mappable {
      */
     @objc public internal(set) var Id: String?
 
-    /**
-     *  创建者 Id
-     */
-    @objc public internal(set) var createdById: String?
-
-    /**
-     *  创建者信息，当使用 expand 查询时，该属性才有值
-     */
-    @objc public internal(set) var createdBy: [String: Any]?
-
-    /**
-     *  创建时间，时间戳
-     */
-    @objc public internal(set) var createdAt: TimeInterval = 0
-
-    /**
-     *  更新时间，时间戳
-     */
-    @objc public internal(set) var updatedAt: TimeInterval = 0
-
     required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id", "_id")
-        if let createdBy = dict.getDict("created_by") as? [String: Any] {
-            self.createdBy = createdBy
-            self.createdById = dict.getDict("created_by")?.getString("id")
-        } else {
-            self.createdById = dict.getString("created_by")
-        }
-        self.createdAt = dict.getDouble("created_at")
-        self.updatedAt = dict.getDouble("updated_at")
     }
 
     public override init() {
