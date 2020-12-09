@@ -4,6 +4,7 @@
 
 import Foundation
 import Alamofire
+import Starscream
 
 enum AppState {
     case background
@@ -61,6 +62,7 @@ final internal class SwampSession: SwampTransportDelegate {
     private let receivedPingTimeout: TimeInterval = 30.0
     private let reachabilityManager = NetworkReachabilityManager()
     private var previousReachabilityStatus: NetworkReachabilityManager.NetworkReachabilityStatus = .unknown
+    private var retryCount: UInt = 0
     
     // 处理所有内部回调以及状态更新
     private let underlyingQueue: DispatchQueue
@@ -190,7 +192,9 @@ extension SwampSession {
         dispatchPrecondition(condition: .onQueue(underlyingQueue))
         
         tryDisconnecting(reason: GOODBYE)
-        self.delegate?.swampSessionFailed(CONNECTIONT_ERROR)
+        if shouldRetry(error: error) {
+            tryConnecting()
+        }
     }
     
     func swampTransportReceivedPing() {
@@ -201,7 +205,7 @@ extension SwampSession {
     
     func swampTransportConnected() {
         dispatchPrecondition(condition: .onQueue(underlyingQueue))
-        
+        self.retryCount = 0
         sessionState = .connected
         DispatchQueue.main.sync {
             self.setupHeartBeat()
@@ -231,6 +235,13 @@ extension SwampSession {
         heartBeat?.fire()
     }
     
+    func shouldRetry(error: NSError?) -> Bool {
+        if ((error as? HTTPUpgradeError) != nil) {
+            return false
+        }
+        return true
+    }
+    
     // 尝试连接
     func tryConnecting() {
         dispatchPrecondition(condition: .onQueue(underlyingQueue))
@@ -240,6 +251,13 @@ extension SwampSession {
         }
         self.sessionState = .connecting
         self.transport.connect()
+        
+        underlyingQueue.asyncAfter(deadline: .now() + BaaSWebSocketConfiguration.connectionTimeOut, execute: { [weak self] in
+            guard let self = self else { return }
+            if self.sessionState != .connected {
+                self.connectingTimeOut()
+            }
+        })
     }
     
     // 取消连接
@@ -248,6 +266,23 @@ extension SwampSession {
         self.sessionState = .disconnected
         self.heartBeat?.invalidate()
         self.heartBeat = nil
+    }
+    
+    // 超时重连
+    func connectingTimeOut() {
+        dispatchPrecondition(condition: .onQueue(underlyingQueue))
+        
+        self.sessionState = .disconnected
+        let delay = BaaSWebSocketConfiguration.retryPolicy.retry(retryCount: retryCount)
+        if delay > 0 {
+            underlyingQueue.asyncAfter(deadline: .now() + delay) {
+                self.tryConnecting()
+                self.retryCount += 1
+            }
+        } else {
+            self.retryCount = 0
+            delegate?.swampSessionFailed(CONNECTIONT_IMEOUT)
+        }
     }
 }
 

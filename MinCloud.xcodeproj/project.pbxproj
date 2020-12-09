@@ -97,6 +97,7 @@
 		4C33A5FB224130950001C1A7 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FA224130950001C1A7 /* Table.swift */; };
 		4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FC2241338C0001C1A7 /* Record.swift */; };
 		4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D31682266FCF1001EFA7D /* datasource.plist */; };
+		4C633C5B2580A6E000DC6880 /* ConnectionRetrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C633C5A2580A6E000DC6880 /* ConnectionRetrier.swift */; };
 		4C831211224477E700B4B33E /* TableAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C831210224477E700B4B33E /* TableAPI.swift */; };
 		4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312122244F16000B4B33E /* GeoPoint.swift */; };
 		4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312142245D2C500B4B33E /* TableRecordAPI.swift */; };
@@ -206,6 +207,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C209E30257F87820098903F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C33A575223F4E850001C1A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CCB87572266CF9C00D65A65;
+			remoteInfo = Demo_Swift;
+		};
 		4C33A589223F4E850001C1A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C33A575223F4E850001C1A7 /* Project object */;
@@ -342,6 +350,7 @@
 		4C33A5FC2241338C0001C1A7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		4C43CF37239A358200D0D14C /* Demo_Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo_Swift.entitlements; sourceTree = "<group>"; };
 		4C4D31682266FCF1001EFA7D /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
+		4C633C5A2580A6E000DC6880 /* ConnectionRetrier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionRetrier.swift; sourceTree = "<group>"; };
 		4C722C79230A440000F79016 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		4C831210224477E700B4B33E /* TableAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAPI.swift; sourceTree = "<group>"; };
 		4C8312122244F16000B4B33E /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
@@ -1072,6 +1081,7 @@
 				4CCB0658255BCCF1005FFCAF /* SwampSession.swift */,
 				4CCCFD5B255A7AD20045E56B /* SubscriptionManager.swift */,
 				4CCB0691255BCFCC005FFCAF /* Subscription.swift */,
+				4C633C5A2580A6E000DC6880 /* ConnectionRetrier.swift */,
 			);
 			name = Wamp;
 			sourceTree = "<group>";
@@ -1203,6 +1213,7 @@
 			);
 			dependencies = (
 				4C33A58A223F4E850001C1A7 /* PBXTargetDependency */,
+				4C209E31257F87820098903F /* PBXTargetDependency */,
 			);
 			name = MinCloudTests;
 			productName = MinCloudTests;
@@ -1268,6 +1279,7 @@
 					};
 					4C33A586223F4E850001C1A7 = {
 						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 4CCB87572266CF9C00D65A65;
 					};
 					4CCB87572266CF9C00D65A65 = {
 						CreatedOnToolsVersion = 10.1;
@@ -1596,6 +1608,7 @@
 				4CCB0686255BCCF4005FFCAF /* AuthenticateSwampMessage.swift in Sources */,
 				4CBD3C7B224C5D0100F0E0F2 /* ResultHandler.swift in Sources */,
 				4CCB0670255BCCF4005FFCAF /* SubscribeSwampMessage.swift in Sources */,
+				4C633C5B2580A6E000DC6880 /* ConnectionRetrier.swift in Sources */,
 				4CF1BACC224B81720000CF54 /* Content.swift in Sources */,
 				4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */,
 				4C8312192245D71D00B4B33E /* FileAPI.swift in Sources */,
@@ -1695,6 +1708,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C209E31257F87820098903F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CCB87572266CF9C00D65A65 /* Demo_Swift */;
+			targetProxy = 4C209E30257F87820098903F /* PBXContainerItemProxy */;
+		};
 		4C33A58A223F4E850001C1A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4C33A57D223F4E850001C1A7 /* MinCloud */;
@@ -1833,7 +1851,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1893,7 +1911,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1953,8 +1971,6 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
@@ -2019,8 +2035,6 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
@@ -2052,6 +2066,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Demo_Swift.app/Demo_Swift";
 			};
 			name = Debug;
 		};
@@ -2072,6 +2087,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Demo_Swift.app/Demo_Swift";
 			};
 			name = Release;
 		};
@@ -2114,10 +2130,8 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -2164,10 +2178,8 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
