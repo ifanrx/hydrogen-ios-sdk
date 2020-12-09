@@ -157,10 +157,10 @@ open class User: BaseRecord {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func find(query: Query? = nil, completion:@escaping UserListResultCompletion) -> RequestCanceller? {
+    @objc public static func find(query: Query? = nil, callBackQueue: DispatchQueue = .main, completion:@escaping UserListResultCompletion) -> RequestCanceller? {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = UserProvider.request(.getUserList(parameters: queryArgs)) { result in
+        let request = UserProvider.request(.getUserList(parameters: queryArgs), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (listResult: UserList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -177,7 +177,7 @@ open class User: BaseRecord {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func get(_ userId: String, select: [String]? = nil, expand: [String]? = nil, completion:@escaping UserResultCompletion) -> RequestCanceller? {
+    @objc public static func get(_ userId: String, select: [String]? = nil, expand: [String]? = nil, callBackQueue: DispatchQueue = .main, completion:@escaping UserResultCompletion) -> RequestCanceller? {
 
         var parameters: [String: String] = [:]
         if let select = select {
@@ -186,7 +186,7 @@ open class User: BaseRecord {
         if let expand = expand {
             parameters["expand"] = expand.joined(separator: ",")
         }
-        let request = UserProvider.request(.getUserInfo(userId: userId, parameters: parameters)) { result in
+        let request = UserProvider.request(.getUserInfo(userId: userId, parameters: parameters), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: User?, error: NSError?) in
                 completion(user, error)
             })

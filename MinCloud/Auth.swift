@@ -41,6 +41,7 @@ open class Auth: NSObject {
     
     static var AuthProvider = MoyaProvider<AuthAPI>(plugins: logPlugin)
     static fileprivate var completion: CurrentUserResultCompletion?
+    static fileprivate var callBackQueue: DispatchQueue = .main
     static fileprivate var thirdAuthType: ThirdAuthType?
     static fileprivate var createUser: Bool?
     static fileprivate var syncUserProfile: SyncUserProfileType?
@@ -62,8 +63,8 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 注册回调结果
     @discardableResult
-    @objc public static func register(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
-        let request = AuthProvider.request(.register(.username, ["username": username, "password": password])) { result in
+    @objc public static func register(username: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+        let request = AuthProvider.request(.register(.username, ["username": username, "password": password]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
@@ -81,8 +82,8 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 注册回调结果
     @discardableResult
-    @objc public static func register(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
-        let request =  AuthProvider.request(.register(.email, ["email": email, "password": password])) { result in
+    @objc public static func register(email: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+        let request =  AuthProvider.request(.register(.email, ["email": email, "password": password]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
@@ -102,8 +103,8 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 登录回调结果
     @discardableResult
-    @objc public static func login(username: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
-        let request = AuthProvider.request(.login(.username, ["username": username, "password": password])) { result in
+    @objc public static func login(username: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+        let request = AuthProvider.request(.login(.username, ["username": username, "password": password]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
@@ -121,8 +122,8 @@ open class Auth: NSObject {
     ///   - password: 密码
     ///   - completion: 登录结果回调
     @discardableResult
-    @objc public static func login(email: String, password: String, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
-        let request = AuthProvider.request(.login(.email, ["email": email, "password": password])) { result in
+    @objc public static func login(email: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+        let request = AuthProvider.request(.login(.email, ["email": email, "password": password]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
@@ -137,8 +138,8 @@ open class Auth: NSObject {
     ///
     /// - Parameter completion: 登录结果回调
     @discardableResult
-    @objc public static func anonymousLogin(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
-        let request = AuthProvider.request(.login(.anonymous, [:])) { result in
+    @objc public static func anonymousLogin(callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+        let request = AuthProvider.request(.login(.anonymous, [:]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
@@ -159,8 +160,8 @@ open class Auth: NSObject {
     ///                 当 createUser 为 false 时，服务端会终止登录过程，返回 404 错误码，开发者可根据该返回结果进行多平台账户绑定的处理。
     ///   - completion: 登录结果回调
     @discardableResult
-    @objc public static func signInWithSMSVerificationCode(_ phone: String, code: String, createUser: Bool = true, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
-        let request = AuthProvider.request(.sms(["phone": phone, "code": code, "create_user": createUser])) { result in
+    @objc public static func signInWithSMSVerificationCode(_ phone: String, code: String, createUser: Bool = true, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
+        let request = AuthProvider.request(.sms(["phone": phone, "code": code, "create_user": createUser]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 Storage.shared.userId = user?.userId
                 Storage.shared.token = user?.token
@@ -175,8 +176,8 @@ open class Auth: NSObject {
     ///
     /// - Parameter completion: 登出结果回调
     @discardableResult
-    @objc public static func logout(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller {
-        let request = AuthProvider.request(.logout) { result in
+    @objc public static func logout(callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+        let request = AuthProvider.request(.logout, callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
@@ -191,15 +192,17 @@ open class Auth: NSObject {
 
     // 获取当前用户
     @discardableResult
-    @objc public static func getCurrentUser(_ completion: @escaping CurrentUserResultCompletion) -> RequestCanceller? {
+    @objc public static func getCurrentUser(callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin && Storage.shared.userId != nil else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(nil, error as NSError)
+            callBackQueue.async {
+                completion(nil, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:])) { result in
+        let request = User.UserProvider.request(.getUserInfo(userId: Storage.shared.userId!, parameters: [:]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: CurrentUser?, error: NSError?) in
                 user?.token = Storage.shared.token
                 user?.expiresIn = Storage.shared.expiresIn
@@ -222,7 +225,7 @@ extension Auth {
     ///                 当 createUser 为 false 时，服务端会终止登录过程，返回 404 错误码，开发者可根据该返回结果进行多平台账户绑定的处理。
     ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，setnx-仅当字段从未被赋值时才更新，false-不更新
     ///   - completion: 登录结果回调
-    @objc static public func signIn(with provider: Provider, createUser: Bool = true, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
+    @objc static public func signIn(with provider: Provider, createUser: Bool = true, syncUserProfile: SyncUserProfileType = .setnx, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) {
         
         switch provider {
         case .wechat:
@@ -237,7 +240,7 @@ extension Auth {
         Auth.createUser = createUser
         Auth.thirdAuthType = .authenticate
         Auth.completion = completion
-        
+        Auth.callBackQueue = callBackQueue
     }
     
     /// 将当前登录账号关联到第三方平台
@@ -246,7 +249,7 @@ extension Auth {
     ///   - type: 平台类型: wechat-微信，weibo-微博，apple-苹果
     ///   - syncUserProfile: 同步第三方平台用户信息方式：overwrite-强制更新，setnx-仅当字段从未被赋值时才更新，false-不更新
     ///   - completion: 登录结果回调
-    @objc static public func associate(with provider: Provider, syncUserProfile: SyncUserProfileType = .setnx, completion: @escaping CurrentUserResultCompletion) {
+    @objc static public func associate(with provider: Provider, syncUserProfile: SyncUserProfileType = .setnx, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) {
         
         switch provider {
         case .wechat:
@@ -260,6 +263,7 @@ extension Auth {
         Auth.syncUserProfile = syncUserProfile
         Auth.thirdAuthType = .associate
         Auth.completion = completion
+        Auth.callBackQueue = callBackQueue
     }
     
     fileprivate static func authWithWechat(code: String) {
@@ -280,7 +284,9 @@ extension Auth {
                     Storage.shared.expiresIn = user?.expiresIn
                 }
                 
-                Auth.completion?(user, error)
+                Auth.callBackQueue.async {
+                    Auth.completion?(user, error)
+                }
             })
         }
     }
@@ -302,7 +308,9 @@ extension Auth {
                     Storage.shared.expiresIn = user?.expiresIn
                 }
                 
-                Auth.completion?(user, error)
+                Auth.callBackQueue.async {
+                    Auth.completion?(user, error)
+                }
             })
         }
     }
@@ -325,7 +333,9 @@ extension Auth {
                     Storage.shared.expiresIn = user?.expiresIn
                 }
                 
-                Auth.completion?(user, error)
+                Auth.callBackQueue.async {
+                    Auth.completion?(user, error)
+                }
             })
         }
     }
@@ -355,7 +365,9 @@ extension ThirdProxy: WXApiDelegate {
         if let authResp =  resp as? SendAuthResp, let code = authResp.code {
             Auth.authWithWechat(code: code)
         } else {
-            Auth.completion?(nil, HError(code: 500, description: Localisation.Wechat.authorizeFail) as NSError)
+            Auth.callBackQueue.async {
+                Auth.completion?(nil, HError(code: 500, description: Localisation.Wechat.authorizeFail) as NSError)
+            }
         }
     }
     
@@ -377,7 +389,9 @@ extension ThirdProxy: WeiboSDKDelegate {
         if let authResp = response as? WBAuthorizeResponse, let token = authResp.accessToken, let uid = authResp.userID {
             Auth.authWithWeibo(code: token, uid: uid)
         } else {
-            Auth.completion?(nil, HError(code: 500, description: Localisation.Weibo.authorizeFail) as NSError)
+            Auth.callBackQueue.async {
+                Auth.completion?(nil, HError(code: 500, description: Localisation.Weibo.authorizeFail) as NSError)
+            }
         }
     }
     
@@ -418,14 +432,18 @@ extension ThirdProxy: ASAuthorizationControllerDelegate {
             if let token = appleIDCredential.identityToken, let tokenStr = String(data: token, encoding: .utf8) {
                 Auth.authWithApple(authToken: tokenStr, nickname: nickname)
             } else {
-                Auth.completion?(nil, HError(code: 500, description: Localisation.Apple.authorizeFail) as NSError)
+                Auth.callBackQueue.async {
+                    Auth.completion?(nil, HError(code: 500, description: Localisation.Apple.authorizeFail) as NSError)
+                }
             }
         }
     }
     
     @available(iOS 13.0, *)
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        Auth.completion?(nil, error as NSError)
+        Auth.callBackQueue.async {
+            Auth.completion?(nil, error as NSError)
+        }
     }
 }
 

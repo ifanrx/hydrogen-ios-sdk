@@ -17,6 +17,8 @@ public class Table: NSObject {
     var identifier: String
     
     static var TableProvider = MoyaProvider<TableAPI>(plugins: logPlugin)
+    // 处理外部回调
+    @objc public var callBackQueue: DispatchQueue = .main
     
     @objc public init(tableId: String) {
         self.identifier = tableId
@@ -58,12 +60,14 @@ public class Table: NSObject {
         do {
             jsonData = try JSONSerialization.data(withJSONObject: newRecords, options: .prettyPrinted)
         } catch let error {
-            completion(nil, HError.init(code: 400, description: error.localizedDescription) as NSError)
+            callBackQueue.async {
+                completion(nil, HError.init(code: 400, description: error.localizedDescription) as NSError)
+            }
             return nil
         }
 
         let args = options ?? [:]
-        let request = Table.TableProvider.request(.createRecords(tableId: identifier, recordData: jsonData!, parameters: args)) { result in
+        let request = Table.TableProvider.request(.createRecords(tableId: identifier, recordData: jsonData!, parameters: args), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 completion(resultInfo?.value, error)
             })
@@ -83,7 +87,7 @@ public class Table: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
-        let request = Table.TableProvider.request(.delete(tableId: identifier, parameters: queryArgs)) { result in
+        let request = Table.TableProvider.request(.delete(tableId: identifier, parameters: queryArgs), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 completion(resultInfo?.value, error)
             })
@@ -109,7 +113,7 @@ public class Table: NSObject {
         if let expand = expand {
             parameters["expand"] = expand.joined(separator: ",")
         }
-        let request = Table.TableProvider.request(.get(tableId: identifier, recordId: recordId, parameters: parameters)) { result in
+        let request = Table.TableProvider.request(.get(tableId: identifier, recordId: recordId, parameters: parameters), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
                 record?.table = self
                 completion(record, error)
@@ -134,7 +138,7 @@ public class Table: NSObject {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
-        let request = Table.TableProvider.request(.update(tableId: identifier, urlParameters: queryArgs, bodyParameters: record.recordParameter.jsonValue())) { result in
+        let request = Table.TableProvider.request(.update(tableId: identifier, urlParameters: queryArgs, bodyParameters: record.recordParameter.jsonValue()), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 completion(resultInfo?.value, error)
             })
@@ -152,7 +156,7 @@ public class Table: NSObject {
     @objc public func find(query: Query? = nil, completion: @escaping RecordListResultCompletion) -> RequestCanceller? {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = Table.TableProvider.request(.find(tableId: identifier, parameters: queryArgs)) { result in
+        let request = Table.TableProvider.request(.find(tableId: identifier, parameters: queryArgs), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (listResult: RecordList?, error: NSError?) in
                 listResult?.records?.forEach({ (record) in
                     record.table = self
@@ -181,7 +185,9 @@ public class Table: NSObject {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            onError(error as NSError)
+            callBackQueue.async {
+                onError(error as NSError)
+            }
             return
         }
 

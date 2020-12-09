@@ -45,15 +45,17 @@ open class CurrentUser: User {
     ///   - email: 用户已验证的邮箱地址
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func resetPassword(email: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc open func resetPassword(email: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(false, error as NSError)
+            callBackQueue.async {
+                completion(false, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.resetPassword(parameters: ["email": email])) { result in
+        let request = User.UserProvider.request(.resetPassword(parameters: ["email": email]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
@@ -71,15 +73,17 @@ open class CurrentUser: User {
     ///   - username: 新的用户名，不能和旧用户一样
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateUsername(_ username: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc open func updateUsername(_ username: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(nil, error as NSError)
+            callBackQueue.async {
+                completion(nil, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.updateAccount(parameters: ["username": username])) { result in
+        let request = User.UserProvider.request(.updateAccount(parameters: ["username": username]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -94,15 +98,17 @@ open class CurrentUser: User {
     ///   - sendVerification: 是否发送邮箱认证
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateEmail(_ email: String, sendVerification: Bool = false, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc open func updateEmail(_ email: String, sendVerification: Bool = false, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(nil, error as NSError)
+            callBackQueue.async {
+                completion(nil, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.updateAccount(parameters: ["email": email])) { result in
+        let request = User.UserProvider.request(.updateAccount(parameters: ["email": email]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -117,15 +123,17 @@ open class CurrentUser: User {
     ///   - newPassword: 新的用户密码
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updatePassword(_ password: String, newPassword: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc open func updatePassword(_ password: String, newPassword: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(nil, error as NSError)
+            callBackQueue.async {
+                completion(nil, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.updateAccount(parameters: ["password": password, "new_password": newPassword])) { result in
+        let request = User.UserProvider.request(.updateAccount(parameters: ["password": password, "new_password": newPassword]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -139,15 +147,17 @@ open class CurrentUser: User {
     ///   - phone: 用户手机号码
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updatePhone(_ phone: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc open func updatePhone(_ phone: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(nil, error as NSError)
+            callBackQueue.async {
+                completion(nil, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.updateAccount(parameters: ["phone": phone])) { result in
+        let request = User.UserProvider.request(.updateAccount(parameters: ["phone": phone]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -161,15 +171,17 @@ open class CurrentUser: User {
     ///   - userInfo: 用户信息
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateUserInfo(_ userInfo: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc open func updateUserInfo(_ userInfo: [String: Any], callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(nil, error as NSError)
+            callBackQueue.async {
+                completion(nil, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.updateUserInfo(parameters: userInfo)) { result in
+        let request = User.UserProvider.request(.updateUserInfo(parameters: userInfo), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -181,15 +193,17 @@ open class CurrentUser: User {
     ///
     /// - Parameter completion: 结果回调
     @discardableResult
-    @objc open func requestEmailVerification(_ completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc open func requestEmailVerification(callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(false, error as NSError)
+            callBackQueue.async {
+                completion(false, error as NSError)
+            }
             return nil
         }
 
-        let request = User.UserProvider.request(.requestEmailVerify) { result in
+        let request = User.UserProvider.request(.requestEmailVerify, callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
@@ -211,15 +225,17 @@ open class CurrentUser: User {
     ///   - completion: 验证结果
     /// - Returns:
     @discardableResult
-    @objc public func verifyPhone(code: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func verifyPhone(code: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
-            completion(false, error as NSError)
+            callBackQueue.async {
+                completion(false, error as NSError)
+            }
             return nil
         }
         
-        let request = User.UserProvider.request(.verifyPhone(parameters: ["code": code])) { result in
+        let request = User.UserProvider.request(.verifyPhone(parameters: ["code": code]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)

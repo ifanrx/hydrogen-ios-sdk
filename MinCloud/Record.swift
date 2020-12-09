@@ -71,7 +71,8 @@ public class Record: BaseRecord {
             return nil
         }
 
-        let request = Record.TableRecordProvider.request(.save(tableId: tableId, parameters: recordParameter.jsonValue())) { result in
+        let callBackQueue = table?.callBackQueue ?? .main
+        let request = Record.TableRecordProvider.request(.save(tableId: tableId, parameters: recordParameter.jsonValue()), callbackQueue: callBackQueue) { result in
             self.clear() // 清除条件
 
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
@@ -104,12 +105,16 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func update(_ completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
+        let callBackQueue = table?.callBackQueue ?? .main
         guard Id != nil, let tableId = table?.identifier else {
-            completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
+            callBackQueue.async {
+                completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
+            }
             return nil
         }
 
-        let request = Record.TableRecordProvider.request(.update(tableId: tableId, recordId: Id!, parameters: recordParameter.jsonValue())) { result in
+        
+        let request = Record.TableRecordProvider.request(.update(tableId: tableId, recordId: Id!, parameters: recordParameter.jsonValue()), callbackQueue: callBackQueue) { result in
             let unsetKeys = self.recordParameter.getDict("$unset") as? [String: Any]
             self.clear() // 清除条件
             ResultHandler.parse(result, handler: { (record: Record?, error: NSError?) in
@@ -143,12 +148,15 @@ public class Record: BaseRecord {
     @discardableResult
     @objc public func delete(completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
+        let callBackQueue = table?.callBackQueue ?? .main
         guard Id != nil, let tableId = table?.identifier else {
-            completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
+            callBackQueue.async {
+                completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
+            }
             return nil
         }
 
-        let request = Record.TableRecordProvider.request(.delete(tableId: tableId, recordId: Id!)) { result in
+        let request = Record.TableRecordProvider.request(.delete(tableId: tableId, recordId: Id!), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)

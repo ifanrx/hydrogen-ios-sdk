@@ -14,18 +14,25 @@ open class Pay: NSObject {
 
     @objc public static let shared = Pay()
     @objc public var isPaying: Bool = false
+    @objc public var callBackQueue: DispatchQueue = .main
     
     static var PayProvider = MoyaProvider<PayAPI>(plugins: logPlugin)
 
     // 微信支付
     @discardableResult
     @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: String? = nil, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
+        
+        objc_sync_enter(self)
         guard !isPaying else {
-            completion(nil, HError.init(code: 609) as NSError)
+            objc_sync_exit(self)
+            callBackQueue.async {
+                completion(nil, HError.init(code: 609) as NSError)
+            }
             return nil
         }
-
         self.isPaying = true
+        objc_sync_exit(self)
+        
         // 创建订单，并获取预支付信息
         let canceller = self.pay(type: WXPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, merchandiseSchemaID: merchandiseSchemaID, merchandiseRecordID: merchandiseRecordID, merchandiseSnapshot: merchandiseSnapshot, completion: {(order, error) in
 
@@ -50,12 +57,18 @@ open class Pay: NSObject {
     // 支付宝支付
     @discardableResult
     @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: String? = nil, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
+        
+        objc_sync_enter(self)
         guard !isPaying else {
-            completion(nil, HError.init(code: 609) as NSError)
+            objc_sync_exit(self)
+            callBackQueue.async {
+                completion(nil, HError.init(code: 609) as NSError)
+            }
             return nil
         }
-
         self.isPaying = true
+        objc_sync_exit(self)
+        
         let canceller = self.pay(type: AliPay, totalCost: totalCost, merchandiseDescription: merchandiseDescription, merchandiseSchemaID: merchandiseSchemaID, merchandiseRecordID: merchandiseRecordID, merchandiseSnapshot: merchandiseSnapshot, completion: {(order, error) in
             self.isPaying = false
             if error != nil {
@@ -76,7 +89,7 @@ open class Pay: NSObject {
     // 查询订单
     @discardableResult
     @objc public func order(_ transactionID: String, completion:@escaping OrderCompletion) -> RequestCanceller? {
-        let request = Pay.PayProvider.request(.order(transactionID: transactionID)) { (result) in
+        let request = Pay.PayProvider.request(.order(transactionID: transactionID), callbackQueue: callBackQueue) { (result) in
             ResultHandler.parse(result, handler: { (order: Order?, error: NSError?) in
                 completion(order, error)
             })
@@ -88,7 +101,7 @@ open class Pay: NSObject {
     @discardableResult
     @objc public func orderList(query: Query? = nil, completion:@escaping OrderListCompletion) -> RequestCanceller? {
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = Pay.PayProvider.request(.orderList(parameters: queryArgs)) { (result) in
+        let request = Pay.PayProvider.request(.orderList(parameters: queryArgs), callbackQueue: callBackQueue) { (result) in
             ResultHandler.parse(result, handler: { (listResult: OrderList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -154,7 +167,7 @@ extension Pay {
             parameters["merchandise_snapshot"] = merchandiseSnapshotStr
         }
 
-        let request = Pay.PayProvider.request(.pay(parameters: parameters)) { result in
+        let request = Pay.PayProvider.request(.pay(parameters: parameters), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (order: Order?, error: NSError?) in
                 completion(order, error)
             })
