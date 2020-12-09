@@ -8,7 +8,6 @@
 
 import Foundation
 import Moya
-import Result
 
 @objc(BaaSContentGroup)
 open class ContentGroup: NSObject {

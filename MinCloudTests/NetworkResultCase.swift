@@ -9,7 +9,6 @@
 import XCTest
 @testable import MinCloud
 @testable import Moya
-@testable import Result
 
 class NetworkResultCase: MinCloudCase {
     

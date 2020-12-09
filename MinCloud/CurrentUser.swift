@@ -8,7 +8,6 @@
 
 import Foundation
 import Moya
-import Result
 
 @objc(BaaSCurrentUser)
 open class CurrentUser: User {

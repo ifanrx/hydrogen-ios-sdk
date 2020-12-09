@@ -8,7 +8,6 @@
 
 import UIKit
 import Moya
-import Result
 
 @objc(BaaSRecord)
 public class Record: BaseRecord {

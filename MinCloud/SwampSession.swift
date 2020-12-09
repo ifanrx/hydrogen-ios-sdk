@@ -144,11 +144,10 @@ extension SwampSession {
             self?.applicationStateChanged(with: .foreground)
         }
         
-        self.reachabilityManager?.listenerQueue = underlyingQueue
-        self.reachabilityManager?.startListening()
-        self.reachabilityManager?.listener = { [weak self] newStatus in
+        self.reachabilityManager?.startListening(onQueue: underlyingQueue, onUpdatePerforming: { [weak self] (newStatus) in
             self?.networkReachabilityStatusChanged(with: newStatus)
-        }
+        })
+
     }
     
     private func applicationStateChanged(with appState: AppState) {

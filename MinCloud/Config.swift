@@ -20,7 +20,7 @@ enum AuthType: String {
     case anonymous
 }
 
-let logPlugin: [PluginType] = BaaS.isDebug ? [NetworkLoggerPlugin(verbose: true)] : []
+let logPlugin: [PluginType] = BaaS.isDebug ? [NetworkLoggerPlugin()] : []
 let WXPay = "weixin_tenpay_app"
 let AliPay = "alipay_app"
 

@@ -8,7 +8,6 @@
 
 import Foundation
 import Moya
-import Result
 import AuthenticationServices
 
 // 第三方授权类型
