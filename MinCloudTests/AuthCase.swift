@@ -10,11 +10,6 @@ import XCTest
 @testable import MinCloud
 @testable import Moya
 
-class MockAuth: {
-    
-}
-
-
 class AuthCase: MinCloudCase {
 
     override func setUp() {
@@ -109,7 +104,7 @@ class AuthCase: MinCloudCase {
     
     func test_sign_sms() {
         let userDict = SampleData.Auth.anonymous.toDictionary()
-        Auth.signInWithSMS(phone: "15088051234", code: "12345") { (user, error) in
+        Auth.signInWithSMSVerificationCode("15088051234", code: "12345") { (user, error) in
             XCTAssertEqual(user?.Id, userDict?.getString("id"), "用户 id 不相等")
             XCTAssertEqual(user?.token, userDict?.getString("token"), "用户 token 不相等")
             XCTAssertEqual(Auth.hadLogin, true, "用户登录失败")

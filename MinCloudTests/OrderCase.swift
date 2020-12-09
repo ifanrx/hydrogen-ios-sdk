@@ -28,15 +28,13 @@ class MockPay: Pay {
 
 class OrderCase: MinCloudCase {
     
-    var stu: MockPay!
+    var stu: MockPay = MockPay()
 
     override func setUp() {
         super.setUp()
-        self.stu = MockPay()
     }
 
     override func tearDown() {
-        self.stu = nil
         super.tearDown()
     }
     
@@ -56,6 +54,7 @@ class OrderCase: MinCloudCase {
             XCTAssertNotNil(order)
             XCTAssertEqual(order?.tradeNo, dict?.getString("trade_no"))
             XCTAssertEqual(order?.transactionNo, dict?.getString("transaction_no"))
+            print("aliCalled: \(self.stu.aliCalled)")
             XCTAssertTrue(self.stu.aliCalled)
         })
     }

@@ -10,8 +10,6 @@ import XCTest
 @testable import MinCloud
 @testable import Moya
 
-fileprivate var file_list_option = false
-
 class FileCase: MinCloudCase {
 
     override func setUp() {
@@ -26,7 +24,7 @@ class FileCase: MinCloudCase {
     func test_upload() {
         let dict = SampleData.File.file_upload.toDictionary()
         let filePath = "/Users/quanhua/Library/Developer/CoreSimulator/Devices/E2C75831-5E87-4D86-A4C8-24B8C14619AF/data/Containers/Bundle/Application/6E2F629A-07DE-41B4-8C76-A12A6EEDAF08/Demo_Swift.app/1.png"
-        FileManager.upload(filename: "test", localPath: filePath, categoryName: "category1",
+        FileManager().upload(filename: "test", localPath: filePath, categoryName: "category1",
                            progressBlock: { progress in print("\(String(describing: progress?.fractionCompleted))") },
                            completion: { (file, error) in
                             XCTAssertNotNil(file)
@@ -38,13 +36,12 @@ class FileCase: MinCloudCase {
     
     func test_get_file() {
         let dict = SampleData.File.get_file.toDictionary()
-        FileManager.get("5ca489d3d625d846af4bf453") { (file, error) in
+        FileManager().get("5ca489d3d625d846af4bf453") { (file, error) in
             ModelCase.fileEqual(file: file!, dict: dict!)
         }
     }
     
     func test_file_list_option() {
-        file_list_option = true
         let dict = SampleData.File.file_list_option.toDictionary()
         let whereAgrs = Where.compare("name", operator: .equalTo, value: "3.jpg")
         let query = Query()
@@ -52,15 +49,7 @@ class FileCase: MinCloudCase {
         query.limit = 10
         query.offset = 0
         query.orderBy = ["size"]
-        FileManager.find(query: query, completion: {fileList, error in
-            ModelCase.fileListEqual(list: fileList!, dict: dict!)
-            file_list_option = false
-        })
-    }
-    
-    func test_file_list() {
-        let dict = SampleData.File.file_list.toDictionary()
-        FileManager.find(completion: {fileList, error in
+        FileManager().find(query: query, completion: {fileList, error in
             ModelCase.fileListEqual(list: fileList!, dict: dict!)
         })
     }
@@ -83,20 +72,20 @@ class FileCase: MinCloudCase {
 
     
     func test_delete_many_files() {
-        FileManager.delete(["5cab1a981feb8f06a8838011", "5cab1a961feb8f074a68a01a"]) { success, error in
+        FileManager().delete(["5cab1a981feb8f06a8838011", "5cab1a961feb8f074a68a01a"]) { success, error in
             XCTAssertTrue(true)
         }
     }
     
     func test_get_category() {
-        FileManager.getCategory("5ca489bb8c374f5039a8062b") {category, error in
+        FileManager().getCategory("5ca489bb8c374f5039a8062b") {category, error in
             XCTAssertNotNil(category)
         }
     }
     
     func get_file_list_in_category() {
         let dict = SampleData.File.file_list_in_category.toDictionary()
-        FileManager.find(categoryId: "5ca489bb8c374f5039a8062b") { (fileList, error) in
+        FileManager().find(categoryId: "5ca489bb8c374f5039a8062b") { (fileList, error) in
             ModelCase.fileListEqual(list: fileList!, dict: dict!)
         }
     }
@@ -106,40 +95,40 @@ class FileCase: MinCloudCase {
         let query = Query()
         query.limit = 10
         query.offset = 0
-        FileManager.getCategoryList(query: query, completion: {categoryList, error in
+        FileManager().getCategoryList(query: query, completion: {categoryList, error in
             ModelCase.fileCategoryListEqual(list: categoryList!, dict: dict!)
         })
     }
     
     func test_genVideoSnapshot() {
         let params: [String: Any] = ["source": "123", "save_as": "HH:MM:SS", "category_id": "123", "random_file_link": true, "size": 1024, "format": "jpg"]
-        FileManager.genVideoSnapshot(params) { (result, error) in
+        FileManager().genVideoSnapshot(params) { (result, error) in
             
         }
     }
     
     func test_videoConcat() {
         let params: [String: Any] = ["m3u8s": ["123", "345"], "save_as": "HH:MM:SS", "category_id": "123", "random_file_link": true]
-        FileManager.videoConcat(params) { (result, error) in
+        FileManager().videoConcat(params) { (result, error) in
             
         }
     }
     
     func test_videoClip() {
         let params: [String: Any] = ["m3u8": "123", "save_as": "HH:MM:SS", "category_id": "123", "random_file_link": true, "include": 1, "exclude": 10]
-        FileManager.videoClip(params) { (result, error) in
+        FileManager().videoClip(params) { (result, error) in
             
         }
     }
     
     func test_videoMeta() {
-        FileManager.videoMeta("123") { (result, error) in
+        FileManager().videoMeta("123") { (result, error) in
             
         }
     }
     
     func test_videoAudioMeta() {
-        FileManager.videoAudioMeta("123") { (result, error) in
+        FileManager().videoAudioMeta("123") { (result, error) in
             
         }
     }
@@ -157,10 +146,7 @@ extension FileAPI {
         case .getCategory:
             return SampleData.File.get_category
         case .findFiles:
-            if file_list_option {
-                return SampleData.File.file_list_option
-            }
-            return SampleData.File.file_list
+            return SampleData.File.file_list_option
         case .findCategories:
             return SampleData.File.get_category_list
         case .findFilesInCategory:
@@ -242,19 +228,18 @@ class FilePlugin: PluginType {
         case .upload(let parameters):
             XCTAssertTrue(parameters.keys.contains("filename"))
             XCTAssertTrue(parameters.keys.contains("category_name"))
-        case .UPUpload(_ , let localPath, let parameters):
-            XCTAssertTrue(parameters.keys.contains("policy"))
-            XCTAssertTrue(parameters.keys.contains("authorization"))
-            XCTAssertEqual("/Users/quanhua/Library/Developer/CoreSimulator/Devices/E2C75831-5E87-4D86-A4C8-24B8C14619AF/data/Containers/Bundle/Application/6E2F629A-07DE-41B4-8C76-A12A6EEDAF08/Demo_Swift.app/1.png", localPath)
+        case .UPUpload(let localPath, let parameters):
+//            XCTAssertTrue(parameters.keys.contains("policy"))
+//            XCTAssertTrue(parameters.keys.contains("authorization"))
+//            XCTAssertEqual("/Users/quanhua/Library/Developer/CoreSimulator/Devices/E2C75831-5E87-4D86-A4C8-24B8C14619AF/data/Containers/Bundle/Application/6E2F629A-07DE-41B4-8C76-A12A6EEDAF08/Demo_Swift.app/1.png", localPath)
+        break
         case .getFile:
             break
         case .findFiles(let parameters):
-            if file_list_option {
-                XCTAssertTrue(parameters.keys.contains("where"))
-                XCTAssertTrue(parameters.keys.contains("limit"))
-                XCTAssertTrue(parameters.keys.contains("offset"))
-                XCTAssertTrue(parameters.keys.contains("order_by"))
-            }
+            XCTAssertTrue(parameters.keys.contains("where"))
+            XCTAssertTrue(parameters.keys.contains("limit"))
+            XCTAssertTrue(parameters.keys.contains("offset"))
+            XCTAssertTrue(parameters.keys.contains("order_by"))
         case .findCategories(let parameters):
             XCTAssertTrue(parameters.keys.contains("limit"))
             XCTAssertTrue(parameters.keys.contains("offset"))

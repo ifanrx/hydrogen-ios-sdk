@@ -80,7 +80,7 @@ struct Path {
     }
 
     struct File {
-        static let upload = "/hserve/v1/upload/"
+        static let upload = "/hserve/v2.1/upload/"
         static func fileDetail(fileId: String) -> String { return "/hserve/v1.3/uploaded-file/\(fileId)/" }
         static let fileList = "/hserve/v2.2/uploaded-file/"
         static func deleteFile(fileId: String) -> String { return "/hserve/v1.3/uploaded-file/\(fileId)/" }
@@ -101,7 +101,7 @@ struct Path {
 
     struct BaaS {
         static let cloudFunction = "/hserve/v1/cloud-function/job/"
-        static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
+        static let sendSmsCode = "/hserve/v2.1/sms-verification-code/"
         static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
         static let getServerTime = "/hserve/v2.2/server/time/"
     }
