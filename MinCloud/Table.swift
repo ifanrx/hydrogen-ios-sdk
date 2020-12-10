@@ -10,7 +10,7 @@ import UIKit
 import Moya
 
 @objc(BaaSTable)
-public class Table: NSObject {
+open class Table: NSObject {
     public internal(set) var Id: String?
     public internal(set) var name: String?
     var identifier: String

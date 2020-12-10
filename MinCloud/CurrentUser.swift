@@ -44,7 +44,7 @@ open class CurrentUser: User {
     ///   - email: 用户已验证的邮箱地址
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func resetPassword(email: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func resetPassword(email: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
@@ -72,7 +72,7 @@ open class CurrentUser: User {
     ///   - username: 新的用户名，不能和旧用户一样
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateUsername(_ username: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func updateUsername(_ username: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
@@ -97,7 +97,7 @@ open class CurrentUser: User {
     ///   - sendVerification: 是否发送邮箱认证
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateEmail(_ email: String, sendVerification: Bool = false, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func updateEmail(_ email: String, sendVerification: Bool = false, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
@@ -122,7 +122,7 @@ open class CurrentUser: User {
     ///   - newPassword: 新的用户密码
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updatePassword(_ password: String, newPassword: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func updatePassword(_ password: String, newPassword: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
@@ -146,7 +146,7 @@ open class CurrentUser: User {
     ///   - phone: 用户手机号码
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updatePhone(_ phone: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func updatePhone(_ phone: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
@@ -170,7 +170,7 @@ open class CurrentUser: User {
     ///   - userInfo: 用户信息
     ///   - completion: 结果回调
     @discardableResult
-    @objc open func updateUserInfo(_ userInfo: [String: Any], callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func updateUserInfo(_ userInfo: [String: Any], callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)
@@ -192,7 +192,7 @@ open class CurrentUser: User {
     ///
     /// - Parameter completion: 结果回调
     @discardableResult
-    @objc open func requestEmailVerification(callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func requestEmailVerification(callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
             let error = HError.init(code: 604, description: "please login in")
             printErrorInfo(error)

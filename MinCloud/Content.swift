@@ -18,27 +18,10 @@ open class Content: NSObject, Mappable {
     @objc public internal(set) var groupId: String?
     @objc public internal(set) var categories: [String]?
     @objc public internal(set) var readCount: Int = 0
+    
+    // 所有内容库信息
     @objc public internal(set) var contentInfo: [String: Any] = [:]
 
-    /**
-     *  创建者的 ID
-     */
-    @objc public internal(set) var createdById: String?
-
-    /**
-     *  创建者的信息
-     */
-    @objc public internal(set) var createdBy: [String: Any]?
-
-    /**
-     *  创建时间
-     */
-    @objc public internal(set) var createdAt: TimeInterval = 0
-
-    /**
-     *  更新时间
-     */
-    @objc public internal(set) var updatedAt: TimeInterval = 0
 
     @objc required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")
@@ -48,15 +31,15 @@ open class Content: NSObject, Mappable {
         self.categories = dict.getArray("categories", type: String.self)
         self.groupId = dict.getString("group_id")
         self.content = dict.getString("content")
-        if let createdBy = dict.getDict("created_by") as? [String: Any] {
-            self.createdBy = createdBy
-            self.createdById = dict.getDict("created_by")?.getString("id")
-        } else {
-            self.createdById = dict.getString("created_by")
-        }
-        self.createdAt = dict.getDouble("created_at")
-        self.updatedAt = dict.getDouble("updated_at")
+        self.readCount = dict.getInt("read_count")
         self.contentInfo = dict
+    }
+    
+    /**
+     *  根据 key 获取值
+     */
+    @objc public func get(_ key: String) -> Any? {
+        return contentInfo[key]
     }
     
     @objc override open var description: String {

@@ -27,14 +27,16 @@ open class Order: NSObject, Mappable {
     @objc public internal(set) var merchandiseSchemaId: String?
     @objc public internal(set) var merchandiseDescription: String?
     @objc public internal(set) var merchandiseSnapshot: [String: Any]?
-    var dictInfo: [String: Any]?
+    
+    // 所有订单信息
+    @objc public var orderInfo: [String: Any] = [:]
 
     @objc public override init() {
         super.init()
     }
 
     @objc required public init?(dict: [String: Any]) {
-        self.dictInfo = dict
+        self.orderInfo = dict
         self.Id = dict.getString("id")
         self.tradeNo = dict.getString("trade_no")
         self.transactionNo = dict.getString("transaction_no")
@@ -53,13 +55,20 @@ open class Order: NSObject, Mappable {
         self.merchandiseSnapshot = dict.getDict("merchandise_snapshot") as? [String: Any]
         self.merchandiseDescription = dict.getString("merchandise_description")
     }
+    
+    /**
+     *  根据 key 获取值
+     */
+    @objc public func get(_ key: String) -> Any? {
+        return orderInfo[key]
+    }
 
     var wxAppid: String? {
         var appId: String?
         if let paymentParameters = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             appId = paymentParameters.getString("appid")
         } else {
-            appId = self.dictInfo?.getString("appid")
+            appId = self.orderInfo.getString("appid")
         }
         return appId
     }
@@ -69,7 +78,7 @@ open class Order: NSObject, Mappable {
         if let paymentParameters = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             appId = paymentParameters.getString("appid")
         } else {
-            appId = self.dictInfo?.getString("appid")
+            appId = self.orderInfo.getString("appid")
         }
         return appId
     }
@@ -79,7 +88,7 @@ open class Order: NSObject, Mappable {
         if let paymentParameters = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             paymentUrl = paymentParameters.getString("payment_url")
         } else {
-            paymentUrl = self.dictInfo?.getString("payment_url")
+            paymentUrl = self.orderInfo.getString("payment_url")
         }
         return paymentUrl
     }
@@ -91,7 +100,7 @@ open class Order: NSObject, Mappable {
         if let paymentParams = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             payDict = paymentParams
         } else {
-            payDict = self.dictInfo
+            payDict = self.orderInfo
         }
         if let dict = payDict {
             payReq = PayReq()
@@ -118,12 +127,12 @@ open class Order: NSObject, Mappable {
     }
 
     @objc override open var description: String {
-        let dict = self.dictInfo ?? [:]
+        let dict = self.orderInfo
         return dict.toJsonString
     }
     
     @objc override open var debugDescription: String {
-        let dict = self.dictInfo ?? [:]
+        let dict = self.orderInfo
         return dict.toJsonString
     }
 }
