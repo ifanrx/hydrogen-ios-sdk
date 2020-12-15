@@ -99,9 +99,6 @@ class ModelCase: MinCloudCase {
         XCTAssertEqual(content.categories, dict.getArray("categories", type: String.self))
         XCTAssertEqual(content.groupId, dict.getString("group_id"))
         XCTAssertEqual(content.content, dict.getString("content"))
-        XCTAssertEqual(content.createdById, dict.getString("created_by"))
-        XCTAssertEqual(content.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(content.updatedAt, dict.getDouble("updated_at"))
     }
     
     func test_content_category() {

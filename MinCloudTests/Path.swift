@@ -65,9 +65,9 @@ struct Path {
     }
 
     struct Table {
-        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/\(recordId)/" }
-        static func recordList(tableId: String) -> String { return "/hserve/v2.2/table/\(tableId)/record/" }
-        static func saveRecord(tableId: String) -> String { return "/hserve/v2.2/table/\(tableId)/record/" }
+        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/\(recordId)/" }
+        static func recordList(tableId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/" }
+        static func saveRecord(tableId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/" }
     }
 
     struct ContentGroup {

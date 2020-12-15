@@ -105,6 +105,22 @@ open class BaseRecord: NSObject, Mappable {
     @objc public func updateObject(_ key: String, value: [String: Any]) {
         recordParameter[key] = ["$update": value]
     }
+    
+    /// 从 Array 类型删除最后一项
+    ///
+    /// - Parameters:
+    ///   - key: 字段名
+    @objc public func pop(_ key: String) {
+        recordParameter[key] = ["$pop": 1]
+    }
+    
+    /// 从 Array 类型删除最后一项
+    ///
+    /// - Parameters:
+    ///   - key: 字段名
+    @objc public func shift(_ key: String) {
+        recordParameter[key] = ["$pop": -1]
+    }
 
     func clear() {
         recordParameter.removeAll()
