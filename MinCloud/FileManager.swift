@@ -86,10 +86,16 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
-
+        guard let fileSize = getFileSize(for: localPath) else {
+            callBackQueue.async {
+                completion(nil, HError.init(code: 400, description: "fileSize is 0!") as NSError)
+            }
+            return nil
+        }
+        
         let url = URL(fileURLWithPath: localPath)
         let formData = MultipartFormData(provider: .file(url), name: "file")
-        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: nil, progressBlock: progressBlock, completion: completion)
+        return upload(filename: filename, fileFormData: formData, fileSize: fileSize, categoryName: categoryName, categoryId: nil, progressBlock: progressBlock, completion: completion)
     }
     
     /// 上传文件
@@ -105,9 +111,16 @@ open class FileManager: NSObject {
     /// - Returns:
     @discardableResult
     @objc public func upload(filename: String, localPath: String, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+        guard let fileSize = getFileSize(for: localPath) else {
+            callBackQueue.async {
+                completion(nil, HError.init(code: 400, description: "fileSize is 0!") as NSError)
+            }
+            return nil
+        }
+        
         let url = URL(fileURLWithPath: localPath)
         let formData = MultipartFormData(provider: .file(url), name: "file", mimeType: mimeType)
-        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
+        return upload(filename: filename, fileFormData: formData, fileSize: fileSize, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
     }
     
     /// 上传文件
@@ -124,21 +137,23 @@ open class FileManager: NSObject {
     @discardableResult
     @objc public func upload(filename: String, fileData: Data, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
         let formData = MultipartFormData(provider: .data(fileData), name: "file", fileName: filename, mimeType: mimeType)
-        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
+        let fileSize = fileData.count
+        return upload(filename: filename, fileFormData: formData, fileSize: fileSize, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
     }
 
     @discardableResult
-    func upload(filename: String, fileFormData: MultipartFormData, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    func upload(filename: String, fileFormData: MultipartFormData, fileSize: Int, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
         let canceller = RequestCanceller()
 
-        var parameters = ["filename": filename]
+        var parameters: [String: Any] = ["filename": filename]
         if let categoryName = categoryName {
             parameters["category_name"] = categoryName
         }
         if let categoryId = categoryId {
             parameters["category_id"] = categoryId
         }
+        parameters["file_size"] = fileSize
         let request = FileManager.FileProvider.request(.upload(parameters: parameters), callbackQueue: callBackQueue) { result in
 
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
@@ -158,11 +173,11 @@ open class FileManager: NSObject {
                     let cdnPath = fileInfo?.getString("cdn_path")
                     let parameters: [String: String] = ["policy": policy, "authorization": authorization]
                     var formDatas: [MultipartFormData] = []
-                    formDatas.append(fileFormData)
                     for (key, value) in parameters {
                         let formData = MultipartFormData(provider: .data(value.data(using: .utf8)!), name: key)
                         formDatas.append(formData)
                     }
+                    formDatas.append(fileFormData)
                     let uploadRequest = FileManager.FileProvider.request(.UPUpload(url: uploadUrl, formDatas: formDatas), callbackQueue: self.callBackQueue, progress: { progress in
                         progressBlock(progress.progressObject)
                     }, completion: { result in
@@ -346,5 +361,19 @@ open class FileManager: NSObject {
         }
         return RequestCanceller(cancellable: request)
 
+    }
+}
+
+extension FileManager {
+    fileprivate func getFileSize(for localPath: String) -> Int? {
+        var fileSize: Int? = 0
+        do {
+            let attr = try Foundation.FileManager.default.attributesOfItem(atPath: localPath)
+            fileSize = attr[FileAttributeKey.size] as? Int
+        } catch {
+            return nil
+        }
+         
+        return fileSize
     }
 }

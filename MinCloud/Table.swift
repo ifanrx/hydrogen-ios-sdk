@@ -40,7 +40,8 @@ open class Table: NSObject {
     ///
     /// - Parameter recordId: 记录 Id
     /// - Returns:
-    @objc public func getWithoutData(recordId: String) -> Record {
+    @objc public func getWithoutData(recordId: String) -> Record? {
+        guard !recordId.isEmpty else { return nil }
         return Record(table: self, Id: recordId)
     }
 
