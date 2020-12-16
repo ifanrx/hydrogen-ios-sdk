@@ -9,6 +9,14 @@
 import UIKit
 import Moya
 
+public typealias RecordOptionKey = String
+
+/// 数据表的记录在进行 save/update/delete 操作时，可以附带的选项。
+@objc(RecordOption)
+public class RecordOption: NSObject {
+    @objc public static let enableTrigger: RecordOptionKey = "enable_trigger" // 是否允许触发器触发
+}
+
 @objc(BaaSTable)
 open class Table: NSObject {
     public internal(set) var Id: String?
@@ -49,11 +57,11 @@ open class Table: NSObject {
     ///
     /// - Parameters:
     ///   - records: 记录值
-    ///   - options: 选项,目前支持 enable_trigger: 是否触发触发器。可选
+    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func createMany(_ records: [[String: Any]], options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func createMany(_ records: [[String: Any]], options: [RecordOptionKey: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
 
         let newRecords = records.map { $0.jsonValue() }
         var jsonData: Data?
@@ -79,11 +87,11 @@ open class Table: NSObject {
     ///
     /// - Parameters:
     ///   - query: 查询条件，将会删除满足条件的记录。如果不设置条件，将删除该表的所有记录。可选
-    ///   - options: 选项,目前支持 enable_trigger: 是否触发触发器, 可选。
+    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func delete(query: Query? = nil, options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func delete(query: Query? = nil, options: [RecordOptionKey: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
@@ -130,11 +138,11 @@ open class Table: NSObject {
     /// - Parameters:
     ///   - record: 需要更新的记录值
     ///   - query: 查询条件，满足条件的记录将被更新
-    ///   - options: 选项,目前支持 enable_trigger: 是否触发触发器, 可选。
+    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func update(record: Record, query: Query? = nil, options: [String: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
+    @objc public func update(record: Record, query: Query? = nil, options: [RecordOptionKey: Any]? = nil, completion:@escaping OBJECTResultCompletion) -> RequestCanceller? {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs.merge(options ?? [:])
