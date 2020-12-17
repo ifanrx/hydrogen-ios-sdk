@@ -114,7 +114,7 @@ open class BaseRecord: NSObject, Mappable {
         recordParameter[key] = ["$pop": 1]
     }
     
-    /// 从 Array 类型删除最后一项
+    /// 从 Array 类型删除第一项
     ///
     /// - Parameters:
     ///   - key: 字段名
