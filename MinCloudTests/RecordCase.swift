@@ -133,7 +133,7 @@ class RecordPlugin: PluginType {
     private func test_path(target: TableRecordAPI) {
         let path = target.path
         switch target {
-        case .delete(let tableId, let recordId):
+        case .delete(let tableId, let recordId, _):
             XCTAssertEqual(path, Path.Table.recordDetail(tableId: tableId, recordId: recordId))
         case .save(let tableId, _, _):
             XCTAssertEqual(path, Path.Table.saveRecord(tableId: tableId))

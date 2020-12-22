@@ -188,6 +188,26 @@ open class Auth: NSObject {
         }
         return RequestCanceller(cancellable: request)
     }
+    
+    /// 使用邮件重置密码
+    ///
+    /// - Parameters:
+    ///   - email: 用户已验证的邮箱地址
+    ///   - completion: 结果回调
+    @discardableResult
+    @objc public static func resetPassword(email: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
+
+        let request = AuthProvider.request(.passwordReset(["email": email]), callbackQueue: callBackQueue) { result in
+            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
+                if error != nil {
+                    completion(false, error)
+                } else {
+                    completion(true, nil)
+                }
+            })
+        }
+        return RequestCanceller(cancellable: request)
+    }
 
     // 获取当前用户
     @discardableResult

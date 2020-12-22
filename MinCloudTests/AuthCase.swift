@@ -110,6 +110,13 @@ class AuthCase: MinCloudCase {
             XCTAssertEqual(Auth.hadLogin, true, "用户登录失败")
         }
     }
+    
+    func test_reset_pwd_with_email() {
+        Auth.resetPassword(email: "ifanr@ifanr.com", completion: { (success, error) in
+            XCTAssertTrue(success, "发送邮件失败")
+        })
+    }
+    
 }
 
 extension AuthAPI {
@@ -135,6 +142,8 @@ extension AuthAPI {
             }
         case .logout:
             return "{}".data(using: String.Encoding.utf8)!
+        case .passwordReset:
+            return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
         default:
             return SampleData.Auth.anonymous
         }
@@ -182,6 +191,8 @@ class AuthPlugin: PluginType {
             XCTAssertEqual(path, Path.Auth.appleassociation)
         case .sms:
             XCTAssertEqual(path, Path.Auth.loginSms)
+        case .passwordReset:
+            XCTAssertEqual(path, Path.Auth.passwordReset)
         
         }
     }
@@ -229,6 +240,9 @@ class AuthPlugin: PluginType {
             XCTAssertTrue(params.keys.contains("phone"))
             XCTAssertTrue(params.keys.contains("code"))
             XCTAssertTrue(params.keys.contains("create_user"))
+        case .passwordReset(let params):
+            XCTAssertTrue(params.keys.contains("email"))
+            XCTAssertEqual("ifanr@ifanr.com", params.getString("email"))
         default: break
         }
     }

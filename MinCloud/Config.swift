@@ -93,12 +93,12 @@ struct Config {
         static let wechatAssociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
         static let appleAssociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
         static let loginSms = "/hserve/v2.1/login/sms/"
+        static let passwordReset = "/hserve/v2.0/user/password/reset/"
     }
 
     struct User {
         static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
         static let updateAccount = "/hserve/v2.1/user/account/"
-        static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
         static let updateUserInfo = "/hserve/v2.1/user/info/"
         static let getUserList = "/hserve/v2.2/user/info/"

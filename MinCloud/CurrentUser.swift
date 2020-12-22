@@ -38,34 +38,6 @@ open class CurrentUser: User {
         return dict.toJsonString
     }
 
-    /// 使用邮件重置密码
-    ///
-    /// - Parameters:
-    ///   - email: 用户已验证的邮箱地址
-    ///   - completion: 结果回调
-    @discardableResult
-    @objc public func resetPassword(email: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
-        guard Auth.hadLogin else {
-            let error = HError.init(code: 604, description: "please login in")
-            printErrorInfo(error)
-            callBackQueue.async {
-                completion(false, error as NSError)
-            }
-            return nil
-        }
-
-        let request = User.UserProvider.request(.resetPassword(parameters: ["email": email]), callbackQueue: callBackQueue) { result in
-            ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
-                if error != nil {
-                    completion(false, error)
-                } else {
-                    completion(true, nil)
-                }
-            })
-        }
-        return RequestCanceller(cancellable: request)
-    }
-
     /// 更新用户名
     ///
     /// - Parameters:

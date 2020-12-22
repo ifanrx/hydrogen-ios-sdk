@@ -192,28 +192,6 @@ class UserCase: MinCloudCase {
             }
         }
     }
-    
-    func test_reset_pwd_with_email() {
-        Auth.login(username: "ifanr", password: "12345") { (user, error) in
-            Auth.getCurrentUser {user, _ in
-                XCTAssertNotNil(user, "获取当前用户失败")
-                user?.resetPassword(email: "ifanr@ifanr.com", completion: { (success, error) in
-                    XCTAssertTrue(success, "发送邮件失败")
-                })
-            }
-        }
-    }
-    
-    func test_reset_pwd_with_email_not_login() {
-        Auth.logout() { (success, error) in
-            let curUser = CurrentUser(Id: "92812581396859")
-            curUser.resetPassword(email: "ifanr@ifanr.com", completion: { (success, error) in
-                XCTAssertFalse(success)
-                XCTAssertNotNil(error, "发生错误")
-                XCTAssertEqual(error?.code, 604)
-            })
-        }
-    }
 }
 
 extension UserAPI {
@@ -238,8 +216,6 @@ extension UserAPI {
             }
             return Data()
         case .requestEmailVerify:
-            return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
-        case .resetPassword:
             return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
         default:
             return SampleData.User.userInfo
@@ -278,8 +254,6 @@ class UserPlugin: PluginType {
             XCTAssertEqual(path, Path.User.updateAccount)
         case .updateUserInfo:
             XCTAssertEqual(path, Path.User.updateUserInfo)
-        case .resetPassword:
-            XCTAssertEqual(path, Path.User.resetPassword)
         case .requestEmailVerify:
             XCTAssertEqual(path, Path.User.requestEmailVerify)
         case .getUserList:
@@ -295,7 +269,7 @@ class UserPlugin: PluginType {
         switch target {
         case .getUserInfo, .getUserList:
             XCTAssertEqual(method, Moya.Method.get)
-        case .resetPassword, .requestEmailVerify:
+        case .requestEmailVerify:
             XCTAssertEqual(method, Moya.Method.post)
         case .updateAccount, .updateUserInfo:
             XCTAssertEqual(method, Moya.Method.put)
@@ -327,9 +301,6 @@ class UserPlugin: PluginType {
         case .updateUserInfo(let parameters):
             XCTAssertTrue(parameters.keys.contains("city"))
             XCTAssertEqual(parameters.getString("city"), "guangzhou")
-        case .resetPassword(let parameters):
-            XCTAssertTrue(parameters.keys.contains("email"))
-            XCTAssertEqual("ifanr@ifanr.com", parameters.getString("email"))
         case .requestEmailVerify:
             break
         case .verifyPhone(parameters: let parameters):
