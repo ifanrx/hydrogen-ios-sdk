@@ -17,7 +17,7 @@ open class FileCategory: NSObject, Mappable {
     @objc public internal(set) var updatedAt: TimeInterval = 0
     @objc public internal(set) var createdAt: TimeInterval = 0
     
-    var categoryInfo: [String: Any] = [:]
+    @objc public var categoryInfo: [String: Any] = [:]
 
     @objc required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")

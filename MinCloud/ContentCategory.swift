@@ -14,7 +14,7 @@ open class ContentCategory: NSObject, Mappable {
     @objc public internal(set) var name: String?
     @objc public internal(set) var haveChildren: Bool = false
     @objc public internal(set) var children: [ContentCategory]?
-    var categoryInfo: [String: Any] = [:]
+    @objc public var categoryInfo: [String: Any] = [:]
 
     @objc required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")

@@ -29,7 +29,7 @@ open class GeoPoint: NSObject {
 // 地理形状
 @objc(BaaSGeoPolygon)
 public class GeoPolygon: NSObject {
-    var coordinates: [[CLLocationDegrees]]
+    @objc public var coordinates: [[CLLocationDegrees]]
 
     @objc public init(points: [GeoPoint]) {
         coordinates = []
