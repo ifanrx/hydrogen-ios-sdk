@@ -62,14 +62,17 @@ public class Record: BaseRecord {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func save(query: Query? = nil, options: [RecordOptionKey: Any]? = nil, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func save(expand: [String]? = nil, options: [RecordOptionKey: Any]? = nil, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
         
         guard let tableId = table?.identifier else {
             completion(false, HError.init(code: 400, description: "recordId invalid!") as NSError)
             return nil
         }
 
-        var queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        var queryArgs: [String: Any] = [:]
+        if let expand = expand {
+            queryArgs["expand"] = expand.joined(separator: ",")
+        }
         queryArgs.merge(options ?? [:])
         let callBackQueue = table?.callBackQueue ?? .main
         let request = Record.TableRecordProvider.request(.save(tableId: tableId, urlParameters: queryArgs, bodyParametes: recordParameter.jsonValue()), callbackQueue: callBackQueue) { result in
@@ -100,7 +103,7 @@ public class Record: BaseRecord {
     /// - Parameter completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public func update(query: Query? = nil, options: [RecordOptionKey: Any]? = nil, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func update(expand: [String]? = nil, options: [RecordOptionKey: Any]? = nil, completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
         let callBackQueue = table?.callBackQueue ?? .main
         guard Id != nil, let tableId = table?.identifier else {
@@ -110,7 +113,10 @@ public class Record: BaseRecord {
             return nil
         }
 
-        var queryArgs: [String: Any] = query?.queryArgs ?? [:]
+        var queryArgs: [String: Any] = [:]
+        if let expand = expand {
+            queryArgs["expand"] = expand.joined(separator: ",")
+        }
         queryArgs.merge(options ?? [:])
         let request = Record.TableRecordProvider.request(.update(tableId: tableId, recordId: Id!, urlParameters: queryArgs, bodyParametes: recordParameter.jsonValue()), callbackQueue: callBackQueue) { result in
             let unsetKeys = self.recordParameter.getDict("$unset") as? [String: Any]
