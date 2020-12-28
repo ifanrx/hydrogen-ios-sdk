@@ -33,6 +33,9 @@ internal protocol SwampSessionDelegate {
 final internal class SwampSession: SwampTransportDelegate {
     // MARK: delegate
     var delegate: SwampSessionDelegate?
+    
+    var receivedPingTimeout: TimeInterval = 30.0
+    var receivedPingPeriod: TimeInterval = 20.0
 
     // MARK: Constants
     // No callee role for now
@@ -59,7 +62,6 @@ final internal class SwampSession: SwampTransportDelegate {
     // MARK: - HeartBeat
     private var heartBeat: Timer?
     private var lastReceivedPingTimeInterval: TimeInterval = Date().timeIntervalSince1970 // 上次收到 ping 的时间戳
-    private let receivedPingTimeout: TimeInterval = 30.0
     private let reachabilityManager = NetworkReachabilityManager()
     private var previousReachabilityStatus: NetworkReachabilityManager.NetworkReachabilityStatus = .unknown
     private var retryCount: UInt = 0
@@ -216,7 +218,7 @@ extension SwampSession {
     private func setupHeartBeat() {
         lastReceivedPingTimeInterval = Date().timeIntervalSince1970
         
-        heartBeat = Timer(timeInterval: 20, repeats: true, block: { [weak self] (_) in
+        heartBeat = Timer(timeInterval: receivedPingPeriod, repeats: true, block: { [weak self] (_) in
             guard let self = self else { return }
             
             let currentInterval = Date().timeIntervalSince1970

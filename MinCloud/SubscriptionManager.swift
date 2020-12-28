@@ -43,21 +43,21 @@ internal class SubscriptionManager {
 }
 
 // 管理正在订阅的事件
-internal class SubscriptingManager {
-    static let shared = SubscriptingManager()
+internal class SubscriptingTaskManager {
+    static let shared = SubscriptingTaskManager()
     
-    private(set) var subscriptings: [Int32: Subscripting] = [:] // 正在订阅
+    private(set) var tasks: [Int32: SubscriptingTask] = [:] // 正在订阅
     
-    func save(_ subscripting: Subscripting) {
+    func save(_ subscripting: SubscriptingTask) {
         let key = subscripting.key
-        subscriptings[key] = subscripting
+        tasks[key] = subscripting
     }
     
     func delete(for key: Int32) {
-        subscriptings.removeValue(forKey: key)
+        tasks.removeValue(forKey: key)
     }
     
     func removeAll() {
-        subscriptings.removeAll()
+        tasks.removeAll()
     }
 }

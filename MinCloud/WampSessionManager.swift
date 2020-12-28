@@ -28,8 +28,7 @@ internal class WampSessionManager {
     private let rootQueue = DispatchQueue(label: "com.ifanr.mincloud.websocket.rootqueue")
         
     // 等待建立连接的订阅回调
-    typealias SubscribingCallback = () -> Void
-    private var subscribingCallbacks = [SubscribingCallback]()
+    private var connectionRequestCallbacks = [() -> Void]()
     
     private init() {
         
@@ -38,7 +37,7 @@ internal class WampSessionManager {
         self.session.delegate = self
     }
     
-    private func connect() {
+    func connect() {
         session.tryConnecting()
     }
     
@@ -54,16 +53,17 @@ internal class WampSessionManager {
         
         rootQueue.async {
             let key = SubscriptionManager.shared.generateKey()
-            let subscripting = Subscripting(key: key, onError: onError)
-            SubscriptingManager.shared.save(subscripting)
-            self.waitingForConnection { [weak self] in
-                self?.subscribing(topic, options: options, subscriptionKey: key, onInit: onInit, onError: onError, onEvent: onEvent)
+            let subscripting = SubscriptingTask(key: key, onError: onError)
+            SubscriptingTaskManager.shared.save(subscripting)
+            
+            self.requestForConnection { [weak self] in
+                self?.resume(topic, options: options, subscriptionKey: key, onInit: onInit, onError: onError, onEvent: onEvent)
             }
         }
     }
     
     // 等待 wamp 建立连接
-    private func waitingForConnection(_ callback: @escaping (() -> Void)) {
+    private func requestForConnection(_ callback: @escaping (() -> Void)) {
         dispatchPrecondition(condition: .onQueue(rootQueue))
         
         // 若未连接，先建立连接
@@ -77,19 +77,19 @@ internal class WampSessionManager {
         switch session.sessionState {
         case .disconnected, .connecting:
             // 未建立连接，先保存 callback，等待建立后再调用
-            subscribingCallbacks.append(callback)
+            connectionRequestCallbacks.append(callback)
         case .connected:
             // 已建立连接，直接调用 callback
             callback()
         }
     }
     
-    private func subscribing(_ topic: String,
-                               options: [String: Any] = [:],
-                               subscriptionKey: SubscriptionKey,
-                               onInit: @escaping SubscribeCallback,
-                               onError: @escaping ErrorSubscribeCallback,
-                               onEvent: @escaping EventCallback) {
+    private func resume(_ topic: String,
+                        options: [String: Any] = [:],
+                        subscriptionKey: SubscriptionKey,
+                        onInit: @escaping SubscribeCallback,
+                        onError: @escaping ErrorSubscribeCallback,
+                        onEvent: @escaping EventCallback) {
         
         dispatchPrecondition(condition: .onQueue(rootQueue))
         
@@ -97,17 +97,17 @@ internal class WampSessionManager {
             
             dispatchPrecondition(condition: .onQueue(self.rootQueue))
             // 删除正在订阅的事件
-            SubscriptingManager.shared.delete(for: subscriptionKey)
+            SubscriptingTaskManager.shared.delete(for: subscriptionKey)
             
             // 保存订阅成功的事件
-            let mcSubscription = Subscription(key: subscriptionKey, subscription: subscription, topic: topic, options: options, onInit: onInit, onError: onError, onEvent: onEvent)
-            SubscriptionManager.shared.save(mcSubscription)
+            let subscription = Subscription(key: subscriptionKey, subscription: subscription, topic: topic, options: options, onInit: onInit, onError: onError, onEvent: onEvent)
+            SubscriptionManager.shared.save(subscription)
             
-            onInit(mcSubscription)
+            onInit(subscription)
         } onError: { (_, message) in
             dispatchPrecondition(condition: .onQueue(self.rootQueue))
             // 删除正在订阅的事件
-            SubscriptingManager.shared.delete(for: subscriptionKey)
+            SubscriptingTaskManager.shared.delete(for: subscriptionKey)
             
             self.rootQueue.asyncAfter(deadline: .now() + .seconds(5)) {
                 if SubscriptionManager.shared.isEmpty {
@@ -135,30 +135,30 @@ extension WampSessionManager: SwampSessionDelegate {
         dispatchPrecondition(condition: .onQueue(self.rootQueue))
         
         // wamp 未连接前发起的订阅，再次发起订阅
-        for callback in subscribingCallbacks {
+        for callback in connectionRequestCallbacks {
             callback()
         }
-        subscribingCallbacks.removeAll()
+        connectionRequestCallbacks.removeAll()
         
         // 之前已成功的订阅，连接成功（意外断开连接），重新订阅
         let subscriptions = SubscriptionManager.shared.subscriptions
         for (key, subscription) in subscriptions {
-            subscribing(subscription.topic, options: subscription.options, subscriptionKey: key, onInit: subscription.onInit, onError: subscription.onError, onEvent: subscription.onEvent)
+            resume(subscription.topic, options: subscription.options, subscriptionKey: key, onInit: subscription.onInit, onError: subscription.onError, onEvent: subscription.onEvent)
         }
     }
     
     func swampSessionFailed(_ reason: String) {
         dispatchPrecondition(condition: .onQueue(self.rootQueue))
         
-        subscribingCallbacks.removeAll()
+        connectionRequestCallbacks.removeAll()
         
         // 正在订阅中的事件
-        let subscriptings = SubscriptingManager.shared.subscriptings
-        for (_, subscripting) in subscriptings {
+        let subscriptingTasks = SubscriptingTaskManager.shared.tasks
+        for (_, task) in subscriptingTasks {
             let error =  HError(reason: reason)
-            subscripting.onError(error as NSError?)
+            task.onError(error as NSError?)
         }
-        SubscriptingManager.shared.removeAll()
+        SubscriptingTaskManager.shared.removeAll()
         
         // 给所有订阅发送断开连接的错误
         let subscriptions = SubscriptionManager.shared.subscriptions

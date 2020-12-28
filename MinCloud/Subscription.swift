@@ -9,7 +9,7 @@
 import Foundation
 
 // 正在订阅中，用于第一次连接时，超时后返回错误
-class Subscripting: NSObject {
+class SubscriptingTask: NSObject {
     internal let key: Int32
     internal let onError: ErrorSubscribeCallback
     
