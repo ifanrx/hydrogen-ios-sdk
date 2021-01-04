@@ -9,6 +9,7 @@
 import Foundation
 import Moya
 
+/// 当前登录用户
 @objc(BaaSCurrentUser)
 open class CurrentUser: User {
 
@@ -42,6 +43,7 @@ open class CurrentUser: User {
     ///
     /// - Parameters:
     ///   - username: 新的用户名，不能和旧用户一样
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 结果回调
     @discardableResult
     @objc public func updateUsername(_ username: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
@@ -67,6 +69,7 @@ open class CurrentUser: User {
     /// - Parameters:
     ///   - email: 用户邮箱地址
     ///   - sendVerification: 是否发送邮箱认证
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 结果回调
     @discardableResult
     @objc public func updateEmail(_ email: String, sendVerification: Bool = false, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
@@ -92,6 +95,7 @@ open class CurrentUser: User {
     /// - Parameters:
     ///   - password: 旧的用户密码
     ///   - newPassword: 新的用户密码
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 结果回调
     @discardableResult
     @objc public func updatePassword(_ password: String, newPassword: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
@@ -116,6 +120,7 @@ open class CurrentUser: User {
     ///
     /// - Parameters:
     ///   - phone: 用户手机号码
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 结果回调
     @discardableResult
     @objc public func updatePhone(_ phone: String, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
@@ -140,6 +145,7 @@ open class CurrentUser: User {
     ///
     /// - Parameters:
     ///   - userInfo: 用户信息
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 结果回调
     @discardableResult
     @objc public func updateUserInfo(_ userInfo: [String: Any], callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller? {
@@ -162,7 +168,9 @@ open class CurrentUser: User {
 
     /// 请求发送邮箱认证
     ///
-    /// - Parameter completion: 结果回调
+    /// - Parameter
+    /// - callBackQueue: 回调函数执行队列
+    /// - completion: 结果回调
     @discardableResult
     @objc public func requestEmailVerification(callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin else {
@@ -193,6 +201,7 @@ open class CurrentUser: User {
     ///
     /// - Parameters:
     ///   - code: 验证码
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 验证结果
     /// - Returns:
     @discardableResult

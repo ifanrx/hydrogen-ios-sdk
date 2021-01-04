@@ -8,43 +8,67 @@
 
 import Foundation
 
+/// 比较查询可设置的操作
 @objc(BaaSOperator)
 public enum Operator: Int {
-    case equalTo = 0           // 等于
-    case notEqualTo = 1        // 不等于
-    case greaterThan           // 大于
-    case greaterThanOrEqualTo  // 大于等于
-    case lessThan              // 小于
-    case lessThanOrEqualTo     // 小于等于
+    /// 等于
+    case equalTo = 0
+    /// 不等于
+    case notEqualTo = 1
+    /// 大于
+    case greaterThan
+    /// 大于等于
+    case greaterThanOrEqualTo
+    /// 小于
+    case lessThan
+    /// 小于等于
+    case lessThanOrEqualTo
 }
 
+/// 订单状态
 @objc(BaaSOrderStatus)
 public enum OrderStatus: Int {
-    case all = 0               // 全部，默认
-    case success = 1           // 支付成功
-    case pending = 2           // 待支付
+    /// 全部，默认
+    case all = 0
+    /// 支付成功
+    case success = 1
+    /// 待支付
+    case pending = 2
 }
 
+/// 支付退款状态
 @objc(BaaSRefundStatus)
 public enum RefundStatus: Int {
-    case all = 0               // 全部，默认
-    case complete = 1          // 退款成功
-    case partial = 2           // 部分退款
+    /// 全部退款，默认
+    case all = 0
+    /// 退款成功
+    case complete = 1
+    /// 部分退款
+    case partial = 2
 }
 
+/// 支付方式
 @objc(BaaSGateWayType)
 public enum GateWayType: Int {
-    case all = 0               // 全部，默认
-    case weixin = 1            // 微信支付
-    case alipay = 2            // 支付宝
+    /// 全部，默认
+    case all = 0
+    // 微信支付
+    case weixin = 1
+    // 支付宝
+    case alipay = 2
     
 }
 
 // MARK: - Wamp
+
+/// 订阅事件类型
 @objc(BaaSSubscriptionEvent)
 public enum SubscriptionEvent: Int {
+    /// 创建表记录
     case onCreate = 0
+    /// 更新表记录
     case onUpdate = 1
+    /// 删除表记录
     case onDelete = 2
     
     internal var eventValue: String {
@@ -60,6 +84,7 @@ public enum SubscriptionEvent: Int {
 }
 
 // MARK: - 通用回调函数
+
 public typealias BOOLResultCompletion = (_ success: Bool, _ error: NSError?) -> Void
 public typealias COUNTResultCompletion = (_ count: Int?, _ error: NSError?) -> Void
 public typealias OBJECTResultCompletion = (_ object: [String: Any]?, _ error: NSError?) -> Void

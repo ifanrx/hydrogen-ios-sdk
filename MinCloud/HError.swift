@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// MinCloud 错误处理
 struct HError: CustomNSError {
 
     var code: Int
@@ -51,7 +52,7 @@ struct HError: CustomNSError {
         }
     }
     
-    // wamp error
+    // websocket error
     init(reason: String) {
         switch reason {
         case "wamp.close.session_destory":

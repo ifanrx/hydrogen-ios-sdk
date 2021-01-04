@@ -10,13 +10,13 @@ import Foundation
 import Starscream
 import Alamofire
 
-open class WebSocketSwampTransport: SwampTransport {
+class WebSocketSwampTransport: SwampTransport {
     
     enum WebsocketMode {
         case binary, text
     }
     
-    open var delegate: SwampTransportDelegate?
+    var delegate: SwampTransportDelegate?
     var socket: WebSocket!
     let mode: WebsocketMode
     public var isConnected: Bool = false
@@ -44,7 +44,7 @@ open class WebSocketSwampTransport: SwampTransport {
     
     // MARK: Transport
     
-    open func connect() {
+    func connect() {
         self.setupSockect()
     }
     
@@ -53,12 +53,12 @@ open class WebSocketSwampTransport: SwampTransport {
         self.socket = nil
     }
     
-    open func disconnect(_ reason: String) {
+    func disconnect(_ reason: String) {
         self.disconnectionReason = reason
         self.socket.disconnect()
     }
     
-    open func sendData(_ data: Data) {
+    func sendData(_ data: Data) {
         if self.mode == .text {
             self.socket.write(string: String(data: data, encoding: String.Encoding.utf8)!)
         } else {
@@ -69,7 +69,7 @@ open class WebSocketSwampTransport: SwampTransport {
 
 extension WebSocketSwampTransport: WebSocketDelegate {
     
-    public func didReceive(event: WebSocketEvent, client: WebSocket) {
+    func didReceive(event: WebSocketEvent, client: WebSocket) {
         switch event {
             case .connected(let headers):
                 printDebugInfo("websocket is connected: \(headers)")

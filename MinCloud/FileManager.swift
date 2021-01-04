@@ -9,6 +9,8 @@
 import Foundation
 import Moya
 
+/// 知晓云文件管理类
+/// 通过 FileManager 来操作知晓云上的文件。
 @objc(BaaSFileManager)
 open class FileManager: NSObject {
     

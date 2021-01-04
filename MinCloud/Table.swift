@@ -17,6 +17,9 @@ public class RecordOption: NSObject {
     @objc public static let enableTrigger: RecordOptionKey = "enable_trigger" // 是否允许触发器触发
 }
 
+/// 数据表
+/// 对应知晓云的数据表
+/// 通过 Table 对象操作知晓云对应 Id 的数据表。
 @objc(BaaSTable)
 open class Table: NSObject {
     public internal(set) var Id: String?
@@ -39,15 +42,15 @@ open class Table: NSObject {
 
     /// 创建一条空记录
     ///
-    /// - Returns:
+    /// - Returns: 一条空记录
     @objc public func createRecord() -> Record {
         return Record(table: self)
     }
 
-    /// 示例化一条记录
+    /// 通过记录 Id 来创建一条记录，如果 recordId 为空字符串，则返回 nil。
     ///
     /// - Parameter recordId: 记录 Id
-    /// - Returns:
+    /// - Returns: 记录
     @objc public func getWithoutData(recordId: String) -> Record? {
         guard !recordId.isEmpty else { return nil }
         return Record(table: self, Id: recordId)
@@ -57,7 +60,7 @@ open class Table: NSObject {
     ///
     /// - Parameters:
     ///   - records: 记录值
-    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器。可选
+    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器，默认触发。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
@@ -87,7 +90,7 @@ open class Table: NSObject {
     ///
     /// - Parameters:
     ///   - query: 查询条件，将会删除满足条件的记录。如果不设置条件，将删除该表的所有记录。可选
-    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器。可选
+    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器，默认触发。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
@@ -138,7 +141,7 @@ open class Table: NSObject {
     /// - Parameters:
     ///   - record: 需要更新的记录值
     ///   - query: 查询条件，满足条件的记录将被更新
-    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器。可选
+    ///   - options: 选项,目前 RecordOptionKey 仅支持 enableTrigger，表示是否触发触发器，默认触发。可选
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult

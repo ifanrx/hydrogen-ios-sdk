@@ -9,6 +9,9 @@
 import UIKit
 import Moya
 
+/// 数据表记录
+/// 对应知晓云数据表的一条记录
+/// 通过 Record 对象，可以操作知晓云对应 Id 的记录。
 @objc(BaaSRecord)
 public class Record: BaseRecord {
 

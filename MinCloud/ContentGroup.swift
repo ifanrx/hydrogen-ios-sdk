@@ -9,6 +9,8 @@
 import Foundation
 import Moya
 
+/// 内容库
+/// 通过 ContentGroup 对象操作知晓云对应 Id 的内容以及内容分类。
 @objc(BaaSContentGroup)
 open class ContentGroup: NSObject {
     @objc public internal(set) var Id: String?

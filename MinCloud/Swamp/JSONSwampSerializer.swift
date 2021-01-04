@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class JSONSwampSerializer: SwampSerializer {
+class JSONSwampSerializer: SwampSerializer {
     
     public init() {}
     

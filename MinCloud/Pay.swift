@@ -9,6 +9,8 @@
 import Foundation
 import Moya
 
+/// 支付
+/// 目前支持微信支付及支付宝支付
 @objc(BaaSPay)
 open class Pay: NSObject {
 
@@ -18,7 +20,16 @@ open class Pay: NSObject {
     
     static var PayProvider = MoyaProvider<PayAPI>(plugins: logPlugin)
 
-    // 微信支付
+    /// 微信支付
+    ///
+    /// - Parameters:
+    ///     - totalCost: 支付总额，单位：元
+    ///     - merchandiseDescription: 微信支付凭证-商品详情的内容
+    ///     - merchandiseSchemaID: 商品数据表 ID，可用于定位用户购买的物品
+    ///     - merchandiseRecordID: 商品数据行 ID，可用于定位用户购买的物品
+    ///     - merchandiseSnapshot: 根据业务需求自定义的数据
+    ///   - completion: 回调结果
+    /// - Returns:
     @discardableResult
     @objc public func wxPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: String? = nil, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
         
@@ -54,7 +65,16 @@ open class Pay: NSObject {
         return canceller
     }
 
-    // 支付宝支付
+    /// 支付宝支付
+    ///
+    /// - Parameters:
+    ///     - totalCost: 支付总额，单位：元
+    ///     - merchandiseDescription: 支付宝支付凭证-商品详情的内容
+    ///     - merchandiseSchemaID: 商品数据表 ID，可用于定位用户购买的物品
+    ///     - merchandiseRecordID: 商品数据行 ID，可用于定位用户购买的物品
+    ///     - merchandiseSnapshot: 根据业务需求自定义的数据
+    ///   - completion: 回调结果
+    /// - Returns:
     @discardableResult
     @objc public func aliPay(totalCost: Float, merchandiseDescription: String, merchandiseSchemaID: String? = nil, merchandiseRecordID: String? = nil, merchandiseSnapshot: [String: Any]? = nil, completion:@escaping OrderCompletion) -> RequestCanceller? {
         
@@ -86,7 +106,12 @@ open class Pay: NSObject {
         return canceller
     }
 
-    // 查询订单
+    /// 获取订单详情
+    ///
+    /// - Parameters:
+    ///   - transactionID: 交易号
+    ///   - completion: 结果回调
+    /// - Returns:
     @discardableResult
     @objc public func order(_ transactionID: String, completion:@escaping OrderCompletion) -> RequestCanceller? {
         let request = Pay.PayProvider.request(.order(transactionID: transactionID), callbackQueue: callBackQueue) { (result) in
@@ -97,7 +122,9 @@ open class Pay: NSObject {
         return RequestCanceller(cancellable: request)
     }
 
-    // 查询订单列表
+    /// 查询订单列表
+    /// - Parameters:
+    ///     - query: 查询条件，满足条件的文件将被返回。可选
     @discardableResult
     @objc public func orderList(query: Query? = nil, completion:@escaping OrderListCompletion) -> RequestCanceller? {
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
@@ -110,7 +137,7 @@ open class Pay: NSObject {
     }
 
     // 未支付状态，重新支付
-    @objc public func repay(_ order: Order, completion:@escaping OrderCompletion) {
+    @objc func repay(_ order: Order, completion:@escaping OrderCompletion) {
         guard !isPaying else {
             completion(nil, HError.init(code: 609) as NSError)
             return

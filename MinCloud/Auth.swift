@@ -10,7 +10,7 @@ import Foundation
 import Moya
 import AuthenticationServices
 
-// 第三方授权类型
+/// 第三方授权类型
 @objc(Provider)
 public enum Provider: Int {
     case wechat
@@ -18,16 +18,22 @@ public enum Provider: Int {
     case apple
 }
 
+/// 第三方平台授权登录时，同步用户信息的方式
 @objc(SyncUserProfileType)
 public enum SyncUserProfileType: Int {
+    /// 强制更新
     case overwrite
+    /// 仅当字段从未被赋值时才更新
     case setnx
+    /// 不更新
     case `false`
 }
 
-// 授权登录或授权绑定
+/// 授权登录或授权绑定
 private enum ThirdAuthType {
+    /// 授权通过第三方平台登录
     case associate
+    /// 授权当前账号绑定第三方平台
     case authenticate
 }
 
@@ -35,6 +41,7 @@ protocol WechatAuth {
     
 }
 
+/// 用户注册/登录
 @objc(BaaSAuth)
 open class Auth: NSObject {
     
@@ -60,6 +67,7 @@ open class Auth: NSObject {
     /// - Parameters:
     ///   - username: 用户名
     ///   - password: 密码
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 注册回调结果
     @discardableResult
     @objc public static func register(username: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
@@ -79,6 +87,7 @@ open class Auth: NSObject {
     /// - Parameters:
     ///   - email: 邮箱地址
     ///   - password: 密码
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 注册回调结果
     @discardableResult
     @objc public static func register(email: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
@@ -100,6 +109,7 @@ open class Auth: NSObject {
     /// - Parameters:
     ///   - username: 用户名
     ///   - password: 密码
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 登录回调结果
     @discardableResult
     @objc public static func login(username: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
@@ -119,6 +129,7 @@ open class Auth: NSObject {
     /// - Parameters:
     ///   - email: 邮箱地址
     ///   - password: 密码
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 登录结果回调
     @discardableResult
     @objc public static func login(email: String, password: String, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
@@ -135,7 +146,9 @@ open class Auth: NSObject {
 
     /// 匿名登录
     ///
-    /// - Parameter completion: 登录结果回调
+    /// - Parameter
+    /// - callBackQueue: 回调函数执行队列
+    /// - completion: 登录结果回调
     @discardableResult
     @objc public static func anonymousLogin(callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.login(.anonymous, [:]), callbackQueue: callBackQueue) { result in
@@ -157,6 +170,7 @@ open class Auth: NSObject {
     ///   - createUser: 该参数决定了一个新用户第一次登录时的服务端处理行为。
     ///                 默认为 true，服务端会有该用户创建一个知晓云用户记录。
     ///                 当 createUser 为 false 时，服务端会终止登录过程，返回 404 错误码，开发者可根据该返回结果进行多平台账户绑定的处理。
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 登录结果回调
     @discardableResult
     @objc public static func signInWithSMSVerificationCode(_ phone: String, code: String, createUser: Bool = true, callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller {
@@ -173,7 +187,9 @@ open class Auth: NSObject {
 
     /// 用户登出
     ///
-    /// - Parameter completion: 登出结果回调
+    /// - Parameter
+    /// - callBackQueue: 回调函数执行队列
+    /// - completion: 登出结果回调
     @discardableResult
     @objc public static func logout(callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
         let request = AuthProvider.request(.logout, callbackQueue: callBackQueue) { result in
@@ -193,6 +209,7 @@ open class Auth: NSObject {
     ///
     /// - Parameters:
     ///   - email: 用户已验证的邮箱地址
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 结果回调
     @discardableResult
     @objc public static func resetPassword(email: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller? {
@@ -209,7 +226,10 @@ open class Auth: NSObject {
         return RequestCanceller(cancellable: request)
     }
 
-    // 获取当前用户
+    /// 获取当前用户
+    /// - Parameters:
+    ///   - callBackQueue: 回调函数执行队列
+    ///   - completion: 结果回调
     @discardableResult
     @objc public static func getCurrentUser(callBackQueue: DispatchQueue = .main, completion: @escaping CurrentUserResultCompletion) -> RequestCanceller? {
         guard Auth.hadLogin && Storage.shared.userId != nil else {

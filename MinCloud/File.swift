@@ -9,19 +9,30 @@
 import Foundation
 import Moya
 
+/// 知晓云上的文件
 @objc(BaaSFile)
 open class File: NSObject, Mappable {
 
+    /// 文件 Id
     @objc public internal(set) var Id: String?
+    /// 文件类型
     @objc public internal(set) var mimeType: String?
+    /// 文件名称
     @objc public internal(set) var name: String?
+    /// 文件在 cdn 的访问路径
     @objc public internal(set) var path: String? // cdn 全路径
+    /// 文件在 cdn 的相对路径
     @objc public internal(set) var cdnPath: String? // cdn 相对路径
+    /// 文件大小
     @objc public internal(set) var size: Int = 0
+    /// 文件分类
     @objc public internal(set) var category: FileCategory?
+    /// 文件的本地路径
     @objc public internal(set) var localPath: String?
+    /// 文件创建时间
     @objc public internal(set) var createdAt: TimeInterval = 0
     
+    /// 回调函数执行队列
     @objc public var callBackQueue: DispatchQueue = .main
 
     @objc required public init?(dict: [String: Any]) {
@@ -42,7 +53,7 @@ open class File: NSObject, Mappable {
         super.init()
     }
     
-    // 文件元数据
+    /// 文件元数据
     @objc public var metaInfo: [String: Any] {
         var info: [String: Any] = [:]
         if let fileId = Id {
@@ -74,9 +85,7 @@ open class File: NSObject, Mappable {
         return info
     }
     
-    /**
-     *  根据 key 获取值
-     */
+    /// 根据 key 获取值
     @objc public func get(_ key: String) -> Any? {
         return metaInfo[key]
     }
