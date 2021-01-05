@@ -40,7 +40,8 @@ class OrderCase: MinCloudCase {
     
     func test_wx_pay() {
         let dict = SampleData.Order.wx_pay.toDictionary()
-        stu.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", merchandiseSchemaID: "123", merchandiseRecordID: "123", merchandiseSnapshot: [:], completion: { (order, error) in
+        let options: [BaaSPaymentOptionKey: Any] = [.merchandiseSchemaID: "123", .merchandiseRecordID: "123", .merchandiseSnapshot: [:], .profitSharing: true]
+        stu.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", options: options, completion: { (order, error) in
             XCTAssertNotNil(order)
             XCTAssertEqual(order?.tradeNo, dict?.getString("trade_no"))
             XCTAssertEqual(order?.transactionNo, dict?.getString("transaction_no"))
@@ -50,7 +51,8 @@ class OrderCase: MinCloudCase {
 
     func test_ali_pay() {
         let dict = SampleData.Order.ali_pay.toDictionary()
-        stu.aliPay(totalCost: 0.02, merchandiseDescription: "支付宝", merchandiseSchemaID: "123", merchandiseRecordID: "123", merchandiseSnapshot: [:], completion: { (order, error) in
+        let options: [BaaSPaymentOptionKey: Any] = [.merchandiseSchemaID: "123", .merchandiseRecordID: "123", .merchandiseSnapshot: [:]]
+        stu.aliPay(totalCost: 0.02, merchandiseDescription: "支付宝", options: options, completion: { (order, error) in
             XCTAssertNotNil(order)
             XCTAssertEqual(order?.tradeNo, dict?.getString("trade_no"))
             XCTAssertEqual(order?.transactionNo, dict?.getString("transaction_no"))
@@ -149,6 +151,9 @@ class OrderPlugin: PluginType {
             XCTAssertTrue(parameters.keys.contains("merchandise_schema_id"))
             XCTAssertTrue(parameters.keys.contains("merchandise_snapshot"))
             XCTAssertTrue(parameters.keys.contains("merchandise_record_id"))
+            if parameters.getString("gateway_type") == "weixin_tenpay_app" {
+                XCTAssertTrue(parameters.keys.contains("profit_sharing"))
+            }
         case .orderList(let parameters):
             XCTAssertTrue(parameters.keys.contains("limit"))
             XCTAssertTrue(parameters.keys.contains("offset"))
