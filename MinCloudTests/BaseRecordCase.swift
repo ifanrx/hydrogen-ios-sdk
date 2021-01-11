@@ -23,25 +23,19 @@ class BaseRecordCase: MinCloudCase {
     func test_init() {
         let dict = SampleData.Record.base_record.toDictionary()!
         let record = BaseRecord(dict: dict)!
-        XCTAssertEqual(record.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(record.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(record.createdById, dict.getString("created_by"))
     }
     
     // create_by 为扩展时能否正常解析
     func test_init_created_by_dict() {
         let dict = SampleData.Record.base_record_created_by_dict.toDictionary()!
         let record = BaseRecord(dict: dict)!
-        XCTAssertEqual(record.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(record.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(record.createdById, dict.getDict("created_by")?.getString("id"))
     }
 
     // MARK: set
     
     func test_set() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.set("price", value: 11.0)
         record.set("name", value: "goodbook")
         XCTAssertEqual(2, record.recordParameter.keys.count)
@@ -53,7 +47,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_set_dict() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.set(["price": 11.0])
         record.set(["name": "goodbook"])
         XCTAssertEqual(2, record.recordParameter.keys.count)
@@ -65,7 +59,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_unset_key() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.unset("price")
         XCTAssertTrue(record.recordParameter.keys.contains("$unset"))
         let unsetDict = record.recordParameter.getDict("$unset") as? [String: Any]
@@ -74,7 +68,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_unset_keys() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.unset(keys: ["price", "author"])
         XCTAssertTrue(record.recordParameter.keys.contains("$unset"))
         let unsetDict = record.recordParameter.getDict("$unset") as? [String: Any]
@@ -86,7 +80,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_incrementBy() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.incrementBy("price", value: 1)
         XCTAssertTrue(record.recordParameter.keys.contains("price"))
         let dict = record.recordParameter.getDict("price") as? [String: Any]
@@ -95,7 +89,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_append() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.append("array", value: [1, 2, 4])
         XCTAssertTrue(record.recordParameter.keys.contains("array"))
         let dict = record.recordParameter.getDict("array") as? [String: Any]
@@ -104,7 +98,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_uAppend() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.uAppend("array", value: [1, 2, 4])
         XCTAssertTrue(record.recordParameter.keys.contains("array"))
         let dict = record.recordParameter.getDict("array") as? [String: Any]
@@ -113,7 +107,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_remove() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.remove("array", value: [1, 2, 4])
         XCTAssertTrue(record.recordParameter.keys.contains("array"))
         let dict = record.recordParameter.getDict("array") as? [String: Any]
@@ -122,7 +116,7 @@ class BaseRecordCase: MinCloudCase {
     
     func test_updateObject() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         record.updateObject("dict", value: ["key": "value"])
         XCTAssertTrue(record.recordParameter.keys.contains("dict"))
         let dict = record.recordParameter.getDict("dict") as? [String: Any]

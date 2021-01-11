@@ -40,6 +40,10 @@
 		<string>批量新增数据</string>
 		<string>批量更新数据</string>
 		<string>删除字段值</string>
+		<string>订阅弹幕(create)</string>
+		<string>订阅弹幕(delete)</string>
+		<string>订阅弹幕(update: desc=更新）</string>
+		<string>取消订阅</string>
 	</array>
 	<array>
 		<string>获取内容详情</string>

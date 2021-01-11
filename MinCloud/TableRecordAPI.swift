@@ -10,9 +10,9 @@ import Foundation
 import Moya
 
 enum TableRecordAPI {
-    case save(tableId: String, parameters: [String: Any])
-    case update(tableId: String, recordId: String, parameters: [String: Any])
-    case delete(tableId: String, recordId: String)
+    case save(tableId: String, urlParameters: [String: Any], bodyParametes: [String: Any])
+    case update(tableId: String, recordId: String, urlParameters: [String: Any], bodyParametes: [String: Any])
+    case delete(tableId: String, recordId: String, parameters: [String: Any])
 }
 
 extension TableRecordAPI: TargetType {
@@ -22,11 +22,11 @@ extension TableRecordAPI: TargetType {
 
     var path: String {
         switch self {
-        case .save(let tableId, _):
+        case .save(let tableId, _, _):
             return Config.Table.saveRecord(tableId: tableId)
-        case .update(let tableId, let recordId, _):
+        case .update(let tableId, let recordId, _, _):
             return Config.Table.recordDetail(tableId: tableId, recordId: recordId)
-        case .delete(let tableId, let recordId):
+        case .delete(let tableId, let recordId, _):
             return Config.Table.recordDetail(tableId: tableId, recordId: recordId)
         }
     }
@@ -48,10 +48,10 @@ extension TableRecordAPI: TargetType {
 
     var task: Task {
         switch self {
-        case .update(_, _, let parameters), .save(_, let parameters):
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .delete:
-            return .requestPlain
+        case .update(_, _, let urlParameters, let bodyParametes), .save(_, let urlParameters, let bodyParametes):
+            return .requestCompositeParameters(bodyParameters: bodyParametes, bodyEncoding: JSONEncoding.default, urlParameters: urlParameters)
+        case .delete(_, _, let parameters):
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         }
     }
 

@@ -13,7 +13,6 @@ enum UserAPI {
     case getUserInfo(userId: String, parameters: [String: Any])
     case updateAccount(parameters: [String: Any])
     case updateUserInfo(parameters: [String: Any])
-    case resetPassword(parameters: [String: Any])
     case requestEmailVerify
     case getUserList(parameters: [String: Any])
     case verifyPhone(parameters: [String: Any])
@@ -32,8 +31,6 @@ extension UserAPI: TargetType {
             return Config.User.updateAccount
         case .updateUserInfo:
             return Config.User.updateUserInfo
-        case .resetPassword:
-            return Config.User.resetPassword
         case .requestEmailVerify:
             return Config.User.requestEmailVerify
         case .getUserList:
@@ -47,7 +44,7 @@ extension UserAPI: TargetType {
         switch self {
         case .getUserInfo, .getUserList:
             return .get
-        case .resetPassword, .requestEmailVerify, .verifyPhone:
+        case .requestEmailVerify, .verifyPhone:
             return .post
         case .updateAccount, .updateUserInfo:
             return .put
@@ -62,7 +59,7 @@ extension UserAPI: TargetType {
         switch self {
         case .requestEmailVerify:
             return .requestPlain
-        case .updateAccount(let parameters), .resetPassword(let parameters), .updateUserInfo(let parameters), .verifyPhone(let parameters):
+        case .updateAccount(let parameters), .updateUserInfo(let parameters), .verifyPhone(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .getUserList(let parameters), .getUserInfo(_, let parameters):
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)

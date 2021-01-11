@@ -21,7 +21,7 @@ class DictionaryCase: MinCloudCase {
     
     func test_convertToMinDictionary() {
         let book = Table(name: "Book")
-        let record = book.getWithoutData(recordId: "123")
+        let record = book.getWithoutData(recordId: "123")!
         let point = GeoPoint(longitude: 1.0, latitude: 2.0)
         let point2 = GeoPoint(longitude: 3.0, latitude: 4.0)
         let point3 = GeoPoint(longitude: 5.0, latitude: 6.0)

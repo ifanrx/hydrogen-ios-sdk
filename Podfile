@@ -6,25 +6,29 @@ target 'MinCloud' do
   use_frameworks!
 
   # Pods for MinCloud
-  pod 'Moya'
+  pod 'Moya', '~> 14.0'
+  # pod 'Swamp', :git => 'https://github.com/ifanrx/swamp.git'
+  pod 'Starscream'
 
   target 'MinCloudTests' do
     inherit! :search_paths
     # Pods for testing
-    pod 'Moya'
-    pod 'Alamofire'
+    pod 'Moya', '~> 14.0'
+    pod 'Alamofire', '~> 5.0'
   end
 
 end
 
 target 'Demo_Swift' do
   use_frameworks!
-  platform :ios, '9.0'
-  pod 'Moya'
+  platform :ios, '10.0'
+  pod 'Moya', '~> 14.0'
+  pod 'Starscream'
 end
 
 target 'Demo_OC' do
   use_frameworks!
-  platform :ios, '9.0'
-  pod 'Moya'
+  platform :ios, '10.0'
+  pod 'Moya', '~> 14.0'
+  pod 'Starscream'
 end

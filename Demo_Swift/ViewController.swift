@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var resultInfo: Order!
     var record: Record!
     let auth = Auth()
+    var subscription: Subscription?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         let filePath = Bundle.main.path(forResource: "datasource", ofType: "plist")
         self.data = NSArray(contentsOfFile: filePath!)
+        
+        
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -75,6 +78,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let table = Table(name: "Book")
         let contentGroup = ContentGroup(Id: "1551697162031508")
 
+        
         switch indexPath.section {
         case 0:
             switch indexPath.row {
@@ -412,6 +416,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 table.update(record: record, query: query, options: options) { (_, _) in
 
                 }
+            case 8:
+                break
+            case 9:
+                let danmuTable = Table(name: "danmu")
+                danmuTable.subscribe(.onCreate, where: Where.compare("notExists", operator: .greaterThan, value: 10)) { [weak self] (subscription) in
+                    self?.subscription = subscription
+                } onError: { error in
+                    print("error: \(error?.localizedDescription ?? "")")
+                } onEvent: { (result) in
+                    print("result: \(result ?? [:])")
+                }
+            case 10:
+                let danmuTable = Table(name: "danmu")
+                danmuTable.subscribe(.onDelete) { [weak self] (subscription) in
+                    self?.subscription = subscription
+                } onError: { error in
+                    print("error: \(error?.localizedDescription ?? "")")
+                } onEvent: { (result) in
+                    print("result: \(result ?? [:])")
+                }
+            case 11:
+                let danmuTable = Table(name: "danmu")
+                danmuTable.subscribe(.onUpdate, where: Where.compare("count", operator: .greaterThan, value: 10)) { [weak self] (subscription) in
+                    self?.subscription = subscription
+                } onError: { error in
+                    print("error: \(error?.localizedDescription ?? "")")
+                } onEvent: { (result) in
+                    print("result: \(result ?? [:])")
+                }
+            case 12:
+                subscription?.unsubscribe(onSuccess: {
+                    print("")
+                }, onError: { (error) in
+                    print("error: \(error?.localizedDescription ?? "")")
+                })
+
             default:
                 tableView.deselectRow(at: indexPath, animated: true)
             }

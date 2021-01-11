@@ -20,7 +20,7 @@ enum AuthType: String {
     case anonymous
 }
 
-let logPlugin: [PluginType] = BaaS.isDebug ? [NetworkLoggerPlugin(verbose: true)] : []
+let logPlugin: [PluginType] = BaaS.isDebug ? [NetworkLoggerPlugin()] : []
 let WXPay = "weixin_tenpay_app"
 let AliPay = "alipay_app"
 
@@ -45,6 +45,29 @@ struct Config {
         
         return serverURLString ?? "https://\(clientID!).myminapp.com"
     }
+    
+    struct Wamp {
+        static var wsURLString: String {
+            guard let clientID = clientID else {
+                fatalError(Localisation.Common.registerClientId)
+            }
+            
+            guard let token = Storage.shared.token else {
+                fatalError("please login.")
+            }
+            var urlString = "wss://api.ws.myminapp.com/ws/hydrogen/?x-hydrogen-client-id=\(clientID)&authorization=Hydrogen-r1 \(token)"
+            urlString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            return  urlString
+        }
+        
+        // wamp's realm
+        static let realm: String = "com.ifanrcloud"
+        
+        static func topic(for table: String, event: SubscriptionEvent) -> String {
+            return "com.ifanrcloud.schema_event.\(table).\(event.eventValue)"
+        }
+     }
+    
 
     static var HTTPHeaders: [String: String] {
         guard clientID != nil else { fatalError(Localisation.Common.registerClientId) }
@@ -70,12 +93,12 @@ struct Config {
         static let wechatAssociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
         static let appleAssociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
         static let loginSms = "/hserve/v2.1/login/sms/"
+        static let passwordReset = "/hserve/v2.0/user/password/reset/"
     }
 
     struct User {
         static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
         static let updateAccount = "/hserve/v2.1/user/account/"
-        static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
         static let updateUserInfo = "/hserve/v2.1/user/info/"
         static let getUserList = "/hserve/v2.2/user/info/"
@@ -83,9 +106,9 @@ struct Config {
     }
 
     struct Table {
-        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/\(recordId)/" }
-        static func recordList(tableId: String) -> String { return "/hserve/v2.2/table/\(tableId)/record/" }
-        static func saveRecord(tableId: String) -> String { return "/hserve/v2.2/table/\(tableId)/record/" }
+        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/\(recordId)/" }
+        static func recordList(tableId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/" }
+        static func saveRecord(tableId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/" }
     }
 
     struct ContentGroup {

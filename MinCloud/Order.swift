@@ -8,33 +8,53 @@
 
 import UIKit
 
+/// 订单
 @objc(BaaSOrder)
 open class Order: NSObject, Mappable {
+    /// 订单 Id
     @objc public internal(set) var Id: String?
-    @objc public internal(set) var tradeNo: String? // 真正的交易 ID, 业务方在微信后台对账时可看到此字段
-    @objc public internal(set) var transactionNo: String? // 知晓云平台所记录的流水号
+    /// 交易号，业务方在(微信/支付宝)后台对账时可看到此字段
+    @objc public internal(set) var tradeNo: String?
+    /// 知晓云平台所记录的流水号
+    @objc public internal(set) var transactionNo: String?
+    /// 货币类型
     @objc public internal(set) var currencyType: String?
+    /// 交易金额
     @objc public internal(set) var totalCost: Double = 0
+    /// 交易状态
     @objc public internal(set) var status: String?
+    /// 订单创建者的 Id
     @objc public internal(set) var createdBy: String?
+    /// 订单创建时间
     @objc public internal(set) var createdAt: TimeInterval = 0
+    /// 订单更新时间
     @objc public internal(set) var updatedAt: TimeInterval = 0
+    /// 订单支付时间
     @objc public internal(set) var payAt: TimeInterval = 0
+    /// 退款状态
     @objc public internal(set) var refundStatus: String?
+    /// 支付方式
     @objc public internal(set) var gateWayType: String?
+    /// 支付成功后回调的订单详细信息，目前仅支持微信支付。
     @objc public internal(set) var gatewayExtraInfo: [String: Any]?
+    /// 商品 Id 可用于定位用户购买的物品
     @objc public internal(set) var merchandiseRecordId: String?
+    /// 商品表 Id，可用于定位用户购买的物品
     @objc public internal(set) var merchandiseSchemaId: String?
+    /// 支付凭证-商品详情的内容
     @objc public internal(set) var merchandiseDescription: String?
+    /// 根据业务需求自定义的数据
     @objc public internal(set) var merchandiseSnapshot: [String: Any]?
-    var dictInfo: [String: Any]?
+    
+    /// 所有订单信息
+    @objc public var orderInfo: [String: Any] = [:]
 
     @objc public override init() {
         super.init()
     }
 
     @objc required public init?(dict: [String: Any]) {
-        self.dictInfo = dict
+        self.orderInfo = dict
         self.Id = dict.getString("id")
         self.tradeNo = dict.getString("trade_no")
         self.transactionNo = dict.getString("transaction_no")
@@ -54,12 +74,17 @@ open class Order: NSObject, Mappable {
         self.merchandiseDescription = dict.getString("merchandise_description")
     }
 
+    /// 根据 key 获取值
+    @objc public func get(_ key: String) -> Any? {
+        return orderInfo[key]
+    }
+
     var wxAppid: String? {
         var appId: String?
         if let paymentParameters = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             appId = paymentParameters.getString("appid")
         } else {
-            appId = self.dictInfo?.getString("appid")
+            appId = self.orderInfo.getString("appid")
         }
         return appId
     }
@@ -69,7 +94,7 @@ open class Order: NSObject, Mappable {
         if let paymentParameters = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             appId = paymentParameters.getString("appid")
         } else {
-            appId = self.dictInfo?.getString("appid")
+            appId = self.orderInfo.getString("appid")
         }
         return appId
     }
@@ -79,7 +104,7 @@ open class Order: NSObject, Mappable {
         if let paymentParameters = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             paymentUrl = paymentParameters.getString("payment_url")
         } else {
-            paymentUrl = self.dictInfo?.getString("payment_url")
+            paymentUrl = self.orderInfo.getString("payment_url")
         }
         return paymentUrl
     }
@@ -91,7 +116,7 @@ open class Order: NSObject, Mappable {
         if let paymentParams = self.gatewayExtraInfo?.getDict("payment_parameters") as? [String: Any] {
             payDict = paymentParams
         } else {
-            payDict = self.dictInfo
+            payDict = self.orderInfo
         }
         if let dict = payDict {
             payReq = PayReq()
@@ -118,12 +143,12 @@ open class Order: NSObject, Mappable {
     }
 
     @objc override open var description: String {
-        let dict = self.dictInfo ?? [:]
+        let dict = self.orderInfo
         return dict.toJsonString
     }
     
     @objc override open var debugDescription: String {
-        let dict = self.dictInfo ?? [:]
+        let dict = self.orderInfo
         return dict.toJsonString
     }
 }

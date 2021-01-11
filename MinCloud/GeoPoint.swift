@@ -9,12 +9,15 @@
 import Foundation
 import CoreLocation
 
-// 坐标点
+/// 坐标点
 @objc(BaaSGeoPoint)
 open class GeoPoint: NSObject {
+    /// 经度
     @objc public var longitude: CLLocationDegrees
+    /// 纬度
     @objc public var latitude: CLLocationDegrees
 
+    /// 坐标点对应的 json 信息
     @objc public var geoJson: [String: Any] {
         return ["type": "Point", "coordinates": [longitude, latitude]]
     }
@@ -26,11 +29,12 @@ open class GeoPoint: NSObject {
     }
 }
 
-// 地理形状
+/// 地理形状
 @objc(BaaSGeoPolygon)
 public class GeoPolygon: NSObject {
-    var coordinates: [[CLLocationDegrees]]
+    @objc public var coordinates: [[CLLocationDegrees]]
 
+    /// 通过一组 GeoPoint 来创建地理形状
     @objc public init(points: [GeoPoint]) {
         coordinates = []
         for point in points {
@@ -39,6 +43,7 @@ public class GeoPolygon: NSObject {
         super.init()
     }
 
+    /// 通过一组坐标来创建地理形状
     @objc public init(coordinates: [[CLLocationDegrees]]) {
         self.coordinates = coordinates
         super.init()
