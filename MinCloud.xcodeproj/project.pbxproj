@@ -82,6 +82,7 @@
 		4C32FEB92334AA0B00744BB9 /* user_info_option.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C32FEB82334AA0B00744BB9 /* user_info_option.json */; };
 		4C32FEBB2334B84200744BB9 /* get_content_option.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C32FEBA2334B84200744BB9 /* get_content_option.json */; };
 		4C32FEC32334E76000744BB9 /* get_content_category.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C32FEC22334E75F00744BB9 /* get_content_category.json */; };
+		4C33596125886AEE009321C3 /* bigfile.zip in Resources */ = {isa = PBXBuildFile; fileRef = 4C33596025886AEE009321C3 /* bigfile.zip */; };
 		4C33A588223F4E850001C1A7 /* MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; };
 		4C33A5A5223F6B2F0001C1A7 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A4223F6B2F0001C1A7 /* AuthAPI.swift */; };
 		4C33A5A9223F6D480001C1A7 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5A8223F6D480001C1A7 /* Auth.swift */; };
@@ -331,6 +332,7 @@
 		4C32FEB82334AA0B00744BB9 /* user_info_option.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = user_info_option.json; sourceTree = "<group>"; };
 		4C32FEBA2334B84200744BB9 /* get_content_option.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = get_content_option.json; sourceTree = "<group>"; };
 		4C32FEC22334E75F00744BB9 /* get_content_category.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = get_content_category.json; sourceTree = "<group>"; };
+		4C33596025886AEE009321C3 /* bigfile.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = bigfile.zip; sourceTree = "<group>"; };
 		4C33A57E223F4E850001C1A7 /* MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C33A582223F4E850001C1A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C33A587223F4E850001C1A7 /* MinCloudTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MinCloudTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1043,6 +1045,7 @@
 		4CCB87592266CF9C00D65A65 /* Demo_Swift */ = {
 			isa = PBXGroup;
 			children = (
+				4C33596025886AEE009321C3 /* bigfile.zip */,
 				4C43CF37239A358200D0D14C /* Demo_Swift.entitlements */,
 				4CCB875A2266CF9C00D65A65 /* AppDelegate.swift */,
 				4CCB875C2266CF9C00D65A65 /* ViewController.swift */,
@@ -1392,6 +1395,7 @@
 				4CB7333A24EF6DE10054E8AA /* AlipaySDK.bundle in Resources */,
 				4CCB87622266CF9D00D65A65 /* Assets.xcassets in Resources */,
 				4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */,
+				4C33596125886AEE009321C3 /* bigfile.zip in Resources */,
 				4CD4ACDF24EE49B10080C46C /* WeiboSDK.bundle in Resources */,
 				4C322B0C2422405200B9F40E /* MinCloud.bundle in Resources */,
 				4CCB87892266D52100D65A65 /* 1.png in Resources */,
