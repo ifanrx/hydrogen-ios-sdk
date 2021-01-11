@@ -22,6 +22,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
 
         self.tableView = UITableView(frame: self.view.frame, style: .plain)
         self.tableView.delegate = self
@@ -75,8 +77,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let table = Table(name: "Book")
-        let contentGroup = ContentGroup(Id: "1551697162031508")
+        let table = Table(name: "danmu1")
+        let contentGroup = ContentGroup(Id: "1569304505991811")
 
         
         switch indexPath.section {
@@ -98,7 +100,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             case 3:
                 // 邮箱登录
-                Auth.login(email: "ifanr@ifanr.com", password: "12345") {_, _ in
+                Auth.login(email: "pengquanhua@ifanr.com", password: "12345") {_, _ in
 
                 }
             case 4:
@@ -155,8 +157,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 获取当前用户
-                Auth.getCurrentUser({_, _ in
-
+                Auth.getCurrentUser(callBackQueue: DispatchQueue(label: "com.mincloud.user"), completion: { (usuer, error) in
+                    
                 })
             case 1:
                 // 更新用户名
@@ -199,20 +201,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 请求邮箱验证
                 Auth.getCurrentUser {user, _ in
                     if user != nil {
-                        user?.requestEmailVerification({ (_, _) in
-
+                        user?.requestEmailVerification(callBackQueue: .main, completion: { (result, error) in
+                            
                         })
                     }
                 }
             case 6:
                 // 通过邮箱设置密码
-                Auth.getCurrentUser {user, _ in
-                    if user != nil {
-                        user?.resetPassword(email: "pengquanhua@ifanr.com", completion: { (_, _) in
-
-                        })
-                    }
-                }
+                Auth.resetPassword(email: "pengquanhua@ifanr.com", completion: { (result, t) in
+                    print("")
+                })
             case 7:
                 let whereAgrs = Where.compare("age", operator: .equalTo, value: 23)
                 let query = Query()
@@ -274,8 +272,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //                //let whereArgs = Where.compare(key: "price", operator: .lessThan, value: 20)
 ////                let whereArgs = Where.compare(key: "writer", operator: .equalTo, value: table.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8"))
 //                let whereAgrs = Where.compare(key: "color", operator: .equalTo, value: "brown")
+                var bookTable: Table? = Table(name: "danmu")
                 let query = Query()
-                let `where` = Where.compare("price", operator: .lessThan, value: 15)
+//                let `where` = Where.compare("price", operator: .lessThan, value: 15)
                 //query.where = `where`
 //                query.setWhere(whereAgrs)
                 //query.where = whereArgs
@@ -283,102 +282,110 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.offset = 0
                 query.orderBy = ["created_at"]
                 query.expand = ["created_by"]
-                query.select = ["-name", "-price"]
+//                query.select = ["-name", "-price"]
                 query.returnTotalCount = true
-                table.find(query: query, completion: {_, _ in
-
+                bookTable?.callBackQueue = DispatchQueue(label: "com.mincloud.table")
+                bookTable?.find(query: query, completion: {_, _ in
+                    print("")
                 })
 
             case 2:
                 // 更新数据
-                record = table.getWithoutData(recordId: "5d8b20dcea9d7468f11411aa")
-                record.set("color", value: "brown")
-                record.set(["author": "hua", "name": "good book"])
-                record.incrementBy("price", value: 1)
-                record.append("recommender", value: ["hong"])
-                // geoPoint 类型
-                let point = GeoPoint(longitude: 2, latitude: 10)
-                record.set("location", value: point)
-
-                // polygon
-                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
-                record.set("polygon", value: polygon)
-
-                // object
-                let pulish_info = ["name": "新华出版社"]
-                record.set("publish_info", value: pulish_info)
-
-                // array
-                record.set("recommender", value: ["hua", "ming"])
-
-                let authorTable = Table(name: "Author")
-                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
-                record.set("writer", value: author)
-
-                record.update {_, _ in
-                }
+                let iosTable = Table(name: "ios_table")
+                record = iosTable.getWithoutData(recordId: "5fe9a512b6f0d436c0e7fda4")
+//                record.set("color", value: "brown")
+//                record.set(["author": "hua", "name": "good book"])
+//                record.incrementBy("price", value: 1)
+//                record.append("recommender", value: ["hong"])
+//                // geoPoint 类型
+//                let point = GeoPoint(longitude: 2, latitude: 10)
+//                record.set("location", value: point)
+//
+//                // polygon
+//                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
+//                record.set("polygon", value: polygon)
+//
+//                // object
+//                let pulish_info = ["name": "新华出版社"]
+//                record.set("publish_info", value: pulish_info)
+//
+//                // array
+//                record.set("recommender", value: ["hua", "ming"])
+//
+//                let authorTable = Table(name: "Author")
+//                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
+//                record.set("writer", value: author)
+                record.set("bool", value: true)
+                let expand = ["pointer"]
+                record.update(expand: expand, options: [RecordOptionKey.enableTrigger: false], completion: { (result, error) in
+                    print("")
+                })
             case 3:
                 // 指定需要删除的记录
-                let record = table.getWithoutData(recordId: "5d80a0f6b569376e0b1d5064")
-                record.delete(completion: {_, _ in
-
+                let iosTable = Table(name: "ios_table")
+                let record = iosTable.getWithoutData(recordId: "5fd96f770ee9d4150f1d7bc1")
+                record?.delete(options: [RecordOptionKey.enableTrigger: true], completion: { (result, error) in
+                    print("")
                 })
             case 4:
                 // 批量删除，如删除所有 color 为 brown 的记录项。
                 let whereArgs = Where.contains("color", value: "brown")
                 let query = Query()
                 query.where = whereArgs
-                let options = ["enable_trigger": true]
+                let options = [RecordOptionKey.enableTrigger: true]
                 query.returnTotalCount = true
                 table.delete(query: query, options: options, completion: {_, _ in
 
                 })
             case 5:
                 // 新增数据，创建一个空的记录项
-                record = table.createRecord()
-
-                // 逐个赋值
-                record.set("description", value: "这是本好书")
-
-                // 一次性赋值
-                record.set(["price": 24, "name": "老人与海"])
-
-                // date 类型
-                //                let dateISO = ISO8601DateFormatter().string(from: Date())
-                //                record.set(key: "publish_date", value: dateISO)
-
-                // geoPoint 类型
-                let point = GeoPoint(longitude: 2, latitude: 10)
-                record.set("location", value: point)
-
-                // polygon
-                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
-                record.set("polygon", value: polygon)
-
-                // object
-                let pulish_info = ["name": "新华出版社"]
-                record.set("publish_info", value: pulish_info)
-
-                // array
-                record.set("recommender", value: ["hua", "ming"])
-
-                let authorTable = Table(name: "Author")
-                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
-                record.set("writer", value: author)
-                
-                let file = File(dict: ["created_at": 1554287059, "id": "5ca489d3d625d846af4bf453", "mime_type": "image/png", "name": "test", "path": "https://cloud-minapp-25010.cloud.ifanrusercontent.com/1hBd47RKaLeXkOAF", "size": 2299])
-                record.set("cover", value: file!)
-                record.set("arrayFile", value: [file!])
-                record.set("arrayPoint", value: [point])
-                record.set("arrayPolygon", value: [polygon])
-
-                record.save {_, _ in
+                let danmuTable = Table(name: "danmu")
+                let danmurecord = danmuTable.getWithoutData(recordId: "5fbb625a41678660a1d52178")
+                let iosTable = Table(name: "ios_table")
+                record = iosTable.createRecord()
+                record.set("pointer", value: 255258136109571)
+                record.set("integer", value: 10)
+//                // 逐个赋值
+//                record.set("description", value: "这是本好书")
+//
+//                // 一次性赋值
+//                record.set(["price": 24, "name": "老人与海"])
+//
+//                // date 类型
+//                //                let dateISO = ISO8601DateFormatter().string(from: Date())
+//                //                record.set(key: "publish_date", value: dateISO)
+//
+//                // geoPoint 类型
+//                let point = GeoPoint(longitude: 2, latitude: 10)
+//                record.set("location", value: point)
+//
+//                // polygon
+//                let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
+//                record.set("polygon", value: polygon)
+//
+//                // object
+//                let pulish_info = ["name": "新华出版社"]
+//                record.set("publish_info", value: pulish_info)
+//
+//                // array
+//                record.set("recommender", value: ["hua", "ming"])
+//
+//                let authorTable = Table(name: "Author")
+//                let author = authorTable.getWithoutData(recordId: "5ca4769f8c374f34dfa80ad8")
+//                record.set("writer", value: author)
+//
+//                let file = File(dict: ["created_at": 1554287059, "id": "5ca489d3d625d846af4bf453", "mime_type": "image/png", "name": "test", "path": "https://cloud-minapp-25010.cloud.ifanrusercontent.com/1hBd47RKaLeXkOAF", "size": 2299])
+//                record.set("cover", value: file!)
+//                record.set("arrayFile", value: [file!])
+//                record.set("arrayPoint", value: [point])
+//                record.set("arrayPolygon", value: [polygon])
+                record.save() { (success, error) in
                     
                 }
 
             case 6:
                 // 批量增加数据项
-                let options = ["enable_trigger": true]
+                let options = [RecordOptionKey.enableTrigger: true]
                 let point = GeoPoint(longitude: 113.3622550964, latitude: 23.0884171721)
                 let polygon = GeoPolygon(coordinates: [[10, 10], [40, 40], [20, 40], [10, 20], [10, 10]])
                 let authorTable = Table(name: "Author")
@@ -391,7 +398,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let whereArgs = Where.compare("price", operator: .lessThan, value: 15)
                 let query = Query()
                 query.where = whereArgs
-                let options = ["enable_trigger": true]
+                let options = [RecordOptionKey.enableTrigger: true]
                 let record = table.createRecord()
                 //record.incrementBy(key: "price", value: 1)
                 record.set("price", value: 9)
@@ -419,8 +426,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             case 8:
                 break
             case 9:
-                let danmuTable = Table(name: "danmu")
-                danmuTable.subscribe(.onCreate, where: Where.compare("notExists", operator: .greaterThan, value: 10)) { [weak self] (subscription) in
+                let danmuTable = Table(name: "auto_maintable")
+                danmuTable.subscribe(.onCreate) { [weak self] (subscription) in
                     self?.subscription = subscription
                 } onError: { error in
                     print("error: \(error?.localizedDescription ?? "")")
@@ -459,7 +466,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             switch indexPath.row {
             case 0:
                 // 获取内容详情
-                contentGroup.get("1551697403189289") {content, error in
+                contentGroup.get("1578643902159100", select: ["visit_count"]) {content, error in
 
                 }
             case 1:
@@ -467,7 +474,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 如需查询，过滤，查找 Table的方法
                 let whereAgrs = Where.compare("title", operator: .equalTo, value: "article")
                 let query = Query()
-                query.where = whereAgrs
+//                query.where = whereAgrs
                 query.limit = 10
                 query.offset = 0
                 query.orderBy = ["created_at"]
@@ -480,13 +487,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 // 在分类中，查询内容列表
                 let query = Query()
                 query.returnTotalCount = true
-                contentGroup.find(categoryId: "1551697507400928", query: query) { (_, _) in
+                contentGroup.find(categoryId: "1569304524818373", query: query) { (_, _) in
 
                 }
             case 3:
                 // 获取分类详情
-                contentGroup.getCategory("1551697507400928") {_, _ in
-
+                contentGroup.getCategory("1569304524818373") {_, _ in
+                    
                 }
             case 4:
                 // 获取分类列表
@@ -503,21 +510,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 break
             }
         case 4:
+            let fileManager = MinCloud.FileManager()
             switch indexPath.row {
             case 0:
                 // 上传文件
-                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                    let picker = UIImagePickerController()
-                    picker.delegate = self
-                    picker.sourceType = .photoLibrary
-                    self.present(picker, animated: true) {
-
-                    }
+//                if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+//                    let picker = UIImagePickerController()
+//                    picker.delegate = self
+//                    picker.sourceType = .photoLibrary
+//                    self.present(picker, animated: true) {
+//
+//                    }
+//                }
+                let bundleDBPath: String = Bundle.main.path(forResource: "bigfile.zip", ofType: nil)!
+                MinCloud.FileManager().upload(filename: "bigfile", localPath: bundleDBPath, mimeType: "application/zip") { (progress) in
+                    print("\(String(describing: progress?.fractionCompleted))")
+                } completion: { (file, error) in
+                    print("upload: \(error)")
                 }
+
             case 1:
                 // 获取文件详情
-                FileManager.get("5ca489d3d625d846af4bf453") {file, error in
-
+                fileManager.callBackQueue = DispatchQueue(label: "com.mincloud.file")
+                fileManager.get("5fc476c72c48147fd8a1b8c6") {file, error in
+                    print("")
                 }
             case 2:
                 // 查询文件列表
@@ -530,7 +546,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.offset = 0
                 query.orderBy = ["size"]
                 query.returnTotalCount = true
-                FileManager.find(query: query, completion: {_, _ in
+                fileManager.find(query: query, completion: {_, _ in
 
                 })
             case 3:
@@ -542,14 +558,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 })
             case 4:
                 // 删除多个文件
-                FileManager.delete(["5cab1a981feb8f06a8838011", "5cab1a961feb8f074a68a01a"]) {_, _ in
+                fileManager.delete(["5cab1a981feb8f06a8838011", "5cab1a961feb8f074a68a01a"]) {_, _ in
 
                 }
             case 5:
                 // 获取文件分类详情
                 //                fileManager.select(["id"])
                 //                fileManager.limit(10)
-                FileManager.getCategory("5ca489bb8c374f5039a8062b") {_, _ in
+                fileManager.getCategory("5ca489bb8c374f5039a8062b") {_, _ in
 
                 }
             case 6:
@@ -558,14 +574,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 query.limit = 10
                 query.offset = 0
 //                query.returnTotalCount(true)
-                FileManager.getCategoryList(query: query, completion: {_, _ in
+                fileManager.getCategoryList(query: query, completion: {_, _ in
 
                 })
             case 7:
                 // 获取文件列表
                 let query = Query()
                 query.returnTotalCount = true
-                FileManager.find(categoryId: "5ca489bb8c374f5039a8062b", query: query) { (_, _) in
+                fileManager.find(categoryId: "5ca489bb8c374f5039a8062b", query: query) { (_, _) in
 
                 }
             case 8:
@@ -574,7 +590,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                               "point": "00:00:10",
                               "category_id": "5c18bc794e1e8d20dbfcddcc",
                               "random_file_link": false]
-                FileManager.genVideoSnapshot(params) {_, _ in
+                fileManager.genVideoSnapshot(params) {_, _ in
 
                 }
             case 9:
@@ -582,7 +598,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                              "save_as": "hello.m3u8",
                                              "category_id": "5c18bc794e1e8d20dbfcddcc",
                                              "random_file_link": false]
-                FileManager.videoConcat(params) {_, _ in
+                fileManager.videoConcat(params) {_, _ in
 
                 }
             case 10:
@@ -590,7 +606,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                              "save_as": "hello.m3u8",
                                              "category_id": "5c18bc794e1e8d20dbfcddcc",
                                              "random_file_link": false]
-                FileManager.videoConcat(params) {_, _ in
+                fileManager.videoConcat(params) {_, _ in
 
                 }
             case 11:
@@ -600,15 +616,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                                              "category_id": "5c18bc794e1e8d20dbfcddcc",
                                              "random_file_link": false]
 
-                FileManager.videoClip(params) {_, _ in
+                fileManager.videoClip(params) {_, _ in
 
                 }
             case 12:
-                FileManager.videoMeta("xxxx") {_, _ in
+                fileManager.videoMeta("xxxx") {_, _ in
 
                 }
             case 13:
-                FileManager.videoAudioMeta("xxxx") {_, _ in
+                fileManager.videoAudioMeta("xxxx") {_, _ in
 
                 }
             default:
@@ -643,7 +659,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
             switch indexPath.row {
             case 0:
-                Pay.shared.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", completion: { (result, error) in
+                let options: [PaymentOptionKey: Any] = [.merchandiseRecordID: "123", .merchandiseSchemaID: "123", .merchandiseSnapshot: ["somekey": "somevalue"], .profitSharing: true]
+                Pay.shared.wxPay(totalCost: 0.01, merchandiseDescription: "微信支付", options: options, completion: { (result, error) in
                     self.resultInfo = result
                     if error != nil {
                         self.showMessage(message: error?.localizedDescription ?? "支付失败")
@@ -677,13 +694,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 if self.resultInfo == nil {
                     self.showMessage(message: "请创建订单")
                 } else {
-                    Pay.shared.repay(self.resultInfo) { (result, error) in
-                        if error != nil {
-                            self.showMessage(message: error?.localizedDescription ?? "支付失败")
-                        } else {
-                            self.showMessage(message: result?.description ?? "")
-                        }
-                    }
+//                    Pay.shared.repay(self.resultInfo) { (result, error) in
+//                        if error != nil {
+//                            self.showMessage(message: error?.localizedDescription ?? "支付失败")
+//                        } else {
+//                            self.showMessage(message: result?.description ?? "")
+//                        }
+//                    }
                 }
             case 4:
                 let query = Query()
@@ -758,21 +775,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         
-        let fileManager = FileManager.default
-        let rootPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
-        let filePath = "\(rootPath)/pickedimage.jpg"
         let imageData = pickedImage.pngData()!
-        fileManager.createFile(atPath: filePath, contents: imageData, attributes: nil)
-        if fileManager.fileExists(atPath: filePath) {
-            FileManager.upload(filename: "test", localPath: filePath, mimeType: "image/png", categoryId: "5cb5517266e4800f680a0a28",
-                               progressBlock: { progress in print("\(String(describing: progress?.fractionCompleted))") },
-                               completion: {file, error in
-                                print("aaa")
-            })
-        }
-        
-        picker.dismiss(animated: true) {
+        let fileManager = MinCloud.FileManager()
+        fileManager.callBackQueue = DispatchQueue(label: "com.mincloud.file.upload")
+        fileManager.upload(filename: "test", fileData: imageData, mimeType: "image/png") { progress in
             
+            print("\(String(describing: progress?.fractionCompleted))")
+        } completion: { (file, error) in
+            print("")
         }
         
     }
