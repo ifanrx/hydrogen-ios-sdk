@@ -388,6 +388,37 @@
                     }];
                 }
                     break;
+                case 8:
+                {
+                    
+                    BaaSSubscription *subscription = nil;
+                    BaaSTable *table = [[BaaSTable alloc] initWithName:@"danmu"];
+                    BaaSWhere *where = [BaaSWhere compare:@"type" operator:BaaSOperatorEqualTo value:@"user"];
+                    [table subscribe:BaaSSubscriptionEventOnCreate where:where onInit:^(BaaSSubscription * _Nonnull subscription) {
+                        NSLog(@"订阅成功");
+                    } onError:^(NSError * _Nullable error) {
+                        NSLog(@"订阅错误：%@", error.localizedDescription);
+                    } onEvent:^(NSDictionary<NSString *,id> * _Nullable result) {
+                        NSLog(@"事件触发：%@", result);
+                    }];
+                }
+                    break;
+                case 9:
+                {
+                    BaaSSubscription *subscription = nil;
+
+                    [subscription unsubscribeOnSuccess:^{
+                        NSLog(@"取消订阅成功");
+                    } onError:^(NSError * _Nullable error) {
+                        NSLog(@"取消订阅错误：%@", error.localizedDescription);
+                    }];
+//                    [subscription unSubscribe:callbackQueue:nil onSuccess:^() {
+//                        NSLog(@"订阅成功");
+//                    } onError:^(NSError * _Nullable error) {
+//                        NSLog(@"订阅错误：%@", error.localizedDescription);
+//                    }];
+                }
+                    break;
                 default:
                     break;
             }

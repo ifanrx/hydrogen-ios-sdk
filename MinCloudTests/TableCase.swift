@@ -65,7 +65,7 @@ class TableCase: MinCloudCase {
     }
     
     func test_create_many_records() {
-        let options = ["enable_trigger": true]
+        let options = [RecordOptionKey.enableTrigger: true]
         table.createMany([["name": "麦田里的守望者", "price": 30], ["name": "三体", "price": 39]], options: options) {result, error in
             XCTAssertNotNil(result, "批量创建记录")
         }
@@ -75,7 +75,7 @@ class TableCase: MinCloudCase {
         let whereArgs = Where.compare("price", operator: .lessThan, value: 15)
         let query = Query()
         query.where = whereArgs
-        let options = ["enable_trigger": true]
+        let options = [RecordOptionKey.enableTrigger: true]
         let record = table.createRecord()
         record.set("price", value: 35)
         table.update(record: record, query: query, options: options) { (result, error) in
@@ -87,7 +87,7 @@ class TableCase: MinCloudCase {
         let whereArgs = Where.contains("color", value: "brown")
         let query = Query()
         query.where = whereArgs
-        let options = ["enable_trigger": true]
+        let options = [RecordOptionKey.enableTrigger: true]
         table.delete(query: query, options: options, completion: {result, error in
             XCTAssertNotNil(result, "批量删除记录")
         })

@@ -56,7 +56,7 @@ class RecordCase: MinCloudCase {
     
     func test_delete_record() {
         let record = table.getWithoutData(recordId: "5d80a0f6b569376e0b1d5064")
-        record.delete(completion: { success, error in
+        record!.delete(completion: { success, error in
             XCTAssertTrue(success)
         })
     }
@@ -72,7 +72,7 @@ class RecordCase: MinCloudCase {
     func test_update_record() {
         let dict =  SampleData.Record.update_record.toDictionary()
         
-        let record = table.getWithoutData(recordId: "5d5e5d2e989c1c336aa7b6bd")
+        let record = table.getWithoutData(recordId: "5d5e5d2e989c1c336aa7b6bd")!
         record.set(["author": "hua", "name": "good book"])
         record.incrementBy("price", value: 1)
         record.append("recommender", value: ["hong"])
@@ -81,7 +81,6 @@ class RecordCase: MinCloudCase {
         record.update { success, error in
             XCTAssertTrue(success)
             XCTAssertEqual(record.Id, dict?.getString("id"))
-            XCTAssertEqual(record.updatedAt, dict?.getDouble("updated_at"))
             XCTAssertFalse(record.recordInfo.keys.contains("color"))
             
         }
@@ -134,11 +133,11 @@ class RecordPlugin: PluginType {
     private func test_path(target: TableRecordAPI) {
         let path = target.path
         switch target {
-        case .delete(let tableId, let recordId):
+        case .delete(let tableId, let recordId, _):
             XCTAssertEqual(path, Path.Table.recordDetail(tableId: tableId, recordId: recordId))
-        case .save(let tableId, _):
+        case .save(let tableId, _, _):
             XCTAssertEqual(path, Path.Table.saveRecord(tableId: tableId))
-        case .update(let tableId, let recordId, _):
+        case .update(let tableId, let recordId, _, _):
             XCTAssertEqual(path, Path.Table.recordDetail(tableId: tableId, recordId: recordId))
         }
     }
@@ -157,14 +156,14 @@ class RecordPlugin: PluginType {
     
     private func test_params(target: TableRecordAPI) {
         switch target {
-        case .update(_, _, let parameters):
+        case .update(_, _, _, let parameters):
             XCTAssertTrue(parameters.keys.contains("$unset"))
             XCTAssertTrue(parameters.keys.contains("author"))
             XCTAssertTrue(parameters.keys.contains("price"))
             XCTAssertTrue(parameters.keys.contains("recommender"))
         case .delete:
              break
-        case .save(_, let parameters):
+        case .save(_, _, let parameters):
             XCTAssertTrue(parameters.keys.contains("description"))
             XCTAssertTrue(parameters.keys.contains("price"))
             XCTAssertTrue(parameters.keys.contains("location"))

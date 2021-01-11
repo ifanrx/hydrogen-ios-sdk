@@ -8,17 +8,22 @@
 
 import Foundation
 import Moya
-import Result
 
+/// 文件分类
 @objc(BaaSFileCategory)
 open class FileCategory: NSObject, Mappable {
+    /// 文件分类 id
     @objc public internal(set) var Id: String?
+    /// 文件分类名称
     @objc public internal(set) var name: String?
+    /// 该文件分类下的所有文件的数量
     @objc public internal(set) var files: Int = 0
+    /// 该文件分类更新的时间
     @objc public internal(set) var updatedAt: TimeInterval = 0
+    /// 该文件分类创建的时间
     @objc public internal(set) var createdAt: TimeInterval = 0
-    
-    var categoryInfo: [String: Any] = [:]
+    /// 该文件分类信息
+    @objc public var categoryInfo: [String: Any] = [:]
 
     @objc required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")

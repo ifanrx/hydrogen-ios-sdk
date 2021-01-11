@@ -13,6 +13,8 @@
 		4C007F1724B81C2D00BE98F5 /* WXApiObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C007F1324B81C2D00BE98F5 /* WXApiObject.h */; };
 		4C007F1A24B8385900BE98F5 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C007F1824B8385800BE98F5 /* AlipaySDK.framework */; };
 		4C007F1B24B8385900BE98F5 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */; };
+		4C05B3AC2566244B006E0EB6 /* SwampSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C05B3AB2566244B006E0EB6 /* SwampSubscription.swift */; };
+		4C05B3B125662493006E0EB6 /* SwampContants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C05B3B025662493006E0EB6 /* SwampContants.swift */; };
 		4C15F12522A51CC300904B9A /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4C3028E1233DEDF5005F1CCF /* DictionaryCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */; };
 		4C322AF22420E6D000B9F40E /* Localisation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C322AF12420E6D000B9F40E /* Localisation.swift */; };
@@ -95,6 +97,7 @@
 		4C33A5FB224130950001C1A7 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FA224130950001C1A7 /* Table.swift */; };
 		4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C33A5FC2241338C0001C1A7 /* Record.swift */; };
 		4C4D31692266FCF1001EFA7D /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4C4D31682266FCF1001EFA7D /* datasource.plist */; };
+		4C633C5B2580A6E000DC6880 /* ConnectionRetrier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C633C5A2580A6E000DC6880 /* ConnectionRetrier.swift */; };
 		4C831211224477E700B4B33E /* TableAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C831210224477E700B4B33E /* TableAPI.swift */; };
 		4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312122244F16000B4B33E /* GeoPoint.swift */; };
 		4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8312142245D2C500B4B33E /* TableRecordAPI.swift */; };
@@ -108,6 +111,40 @@
 		4CB7333A24EF6DE10054E8AA /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */; };
 		4CB7333B24EF6DE20054E8AA /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */; };
 		4CBD3C7B224C5D0100F0E0F2 /* ResultHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */; };
+		4CCB066D255BCCF4005FFCAF /* SwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB064C255BCCEF005FFCAF /* SwampMessage.swift */; };
+		4CCB066E255BCCF4005FFCAF /* YieldSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB064D255BCCEF005FFCAF /* YieldSwampMessage.swift */; };
+		4CCB066F255BCCF4005FFCAF /* CallSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB064E255BCCF0005FFCAF /* CallSwampMessage.swift */; };
+		4CCB0670255BCCF4005FFCAF /* SubscribeSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB064F255BCCF0005FFCAF /* SubscribeSwampMessage.swift */; };
+		4CCB0671255BCCF4005FFCAF /* RegisteredSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0650255BCCF0005FFCAF /* RegisteredSwampMessage.swift */; };
+		4CCB0672255BCCF4005FFCAF /* RegisterSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0651255BCCF0005FFCAF /* RegisterSwampMessage.swift */; };
+		4CCB0673255BCCF4005FFCAF /* SwampError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0652255BCCF0005FFCAF /* SwampError.swift */; };
+		4CCB0674255BCCF4005FFCAF /* SubscribedSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0653255BCCF0005FFCAF /* SubscribedSwampMessage.swift */; };
+		4CCB0675255BCCF4005FFCAF /* WelcomeSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0654255BCCF0005FFCAF /* WelcomeSwampMessage.swift */; };
+		4CCB0676255BCCF4005FFCAF /* PublishedSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0655255BCCF1005FFCAF /* PublishedSwampMessage.swift */; };
+		4CCB0677255BCCF4005FFCAF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0656255BCCF1005FFCAF /* Extensions.swift */; };
+		4CCB0678255BCCF4005FFCAF /* UnregisterSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0657255BCCF1005FFCAF /* UnregisterSwampMessage.swift */; };
+		4CCB0679255BCCF4005FFCAF /* SwampSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0658255BCCF1005FFCAF /* SwampSession.swift */; };
+		4CCB067A255BCCF4005FFCAF /* PublishSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0659255BCCF1005FFCAF /* PublishSwampMessage.swift */; };
+		4CCB067B255BCCF4005FFCAF /* AbortSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB065A255BCCF2005FFCAF /* AbortSwampMessage.swift */; };
+		4CCB067C255BCCF4005FFCAF /* HelloSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB065B255BCCF2005FFCAF /* HelloSwampMessage.swift */; };
+		4CCB067D255BCCF4005FFCAF /* SwampTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB065C255BCCF2005FFCAF /* SwampTransport.swift */; };
+		4CCB067E255BCCF4005FFCAF /* GoodbyeSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB065D255BCCF2005FFCAF /* GoodbyeSwampMessage.swift */; };
+		4CCB067F255BCCF4005FFCAF /* EventSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB065E255BCCF2005FFCAF /* EventSwampMessage.swift */; };
+		4CCB0680255BCCF4005FFCAF /* InvocationSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB065F255BCCF2005FFCAF /* InvocationSwampMessage.swift */; };
+		4CCB0681255BCCF4005FFCAF /* JSONSwampSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0660255BCCF2005FFCAF /* JSONSwampSerializer.swift */; };
+		4CCB0682255BCCF4005FFCAF /* WebSocketSwampTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0661255BCCF3005FFCAF /* WebSocketSwampTransport.swift */; };
+		4CCB0683255BCCF4005FFCAF /* SwampMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0662255BCCF3005FFCAF /* SwampMessages.swift */; };
+		4CCB0684255BCCF4005FFCAF /* ResultSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0663255BCCF3005FFCAF /* ResultSwampMessage.swift */; };
+		4CCB0685255BCCF4005FFCAF /* SwampSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0664255BCCF3005FFCAF /* SwampSerializer.swift */; };
+		4CCB0686255BCCF4005FFCAF /* AuthenticateSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0665255BCCF3005FFCAF /* AuthenticateSwampMessage.swift */; };
+		4CCB0687255BCCF4005FFCAF /* SwampCraAuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0666255BCCF3005FFCAF /* SwampCraAuthHelper.swift */; };
+		4CCB0688255BCCF4005FFCAF /* UnsubscribedSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0667255BCCF4005FFCAF /* UnsubscribedSwampMessage.swift */; };
+		4CCB0689255BCCF4005FFCAF /* UnsubscribeSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0668255BCCF4005FFCAF /* UnsubscribeSwampMessage.swift */; };
+		4CCB068A255BCCF4005FFCAF /* UnregisteredSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0669255BCCF4005FFCAF /* UnregisteredSwampMessage.swift */; };
+		4CCB068B255BCCF5005FFCAF /* ErrorSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB066A255BCCF4005FFCAF /* ErrorSwampMessage.swift */; };
+		4CCB068C255BCCF5005FFCAF /* ChallengeSwampMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB066B255BCCF4005FFCAF /* ChallengeSwampMessage.swift */; };
+		4CCB068D255BCCF5005FFCAF /* SwampRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB066C255BCCF4005FFCAF /* SwampRole.swift */; };
+		4CCB0692255BCFCC005FFCAF /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB0691255BCFCC005FFCAF /* Subscription.swift */; };
 		4CCB875B2266CF9C00D65A65 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB875A2266CF9C00D65A65 /* AppDelegate.swift */; };
 		4CCB875D2266CF9C00D65A65 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCB875C2266CF9C00D65A65 /* ViewController.swift */; };
 		4CCB87602266CF9C00D65A65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4CCB875E2266CF9C00D65A65 /* Main.storyboard */; };
@@ -123,6 +160,8 @@
 		4CCB87852266D41C00D65A65 /* MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; };
 		4CCB87882266D52100D65A65 /* datasource.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4CCB87862266D52000D65A65 /* datasource.plist */; };
 		4CCB87892266D52100D65A65 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4CCB87872266D52100D65A65 /* 1.png */; };
+		4CCCFD54255A6B570045E56B /* WampSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCCFD53255A6B570045E56B /* WampSessionManager.swift */; };
+		4CCCFD5C255A7AD20045E56B /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CCCFD5B255A7AD20045E56B /* SubscriptionManager.swift */; };
 		4CD4ACBB24EE429F0080C46C /* WBHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CD4ACB724EE429E0080C46C /* WBHttpRequest.h */; };
 		4CD4ACBC24EE429F0080C46C /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CD4ACB824EE429F0080C46C /* libWeiboSDK.a */; };
 		4CD4ACBD24EE429F0080C46C /* WeiboSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 4CD4ACB924EE429F0080C46C /* WeiboSDK.h */; };
@@ -132,7 +171,7 @@
 		4CE2BCF922422A960008211C /* NSDictionary+Convenient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE2BCF822422A960008211C /* NSDictionary+Convenient.swift */; };
 		4CEC28E6228A6F7700E9F606 /* PayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E5228A6F7700E9F606 /* PayAPI.swift */; };
 		4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC28E8228A728C00E9F606 /* Pay.swift */; };
-		4CED59142293E4DD00949503 /* MinCloud.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4CED59142293E4DD00949503 /* MinCloud.framework in Copy Files */ = {isa = PBXBuildFile; fileRef = 4C33A57E223F4E850001C1A7 /* MinCloud.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4CED591622967CEF00949503 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CED591522967CEF00949503 /* Order.swift */; };
 		4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0B224CD087007511E0 /* FileManager.swift */; };
 		4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEEBC0D224CEE1D007511E0 /* ContentCategory.swift */; };
@@ -164,11 +203,17 @@
 		84EDE73CA89609A94E857203 /* Pods_MinCloudTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */; };
 		A6DF9F9EEC34554F7FB94E8F /* Pods_MinCloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */; };
 		C182A8345EB1B75F62ABA681 /* Pods_Demo_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */; };
-		C4F2227BA3589D9C184BBE7A /* Pods_WechatTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */; };
 		FF9E40B3EA795597D8F79126 /* Pods_Demo_OC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4C209E30257F87820098903F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4C33A575223F4E850001C1A7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CCB87572266CF9C00D65A65;
+			remoteInfo = Demo_Swift;
+		};
 		4C33A589223F4E850001C1A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4C33A575223F4E850001C1A7 /* Project object */;
@@ -189,14 +234,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4CED59132293E4C500949503 /* CopyFiles */ = {
+		4CED59132293E4C500949503 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4CED59142293E4DD00949503 /* MinCloud.framework in CopyFiles */,
+				4CED59142293E4DD00949503 /* MinCloud.framework in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -204,7 +250,6 @@
 /* Begin PBXFileReference section */
 		1965E55879945EEA140178F7 /* Pods-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloudTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloudTests/Pods-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1D22E5C4AB5E39CB3D550850 /* Pods-MinCloud-MinCloudTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.debug.xcconfig"; sourceTree = "<group>"; };
-		1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WechatTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WechatTest/Pods-WechatTest.debug.xcconfig"; sourceTree = "<group>"; };
 		25D7D3FD37B1C304F2750718 /* Pods_MinCloud.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MinCloud.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C007F1024B81C2A00BE98F5 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -214,6 +259,8 @@
 		4C007F1824B8385800BE98F5 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		4C007F1924B8385900BE98F5 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		4C007F2424BC7CF000BE98F5 /* WechatTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WechatTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C05B3AB2566244B006E0EB6 /* SwampSubscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwampSubscription.swift; sourceTree = "<group>"; };
+		4C05B3B025662493006E0EB6 /* SwampContants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwampContants.swift; sourceTree = "<group>"; };
 		4C3028E0233DEDF4005F1CCF /* DictionaryCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryCase.swift; sourceTree = "<group>"; };
 		4C322AE92420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		4C322AEA2420E67D00B9F40E /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -303,6 +350,7 @@
 		4C33A5FC2241338C0001C1A7 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		4C43CF37239A358200D0D14C /* Demo_Swift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo_Swift.entitlements; sourceTree = "<group>"; };
 		4C4D31682266FCF1001EFA7D /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
+		4C633C5A2580A6E000DC6880 /* ConnectionRetrier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionRetrier.swift; sourceTree = "<group>"; };
 		4C722C79230A440000F79016 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		4C831210224477E700B4B33E /* TableAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableAPI.swift; sourceTree = "<group>"; };
 		4C8312122244F16000B4B33E /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
@@ -316,6 +364,42 @@
 		4C86C6F7225B3DA50040C042 /* MinCloud.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MinCloud.h; sourceTree = "<group>"; };
 		4C86C72A225CC8740040C042 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4CBD3C7A224C5D0100F0E0F2 /* ResultHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultHandler.swift; sourceTree = "<group>"; };
+		4CCB064C255BCCEF005FFCAF /* SwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampMessage.swift; sourceTree = "<group>"; };
+		4CCB064D255BCCEF005FFCAF /* YieldSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YieldSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB064E255BCCF0005FFCAF /* CallSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB064F255BCCF0005FFCAF /* SubscribeSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0650255BCCF0005FFCAF /* RegisteredSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisteredSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0651255BCCF0005FFCAF /* RegisterSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0652255BCCF0005FFCAF /* SwampError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampError.swift; sourceTree = "<group>"; };
+		4CCB0653255BCCF0005FFCAF /* SubscribedSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribedSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0654255BCCF0005FFCAF /* WelcomeSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0655255BCCF1005FFCAF /* PublishedSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishedSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0656255BCCF1005FFCAF /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		4CCB0657255BCCF1005FFCAF /* UnregisterSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnregisterSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0658255BCCF1005FFCAF /* SwampSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampSession.swift; sourceTree = "<group>"; };
+		4CCB0659255BCCF1005FFCAF /* PublishSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublishSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB065A255BCCF2005FFCAF /* AbortSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbortSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB065B255BCCF2005FFCAF /* HelloSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelloSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB065C255BCCF2005FFCAF /* SwampTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampTransport.swift; sourceTree = "<group>"; };
+		4CCB065D255BCCF2005FFCAF /* GoodbyeSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoodbyeSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB065E255BCCF2005FFCAF /* EventSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB065F255BCCF2005FFCAF /* InvocationSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InvocationSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0660255BCCF2005FFCAF /* JSONSwampSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONSwampSerializer.swift; sourceTree = "<group>"; };
+		4CCB0661255BCCF3005FFCAF /* WebSocketSwampTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketSwampTransport.swift; sourceTree = "<group>"; };
+		4CCB0662255BCCF3005FFCAF /* SwampMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampMessages.swift; sourceTree = "<group>"; };
+		4CCB0663255BCCF3005FFCAF /* ResultSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0664255BCCF3005FFCAF /* SwampSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampSerializer.swift; sourceTree = "<group>"; };
+		4CCB0665255BCCF3005FFCAF /* AuthenticateSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticateSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0666255BCCF3005FFCAF /* SwampCraAuthHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampCraAuthHelper.swift; sourceTree = "<group>"; };
+		4CCB0667255BCCF4005FFCAF /* UnsubscribedSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsubscribedSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0668255BCCF4005FFCAF /* UnsubscribeSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsubscribeSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB0669255BCCF4005FFCAF /* UnregisteredSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnregisteredSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB066A255BCCF4005FFCAF /* ErrorSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB066B255BCCF4005FFCAF /* ChallengeSwampMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChallengeSwampMessage.swift; sourceTree = "<group>"; };
+		4CCB066C255BCCF4005FFCAF /* SwampRole.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwampRole.swift; sourceTree = "<group>"; };
+		4CCB0691255BCFCC005FFCAF /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		4CCB06B9255BD84F005FFCAF /* Starscream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CCB06D3255BD967005FFCAF /* Starscream.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Starscream.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CCB87582266CF9C00D65A65 /* Demo_Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo_Swift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CCB875A2266CF9C00D65A65 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4CCB875C2266CF9C00D65A65 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -335,6 +419,8 @@
 		4CCB877F2266CFAB00D65A65 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4CCB87862266D52000D65A65 /* datasource.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = datasource.plist; sourceTree = "<group>"; };
 		4CCB87872266D52100D65A65 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		4CCCFD53255A6B570045E56B /* WampSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WampSessionManager.swift; sourceTree = "<group>"; };
+		4CCCFD5B255A7AD20045E56B /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		4CD4ACB724EE429E0080C46C /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
 		4CD4ACB824EE429F0080C46C /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		4CD4ACB924EE429F0080C46C /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
@@ -376,12 +462,10 @@
 		A66158A59ACAFA9E2774F238 /* Pods-Demo_OC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_OC.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_OC/Pods-Demo_OC.release.xcconfig"; sourceTree = "<group>"; };
 		B32BE11E5B58A524B35322F2 /* Pods-MinCloud.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.debug.xcconfig"; sourceTree = "<group>"; };
 		BA557BB13AC653342E830773 /* Pods-Demo_Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift.release.xcconfig"; sourceTree = "<group>"; };
-		C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WechatTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-WechatTest/Pods-WechatTest.release.xcconfig"; sourceTree = "<group>"; };
 		CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Demo_OC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4C3DC340F9068D9A4624DE /* Pods-Demo_Swift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_Swift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_Swift/Pods-Demo_Swift.debug.xcconfig"; sourceTree = "<group>"; };
 		E307ED5482940DF57D58CD16 /* Pods-Demo_OC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Demo_OC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Demo_OC/Pods-Demo_OC.debug.xcconfig"; sourceTree = "<group>"; };
 		E82CE092A9C01A2B0AEB622F /* Pods-MinCloud-MinCloudTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud-MinCloudTests.release.xcconfig"; path = "../Pods/Target Support Files/Pods-MinCloud-MinCloudTests/Pods-MinCloud-MinCloudTests.release.xcconfig"; sourceTree = "<group>"; };
-		EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WechatTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8370F74399CA6938D5BD3D2 /* Pods-MinCloud.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MinCloud.release.xcconfig"; path = "Pods/Target Support Files/Pods-MinCloud/Pods-MinCloud.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -390,7 +474,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F2227BA3589D9C184BBE7A /* Pods_WechatTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +541,8 @@
 		21F9A129035E1F29D254CB78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CCB06D3255BD967005FFCAF /* Starscream.framework */,
+				4CCB06B9255BD84F005FFCAF /* Starscream.framework */,
 				4CEF980C23A37BD5008C0136 /* libsqlite3.tbd */,
 				4CEF980A23A36769008C0136 /* Security.framework */,
 				4CEF980823A36756008C0136 /* WebKit.framework */,
@@ -484,7 +569,6 @@
 				CC992ED6F94743BE87D0BA1F /* Pods_Demo_OC.framework */,
 				4B4F0D2017DA76BD60FEC522 /* Pods_Demo_Swift.framework */,
 				6D2AC11A4A4F71D49D3FF5BD /* Pods_MinCloudTests.framework */,
-				EC9D2DE5A3F99ED57E57963F /* Pods_WechatTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -502,8 +586,6 @@
 				BA557BB13AC653342E830773 /* Pods-Demo_Swift.release.xcconfig */,
 				1965E55879945EEA140178F7 /* Pods-MinCloudTests.debug.xcconfig */,
 				6A02ABC8EDA69977016F7175 /* Pods-MinCloudTests.release.xcconfig */,
-				1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */,
-				C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -737,6 +819,7 @@
 				4C322AFF24222D1F00B9F40E /* Resources */,
 				4C722C83230A7E3000F79016 /* Library */,
 				4C33A5A6223F6CBC0001C1A7 /* API */,
+				4CCCFD52255A6B350045E56B /* Wamp */,
 				4C33A5A1223F6A6D0001C1A7 /* Networking */,
 				4CE2BCF52242282B0008211C /* Utils */,
 				4C33A582223F4E850001C1A7 /* Info.plist */,
@@ -916,6 +999,47 @@
 			name = BaaS;
 			sourceTree = "<group>";
 		};
+		4CCB064B255BCCD4005FFCAF /* Swamp */ = {
+			isa = PBXGroup;
+			children = (
+				4CCB065A255BCCF2005FFCAF /* AbortSwampMessage.swift */,
+				4CCB0665255BCCF3005FFCAF /* AuthenticateSwampMessage.swift */,
+				4CCB064E255BCCF0005FFCAF /* CallSwampMessage.swift */,
+				4CCB066B255BCCF4005FFCAF /* ChallengeSwampMessage.swift */,
+				4CCB066A255BCCF4005FFCAF /* ErrorSwampMessage.swift */,
+				4CCB065E255BCCF2005FFCAF /* EventSwampMessage.swift */,
+				4CCB0656255BCCF1005FFCAF /* Extensions.swift */,
+				4CCB065D255BCCF2005FFCAF /* GoodbyeSwampMessage.swift */,
+				4CCB065B255BCCF2005FFCAF /* HelloSwampMessage.swift */,
+				4CCB065F255BCCF2005FFCAF /* InvocationSwampMessage.swift */,
+				4CCB0660255BCCF2005FFCAF /* JSONSwampSerializer.swift */,
+				4CCB0655255BCCF1005FFCAF /* PublishedSwampMessage.swift */,
+				4CCB0659255BCCF1005FFCAF /* PublishSwampMessage.swift */,
+				4CCB0650255BCCF0005FFCAF /* RegisteredSwampMessage.swift */,
+				4CCB0651255BCCF0005FFCAF /* RegisterSwampMessage.swift */,
+				4CCB0663255BCCF3005FFCAF /* ResultSwampMessage.swift */,
+				4CCB0653255BCCF0005FFCAF /* SubscribedSwampMessage.swift */,
+				4CCB064F255BCCF0005FFCAF /* SubscribeSwampMessage.swift */,
+				4CCB0666255BCCF3005FFCAF /* SwampCraAuthHelper.swift */,
+				4CCB0652255BCCF0005FFCAF /* SwampError.swift */,
+				4CCB064C255BCCEF005FFCAF /* SwampMessage.swift */,
+				4CCB0662255BCCF3005FFCAF /* SwampMessages.swift */,
+				4CCB066C255BCCF4005FFCAF /* SwampRole.swift */,
+				4CCB0664255BCCF3005FFCAF /* SwampSerializer.swift */,
+				4CCB065C255BCCF2005FFCAF /* SwampTransport.swift */,
+				4CCB0669255BCCF4005FFCAF /* UnregisteredSwampMessage.swift */,
+				4CCB0657255BCCF1005FFCAF /* UnregisterSwampMessage.swift */,
+				4CCB0667255BCCF4005FFCAF /* UnsubscribedSwampMessage.swift */,
+				4CCB0668255BCCF4005FFCAF /* UnsubscribeSwampMessage.swift */,
+				4CCB0661255BCCF3005FFCAF /* WebSocketSwampTransport.swift */,
+				4CCB0654255BCCF0005FFCAF /* WelcomeSwampMessage.swift */,
+				4CCB064D255BCCEF005FFCAF /* YieldSwampMessage.swift */,
+				4C05B3AB2566244B006E0EB6 /* SwampSubscription.swift */,
+				4C05B3B025662493006E0EB6 /* SwampContants.swift */,
+			);
+			path = Swamp;
+			sourceTree = "<group>";
+		};
 		4CCB87592266CF9C00D65A65 /* Demo_Swift */ = {
 			isa = PBXGroup;
 			children = (
@@ -947,6 +1071,19 @@
 				4C4D31682266FCF1001EFA7D /* datasource.plist */,
 			);
 			path = Demo_OC;
+			sourceTree = "<group>";
+		};
+		4CCCFD52255A6B350045E56B /* Wamp */ = {
+			isa = PBXGroup;
+			children = (
+				4CCB064B255BCCD4005FFCAF /* Swamp */,
+				4CCCFD53255A6B570045E56B /* WampSessionManager.swift */,
+				4CCB0658255BCCF1005FFCAF /* SwampSession.swift */,
+				4CCCFD5B255A7AD20045E56B /* SubscriptionManager.swift */,
+				4CCB0691255BCFCC005FFCAF /* Subscription.swift */,
+				4C633C5A2580A6E000DC6880 /* ConnectionRetrier.swift */,
+			);
+			name = Wamp;
 			sourceTree = "<group>";
 		};
 		4CE2BCF52242282B0008211C /* Utils */ = {
@@ -1029,11 +1166,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C007F3524BC7CF500BE98F5 /* Build configuration list for PBXNativeTarget "WechatTest" */;
 			buildPhases = (
-				67C99705BEF47F9A3583C980 /* [CP] Check Pods Manifest.lock */,
 				4C007F2024BC7CF000BE98F5 /* Sources */,
 				4C007F2124BC7CF000BE98F5 /* Frameworks */,
 				4C007F2224BC7CF000BE98F5 /* Resources */,
-				AC2B16D569CCC71E52B29A26 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1078,6 +1213,7 @@
 			);
 			dependencies = (
 				4C33A58A223F4E850001C1A7 /* PBXTargetDependency */,
+				4C209E31257F87820098903F /* PBXTargetDependency */,
 			);
 			name = MinCloudTests;
 			productName = MinCloudTests;
@@ -1093,7 +1229,7 @@
 				4CCB87552266CF9C00D65A65 /* Frameworks */,
 				4CCB87562266CF9C00D65A65 /* Resources */,
 				C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */,
-				4CED59132293E4C500949503 /* CopyFiles */,
+				4CED59132293E4C500949503 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -1143,6 +1279,7 @@
 					};
 					4C33A586223F4E850001C1A7 = {
 						CreatedOnToolsVersion = 10.1;
+						TestTargetID = 4CCB87572266CF9C00D65A65;
 					};
 					4CCB87572266CF9C00D65A65 = {
 						CreatedOnToolsVersion = 10.1;
@@ -1417,45 +1554,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		67C99705BEF47F9A3583C980 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WechatTest-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AC2B16D569CCC71E52B29A26 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WechatTest/Pods-WechatTest-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		C74654C2308759E9F18C1056 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1488,39 +1586,78 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C33A5F22240E7A40001C1A7 /* Where.swift in Sources */,
+				4CCB068B255BCCF5005FFCAF /* ErrorSwampMessage.swift in Sources */,
 				4C831211224477E700B4B33E /* TableAPI.swift in Sources */,
 				4C322AF22420E6D000B9F40E /* Localisation.swift in Sources */,
+				4CCB0687255BCCF4005FFCAF /* SwampCraAuthHelper.swift in Sources */,
 				4C33A5A5223F6B2F0001C1A7 /* AuthAPI.swift in Sources */,
 				4CEFC088225E594C00C9238C /* RequestCanceller.swift in Sources */,
 				4C8312232248EB2900B4B33E /* FileCategory.swift in Sources */,
+				4CCB066D255BCCF4005FFCAF /* SwampMessage.swift in Sources */,
 				4C33A5FD2241338C0001C1A7 /* Record.swift in Sources */,
 				4C33A5DA223F919F0001C1A7 /* Config.swift in Sources */,
 				4CEFC086225D760F00C9238C /* ListResult.swift in Sources */,
 				4C8312172245D70100B4B33E /* File.swift in Sources */,
 				4CEEBC0E224CEE1D007511E0 /* ContentCategory.swift in Sources */,
 				4C86C72B225CC8740040C042 /* User.swift in Sources */,
+				4CCB0679255BCCF4005FFCAF /* SwampSession.swift in Sources */,
+				4CCB0676255BCCF4005FFCAF /* PublishedSwampMessage.swift in Sources */,
+				4CCB068A255BCCF4005FFCAF /* UnregisteredSwampMessage.swift in Sources */,
+				4CCB067C255BCCF4005FFCAF /* HelloSwampMessage.swift in Sources */,
 				4CEC28E6228A6F7700E9F606 /* PayAPI.swift in Sources */,
+				4CCB0686255BCCF4005FFCAF /* AuthenticateSwampMessage.swift in Sources */,
 				4CBD3C7B224C5D0100F0E0F2 /* ResultHandler.swift in Sources */,
+				4CCB0670255BCCF4005FFCAF /* SubscribeSwampMessage.swift in Sources */,
+				4C633C5B2580A6E000DC6880 /* ConnectionRetrier.swift in Sources */,
 				4CF1BACC224B81720000CF54 /* Content.swift in Sources */,
 				4C8312132244F16000B4B33E /* GeoPoint.swift in Sources */,
 				4C8312192245D71D00B4B33E /* FileAPI.swift in Sources */,
+				4CCB067A255BCCF4005FFCAF /* PublishSwampMessage.swift in Sources */,
 				4C33A5E0223F9BCD0001C1A7 /* BaaS.swift in Sources */,
+				4CCB0685255BCCF4005FFCAF /* SwampSerializer.swift in Sources */,
 				4C33A5F62240EAA00001C1A7 /* UserAPI.swift in Sources */,
+				4CCB0692255BCFCC005FFCAF /* Subscription.swift in Sources */,
+				4CCCFD54255A6B570045E56B /* WampSessionManager.swift in Sources */,
+				4CCB0678255BCCF4005FFCAF /* UnregisterSwampMessage.swift in Sources */,
+				4CCCFD5C255A7AD20045E56B /* SubscriptionManager.swift in Sources */,
 				4C33A5A9223F6D480001C1A7 /* Auth.swift in Sources */,
+				4CCB0672255BCCF4005FFCAF /* RegisterSwampMessage.swift in Sources */,
+				4CCB0683255BCCF4005FFCAF /* SwampMessages.swift in Sources */,
 				4C33A5FB224130950001C1A7 /* Table.swift in Sources */,
 				4CED591622967CEF00949503 /* Order.swift in Sources */,
+				4C05B3AC2566244B006E0EB6 /* SwampSubscription.swift in Sources */,
+				4CCB0675255BCCF4005FFCAF /* WelcomeSwampMessage.swift in Sources */,
 				4C33A5F82240EFE70001C1A7 /* CurrentUser.swift in Sources */,
 				4CEC28E9228A728C00E9F606 /* Pay.swift in Sources */,
 				4CEFC084225CEC1000C9238C /* Storage.swift in Sources */,
+				4CCB0689255BCCF4005FFCAF /* UnsubscribeSwampMessage.swift in Sources */,
+				4C05B3B125662493006E0EB6 /* SwampContants.swift in Sources */,
 				4C33A5E4223FA9BE0001C1A7 /* HError.swift in Sources */,
+				4CCB0680255BCCF4005FFCAF /* InvocationSwampMessage.swift in Sources */,
+				4CCB067E255BCCF4005FFCAF /* GoodbyeSwampMessage.swift in Sources */,
 				4C8312152245D2C500B4B33E /* TableRecordAPI.swift in Sources */,
 				4C8312262249B3FF00B4B33E /* BaaSAPI.swift in Sources */,
+				4CCB066E255BCCF4005FFCAF /* YieldSwampMessage.swift in Sources */,
 				4C33A5F02240E77A0001C1A7 /* Query.swift in Sources */,
 				4C83121F2245E1C500B4B33E /* ContentGroupAPI.swift in Sources */,
+				4CCB0682255BCCF4005FFCAF /* WebSocketSwampTransport.swift in Sources */,
+				4CCB066F255BCCF4005FFCAF /* CallSwampMessage.swift in Sources */,
+				4CCB0688255BCCF4005FFCAF /* UnsubscribedSwampMessage.swift in Sources */,
+				4CCB068C255BCCF5005FFCAF /* ChallengeSwampMessage.swift in Sources */,
+				4CCB0673255BCCF4005FFCAF /* SwampError.swift in Sources */,
+				4CCB067D255BCCF4005FFCAF /* SwampTransport.swift in Sources */,
+				4CCB0671255BCCF4005FFCAF /* RegisteredSwampMessage.swift in Sources */,
 				4C33A5E2223FA8B10001C1A7 /* Constants.swift in Sources */,
 				4C33A5F42240E8A30001C1A7 /* BaseRecord.swift in Sources */,
+				4CCB067F255BCCF4005FFCAF /* EventSwampMessage.swift in Sources */,
+				4CCB0677255BCCF4005FFCAF /* Extensions.swift in Sources */,
+				4CCB068D255BCCF5005FFCAF /* SwampRole.swift in Sources */,
+				4CCB067B255BCCF4005FFCAF /* AbortSwampMessage.swift in Sources */,
 				4CEEBC0C224CD087007511E0 /* FileManager.swift in Sources */,
 				4CE2BCF922422A960008211C /* NSDictionary+Convenient.swift in Sources */,
+				4CCB0684255BCCF4005FFCAF /* ResultSwampMessage.swift in Sources */,
+				4CCB0674255BCCF4005FFCAF /* SubscribedSwampMessage.swift in Sources */,
+				4CCB0681255BCCF4005FFCAF /* JSONSwampSerializer.swift in Sources */,
 				4C83121C2245E0FC00B4B33E /* ContentGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1571,6 +1708,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4C209E31257F87820098903F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CCB87572266CF9C00D65A65 /* Demo_Swift */;
+			targetProxy = 4C209E30257F87820098903F /* PBXContainerItemProxy */;
+		};
 		4C33A58A223F4E850001C1A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4C33A57D223F4E850001C1A7 /* MinCloud */;
@@ -1620,7 +1762,6 @@
 /* Begin XCBuildConfiguration section */
 		4C007F3624BC7CF500BE98F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D449D6516CBB1C801393110 /* Pods-WechatTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -1640,7 +1781,6 @@
 		};
 		4C007F3724BC7CF500BE98F5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1D33B63A0CB1CE8AA113ED0 /* Pods-WechatTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -1711,7 +1851,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1771,7 +1911,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1791,7 +1931,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1811,7 +1951,7 @@
 				);
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1821,7 +1961,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 2.0.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1831,8 +1971,6 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
@@ -1855,7 +1993,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1877,7 +2015,7 @@
 				);
 				INFOPLIST_FILE = MinCloud/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1887,7 +2025,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/MinCloud",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 2.0.0;
 				MODULEMAP_FILE = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1897,8 +2035,6 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 					"-ObjC",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
@@ -1930,6 +2066,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Demo_Swift.app/Demo_Swift";
 			};
 			name = Debug;
 		};
@@ -1950,6 +2087,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Demo_Swift.app/Demo_Swift";
 			};
 			name = Release;
 		};
@@ -1992,10 +2130,8 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -2042,10 +2178,8 @@
 					"\"Foundation\"",
 					"-framework",
 					"\"Moya\"",
-					"-framework",
-					"\"Result\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ifanr.xxx;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ifanr.ios-sdk-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
@@ -2063,7 +2197,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2086,7 +2220,7 @@
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 3QQR699W45;
 				INFOPLIST_FILE = Demo_OC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

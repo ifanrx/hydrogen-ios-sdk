@@ -8,13 +8,20 @@
 
 import Foundation
 
+/// 内容库分类
 @objc(BaaSContentCategory)
 open class ContentCategory: NSObject, Mappable {
+    /// 内容库分类 Id
     @objc public internal(set) var Id: String?
+    /// 内容库分类名称
     @objc public internal(set) var name: String?
+    /// 内容库分类是否有子分类
     @objc public internal(set) var haveChildren: Bool = false
+    /// 内容库分类的子分类
     @objc public internal(set) var children: [ContentCategory]?
-    var categoryInfo: [String: Any] = [:]
+    
+    /// 内容库分类所有信息
+    @objc public var categoryInfo: [String: Any] = [:]
 
     @objc required public init?(dict: [String: Any]) {
         self.Id = dict.getString("id")

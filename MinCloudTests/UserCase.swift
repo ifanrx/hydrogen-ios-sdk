@@ -11,7 +11,6 @@ import XCTest
 @testable import Moya
 
 var get_user_info_option = false  // select/expand
-var user_list_option = false // select/expand/limit/offset/keys
 
 class UserCase: MinCloudCase {
     
@@ -43,7 +42,6 @@ class UserCase: MinCloudCase {
     
     func test_user_list_option() {
         let dict = SampleData.User.userList_option.toDictionary()
-        user_list_option = true
         
         let whereAgrs = Where.compare("age", operator: .equalTo, value: 23)
         let query = Query()
@@ -54,14 +52,6 @@ class UserCase: MinCloudCase {
         query.expand = ["created_by"]
         query.select = ["_username", "created_by"]
         User.find(query: query) {userList, error in
-            ModelCase.userListEqual(userList: userList!, dict: dict!)
-            user_list_option = false
-        }
-    }
-    
-    func test_user_list() {
-        let dict = SampleData.User.userList.toDictionary()
-        User.find() {userList, error in
             ModelCase.userListEqual(userList: userList!, dict: dict!)
         }
     }
@@ -185,9 +175,9 @@ class UserCase: MinCloudCase {
         Auth.login(username: "ifanr", password: "12345") { (user, error) in
             Auth.getCurrentUser {user, _ in
                 XCTAssertNotNil(user, "获取当前用户失败")
-                user?.requestEmailVerification({ (success, error) in
+                user?.requestEmailVerification{ (success, error) in
                     XCTAssertTrue(success, "发送邮件失败")
-                })
+                }
             }
         }
     }
@@ -195,33 +185,11 @@ class UserCase: MinCloudCase {
     func test_request_email_verification_not_login() {
         Auth.logout() { (success, error) in
             let curUser = CurrentUser(Id: "92812581396859")
-            curUser.requestEmailVerification({ (success, error) in
+            curUser.requestEmailVerification{ (success, error) in
                 XCTAssertFalse(success)
                 XCTAssertNotNil(error, "发生错误")
                 XCTAssertEqual(error?.code, 604)
-            })
-        }
-    }
-    
-    func test_reset_pwd_with_email() {
-        Auth.login(username: "ifanr", password: "12345") { (user, error) in
-            Auth.getCurrentUser {user, _ in
-                XCTAssertNotNil(user, "获取当前用户失败")
-                user?.resetPassword(email: "ifanr@ifanr.com", completion: { (success, error) in
-                    XCTAssertTrue(success, "发送邮件失败")
-                })
             }
-        }
-    }
-    
-    func test_reset_pwd_with_email_not_login() {
-        Auth.logout() { (success, error) in
-            let curUser = CurrentUser(Id: "92812581396859")
-            curUser.resetPassword(email: "ifanr@ifanr.com", completion: { (success, error) in
-                XCTAssertFalse(success)
-                XCTAssertNotNil(error, "发生错误")
-                XCTAssertEqual(error?.code, 604)
-            })
         }
     }
 }
@@ -235,10 +203,7 @@ extension UserAPI {
             }
             return SampleData.User.userInfo
         case .getUserList:
-            if user_list_option {
-                return SampleData.User.userList_option
-            }
-            return SampleData.User.userList
+            return SampleData.User.userList_option
         case .updateAccount(let parameters):
             if let key = parameters.first?.key {
                 if key == "username"{
@@ -251,8 +216,6 @@ extension UserAPI {
             }
             return Data()
         case .requestEmailVerify:
-            return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
-        case .resetPassword:
             return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
         default:
             return SampleData.User.userInfo
@@ -291,13 +254,13 @@ class UserPlugin: PluginType {
             XCTAssertEqual(path, Path.User.updateAccount)
         case .updateUserInfo:
             XCTAssertEqual(path, Path.User.updateUserInfo)
-        case .resetPassword:
-            XCTAssertEqual(path, Path.User.resetPassword)
         case .requestEmailVerify:
             XCTAssertEqual(path, Path.User.requestEmailVerify)
         case .getUserList:
             XCTAssertEqual(path, Path.User.getUserList)
             
+        case .verifyPhone(parameters: let parameters):
+            break
         }
     }
     
@@ -306,10 +269,12 @@ class UserPlugin: PluginType {
         switch target {
         case .getUserInfo, .getUserList:
             XCTAssertEqual(method, Moya.Method.get)
-        case .resetPassword, .requestEmailVerify:
+        case .requestEmailVerify:
             XCTAssertEqual(method, Moya.Method.post)
         case .updateAccount, .updateUserInfo:
             XCTAssertEqual(method, Moya.Method.put)
+        case .verifyPhone(parameters: let parameters):
+            break
         }
     }
     
@@ -322,14 +287,12 @@ class UserPlugin: PluginType {
             }
             XCTAssertEqual("92812581396859", userId)
         case .getUserList(let parameters):
-            if user_list_option {
-                XCTAssertTrue(parameters.keys.contains("where"))
-                XCTAssertTrue(parameters.keys.contains("keys"))
-                XCTAssertTrue(parameters.keys.contains("expand"))
-                XCTAssertTrue(parameters.keys.contains("limit"))
-                XCTAssertTrue(parameters.keys.contains("offset"))
-                XCTAssertTrue(parameters.keys.contains("order_by"))
-            }
+            XCTAssertTrue(parameters.keys.contains("where"))
+            XCTAssertTrue(parameters.keys.contains("keys"))
+            XCTAssertTrue(parameters.keys.contains("expand"))
+            XCTAssertTrue(parameters.keys.contains("limit"))
+            XCTAssertTrue(parameters.keys.contains("offset"))
+            XCTAssertTrue(parameters.keys.contains("order_by"))
         case .updateAccount(let parameters):
             let username = parameters.keys.contains("username")
             let email = parameters.keys.contains("email")
@@ -338,10 +301,9 @@ class UserPlugin: PluginType {
         case .updateUserInfo(let parameters):
             XCTAssertTrue(parameters.keys.contains("city"))
             XCTAssertEqual(parameters.getString("city"), "guangzhou")
-        case .resetPassword(let parameters):
-            XCTAssertTrue(parameters.keys.contains("email"))
-            XCTAssertEqual("ifanr@ifanr.com", parameters.getString("email"))
         case .requestEmailVerify:
+            break
+        case .verifyPhone(parameters: let parameters):
             break
         }
     }
