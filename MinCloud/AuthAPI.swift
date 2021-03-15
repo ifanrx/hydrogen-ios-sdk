@@ -20,6 +20,7 @@ enum AuthAPI {
     case associationForWechat([String: Any])
     case associationForWeibo([String: Any])
     case associationForApple([String: Any])
+    case passwordReset([String: Any])
 }
 
 extension AuthAPI: TargetType {
@@ -49,6 +50,8 @@ extension AuthAPI: TargetType {
             return Config.Auth.appleAssociation
         case .sms:
             return Config.Auth.loginSms
+        case .passwordReset:
+            return Config.Auth.passwordReset
         }
     }
 
@@ -62,7 +65,7 @@ extension AuthAPI: TargetType {
 
     var task: Task {
         switch self {
-        case .register(_, let parameters), .login(_, let parameters), .apple(let parameters), .wechat(let parameters), .weibo(let parameters), .associationForApple(let parameters), .associationForWechat(let parameters), .associationForWeibo(let parameters), .sms(let parameters):
+        case .register(_, let parameters), .login(_, let parameters), .apple(let parameters), .wechat(let parameters), .weibo(let parameters), .associationForApple(let parameters), .associationForWechat(let parameters), .associationForWeibo(let parameters), .sms(let parameters), .passwordReset(let parameters):
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .logout:
             return .requestParameters(parameters: [:], encoding: JSONEncoding.default)

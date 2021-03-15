@@ -9,6 +9,7 @@
 import Foundation
 import Moya
 
+/// 网络请求取消器
 @objc public class RequestCanceller: NSObject {
     var cancellable: Cancellable?
 
@@ -21,10 +22,12 @@ import Moya
         self.init(cancellable: nil)
     }
 
+    /// 取消当前请求
     @objc public func cancel() {
         cancellable?.cancel()
     }
 
+    /// 是否已经取消
     @objc public var isCancelled: Bool {
         return cancellable?.isCancelled ?? false
     }

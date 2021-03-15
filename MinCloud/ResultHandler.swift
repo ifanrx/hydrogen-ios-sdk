@@ -8,7 +8,6 @@
 
 import Foundation
 import Moya
-import Result
 
 protocol Mappable {
     init?(dict: [String: Any])
@@ -25,6 +24,7 @@ class ResultHandler {
 
             if response.statusCode >= 200 && response.statusCode <= 299 {
                 if let data = try? response.mapJSON(), let dict = data as? [String: Any] {
+                    printDebugInfo(dict)
                     let model = T.init(dict: dict)
                     handler(model, nil)
                 } else {

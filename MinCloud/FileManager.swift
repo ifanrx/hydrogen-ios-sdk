@@ -9,10 +9,13 @@
 import Foundation
 import Moya
 
+/// 知晓云文件管理类
+/// 通过 FileManager 来操作知晓云上的文件。
 @objc(BaaSFileManager)
 open class FileManager: NSObject {
     
     static var FileProvider = MoyaProvider<FileAPI>(plugins: logPlugin)
+    @objc public var callBackQueue: DispatchQueue = .main
 
     // MARK: File
 
@@ -25,10 +28,11 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func get(_ fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @objc public func get(_ fileId: String, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
-        let request = FileProvider.request(.getFile(fileId: fileId)) { result in
+        let request = FileManager.FileProvider.request(.getFile(fileId: fileId), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (file: File?, error: NSError?) in
+                
                 completion(file, error)
             })
         }
@@ -41,10 +45,10 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func find(query: Query? = nil, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
+    @objc public func find(query: Query? = nil, completion:@escaping FileListResultCompletion) -> RequestCanceller? {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = FileProvider.request(.findFiles(parameters: queryArgs)) { result in
+        let request = FileManager.FileProvider.request(.findFiles(parameters: queryArgs), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (listResult: FileList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -59,9 +63,9 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
+    @objc public func delete(_ fileIds: [String], completion:@escaping BOOLResultCompletion) -> RequestCanceller? {
 
-        let request = FileProvider.request(.deleteFiles(parameters: ["id__in": fileIds])) { result in
+        let request = FileManager.FileProvider.request(.deleteFiles(parameters: ["id__in": fileIds]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
@@ -83,11 +87,17 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
-
+    @objc public func upload(filename: String, localPath: String, categoryName: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+        guard let fileSize = getFileSize(for: localPath) else {
+            callBackQueue.async {
+                completion(nil, HError.init(code: 400, description: "fileSize is 0!") as NSError)
+            }
+            return nil
+        }
+        
         let url = URL(fileURLWithPath: localPath)
         let formData = MultipartFormData(provider: .file(url), name: "file")
-        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: nil, progressBlock: progressBlock, completion: completion)
+        return upload(filename: filename, fileFormData: formData, fileSize: fileSize, categoryName: categoryName, categoryId: nil, progressBlock: progressBlock, completion: completion)
     }
     
     /// 上传文件
@@ -102,10 +112,17 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func upload(filename: String, localPath: String, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @objc public func upload(filename: String, localPath: String, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+        guard let fileSize = getFileSize(for: localPath) else {
+            callBackQueue.async {
+                completion(nil, HError.init(code: 400, description: "fileSize is 0!") as NSError)
+            }
+            return nil
+        }
+        
         let url = URL(fileURLWithPath: localPath)
         let formData = MultipartFormData(provider: .file(url), name: "file", mimeType: mimeType)
-        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
+        return upload(filename: filename, fileFormData: formData, fileSize: fileSize, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
     }
     
     /// 上传文件
@@ -120,24 +137,26 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func upload(filename: String, fileData: Data, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    @objc public func upload(filename: String, fileData: Data, mimeType: String? = nil, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
         let formData = MultipartFormData(provider: .data(fileData), name: "file", fileName: filename, mimeType: mimeType)
-        return upload(filename: filename, fileFormData: formData, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
+        let fileSize = fileData.count
+        return upload(filename: filename, fileFormData: formData, fileSize: fileSize, categoryName: categoryName, categoryId: categoryId, progressBlock: progressBlock, completion: completion)
     }
 
     @discardableResult
-    static func upload(filename: String, fileFormData: MultipartFormData, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
+    func upload(filename: String, fileFormData: MultipartFormData, fileSize: Int, categoryName: String? = nil, categoryId: String? = nil, progressBlock: @escaping ProgressBlock, completion:@escaping FileResultCompletion) -> RequestCanceller? {
 
         let canceller = RequestCanceller()
 
-        var parameters = ["filename": filename]
+        var parameters: [String: Any] = ["filename": filename]
         if let categoryName = categoryName {
             parameters["category_name"] = categoryName
         }
         if let categoryId = categoryId {
             parameters["category_id"] = categoryId
         }
-        let request = FileProvider.request(.upload(parameters: parameters)) { result in
+        parameters["file_size"] = fileSize
+        let request = FileManager.FileProvider.request(.upload(parameters: parameters), callbackQueue: callBackQueue) { result in
 
             ResultHandler.parse(result, handler: { (resultInfo: MappableDictionary?, error: NSError?) in
                 if error != nil {
@@ -156,12 +175,12 @@ open class FileManager: NSObject {
                     let cdnPath = fileInfo?.getString("cdn_path")
                     let parameters: [String: String] = ["policy": policy, "authorization": authorization]
                     var formDatas: [MultipartFormData] = []
-                    formDatas.append(fileFormData)
                     for (key, value) in parameters {
                         let formData = MultipartFormData(provider: .data(value.data(using: .utf8)!), name: key)
                         formDatas.append(formData)
                     }
-                    let uploadRequest = FileProvider.request(.UPUpload(url: uploadUrl, formDatas: formDatas), callbackQueue: nil, progress: { progress in
+                    formDatas.append(fileFormData)
+                    let uploadRequest = FileManager.FileProvider.request(.UPUpload(url: uploadUrl, formDatas: formDatas), callbackQueue: self.callBackQueue, progress: { progress in
                         progressBlock(progress.progressObject)
                     }, completion: { result in
                         ResultHandler.parse(result, handler: { (upyunInfo: MappableDictionary?, error: NSError?) in
@@ -194,10 +213,10 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func getCategoryList(query: Query? = nil, completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
+    @objc public func getCategoryList(query: Query? = nil, completion:@escaping FileCategoryListResultCompletion) -> RequestCanceller? {
 
         let queryArgs: [String: Any] = query?.queryArgs ?? [:]
-        let request = FileProvider.request(.findCategories(parameters: queryArgs)) { result in
+        let request = FileManager.FileProvider.request(.findCategories(parameters: queryArgs), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (listResult: FileCategoryList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -214,9 +233,9 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func getCategory(_ Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
+    @objc public func getCategory(_ Id: String, completion:@escaping FileCategoryResultCompletion) -> RequestCanceller? {
 
-        let request = FileProvider.request(.getCategory(categoryId: Id)) { result in
+        let request = FileManager.FileProvider.request(.getCategory(categoryId: Id), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (category: FileCategory?, error: NSError?) in
                 completion(category, error)
             })
@@ -232,11 +251,11 @@ open class FileManager: NSObject {
     ///   - completion: 结果回调
     /// - Returns:
     @discardableResult
-    @objc public static func find(categoryId: String, query: Query? = nil, completion: @escaping FileListResultCompletion) -> RequestCanceller? {
+    @objc public func find(categoryId: String, query: Query? = nil, completion: @escaping FileListResultCompletion) -> RequestCanceller? {
 
         var queryArgs: [String: Any] = query?.queryArgs ?? [:]
         queryArgs["category_id"] = categoryId
-        let request = FileProvider.request(.findFilesInCategory(parameters: queryArgs)) { result in
+        let request = FileManager.FileProvider.request(.findFilesInCategory(parameters: queryArgs), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (listResult: FileList?, error: NSError?) in
                 completion(listResult, error)
             })
@@ -257,8 +276,8 @@ open class FileManager: NSObject {
     ///   - completion: 回调结果
     /// - Returns:
     @discardableResult
-    @objc public static func genVideoSnapshot(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
-        let request = FileProvider.request(.genVideoSnapshot(parameters: parameters)) { result in
+    @objc public func genVideoSnapshot(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileManager.FileProvider.request(.genVideoSnapshot(parameters: parameters), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -278,8 +297,8 @@ open class FileManager: NSObject {
     ///   - completion: 回调结果
     /// - Returns:
     @discardableResult
-    @objc public static func videoConcat(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
-        let request = FileProvider.request(.videoConcat(parameters: parameters)) { result in
+    @objc public func videoConcat(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileManager.FileProvider.request(.videoConcat(parameters: parameters), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -302,8 +321,8 @@ open class FileManager: NSObject {
     ///   - completion: 回调结果
     /// - Returns:
     @discardableResult
-    @objc public static func videoClip(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
-        let request = FileProvider.request(.videoClip(parameters: parameters)) { result in
+    @objc public func videoClip(_ parameters: [String: Any], completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileManager.FileProvider.request(.videoClip(parameters: parameters), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -319,8 +338,8 @@ open class FileManager: NSObject {
     ///   - completion: 回调结果
     /// - Returns:
     @discardableResult
-    @objc public static func videoMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
-        let request = FileProvider.request(.videoMeta(parameters: ["m3u8": fileId])) { result in
+    @objc public func videoMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileManager.FileProvider.request(.videoMeta(parameters: ["m3u8": fileId]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
@@ -336,13 +355,27 @@ open class FileManager: NSObject {
     ///   - completion: 回调结果
     /// - Returns:
     @discardableResult
-    @objc public static func videoAudioMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
-        let request = FileProvider.request(.videoAudioMeta(parameters: ["source": fileId])) { result in
+    @objc public func videoAudioMeta(_ fileId: String, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = FileManager.FileProvider.request(.videoAudioMeta(parameters: ["source": fileId]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (user: MappableDictionary?, error: NSError?) in
                 completion(user?.value, error)
             })
         }
         return RequestCanceller(cancellable: request)
 
+    }
+}
+
+extension FileManager {
+    fileprivate func getFileSize(for localPath: String) -> Int? {
+        var fileSize: Int? = 0
+        do {
+            let attr = try Foundation.FileManager.default.attributesOfItem(atPath: localPath)
+            fileSize = attr[FileAttributeKey.size] as? Int
+        } catch {
+            return nil
+        }
+         
+        return fileSize
     }
 }

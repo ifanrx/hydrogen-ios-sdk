@@ -18,10 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         BaaS.register(clientID: "fdc4feb5403a9****") // 线上环境
-        BaaS.registerWechat("wx4b3c1aff4c5****")
+        BaaS.registerWechat("wx4b3c1aff4c5****", universalLink: "")
 //        BaaS.register(clientID: "995140f59511a222*****") // qa测试环境
 //        BaaS.register(clientID: "a4d2d62965ddb57****")  // 线上环境-支付
-//        BaaS.register(clientID: "c981f1ec250e46e3****", serverURLString: "https://v5220.eng.szx.ifanrx.com")
+        BaaS.registerWeibo("123456789", redirectURI: "https://open.weibo.com/wiki/Oauth2/authorize")
         BaaS.isDebug = true
         
         let center = UNUserNotificationCenter.current()
@@ -68,5 +68,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         return BaaS.handleOpenURL(url: url)
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        return BaaS.handleOpenUniversalLink(userActivity: userActivity)
     }
 }

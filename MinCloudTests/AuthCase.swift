@@ -10,11 +10,6 @@ import XCTest
 @testable import MinCloud
 @testable import Moya
 
-class MockAuth: {
-    
-}
-
-
 class AuthCase: MinCloudCase {
 
     override func setUp() {
@@ -109,12 +104,19 @@ class AuthCase: MinCloudCase {
     
     func test_sign_sms() {
         let userDict = SampleData.Auth.anonymous.toDictionary()
-        Auth.signInWithSMS(phone: "15088051234", code: "12345") { (user, error) in
+        Auth.signInWithSMSVerificationCode("15088051234", code: "12345") { (user, error) in
             XCTAssertEqual(user?.Id, userDict?.getString("id"), "用户 id 不相等")
             XCTAssertEqual(user?.token, userDict?.getString("token"), "用户 token 不相等")
             XCTAssertEqual(Auth.hadLogin, true, "用户登录失败")
         }
     }
+    
+    func test_reset_pwd_with_email() {
+        Auth.resetPassword(email: "ifanr@ifanr.com", completion: { (success, error) in
+            XCTAssertTrue(success, "发送邮件失败")
+        })
+    }
+    
 }
 
 extension AuthAPI {
@@ -140,6 +142,8 @@ extension AuthAPI {
             }
         case .logout:
             return "{}".data(using: String.Encoding.utf8)!
+        case .passwordReset:
+            return "{\"status\" : \"ok\"}".data(using: String.Encoding.utf8)!
         default:
             return SampleData.Auth.anonymous
         }
@@ -187,6 +191,8 @@ class AuthPlugin: PluginType {
             XCTAssertEqual(path, Path.Auth.appleassociation)
         case .sms:
             XCTAssertEqual(path, Path.Auth.loginSms)
+        case .passwordReset:
+            XCTAssertEqual(path, Path.Auth.passwordReset)
         
         }
     }
@@ -234,6 +240,9 @@ class AuthPlugin: PluginType {
             XCTAssertTrue(params.keys.contains("phone"))
             XCTAssertTrue(params.keys.contains("code"))
             XCTAssertTrue(params.keys.contains("create_user"))
+        case .passwordReset(let params):
+            XCTAssertTrue(params.keys.contains("email"))
+            XCTAssertEqual("ifanr@ifanr.com", params.getString("email"))
         default: break
         }
     }

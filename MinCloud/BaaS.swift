@@ -8,28 +8,42 @@
 
 import Foundation
 import Moya
-import Result
 
+/// MinCloud 全局类，主要实现通用功能。
 @objc public class BaaS: NSObject {
     @objc public static func register(clientID: String, serverURLString: String? = nil) {
         Config.clientID = clientID
         Config.serverURLString = serverURLString
     }
     
-    @objc public static func registerWechat(_ appId: String) {
-        Config.wechatAppid = appId
-        WXApi.registerApp(appId)
+    
+    
+    /// 注册微信 appId
+    /// - Parameters:
+    ///   - appId: 在微信开放平台注册获取的 appId
+    ///   - universalLink: 在微信开放平台注册获取的 universalLink
+    @objc public static func registerWechat(_ appId: String, universalLink: String) {
+        Config.wechatAppId = appId
+        WXApi.registerApp(appId, universalLink: universalLink)
     }
     
+    /// 注册微博 appId
+    /// - Parameters:
+    ///   - appId: 在微博开放平台注册获取的 appId
+    ///   - redirectURI: 在微博开放平台注册获取的 appId
     @objc public static func registerWeibo(_ appId: String, redirectURI: String) {
-        Config.weiboAppid = appId
+        Config.weiboAppId = appId
         Config.redirectURI = redirectURI
+        WeiboSDK.registerApp(appId)
     }
 
+    /// 是否开启调试模式，默认不开启。开启后将打印调试日志。
     @objc public static var isDebug: Bool = false
     
     static var BaasProvider = MoyaProvider<BaaSAPI>(plugins: logPlugin)
-
+    
+    /// 获取 MinCloud 当前版本
+    /// - Returns: 当前版本
     @objc public static func getVersion() -> String {
         return Config.version
     }
@@ -40,11 +54,12 @@ import Result
     ///   - name: 云函数名称
     ///   - data: 云函数参数，具体使用请参照文档：https://doc.minapp.com/ios-sdk/invoke-function.html
     ///   - sync: 是否等待执行结果
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 执行结果
     /// - Returns:
     @discardableResult
-    @objc public static func invoke(name: String, data: Any, sync: Bool, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
-        let request = BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync])) { result in
+    @objc public static func invoke(name: String, data: Any, sync: Bool, callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.invokeFunction(parameters: ["function_name": name, "data": data, "sync": sync]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (invokeResult: MappableDictionary?, error: NSError?) in
                 completion(invokeResult?.value, error)
             })
@@ -56,11 +71,12 @@ import Result
     ///
     /// - Parameters:
     ///   - phone: 手机号
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 发送结果
     /// - Returns:
     @discardableResult
-    @objc public static func sendSmsCode(phone: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
-        let request = BaasProvider.request(.sendSmsCode(parameters: ["phone": phone])) { result in
+    @objc public static func sendSmsCode(phone: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.sendSmsCode(parameters: ["phone": phone]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
@@ -77,11 +93,12 @@ import Result
     /// - Parameters:
     ///   - phone: 手机号
     ///   - code: 验证
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 验证结果
     /// - Returns:
     @discardableResult
-    @objc public static func verifySmsCode(phone: String, code: String, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
-        let request = BaasProvider.request(.verifySmsCode(parameters: ["phone": phone, "code": code])) { result in
+    @objc public static func verifySmsCode(phone: String, code: String, callBackQueue: DispatchQueue = .main, completion: @escaping BOOLResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.verifySmsCode(parameters: ["phone": phone, "code": code]), callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (_: Bool?, error: NSError?) in
                 if error != nil {
                     completion(false, error)
@@ -96,11 +113,12 @@ import Result
     /// 获取服务器时间
     ///
     /// - Parameters:
+    ///   - callBackQueue: 回调函数执行队列
     ///   - completion: 获取服务器时间结果
     /// - Returns:
     @discardableResult
-    @objc public static func getServerTime(_ completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
-        let request = BaasProvider.request(.getServerTime) { result in
+    @objc public static func getServerTime(callBackQueue: DispatchQueue = .main, completion: @escaping OBJECTResultCompletion) -> RequestCanceller {
+        let request = BaasProvider.request(.getServerTime, callbackQueue: callBackQueue) { result in
             ResultHandler.parse(result, handler: { (invokeResult: MappableDictionary?, error: NSError?) in
                 completion(invokeResult?.value, error)
             })
@@ -136,5 +154,12 @@ extension BaaS {
             return WeiboSDK.handleOpen(url, delegate: ThirdProxy.shared)
         }
         return true
+    }
+    
+    /// 适配了 SceneDelegate 的 App，
+    /// 系统将会回调 SceneDelegate 的 continueUserActivity 方法，
+    /// 所以需要重写 SceneDelegate 的该方法，并在 continueUserActivity 内调用 handleOpenUniversalLink 方法。
+    @objc public static func handleOpenUniversalLink(userActivity: NSUserActivity) -> Bool {
+        return WXApi.handleOpenUniversalLink(userActivity, delegate: ThirdProxy.shared)
     }
 }

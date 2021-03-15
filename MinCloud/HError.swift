@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// MinCloud 错误处理
 struct HError: CustomNSError {
 
     var code: Int
@@ -21,6 +22,7 @@ struct HError: CustomNSError {
         case forbidden              = 403
         case notFound               = 404
         case internalServerError    = 500
+        case unknownError           = 520
         case networkDisconnected    = 600
         case requestTimeout         = 601
         case unintialized           = 602
@@ -31,6 +33,7 @@ struct HError: CustomNSError {
         case paymentFailed          = 608
         case paying                 = 609
         case orderInfoError         = 610
+        case connectionError        = 616
     }
 
     init(code: Int, description: String? = nil) {
@@ -48,6 +51,53 @@ struct HError: CustomNSError {
             self.description = description
         }
     }
+    
+    // websocket error
+    init(reason: String) {
+        switch reason {
+        case "wamp.close.session_destory":
+            code = 401
+        case "wamp.close.disable_connection":
+            code = 402
+        case "wamp.close.server_erro":
+            code = 500
+        case "wamp.error.not_authorized":
+            code = 401
+        case "wamp.error.invalid_message":
+            code = 400
+            description = "invalid message"
+        case "wamp.error.duplicate_subscription":
+            code = 400
+            description = "duplicate subscription"
+        case "wamp.error.invalid_topic_format":
+            code = 400
+            description = "invalid topic format"
+        case "wamp.error.invalid_event":
+            code = 400
+            description = "invalid event"
+        case "wamp.error.not_allow_to_subscribe_builtin_schema":
+            code = 400
+            description = "not allow to subscribe builtin schema"
+        case "wamp.error.schema_does_not_exists":
+            code = 400
+            description = "schema does not exists"
+        case "wamp.error.connection_timeout":
+            code = 601
+            description = "request timeout"
+        case "wamp.error.invalid_options":
+            code = 400
+            description = "invalid options"
+        case "wamp.error.no_such_subscription":
+            code = 400
+            description = "no such subscription"
+        case "wamp.error.connection_error":
+            code = 616
+            description = "connection error"
+        default:
+            code = 520
+        }
+        kind = HError.ErrorKind(rawValue: code)!
+    }
 
     static var errorDomain: String = "baas.ifanr.error.domain"
     var errorCode: Int {
@@ -64,6 +114,8 @@ struct HError: CustomNSError {
             return 404
         case .internalServerError?:
             return 500
+        case .unknownError:
+            return 520
         case .networkDisconnected?:
             return 600
         case .requestTimeout?:
@@ -84,6 +136,8 @@ struct HError: CustomNSError {
             return 609
         case .orderInfoError?:
             return 610
+        case .connectionError:
+            return 616
         default:
             return self.code
         }
@@ -124,6 +178,10 @@ struct HError: CustomNSError {
             description = self.description ?? "paying now, please wait"
         case .orderInfoError?:
             description = self.description ?? "order info error"
+        case .unknownError:
+            description = self.description ?? "unknown error"
+        case .connectionError:
+            description = self.description ?? "connection error"
         default:
             break
         }

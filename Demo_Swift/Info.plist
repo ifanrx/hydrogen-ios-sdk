@@ -25,7 +25,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx</string>
+				<string>wx4b3c1aff4c5389f5</string>
 			</array>
 		</dict>
 		<dict>
@@ -35,7 +35,7 @@
 			<string>alipay</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>2019</string>
+				<string>2019011563040122</string>
 			</array>
 		</dict>
 		<dict>
@@ -51,10 +51,11 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>LSAPPlicationQueriesSchemes</key>
+	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>wechat</string>
 		<string>weixin</string>
+		<string>wechat</string>
+		<string>weixinULAPI</string>
 		<string>alipay</string>
 		<string>sinaweibo</string>
 		<string>weibosdk</string>

@@ -55,7 +55,7 @@ class WhereCase: MinCloudCase {
     
     func test_compare_record_eq() {
         let table = Table(name: "Book")
-        let record = table.getWithoutData(recordId: "123")
+        let record = table.getWithoutData(recordId: "123")!
         let whereArgs = Where.compare("record", operator: .equalTo, value: record)
         XCTAssertTrue(whereArgs.conditon.keys.contains("record"))
         let valueDict = whereArgs.conditon.getDict("record") as? [String: Any]

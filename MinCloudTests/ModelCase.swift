@@ -40,9 +40,6 @@ class ModelCase: MinCloudCase {
         XCTAssertEqual(user.unionid, dict.getString("unionid"))
         XCTAssertEqual(user.emailVerified, dict.getBool("_email_verified"))
         XCTAssertEqual(user.isAnonymous, dict.getBool("_anonymous"))
-        XCTAssertEqual(user.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(user.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(user.createdById, dict.getString("created_by"))
     }
     
     func test_record() {
@@ -53,10 +50,6 @@ class ModelCase: MinCloudCase {
     
     static func recordEqual(record: Record, dict: [String: Any]) {
         XCTAssertEqual(record.Id, dict.getString("id", "_id"))
-        XCTAssertEqual(record.createdById, dict.getString("created_by"))
-        XCTAssertEqual(record.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(record.updatedAt, dict.getDouble("updated_at"))
-        XCTAssertEqual(record.acl, dict.getString("acl"))
     }
     
     func test_file() {
@@ -70,7 +63,8 @@ class ModelCase: MinCloudCase {
         XCTAssertEqual(file.name, dict.getString("name"))
         XCTAssertEqual(file.mimeType, dict.getString("mime_type"))
         XCTAssertEqual(file.size, dict.getInt("size"))
-        XCTAssertEqual(file.cdnPath, dict.getString("path"))
+        XCTAssertEqual(file.cdnPath, dict.getString("cdn_path"))
+        XCTAssertEqual(file.path, dict.getString("path"))
         XCTAssertEqual(file.createdAt, dict.getDouble("created_at"))
         XCTAssertEqual(file.category?.Id, dict.getDict("category")?.getString("id"))
         XCTAssertEqual(file.category?.name, dict.getDict("category")?.getString("name"))
@@ -105,9 +99,6 @@ class ModelCase: MinCloudCase {
         XCTAssertEqual(content.categories, dict.getArray("categories", type: String.self))
         XCTAssertEqual(content.groupId, dict.getString("group_id"))
         XCTAssertEqual(content.content, dict.getString("content"))
-        XCTAssertEqual(content.createdById, dict.getString("created_by"))
-        XCTAssertEqual(content.createdAt, dict.getDouble("created_at"))
-        XCTAssertEqual(content.updatedAt, dict.getDouble("updated_at"))
     }
     
     func test_content_category() {

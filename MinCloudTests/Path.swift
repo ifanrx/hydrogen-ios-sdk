@@ -53,21 +53,21 @@ struct Path {
         static let wxassociation = "/hserve/v2.3/idp/oauth/wechat-native/user-association/"
         static let appleassociation = "/hserve/v2.3/idp/oauth/apple-native/user-association/"
         static let loginSms = "/hserve/v2.1/login/sms/"
+        static let passwordReset = "/hserve/v2.0/user/password/reset/"
     }
 
     struct User {
         static func getUserInfo(userId: String) -> String { return "/hserve/v2.1/user/info/\(userId)/" }
         static let updateAccount = "/hserve/v2.0/user/account/"
-        static let resetPassword = "/hserve/v2.0/user/password/reset/"
         static let requestEmailVerify = "/hserve/v2.0/user/email-verify/"
         static let updateUserInfo = "/hserve/v2.1/user/info/"
         static let getUserList = "/hserve/v2.2/user/info/"
     }
 
     struct Table {
-        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.1/table/\(tableId)/record/\(recordId)/" }
-        static func recordList(tableId: String) -> String { return "/hserve/v2.2/table/\(tableId)/record/" }
-        static func saveRecord(tableId: String) -> String { return "/hserve/v2.2/table/\(tableId)/record/" }
+        static func recordDetail(tableId: String, recordId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/\(recordId)/" }
+        static func recordList(tableId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/" }
+        static func saveRecord(tableId: String) -> String { return "/hserve/v2.4/table/\(tableId)/record/" }
     }
 
     struct ContentGroup {
@@ -80,7 +80,7 @@ struct Path {
     }
 
     struct File {
-        static let upload = "/hserve/v1/upload/"
+        static let upload = "/hserve/v2.1/upload/"
         static func fileDetail(fileId: String) -> String { return "/hserve/v1.3/uploaded-file/\(fileId)/" }
         static let fileList = "/hserve/v2.2/uploaded-file/"
         static func deleteFile(fileId: String) -> String { return "/hserve/v1.3/uploaded-file/\(fileId)/" }
@@ -101,7 +101,7 @@ struct Path {
 
     struct BaaS {
         static let cloudFunction = "/hserve/v1/cloud-function/job/"
-        static let sendSmsCode = "/hserve/v1.8/sms-verification-code/"
+        static let sendSmsCode = "/hserve/v2.1/sms-verification-code/"
         static let verifySmsCode = "/hserve/v1.8/sms-verification-code/verify/"
         static let getServerTime = "/hserve/v2.2/server/time/"
     }
