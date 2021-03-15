@@ -1,10 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'MinCloud'
-<<<<<<< HEAD
-  s.version          = '1.1.0-tangzhi'
-=======
-  s.version          = '2.0.0'
->>>>>>> master
+  s.version          = 'tangzhi-branch'
   s.summary          = '知晓云 iOS SDK'
  
   s.description      = <<-DESC
